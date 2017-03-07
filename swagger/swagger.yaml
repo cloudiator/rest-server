@@ -55,6 +55,7 @@ definitions:
       properties:
         id:
           type: string
+          description: Unique identifier for the cloud
           
   Api:
     required:
@@ -62,6 +63,7 @@ definitions:
     properties:
       providerName:
         type: string
+        description: Name of the API provider, maps to a driver
   
   Credential:
     required:
@@ -70,36 +72,44 @@ definitions:
     properties:
       user:
         type: string
+        description: Username for authentication at the cloud provider's API
       secret:
         type: string
+        description: Secret (e.g. Password) for authentication at the cloud provider's API
         
   Configuration:
     properties:
       properties:
         type: array
+        description: Array of configuration properties.
         items:
           $ref: '#/definitions/Property'
         
   Property:
+    description: "A key-value pair"
     required:
       - key
       - value
     properties:
       key:
         type: string
+        description: "Key of the property"
       value:
         type: string
+        description: "Value of the property"
       
   NewCloud:
     required:
       - name
       - api 
       - credential
-      - type
+      - cloudType
     properties:
       name:
         type: string
-      type:
+        description: "Human readable name for the cloud. Needs to be unique."
+      cloudType:
+        description: "Type of the cloud"
         type: string
         enum: ['PRIVATE','PUBLIC']
       api:
@@ -109,9 +119,105 @@ definitions:
       configuration:
         $ref: '#/definitions/Configuration'
         
+  Image:
+    required:
+      - id
+      - name
+      - providerId
+      - operatingSystem
+    properties:
+      id:
+        type: string
+        description: "Unique identifier for this image"
+      name:
+        type: string
+        description: "Human-readable name"
+      providerId:
+        type: string
+        description: "Original id issued by provider"
+      operatingSystem:
+        $ref: '#/definitions/OperatingSystem'
+        
+  OperatingSystem:
+    properties:
+      # todo: requires enum?
+      operatingSystemFamily: 
+        type: string
+        description: "Family of the OS"
+      # todo: requires enum?
+      operatingSystemArchitecture:
+        type: string
+        description: "Architecture of the OS"
+      operatingSystemVersion:
+        type: string
+        description: "Version of the OS"
+  
+  Hardware:
+    required:
+      - id
+      - name
+      - providerId
+      - cores
+      - ram
+    properties:
+      id:
+        description: "Unique identifier for the hardware"
+        type: string
+      name:
+        description: "Human-readable name for the hardware"
+        type: string
+      providerId:
+        description: "Original id issued by the provider"
+        type: string
+      cores:
+        description: "Number of cores"
+        type: integer
+        format: int32
+      ram:
+        description: "Amount of RAM"
+        type: integer
+        format: int64
+      disk:
+        description: "Amount of disk space"
+        type: number
+        format: double
+      location:
+        $ref: '#/definitions/Location'
+    
+  Location:
+    required:
+      - id
+      - name
+      - providerId
+      - locationScope
+      - isAssignable
+    properties:
+      id:
+        description: "Unique identifier"
+        type: string
+      name:
+        description: "Human-readable name"
+        type: string
+      providerId:
+        description: "Original id issued by the provider"
+        type: string
+      locationScope:
+        description: "Scope of the location"
+        type: string
+        enum: ['PROVIDER', 'REGION', 'ZONE', 'HOST']
+      isAssignable:
+        description: "True of the location can be used to start virtual machines, false if not"
+        type: boolean
+      parent:
+        # self reference is broken in editor and UI
+        # see https://github.com/swagger-api/swagger-editor/issues/1005
+        $ref: '#/definitions/Location'
+      
       
 # Paths
 paths:
+
+  # Cloud related paths:
   /clouds:
     get:
       description: |
@@ -159,6 +265,67 @@ paths:
       responses:
         200:
           description: "Cloud deleted"
+  
+  # Image related paths
+  /images:
+    get:
+      description: |
+        Returns all images visable to the user
+      responses:
+        200:
+          description: |
+            All images
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Image'
+  /images/{id}:
+    put:
+      description: |
+        Updates a specific image
+      parameters:
+        - $ref: '#/parameters/id'
+        - name: image
+          in: body
+          description: |
+            Image to update
+          required: true
+          schema:
+            $ref: '#/definitions/Image'
+      responses:
+        200:
+          description: |
+            Image was successfully updated
+          schema:
+            $ref: '#/definitions/Image'
+
+  # Hardware related paths
+  /hardware:
+    get:
+      description: |
+        Returns all hardware visable to the user
+      responses:
+        200:
+          description: |
+            All hardware
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Hardware'
+    
+  # Location related paths
+  /locations:
+    get:  
+      description: |
+        Returns all locations visable to the user
+      responses:
+        200:
+          description: |
+            All locations
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Location'
     
           
   
