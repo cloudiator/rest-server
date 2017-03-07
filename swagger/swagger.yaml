@@ -1,0 +1,164 @@
+#
+# Documentation of the Cloudiator REST Api
+#
+swagger: '2.0'
+
+# Document Metadata
+info:
+  version: "0.2.0"
+  title: Cloudiator REST Api
+  contact:
+    name: Daniel Baur
+    email: daniel.baur@uni-ulm.de
+    url: cloudiator.org
+  license:
+    name: Apache License 2.0
+    url: https://raw.githubusercontent.com/cloudiator/rest/master/LICENSE
+schemes:
+  - http
+consumes:
+  - application/json
+produces:
+  - application/json
+
+
+host: localhost:9000
+
+# Parameters
+parameters:
+  id:
+    name: id
+    in: path
+    description: Unique identifier of the resource
+    required: true
+    type: string
+
+# Definitions
+definitions:
+
+  Error:
+    required:
+      - code
+      - message
+    properties:
+      code:
+        type: integer
+        format: int32
+      message:
+        type: string
+        
+  Cloud:
+    allOf: 
+    - $ref: '#/definitions/NewCloud'
+    - required:
+      - id
+      properties:
+        id:
+          type: string
+          
+  Api:
+    required:
+      - providerName
+    properties:
+      providerName:
+        type: string
+  
+  Credential:
+    required:
+      - user
+      - secret
+    properties:
+      user:
+        type: string
+      secret:
+        type: string
+        
+  Configuration:
+    properties:
+      properties:
+        type: array
+        items:
+          $ref: '#/definitions/Property'
+        
+  Property:
+    required:
+      - key
+      - value
+    properties:
+      key:
+        type: string
+      value:
+        type: string
+      
+  NewCloud:
+    required:
+      - name
+      - api 
+      - credential
+      - type
+    properties:
+      name:
+        type: string
+      type:
+        type: string
+        enum: ['PRIVATE','PUBLIC']
+      api:
+        $ref: '#/definitions/Api'
+      credential:
+        $ref: '#/definitions/Credential'
+      configuration:
+        $ref: '#/definitions/Configuration'
+        
+      
+# Paths
+paths:
+  /clouds:
+    get:
+      description: |
+          Returns all clouds from the system that the user has access to
+      responses:
+        200:
+          description: |
+            All clouds
+          schema:
+            type: array
+            items: 
+              $ref: '#/definitions/Cloud'
+    post:
+      description: Creates a new cloud.
+      parameters:
+        - name: cloud
+          in: body
+          description: Cloud to add
+          required: true
+          schema:
+            $ref: '#/definitions/NewCloud'
+      responses:
+        200:
+          description: "Cloud created"
+          schema:
+            $ref: "#/definitions/Cloud"
+    
+  /clouds/{id}:
+    get:
+      description: |
+        Returns the cloud identified by the given id parameter
+      parameters:
+        - $ref: '#/parameters/id'
+      responses:
+        200:
+         description: |
+          The cloud identified by the id
+         schema:
+          $ref: '#/definitions/Cloud'
+    delete:
+      description: |
+        Deletes the cloud identified by the given id paramater.
+      parameters:
+        - $ref: '#/parameters/id'
+      responses:
+        200:
+          description: "Cloud deleted"
+    
+          
+  
