@@ -315,13 +315,40 @@ definitions:
     properties:
       name:
         type: string
+        
     
   Relationship:
     type: object
     properties:
       test:
         type: string
-  
+        
+  VirtualMachine:
+    type: object
+    allOf:
+      - $ref: '#/definitions/Node'
+      
+  Task:
+    description: |
+      Represents a long-running task within the system
+    type: object
+    properties:
+      status:
+        type: string
+        enum: ['SCHEDULED','RUNNING','COMPLETED','FAILED']
+        description: |
+          The status of the running task
+          
+  VirtualMachineRequest:
+    type: object
+    properties:
+      image:
+        type: string
+      hardware:
+        type: string
+      location:
+        type: string
+        
 # Paths
 paths:
 
@@ -483,6 +510,54 @@ paths:
             OK
           schema:
             $ref: '#/definitions/Component'
+            
+  # Task related paths
+  /tasks:
+    get:
+      tags:
+        - task
+      description: |
+        Returns all running tasks visible to the user
+      responses:
+        200:
+          description: 'OK'
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Task'
+              
+  /task/{id}:
+    get:
+      tags:
+        - task
+      description: |
+        Returns the task identified by the id parameter.
+      parameters:
+        - $ref: '#/parameters/id'
+      responses:
+        200:
+          description: 'OK'
+          schema:
+            $ref: '#/definitions/Task'
+        
+  # Virtual machine related tasks
+  /vm:
+    post:
+      description: 'Creates a new virtual machine request'
+      parameters:
+        - name: virtualMachineRequest
+          in: body
+          description: 'VirtualMachine Request'
+          required: true
+          schema:
+            $ref: '#/definitions/VirtualMachineRequest'
+      responses:
+        202:
+          description: ACCEPTED
+          schema:
+            $ref: '#/definitions/Task'
+    
+      
         
           
   
