@@ -257,6 +257,20 @@ definitions:
       name:
         description: "Human-readable name"
         type: string
+  
+  DockerComponent:
+    description: |
+      Represents a docker container
+    type: object
+    required:
+      - dockerImage
+    allOf:
+      - $ref: '#/definitions/Component'
+      - properties:
+          dockerImage:
+            description: |
+              Name of the docker image
+            type: string
         
   LanceComponent:
     description: |
