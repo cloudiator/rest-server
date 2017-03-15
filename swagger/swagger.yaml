@@ -48,6 +48,8 @@ definitions:
         type: string
         
   Cloud:
+    description: |
+      Representation of a cloud used by Cloudiator
     type: object
     required:
       - id
@@ -59,6 +61,8 @@ definitions:
           description: Unique identifier for the cloud
           
   Api:
+    description: |
+      Represents an API used by a cloud
     type: object
     required:
       - providerName
@@ -68,6 +72,8 @@ definitions:
         description: Name of the API provider, maps to a driver
   
   CloudCredential:
+    description: |
+      Represents the credentials used to authenticate with a cloud
     type: object
     required:
       - user
@@ -81,6 +87,8 @@ definitions:
         description: Secret (e.g. Password) for authentication at the cloud provider's API
         
   CloudConfiguration:
+    description: |
+      Repesents the configuration of a cloud.
     type: object
     properties:
       properties:
@@ -104,6 +112,8 @@ definitions:
         description: "Value of the property"
       
   NewCloud:
+    description: |
+      Represents a new cloud that is to be created
     type: object
     required:
       - name
@@ -126,6 +136,8 @@ definitions:
         $ref: '#/definitions/CloudConfiguration'
         
   Image:
+    description:  |
+      Represents an image offer by a cloud
     type: object
     required:
       - id
@@ -146,6 +158,8 @@ definitions:
         $ref: '#/definitions/OperatingSystem'
         
   OperatingSystem:
+    description: |
+      Represents the operating system of an image
     type: object 
     properties:
       # todo: requires enum?
@@ -161,6 +175,8 @@ definitions:
         description: "Version of the OS"
   
   Hardware:
+    description: |
+      Represents a hardware offer by a cloud
     type: object
     required:
       - id
@@ -194,6 +210,8 @@ definitions:
         $ref: '#/definitions/Location'
     
   Location:
+    description: |
+      Repesents a (virtual) location offers by a cloud
     type: object
     required:
       - id
@@ -224,6 +242,8 @@ definitions:
         $ref: '#/definitions/Location'
       
   Component:
+    description: |
+      Represents a component of an application.
     type: object
     discriminator: type
     required:
@@ -239,6 +259,8 @@ definitions:
         type: string
         
   LanceComponent:
+    description: |
+      Represents a lance component.
     type: object
     required:
       - start
@@ -299,6 +321,8 @@ definitions:
             type: string
         
   Application:
+    description: |
+      Represents an application. An application is a logical group of components.
     type: object
     properties:
       name:
