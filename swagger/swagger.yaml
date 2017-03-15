@@ -49,11 +49,11 @@ definitions:
         
   Cloud:
     type: object
+    required:
+      - id
     allOf: 
     - $ref: '#/definitions/NewCloud'
-    - required:
-      - id
-      properties:
+    - properties:
         id:
           type: string
           description: Unique identifier for the cloud
@@ -240,63 +240,63 @@ definitions:
         
   LanceComponent:
     type: object
-    allOf:
-      - $ref: '#/definitions/Component'
     required:
       - start
-    properties:
-      init:
-        description: | 
-          Initialization action.
-        type: string
-      preInstall:
-        description: |
-          Executed before installation action. Can be e.g. used for downloading binaries.
-        type: string
-      install:
-        description: |
-          Used for installing the application.
-        type: string
-      postInstall:
-        description: |
-          Used for configuration of the application component. First action where Lance environment variables are set.
-        type: string
-      preStart:
-        description: |
-          Called before starting the application. Can be e.g. used for configuration an environment.
-        type: string
-      start:
-        description: |
-          Starts the component. Needs to return for PlainContainer and not return for Docker.
-        type: string
-      startDetection:
-        description: |
-          Detects the start of the application. Required if the application does not start instantianous.
-        type: string
-      stopDetection:
-        description: |
-          Checks if the application has stopped. Is periodically checked to detect a crash of the application.
-        type: string
-      postStart:
-        description: |
-          Executed after the application has successfully started.
-        type: string
-      preStop:
-        description: |
-          Called before the application is stopped.
-        type: string
-      stop:
-        description: |
-          Stops the application.
-        type: string
-      postStop:
-        description: |
-          Executed after the application is successfully stopped.
-        type: string
-      shutdown:
-        description: |
-          Executed before the container is shutdown. Can be used to backup state.
-        type: string
+    allOf:
+      - $ref: '#/definitions/Component'
+      - properties:
+          init:
+            description: | 
+              Initialization action.
+            type: string
+          preInstall:
+            description: |
+              Executed before installation action. Can be e.g. used for downloading binaries.
+            type: string
+          install:
+            description: |
+              Used for installing the application.
+            type: string
+          postInstall:
+            description: |
+              Used for configuration of the application component. First action where Lance environment variables are set.
+            type: string
+          preStart:
+            description: |
+              Called before starting the application. Can be e.g. used for configuration an environment.
+            type: string
+          start:
+            description: |
+              Starts the component. Needs to return for PlainContainer and not return for Docker.
+            type: string
+          startDetection:
+            description: |
+              Detects the start of the application. Required if the application does not start instantianous.
+            type: string
+          stopDetection:
+            description: |
+              Checks if the application has stopped. Is periodically checked to detect a crash of the application.
+            type: string
+          postStart:
+            description: |
+              Executed after the application has successfully started.
+            type: string
+          preStop:
+            description: |
+              Called before the application is stopped.
+            type: string
+          stop:
+            description: |
+              Stops the application.
+            type: string
+          postStop:
+            description: |
+              Executed after the application is successfully stopped.
+            type: string
+          shutdown:
+            description: |
+              Executed before the container is shutdown. Can be used to backup state.
+            type: string
         
   Application:
     type: object
