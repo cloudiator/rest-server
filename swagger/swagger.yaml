@@ -213,7 +213,100 @@ definitions:
         # see https://github.com/swagger-api/swagger-editor/issues/1005
         $ref: '#/definitions/Location'
       
-      
+  Component:
+    type: object
+    discriminator: type
+    required:
+      - name
+      - type
+    properties:
+      type:
+        description: |
+          Discriminator for polymorphism.
+        type: string
+      name:
+        description: "Human-readable name"
+        type: string
+        
+  LanceComponent:
+    allOf:
+      - $ref: '#/definitions/Component'
+    required:
+      - start
+    properties:
+      init:
+        description: | 
+          Initialization action.
+        type: string
+      preInstall:
+        description: |
+          Executed before installation action. Can be e.g. used for downloading binaries.
+        type: string
+      install:
+        description: |
+          Used for installing the application.
+        type: string
+      postInstall:
+        description: |
+          Used for configuration of the application component. First action where Lance environment variables are set.
+        type: string
+      preStart:
+        description: |
+          Called before starting the application. Can be e.g. used for configuration an environment.
+        type: string
+      start:
+        description: |
+          Starts the component. Needs to return for PlainContainer and not return for Docker.
+        type: string
+      startDetection:
+        description: |
+          Detects the start of the application. Required if the application does not start instantianous.
+        type: string
+      stopDetection:
+        description: |
+          Checks if the application has stopped. Is periodically checked to detect a crash of the application.
+        type: string
+      postStart:
+        description: |
+          Executed after the application has successfully started.
+        type: string
+      preStop:
+        description: |
+          Called before the application is stopped.
+        type: string
+      stop:
+        description: |
+          Stops the application.
+        type: string
+      postStop:
+        description: |
+          Executed after the application is successfully stopped.
+        type: string
+      shutdown:
+        description: |
+          Executed before the container is shutdown. Can be used to backup state.
+        type: string
+        
+  Application:
+    properties:
+      name:
+        type: string
+  
+  ApplicationComponent:
+    properties:
+      test:
+        type: string
+        
+  Node:
+    properties:
+      name:
+        type: string
+    
+  Relationship:
+    properties:
+      test:
+        type: string
+  
 # Paths
 paths:
 
@@ -241,7 +334,7 @@ paths:
             $ref: '#/definitions/NewCloud'
       responses:
         200:
-          description: "Cloud created"
+          description: "OK"
           schema:
             $ref: "#/definitions/Cloud"
     
@@ -264,7 +357,7 @@ paths:
         - $ref: '#/parameters/id'
       responses:
         200:
-          description: "Cloud deleted"
+          description: "OK"
   
   # Image related paths
   /images:
@@ -295,7 +388,7 @@ paths:
       responses:
         200:
           description: |
-            Image was successfully updated
+            OK
           schema:
             $ref: '#/definitions/Image'
 
@@ -303,11 +396,11 @@ paths:
   /hardware:
     get:
       description: |
-        Returns all hardware visable to the user
+        Returns all hardware visible to the user
       responses:
         200:
           description: |
-            All hardware
+            OK
           schema:
             type: array
             items:
@@ -317,15 +410,46 @@ paths:
   /locations:
     get:  
       description: |
-        Returns all locations visable to the user
+        Returns all locations visible to the user
       responses:
         200:
           description: |
-            All locations
+            OK
           schema:
             type: array
             items:
               $ref: '#/definitions/Location'
-    
+  
+  # Component related paths
+  /components:
+    get:
+      description: | 
+        Returns all components visible to the user
+      responses:
+        200:
+          description: |
+            OK
+          schema:
+            type: array
+            items: 
+              $ref: '#/definitions/Component'
+    put:
+      description: |
+        Creates a new component
+      parameters:
+        - name: component
+          in: body
+          description: |
+            Component to be created
+          required: true
+          schema:
+            $ref: '#/definitions/Component'
+      responses:
+        200:
+          description: |
+            OK
+          schema:
+            $ref: '#/definitions/Component'
+        
           
   
