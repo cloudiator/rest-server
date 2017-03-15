@@ -48,6 +48,7 @@ definitions:
         type: string
         
   Cloud:
+    type: object
     allOf: 
     - $ref: '#/definitions/NewCloud'
     - required:
@@ -58,6 +59,7 @@ definitions:
           description: Unique identifier for the cloud
           
   Api:
+    type: object
     required:
       - providerName
     properties:
@@ -66,6 +68,7 @@ definitions:
         description: Name of the API provider, maps to a driver
   
   Credential:
+    type: object
     required:
       - user
       - secret
@@ -78,6 +81,7 @@ definitions:
         description: Secret (e.g. Password) for authentication at the cloud provider's API
         
   Configuration:
+    type: object
     properties:
       properties:
         type: array
@@ -86,6 +90,7 @@ definitions:
           $ref: '#/definitions/Property'
         
   Property:
+    type: object
     description: "A key-value pair"
     required:
       - key
@@ -99,6 +104,7 @@ definitions:
         description: "Value of the property"
       
   NewCloud:
+    type: object
     required:
       - name
       - api 
@@ -120,6 +126,7 @@ definitions:
         $ref: '#/definitions/Configuration'
         
   Image:
+    type: object
     required:
       - id
       - name
@@ -139,6 +146,7 @@ definitions:
         $ref: '#/definitions/OperatingSystem'
         
   OperatingSystem:
+    type: object 
     properties:
       # todo: requires enum?
       operatingSystemFamily: 
@@ -153,6 +161,7 @@ definitions:
         description: "Version of the OS"
   
   Hardware:
+    type: object
     required:
       - id
       - name
@@ -185,6 +194,7 @@ definitions:
         $ref: '#/definitions/Location'
     
   Location:
+    type: object
     required:
       - id
       - name
@@ -229,6 +239,7 @@ definitions:
         type: string
         
   LanceComponent:
+    type: object
     allOf:
       - $ref: '#/definitions/Component'
     required:
@@ -288,21 +299,25 @@ definitions:
         type: string
         
   Application:
+    type: object
     properties:
       name:
         type: string
   
   ApplicationComponent:
+    type: object
     properties:
       test:
         type: string
         
   Node:
+    type: object
     properties:
       name:
         type: string
     
   Relationship:
+    type: object
     properties:
       test:
         type: string
