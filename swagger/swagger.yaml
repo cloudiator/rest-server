@@ -67,7 +67,7 @@ definitions:
         type: string
         description: Name of the API provider, maps to a driver
   
-  Credential:
+  CloudCredential:
     type: object
     required:
       - user
@@ -80,7 +80,7 @@ definitions:
         type: string
         description: Secret (e.g. Password) for authentication at the cloud provider's API
         
-  Configuration:
+  CloudConfiguration:
     type: object
     properties:
       properties:
@@ -121,9 +121,9 @@ definitions:
       api:
         $ref: '#/definitions/Api'
       credential:
-        $ref: '#/definitions/Credential'
+        $ref: '#/definitions/CloudCredential'
       configuration:
-        $ref: '#/definitions/Configuration'
+        $ref: '#/definitions/CloudConfiguration'
         
   Image:
     type: object
@@ -355,6 +355,7 @@ paths:
   # Cloud related paths:
   /clouds:
     get:
+      operationId: findClouds
       tags:
         - cloud
       description: |
@@ -368,6 +369,7 @@ paths:
             items: 
               $ref: '#/definitions/Cloud'
     post:
+      operationId: addCloud
       tags:
         - cloud
       description: Creates a new cloud.
@@ -386,6 +388,7 @@ paths:
     
   /clouds/{id}:
     get:
+      operationId: findCloud
       tags:
         - cloud
       description: |
@@ -399,6 +402,7 @@ paths:
          schema:
           $ref: '#/definitions/Cloud'
     delete:
+      operationId: deleteCloud
       tags:
         - cloud
       description: |
@@ -412,6 +416,7 @@ paths:
   # Image related paths
   /images:
     get:
+      operationId: findImages
       tags:
         - cloud
       description: |
@@ -424,10 +429,12 @@ paths:
             type: array
             items:
               $ref: '#/definitions/Image'
+              
   /images/{id}:
     put:
       tags:
         - cloud
+      operationId: editImage
       description: |
         Updates a specific image
       parameters:
@@ -449,6 +456,7 @@ paths:
   # Hardware related paths
   /hardware:
     get:
+      operationId: findHardware
       tags:
         - cloud
       description: |
@@ -465,6 +473,7 @@ paths:
   # Location related paths
   /locations:
     get:  
+      operationId: findLocations
       tags:
         - cloud
       description: |
@@ -481,6 +490,7 @@ paths:
   # Component related paths
   /components:
     get:
+      operationId: findComponents
       tags:
         - application
       description: | 
@@ -494,6 +504,7 @@ paths:
             items: 
               $ref: '#/definitions/Component'
     put:
+      operationId: addComponent
       tags:
         - application
       description: |
@@ -516,6 +527,7 @@ paths:
   # Task related paths
   /tasks:
     get:
+      operationId: findTasks
       tags:
         - task
       description: |
@@ -530,6 +542,7 @@ paths:
               
   /task/{id}:
     get:
+      operationId: findTask
       tags:
         - task
       description: |
@@ -545,6 +558,7 @@ paths:
   # Virtual machine related tasks
   /vm:
     post:
+      operationId: addVM
       tags:
         - cloud
       description: 'Creates a new virtual machine request'
