@@ -240,6 +240,122 @@ definitions:
         # self reference is broken in editor and UI
         # see https://github.com/swagger-api/swagger-editor/issues/1005
         $ref: '#/definitions/Location'
+        
+        
+  NewPlatform:
+    description: |
+      Repesents a new PaaS provider to be created
+    type: object
+    required:
+      - id
+      - name
+      - api
+      - credential
+    properties:
+      id:
+        description: "Unique identifier"
+        type: string
+      name:
+        description: "Human-readable name"
+        type: string
+      api:
+        $ref: '#/definitions/Api'
+      credential:
+        $ref: '#/definitions/CloudCredential'
+        
+  PlatformEnvironment:
+    description: |
+      Repesents a PaaS environemnt to run an component
+    type: object
+    required:
+      - id
+      - name
+      - platformHardware
+      - platformRuntime
+    properties:
+      id:
+        description: "Unique identifier"
+        type: string
+      name:
+        description: "Human-readable name"
+        type: string
+      platformHardware:
+        $ref: '#/definitions/PlatformHardware'
+      platformRuntime:
+        $ref: '#/definitions/PlatformRuntime'
+        
+        
+  PlatformHardware:
+    description: |  
+      Represents a hardware configuration for a Platform (not all attributes might be supported for all PaaS providers)
+    type: object
+    required:
+      - id
+      - name
+      - cores
+      - ram
+      - disk
+    properties:
+      id:
+        description: "Unique identifier for the hardware"
+        type: string
+      name:
+        description: "Human-readable name for the hardware"
+        type: string
+      cores:
+        description: "Number of cores"
+        type: integer
+        format: int32
+      ram:
+        description: "Amount of RAM"
+        type: integer
+        format: int64
+      disk:
+        description: "Amount of disk space"
+        type: number
+        format: double
+      
+        
+  PlatformRuntime:
+    description: "Represents a runtime for a Platform component, e.g. Java, PHP, Tomcat" 
+    type: object
+    required:
+      - id
+      - language
+      - runtimeType
+      - version
+    properties:
+      id:
+        description: "Unique identifier for the hardware"
+        type: string
+      language:
+        description: "the specific runtime language"
+        type: string
+      runtimeType:
+        description: "specifies the runtime type"
+        type: string
+        enum:
+          - runtime
+          - server
+      version:
+        description: "the version of the specified type"
+        type: number
+        format: double
+
+  PlatformService:
+    description: |
+      Repesents additional PaaS services to component, e.g. a database, TODO!
+    type: object
+    required:
+      - id
+      - name
+    properties:
+      id:
+        description: "Unique identifier"
+        type: string
+      name:
+        description: "Human-readable name"
+        type: string
       
   Component:
     description: |
@@ -270,6 +386,21 @@ definitions:
           dockerImage:
             description: |
               Name of the docker image
+            type: string
+            
+            
+  PlatformComponent:
+    description: |
+      Represents a PaaS component
+    type: object
+    required:
+      - sourceRepository
+    allOf:
+      - $ref: '#/definitions/Component'
+      - properties:
+          sourceRepository:
+            description: |
+              url to the source code repository (currently only git is supported)
             type: string
         
   LanceComponent:
