@@ -22,6 +22,9 @@
 # Then explicitly reverse the ignore rule for a single file:
 #!docs/README.md
 
+# Ignore pom
+pom.xml
+
 # Ignore docs
 LICENSE.md
 README.md
