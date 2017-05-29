@@ -17,7 +17,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2017-05-29T12:03:11.942+02:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2017-05-29T14:29:11.837+02:00")
 
 @Api(value = "clouds", description = "the clouds API")
 public interface CloudsApi {
@@ -39,7 +39,6 @@ public interface CloudsApi {
     
     @RequestMapping(value = "/clouds/{id}",
         produces = { "application/json" }, 
-        consumes = { "application/json" },
         method = RequestMethod.DELETE)
     ResponseEntity<Void> deleteCloud(@ApiParam(value = "Unique identifier of the resource",required=true ) @PathVariable("id") String id);
 
@@ -50,7 +49,6 @@ public interface CloudsApi {
     
     @RequestMapping(value = "/clouds/{id}",
         produces = { "application/json" }, 
-        consumes = { "application/json" },
         method = RequestMethod.GET)
     ResponseEntity<Cloud> findCloud(@ApiParam(value = "Unique identifier of the resource",required=true ) @PathVariable("id") String id);
 
@@ -61,7 +59,6 @@ public interface CloudsApi {
     
     @RequestMapping(value = "/clouds",
         produces = { "application/json" }, 
-        consumes = { "application/json" },
         method = RequestMethod.GET)
     ResponseEntity<List<Cloud>> findClouds();
 
