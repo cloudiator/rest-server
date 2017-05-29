@@ -1,5 +1,7 @@
 package io.github.cloudiator.rest.api;
 
+import io.github.cloudiator.rest.UserServiceImpl;
+import io.github.cloudiator.rest.converter.UserService;
 import io.github.cloudiator.rest.model.Cloud;
 import io.github.cloudiator.rest.model.NewCloud;
 import io.swagger.annotations.ApiParam;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class CloudsApiController implements CloudsApi {
 
   private CloudService cloudService = new CloudServiceImpl(Kafka.messageInterface());
+  private UserService userService = new UserServiceImpl();
 
   public ResponseEntity<Cloud> addCloud(
       @ApiParam(value = "Cloud to add", required = true) @Valid @RequestBody NewCloud cloud) {
