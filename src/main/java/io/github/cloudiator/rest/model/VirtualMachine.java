@@ -12,7 +12,7 @@ import javax.validation.constraints.*;
 /**
  * VirtualMachine
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2017-05-29T14:29:11.837+02:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2017-05-30T11:45:10.801+02:00")
 
 public class VirtualMachine   {
   @JsonProperty("name")

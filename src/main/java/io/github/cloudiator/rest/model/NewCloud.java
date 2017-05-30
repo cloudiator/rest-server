@@ -16,11 +16,14 @@ import javax.validation.constraints.*;
  * Represents a new cloud that is to be created 
  */
 @ApiModel(description = "Represents a new cloud that is to be created ")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2017-05-29T14:29:11.837+02:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2017-05-30T11:45:10.801+02:00")
 
 public class NewCloud   {
   @JsonProperty("name")
   private String name = null;
+
+  @JsonProperty("endpoint")
+  private String endpoint = null;
 
   /**
    * Type of the cloud
@@ -62,8 +65,8 @@ public class NewCloud   {
   @JsonProperty("credential")
   private CloudCredential credential = null;
 
-  @JsonProperty("configuration")
-  private CloudConfiguration _configuration = null;
+  @JsonProperty("cloudConfiguration")
+  private CloudConfiguration cloudConfiguration = null;
 
   public NewCloud name(String name) {
     this.name = name;
@@ -84,6 +87,27 @@ public class NewCloud   {
 
   public void setName(String name) {
     this.name = name;
+  }
+
+  public NewCloud endpoint(String endpoint) {
+    this.endpoint = endpoint;
+    return this;
+  }
+
+   /**
+   * URI where the api of this cloud provider can be accessed.
+   * @return endpoint
+  **/
+  @ApiModelProperty(required = true, value = "URI where the api of this cloud provider can be accessed.")
+  @NotNull
+
+
+  public String getEndpoint() {
+    return endpoint;
+  }
+
+  public void setEndpoint(String endpoint) {
+    this.endpoint = endpoint;
   }
 
   public NewCloud cloudType(CloudTypeEnum cloudType) {
@@ -151,25 +175,25 @@ public class NewCloud   {
     this.credential = credential;
   }
 
-  public NewCloud _configuration(CloudConfiguration _configuration) {
-    this._configuration = _configuration;
+  public NewCloud cloudConfiguration(CloudConfiguration cloudConfiguration) {
+    this.cloudConfiguration = cloudConfiguration;
     return this;
   }
 
    /**
-   * Get _configuration
-   * @return _configuration
+   * Get cloudConfiguration
+   * @return cloudConfiguration
   **/
   @ApiModelProperty(value = "")
 
   @Valid
 
-  public CloudConfiguration getConfiguration() {
-    return _configuration;
+  public CloudConfiguration getCloudConfiguration() {
+    return cloudConfiguration;
   }
 
-  public void setConfiguration(CloudConfiguration _configuration) {
-    this._configuration = _configuration;
+  public void setCloudConfiguration(CloudConfiguration cloudConfiguration) {
+    this.cloudConfiguration = cloudConfiguration;
   }
 
 
@@ -183,15 +207,16 @@ public class NewCloud   {
     }
     NewCloud newCloud = (NewCloud) o;
     return Objects.equals(this.name, newCloud.name) &&
+        Objects.equals(this.endpoint, newCloud.endpoint) &&
         Objects.equals(this.cloudType, newCloud.cloudType) &&
         Objects.equals(this.api, newCloud.api) &&
         Objects.equals(this.credential, newCloud.credential) &&
-        Objects.equals(this._configuration, newCloud._configuration);
+        Objects.equals(this.cloudConfiguration, newCloud.cloudConfiguration);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, cloudType, api, credential, _configuration);
+    return Objects.hash(name, endpoint, cloudType, api, credential, cloudConfiguration);
   }
 
   @Override
@@ -200,10 +225,11 @@ public class NewCloud   {
     sb.append("class NewCloud {\n");
     
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
+    sb.append("    endpoint: ").append(toIndentedString(endpoint)).append("\n");
     sb.append("    cloudType: ").append(toIndentedString(cloudType)).append("\n");
     sb.append("    api: ").append(toIndentedString(api)).append("\n");
     sb.append("    credential: ").append(toIndentedString(credential)).append("\n");
-    sb.append("    _configuration: ").append(toIndentedString(_configuration)).append("\n");
+    sb.append("    cloudConfiguration: ").append(toIndentedString(cloudConfiguration)).append("\n");
     sb.append("}");
     return sb.toString();
   }

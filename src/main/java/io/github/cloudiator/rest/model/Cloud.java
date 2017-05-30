@@ -17,11 +17,14 @@ import javax.validation.constraints.*;
  * Representation of a cloud used by Cloudiator 
  */
 @ApiModel(description = "Representation of a cloud used by Cloudiator ")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2017-05-29T14:29:11.837+02:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2017-05-30T11:45:10.801+02:00")
 
 public class Cloud   {
   @JsonProperty("name")
   private String name = null;
+
+  @JsonProperty("endpoint")
+  private String endpoint = null;
 
   /**
    * Type of the cloud
@@ -63,8 +66,8 @@ public class Cloud   {
   @JsonProperty("credential")
   private CloudCredential credential = null;
 
-  @JsonProperty("configuration")
-  private CloudConfiguration _configuration = null;
+  @JsonProperty("cloudConfiguration")
+  private CloudConfiguration cloudConfiguration = null;
 
   @JsonProperty("id")
   private String id = null;
@@ -88,6 +91,27 @@ public class Cloud   {
 
   public void setName(String name) {
     this.name = name;
+  }
+
+  public Cloud endpoint(String endpoint) {
+    this.endpoint = endpoint;
+    return this;
+  }
+
+   /**
+   * URI where the api of this cloud provider can be accessed.
+   * @return endpoint
+  **/
+  @ApiModelProperty(required = true, value = "URI where the api of this cloud provider can be accessed.")
+  @NotNull
+
+
+  public String getEndpoint() {
+    return endpoint;
+  }
+
+  public void setEndpoint(String endpoint) {
+    this.endpoint = endpoint;
   }
 
   public Cloud cloudType(CloudTypeEnum cloudType) {
@@ -155,25 +179,25 @@ public class Cloud   {
     this.credential = credential;
   }
 
-  public Cloud _configuration(CloudConfiguration _configuration) {
-    this._configuration = _configuration;
+  public Cloud cloudConfiguration(CloudConfiguration cloudConfiguration) {
+    this.cloudConfiguration = cloudConfiguration;
     return this;
   }
 
    /**
-   * Get _configuration
-   * @return _configuration
+   * Get cloudConfiguration
+   * @return cloudConfiguration
   **/
   @ApiModelProperty(value = "")
 
   @Valid
 
-  public CloudConfiguration getConfiguration() {
-    return _configuration;
+  public CloudConfiguration getCloudConfiguration() {
+    return cloudConfiguration;
   }
 
-  public void setConfiguration(CloudConfiguration _configuration) {
-    this._configuration = _configuration;
+  public void setCloudConfiguration(CloudConfiguration cloudConfiguration) {
+    this.cloudConfiguration = cloudConfiguration;
   }
 
   public Cloud id(String id) {
@@ -207,16 +231,17 @@ public class Cloud   {
     }
     Cloud cloud = (Cloud) o;
     return Objects.equals(this.name, cloud.name) &&
+        Objects.equals(this.endpoint, cloud.endpoint) &&
         Objects.equals(this.cloudType, cloud.cloudType) &&
         Objects.equals(this.api, cloud.api) &&
         Objects.equals(this.credential, cloud.credential) &&
-        Objects.equals(this._configuration, cloud._configuration) &&
+        Objects.equals(this.cloudConfiguration, cloud.cloudConfiguration) &&
         Objects.equals(this.id, cloud.id);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, cloudType, api, credential, _configuration, id);
+    return Objects.hash(name, endpoint, cloudType, api, credential, cloudConfiguration, id);
   }
 
   @Override
@@ -225,10 +250,11 @@ public class Cloud   {
     sb.append("class Cloud {\n");
     
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
+    sb.append("    endpoint: ").append(toIndentedString(endpoint)).append("\n");
     sb.append("    cloudType: ").append(toIndentedString(cloudType)).append("\n");
     sb.append("    api: ").append(toIndentedString(api)).append("\n");
     sb.append("    credential: ").append(toIndentedString(credential)).append("\n");
-    sb.append("    _configuration: ").append(toIndentedString(_configuration)).append("\n");
+    sb.append("    cloudConfiguration: ").append(toIndentedString(cloudConfiguration)).append("\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("}");
     return sb.toString();
