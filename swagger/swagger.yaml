@@ -242,6 +242,18 @@ definitions:
         $ref: '#/definitions/Location'
         
         
+  Platform:
+    description: Representation of a platform used by Cloudiator
+    type: object
+    required:
+      - id
+    allOf: 
+      - $ref: '#/definitions/NewPlatform'
+      - properties:
+          id:
+            type: string
+            description: Unique identifier for the platform
+  
   NewPlatform:
     description: |
       Repesents a new PaaS provider to be created
@@ -258,6 +270,10 @@ definitions:
       name:
         description: "Human-readable name"
         type: string
+      locationScope:
+        description: "PaaS stack type"
+        type: string
+        enum: ['HEROKU', 'OPENSHIFT', 'CLOUDFOUNDRY']  
       api:
         $ref: '#/definitions/Api'
       credential:
@@ -744,7 +760,229 @@ paths:
           schema:
             $ref: '#/definitions/Task'
     
-      
+  # Platform related paths:
+  
+  # Platform paths:
+  /platform:
+    get:
+      operationId: findPlatforms
+      tags:
+        - platform
+      description: |
+          Returns all platform from the system that the user has access to
+      responses:
+        200:
+          description: |
+            All platforms
+          schema:
+            type: array
+            items: 
+              $ref: '#/definitions/Platform'
+    post:
+      operationId: addPlatform
+      tags:
+        - platform
+      description: Creates a new platform.
+      parameters:
+        - name: platform
+          in: body
+          description: Platform to add
+          required: true
+          schema:
+            $ref: '#/definitions/NewPlatform'
+      responses:
+        200:
+          description: "OK"
+          schema:
+            $ref: "#/definitions/Platform"
+    
+  /platform/{id}:
+    get:
+      operationId: findPlatform
+      tags:
+        - platform
+      description: |
+        Returns the platform identified by the given id parameter
+      parameters:
+        - $ref: '#/parameters/id'
+      responses:
+        200:
+         description: |
+          The platform identified by the id
+         schema:
+          $ref: '#/definitions/Platform'
+    delete:
+      operationId: deletePlatform
+      tags:
+        - platform
+      description: |
+        Deletes the platform identified by the given id paramater.
+      parameters:
+        - $ref: '#/parameters/id'
+      responses:
+        200:
+          description: "OK"
+  
+  # PlatformHardware related paths
+  /platformHardware:
+    get:
+      operationId: findPlatformHardwares
+      tags:
+        - platform
+      description: |
+        Returns all platform hardware visible to the user
+      responses:
+        200:
+          description: |
+            OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/PlatformHardware'
+    
+    post:
+      operationId: addPlatformHardware
+      tags:
+        - platform
+      description: |
+        Creates a new PlatformHardware
+      parameters:
+        - name: platformHardware
+          in: body
+          description: |
+            PlatformHardware to be created
+          required: true
+          schema:
+            $ref: '#/definitions/PlatformHardware'
+      responses:
+        200:
+          description: |
+            OK
+          schema:
+            $ref: '#/definitions/PlatformHardware'   
+  
+  /platformHardware/{id}:
+    get:
+      operationId: findPlatformHardware
+      tags:
+        - platform
+      description: |
+        Returns the PlatformHardware identified by the id parameter.
+      parameters:
+        - $ref: '#/parameters/id'
+      responses:
+        200:
+          description: 'OK'
+          schema:
+            $ref: '#/definitions/PlatformHardware'   
+  
+  # PlatformEnvironment related paths
+  /platformEnvironment:
+    get:
+      operationId: findPlatformEnvironments
+      tags:
+        - platform
+      description: |
+        Returns all platform environment  visible to the user
+      responses:
+        200:
+          description: |
+            OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/PlatformEnvironment'
+    
+    post:
+      operationId: addPlatformEnvironment
+      tags:
+        - platform
+      description: |
+        Creates a new PlatformEnvironment
+      parameters:
+        - name: platformEnvironment
+          in: body
+          description: |
+            PlatformEnvironment to be created
+          required: true
+          schema:
+            $ref: '#/definitions/PlatformEnvironment'
+      responses:
+        200:
+          description: |
+            OK
+          schema:
+            $ref: '#/definitions/PlatformEnvironment'   
+  
+  /platformEnvironment/{id}:
+    get:
+      operationId: findPlatformEnvironment
+      tags:
+        - platform
+      description: |
+        Returns the PlatformEnvironment identified by the id parameter.
+      parameters:
+        - $ref: '#/parameters/id'
+      responses:
+        200:
+          description: 'OK'
+          schema:
+            $ref: '#/definitions/PlatformEnvironment'          
+  
+  # PlatformRuntime related paths
+  /platformRuntime:
+    get:
+      operationId: findPlatformRuntimes
+      tags:
+        - platform
+      description: |
+        Returns all platform runtime  visible to the user
+      responses:
+        200:
+          description: |
+            OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/PlatformRuntime'
+    
+    post:
+      operationId: addPlatformRuntime
+      tags:
+        - platform
+      description: |
+        Creates a new PlatformRuntime
+      parameters:
+        - name: platformRuntime
+          in: body
+          description: |
+            PlatformRuntime to be created
+          required: true
+          schema:
+            $ref: '#/definitions/PlatformRuntime'
+      responses:
+        200:
+          description: |
+            OK
+          schema:
+            $ref: '#/definitions/PlatformRuntime'   
+  
+  /platformRuntime/{id}:
+    get:
+      operationId: findPlatformRuntime
+      tags:
+        - platform
+      description: |
+        Returns the PlatformRuntime identified by the id parameter.
+      parameters:
+        - $ref: '#/parameters/id'
+      responses:
+        200:
+          description: 'OK'
+          schema:
+            $ref: '#/definitions/PlatformRuntime'         
+            
+            
         
           
   
