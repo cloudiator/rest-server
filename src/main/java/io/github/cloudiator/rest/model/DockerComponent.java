@@ -13,7 +13,7 @@ import javax.validation.constraints.*;
  * Represents a docker container 
  */
 @ApiModel(description = "Represents a docker container ")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2017-05-30T11:42:58.188+02:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2017-05-30T11:45:10.801+02:00")
 
 public class DockerComponent extends Component  {
   @JsonProperty("dockerImage")

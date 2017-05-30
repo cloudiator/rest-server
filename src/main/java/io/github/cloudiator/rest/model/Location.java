@@ -14,7 +14,7 @@ import javax.validation.constraints.*;
  * Repesents a (virtual) location offers by a cloud 
  */
 @ApiModel(description = "Repesents a (virtual) location offers by a cloud ")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2017-05-30T11:42:58.188+02:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2017-05-30T11:45:10.801+02:00")
 
 public class Location   {
   @JsonProperty("id")

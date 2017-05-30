@@ -17,7 +17,7 @@ import javax.validation.constraints.*;
  * Representation of a cloud used by Cloudiator 
  */
 @ApiModel(description = "Representation of a cloud used by Cloudiator ")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2017-05-30T11:42:58.188+02:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2017-05-30T11:45:10.801+02:00")
 
 public class Cloud   {
   @JsonProperty("name")
@@ -66,8 +66,8 @@ public class Cloud   {
   @JsonProperty("credential")
   private CloudCredential credential = null;
 
-  @JsonProperty("configuration")
-  private CloudConfiguration _configuration = null;
+  @JsonProperty("cloudConfiguration")
+  private CloudConfiguration cloudConfiguration = null;
 
   @JsonProperty("id")
   private String id = null;
@@ -179,25 +179,25 @@ public class Cloud   {
     this.credential = credential;
   }
 
-  public Cloud _configuration(CloudConfiguration _configuration) {
-    this._configuration = _configuration;
+  public Cloud cloudConfiguration(CloudConfiguration cloudConfiguration) {
+    this.cloudConfiguration = cloudConfiguration;
     return this;
   }
 
    /**
-   * Get _configuration
-   * @return _configuration
+   * Get cloudConfiguration
+   * @return cloudConfiguration
   **/
   @ApiModelProperty(value = "")
 
   @Valid
 
-  public CloudConfiguration getConfiguration() {
-    return _configuration;
+  public CloudConfiguration getCloudConfiguration() {
+    return cloudConfiguration;
   }
 
-  public void setConfiguration(CloudConfiguration _configuration) {
-    this._configuration = _configuration;
+  public void setCloudConfiguration(CloudConfiguration cloudConfiguration) {
+    this.cloudConfiguration = cloudConfiguration;
   }
 
   public Cloud id(String id) {
@@ -235,13 +235,13 @@ public class Cloud   {
         Objects.equals(this.cloudType, cloud.cloudType) &&
         Objects.equals(this.api, cloud.api) &&
         Objects.equals(this.credential, cloud.credential) &&
-        Objects.equals(this._configuration, cloud._configuration) &&
+        Objects.equals(this.cloudConfiguration, cloud.cloudConfiguration) &&
         Objects.equals(this.id, cloud.id);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, endpoint, cloudType, api, credential, _configuration, id);
+    return Objects.hash(name, endpoint, cloudType, api, credential, cloudConfiguration, id);
   }
 
   @Override
@@ -254,7 +254,7 @@ public class Cloud   {
     sb.append("    cloudType: ").append(toIndentedString(cloudType)).append("\n");
     sb.append("    api: ").append(toIndentedString(api)).append("\n");
     sb.append("    credential: ").append(toIndentedString(credential)).append("\n");
-    sb.append("    _configuration: ").append(toIndentedString(_configuration)).append("\n");
+    sb.append("    cloudConfiguration: ").append(toIndentedString(cloudConfiguration)).append("\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("}");
     return sb.toString();
