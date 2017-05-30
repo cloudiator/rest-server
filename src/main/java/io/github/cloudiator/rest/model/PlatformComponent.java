@@ -13,7 +13,7 @@ import javax.validation.constraints.*;
  * Represents a PaaS component 
  */
 @ApiModel(description = "Represents a PaaS component ")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2017-05-29T14:29:11.837+02:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2017-05-30T11:38:27.568+02:00")
 
 public class PlatformComponent extends Component  {
   @JsonProperty("sourceRepository")

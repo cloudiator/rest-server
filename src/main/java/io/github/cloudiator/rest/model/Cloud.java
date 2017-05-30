@@ -17,11 +17,14 @@ import javax.validation.constraints.*;
  * Representation of a cloud used by Cloudiator 
  */
 @ApiModel(description = "Representation of a cloud used by Cloudiator ")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2017-05-29T14:29:11.837+02:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2017-05-30T11:38:27.568+02:00")
 
 public class Cloud   {
   @JsonProperty("name")
   private String name = null;
+
+  @JsonProperty("endpoint")
+  private String endpoint = null;
 
   /**
    * Type of the cloud
@@ -88,6 +91,27 @@ public class Cloud   {
 
   public void setName(String name) {
     this.name = name;
+  }
+
+  public Cloud endpoint(String endpoint) {
+    this.endpoint = endpoint;
+    return this;
+  }
+
+   /**
+   * URI where the api of this cloud provider can be accessed.
+   * @return endpoint
+  **/
+  @ApiModelProperty(required = true, value = "URI where the api of this cloud provider can be accessed.")
+  @NotNull
+
+
+  public String getEndpoint() {
+    return endpoint;
+  }
+
+  public void setEndpoint(String endpoint) {
+    this.endpoint = endpoint;
   }
 
   public Cloud cloudType(CloudTypeEnum cloudType) {
@@ -207,6 +231,7 @@ public class Cloud   {
     }
     Cloud cloud = (Cloud) o;
     return Objects.equals(this.name, cloud.name) &&
+        Objects.equals(this.endpoint, cloud.endpoint) &&
         Objects.equals(this.cloudType, cloud.cloudType) &&
         Objects.equals(this.api, cloud.api) &&
         Objects.equals(this.credential, cloud.credential) &&
@@ -216,7 +241,7 @@ public class Cloud   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, cloudType, api, credential, _configuration, id);
+    return Objects.hash(name, endpoint, cloudType, api, credential, _configuration, id);
   }
 
   @Override
@@ -225,6 +250,7 @@ public class Cloud   {
     sb.append("class Cloud {\n");
     
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
+    sb.append("    endpoint: ").append(toIndentedString(endpoint)).append("\n");
     sb.append("    cloudType: ").append(toIndentedString(cloudType)).append("\n");
     sb.append("    api: ").append(toIndentedString(api)).append("\n");
     sb.append("    credential: ").append(toIndentedString(credential)).append("\n");

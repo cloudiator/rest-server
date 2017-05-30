@@ -12,7 +12,7 @@ import javax.validation.constraints.*;
  * Repesents additional PaaS services to component, e.g. a database, TODO! 
  */
 @ApiModel(description = "Repesents additional PaaS services to component, e.g. a database, TODO! ")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2017-05-29T14:29:11.837+02:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2017-05-30T11:38:27.568+02:00")
 
 public class PlatformService   {
   @JsonProperty("id")

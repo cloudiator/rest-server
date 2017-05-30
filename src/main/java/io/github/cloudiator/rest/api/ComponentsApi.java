@@ -16,7 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2017-05-29T14:29:11.837+02:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2017-05-30T11:38:27.568+02:00")
 
 @Api(value = "components", description = "the components API")
 public interface ComponentsApi {
@@ -28,7 +28,7 @@ public interface ComponentsApi {
     @RequestMapping(value = "/components",
         produces = { "application/json" }, 
         consumes = { "application/json" },
-        method = RequestMethod.PUT)
+        method = RequestMethod.POST)
     ResponseEntity<Component> addComponent(@ApiParam(value = "Component to be created " ,required=true )  @Valid @RequestBody Component component);
 
 
