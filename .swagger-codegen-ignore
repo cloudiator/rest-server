@@ -21,3 +21,17 @@
 #docs/*.md
 # Then explicitly reverse the ignore rule for a single file:
 #!docs/README.md
+<<<<<<< HEAD
+=======
+
+# Ignore pom
+pom.xml
+
+# Ignore docs
+LICENSE.md
+README.md
+
+# Ignore implemented controllers
+src/**/*Controller.java
+src/**/Swagger2SpringBoot.java
+>>>>>>> a698c736d9cb31c33bea8c5a62a8b2792cbc58ea
