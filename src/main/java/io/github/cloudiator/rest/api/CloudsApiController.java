@@ -25,20 +25,46 @@ public class CloudsApiController implements CloudsApi {
   private UserService userService = new UserServiceImpl();
 
   public ResponseEntity<Cloud> addCloud(
-      @ApiParam(value = "Cloud to add", required = true) @Valid @RequestBody NewCloud cloud) {
-    // do some magic!
-    return new ResponseEntity<Cloud>(HttpStatus.OK);
+          @ApiParam(value = "Cloud to add", required = true) @Valid @RequestBody NewCloud cloud) throws Exception {
+
+    //Get NewCloud and validate input
+    //? validate duplication and/or availability on kafka
+    System.out.println(cloud);
+
+    Cloud generated = new Cloud();
+    generated.setName(cloud.getName());
+    generated.setCloudType(cloud.getCloudType());
+    generated.setEndpoint(cloud.getEndpoint());
+    generated.setApi(cloud.getApi());
+    generated.setCredential(cloud.getCredential());
+    generated.setCloudConfiguration(cloud.getCloudConfiguration());
+/*
+        //convert NewCloud to kafka and send
+        NewCloudConverter newCloudConverter = new NewCloudConverter();
+        IaasEntities.NewCloud newCloud = newCloudConverter.apply(cloud);
+        org.cloudiator.messages.Cloud.CreateCloudRequest.Builder builder = org.cloudiator.messages.Cloud.CreateCloudRequest.newBuilder();
+        builder.setCloud(newCloud);
+        builder.setUserId(userService.getUserId());
+        cloudService.createCloud(builder.build());
+
+*/
+    return new ResponseEntity<Cloud>(generated, HttpStatus.OK);
   }
 
   public ResponseEntity<Void> deleteCloud(
-      @ApiParam(value = "Unique identifier of the resource", required = true) @PathVariable("id") String id) {
+          @ApiParam(value = "Unique identifier of the resource", required = true) @PathVariable("id") String id) {
     // do some magic!
     return new ResponseEntity<Void>(HttpStatus.OK);
   }
 
   public ResponseEntity<Cloud> findCloud(
-      @ApiParam(value = "Unique identifier of the resource", required = true) @PathVariable("id") String id) {
-    // do some magic!
+          @ApiParam(value = "Unique identifier of the resource", required = true) @PathVariable("id") String id) throws NotFoundException {
+
+    if (id.equals("345")) {
+      System.out.println(id + " not found ");
+      throw new NotFoundException(404, "Could not find cloud " + id);
+    }
+
     return new ResponseEntity<Cloud>(HttpStatus.OK);
   }
 

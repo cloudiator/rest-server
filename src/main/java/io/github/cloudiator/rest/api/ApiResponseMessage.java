@@ -2,7 +2,7 @@ package io.github.cloudiator.rest.api;
 
 import javax.xml.bind.annotation.XmlTransient;
 
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2017-06-02T09:24:26.089+02:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2017-06-02T13:00:29.446+02:00")
 
 @javax.xml.bind.annotation.XmlRootElement
 public class ApiResponseMessage {

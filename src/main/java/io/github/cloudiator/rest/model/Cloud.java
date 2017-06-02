@@ -3,10 +3,10 @@ package io.github.cloudiator.rest.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
 import io.github.cloudiator.rest.model.Api;
 import io.github.cloudiator.rest.model.CloudConfiguration;
 import io.github.cloudiator.rest.model.CloudCredential;
+import io.github.cloudiator.rest.model.CloudType;
 import io.github.cloudiator.rest.model.NewCloud;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -17,7 +17,7 @@ import javax.validation.constraints.*;
  * Representation of a cloud used by Cloudiator 
  */
 @ApiModel(description = "Representation of a cloud used by Cloudiator ")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2017-06-02T09:24:26.089+02:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2017-06-02T13:00:29.446+02:00")
 
 public class Cloud   {
   @JsonProperty("name")
@@ -26,39 +26,8 @@ public class Cloud   {
   @JsonProperty("endpoint")
   private String endpoint = null;
 
-  /**
-   * Type of the cloud
-   */
-  public enum CloudTypeEnum {
-    PRIVATE("PRIVATE"),
-    
-    PUBLIC("PUBLIC");
-
-    private String value;
-
-    CloudTypeEnum(String value) {
-      this.value = value;
-    }
-
-    @Override
-    @JsonValue
-    public String toString() {
-      return String.valueOf(value);
-    }
-
-    @JsonCreator
-    public static CloudTypeEnum fromValue(String text) {
-      for (CloudTypeEnum b : CloudTypeEnum.values()) {
-        if (String.valueOf(b.value).equals(text)) {
-          return b;
-        }
-      }
-      return null;
-    }
-  }
-
   @JsonProperty("cloudType")
-  private CloudTypeEnum cloudType = null;
+  private CloudType cloudType = null;
 
   @JsonProperty("api")
   private Api api = null;
@@ -114,24 +83,25 @@ public class Cloud   {
     this.endpoint = endpoint;
   }
 
-  public Cloud cloudType(CloudTypeEnum cloudType) {
+  public Cloud cloudType(CloudType cloudType) {
     this.cloudType = cloudType;
     return this;
   }
 
    /**
-   * Type of the cloud
+   * Get cloudType
    * @return cloudType
   **/
-  @ApiModelProperty(example = "PRIVATE", required = true, value = "Type of the cloud")
+  @ApiModelProperty(required = true, value = "")
   @NotNull
 
+  @Valid
 
-  public CloudTypeEnum getCloudType() {
+  public CloudType getCloudType() {
     return cloudType;
   }
 
-  public void setCloudType(CloudTypeEnum cloudType) {
+  public void setCloudType(CloudType cloudType) {
     this.cloudType = cloudType;
   }
 
