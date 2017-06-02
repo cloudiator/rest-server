@@ -10,11 +10,13 @@ public class ApiToApiConverter implements TwoWayConverter<Api,IaasEntities.Api>{
 
   @Override
   public Api applyBack(IaasEntities.Api api) {
-    return null;
+    Api result = new Api();
+    result.setProviderName(api.getProviderName());
+    return result;
   }
 
   @Override
   public IaasEntities.Api apply(Api api) {
-    return null;
+    return IaasEntities.Api.newBuilder().setProviderName(api.getProviderName()).build();
   }
 }
