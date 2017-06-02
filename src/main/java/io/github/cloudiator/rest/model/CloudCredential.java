@@ -12,7 +12,7 @@ import javax.validation.constraints.*;
  * Represents the credentials used to authenticate with a cloud 
  */
 @ApiModel(description = "Represents the credentials used to authenticate with a cloud ")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2017-05-30T11:45:10.801+02:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2017-06-02T09:24:26.089+02:00")
 
 public class CloudCredential   {
   @JsonProperty("user")
@@ -30,7 +30,7 @@ public class CloudCredential   {
    * Username for authentication at the cloud provider's API
    * @return user
   **/
-  @ApiModelProperty(required = true, value = "Username for authentication at the cloud provider's API")
+  @ApiModelProperty(example = "tenant:username", required = true, value = "Username for authentication at the cloud provider's API")
   @NotNull
 
  @Size(min=1)
@@ -51,7 +51,7 @@ public class CloudCredential   {
    * Secret (e.g. Password) for authentication at the cloud provider's API
    * @return secret
   **/
-  @ApiModelProperty(required = true, value = "Secret (e.g. Password) for authentication at the cloud provider's API")
+  @ApiModelProperty(example = "MySuperSecurePassword", required = true, value = "Secret (e.g. Password) for authentication at the cloud provider's API")
   @NotNull
 
  @Size(min=1)

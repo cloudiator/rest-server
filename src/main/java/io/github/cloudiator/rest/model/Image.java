@@ -13,7 +13,7 @@ import javax.validation.constraints.*;
  * Represents an image offer by a cloud 
  */
 @ApiModel(description = "Represents an image offer by a cloud ")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2017-05-30T11:45:10.801+02:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2017-06-02T09:24:26.089+02:00")
 
 public class Image   {
   @JsonProperty("id")
@@ -37,7 +37,7 @@ public class Image   {
    * Unique identifier for this image
    * @return id
   **/
-  @ApiModelProperty(required = true, value = "Unique identifier for this image")
+  @ApiModelProperty(example = "1a79a4d60de6718e8e5b326e338ae533/RegionOne/1", required = true, value = "Unique identifier for this image")
   @NotNull
 
 
@@ -58,7 +58,7 @@ public class Image   {
    * Human-readable name
    * @return name
   **/
-  @ApiModelProperty(required = true, value = "Human-readable name")
+  @ApiModelProperty(example = "Ubuntu 16.04 LTS AMD 64", required = true, value = "Human-readable name")
   @NotNull
 
 
@@ -79,7 +79,7 @@ public class Image   {
    * Original id issued by provider
    * @return providerId
   **/
-  @ApiModelProperty(required = true, value = "Original id issued by provider")
+  @ApiModelProperty(example = "1", required = true, value = "Original id issued by provider")
   @NotNull
 
 

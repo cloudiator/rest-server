@@ -13,7 +13,7 @@ import javax.validation.constraints.*;
  * Represents a long-running task within the system 
  */
 @ApiModel(description = "Represents a long-running task within the system ")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2017-05-30T11:45:10.801+02:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2017-06-02T09:24:26.089+02:00")
 
 public class Task   {
   /**

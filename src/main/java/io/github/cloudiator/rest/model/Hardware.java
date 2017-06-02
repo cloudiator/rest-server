@@ -13,7 +13,7 @@ import javax.validation.constraints.*;
  * Represents a hardware offer by a cloud 
  */
 @ApiModel(description = "Represents a hardware offer by a cloud ")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2017-05-30T11:45:10.801+02:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2017-06-02T09:24:26.089+02:00")
 
 public class Hardware   {
   @JsonProperty("id")
@@ -46,7 +46,7 @@ public class Hardware   {
    * Unique identifier for the hardware
    * @return id
   **/
-  @ApiModelProperty(required = true, value = "Unique identifier for the hardware")
+  @ApiModelProperty(example = "1a79a4d60de6718e8e5b326e338ae533/RegionOne/1", required = true, value = "Unique identifier for the hardware")
   @NotNull
 
 
@@ -67,7 +67,7 @@ public class Hardware   {
    * Human-readable name for the hardware
    * @return name
   **/
-  @ApiModelProperty(required = true, value = "Human-readable name for the hardware")
+  @ApiModelProperty(example = "m1.medium", required = true, value = "Human-readable name for the hardware")
   @NotNull
 
 
@@ -88,7 +88,7 @@ public class Hardware   {
    * Original id issued by the provider
    * @return providerId
   **/
-  @ApiModelProperty(required = true, value = "Original id issued by the provider")
+  @ApiModelProperty(example = "1", required = true, value = "Original id issued by the provider")
   @NotNull
 
 
@@ -109,7 +109,7 @@ public class Hardware   {
    * Number of cores
    * @return cores
   **/
-  @ApiModelProperty(required = true, value = "Number of cores")
+  @ApiModelProperty(example = "4", required = true, value = "Number of cores")
   @NotNull
 
 
@@ -130,7 +130,7 @@ public class Hardware   {
    * Amount of RAM
    * @return ram
   **/
-  @ApiModelProperty(required = true, value = "Amount of RAM")
+  @ApiModelProperty(example = "2048", required = true, value = "Amount of RAM")
   @NotNull
 
 
@@ -151,7 +151,7 @@ public class Hardware   {
    * Amount of disk space
    * @return disk
   **/
-  @ApiModelProperty(value = "Amount of disk space")
+  @ApiModelProperty(example = "100.0", value = "Amount of disk space")
 
 
   public Double getDisk() {

@@ -12,7 +12,7 @@ import javax.validation.constraints.*;
  * A key-value pair
  */
 @ApiModel(description = "A key-value pair")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2017-05-30T11:45:10.801+02:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2017-06-02T09:24:26.089+02:00")
 
 public class Property   {
   @JsonProperty("key")
@@ -30,7 +30,7 @@ public class Property   {
    * Key of the property
    * @return key
   **/
-  @ApiModelProperty(required = true, value = "Key of the property")
+  @ApiModelProperty(example = "sword.regions", required = true, value = "Key of the property")
   @NotNull
 
 
@@ -51,7 +51,7 @@ public class Property   {
    * Value of the property
    * @return value
   **/
-  @ApiModelProperty(required = true, value = "Value of the property")
+  @ApiModelProperty(example = "RegionOne, RegionTwo", required = true, value = "Value of the property")
   @NotNull
 
 

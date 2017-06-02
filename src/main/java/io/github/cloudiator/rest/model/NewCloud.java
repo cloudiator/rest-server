@@ -16,7 +16,7 @@ import javax.validation.constraints.*;
  * Represents a new cloud that is to be created 
  */
 @ApiModel(description = "Represents a new cloud that is to be created ")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2017-05-30T11:45:10.801+02:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2017-06-02T09:24:26.089+02:00")
 
 public class NewCloud   {
   @JsonProperty("name")
@@ -77,7 +77,7 @@ public class NewCloud   {
    * Human readable name for the cloud. Needs to be unique.
    * @return name
   **/
-  @ApiModelProperty(required = true, value = "Human readable name for the cloud. Needs to be unique.")
+  @ApiModelProperty(example = "Openstack", required = true, value = "Human readable name for the cloud. Needs to be unique.")
   @NotNull
 
 
@@ -98,7 +98,7 @@ public class NewCloud   {
    * URI where the api of this cloud provider can be accessed.
    * @return endpoint
   **/
-  @ApiModelProperty(required = true, value = "URI where the api of this cloud provider can be accessed.")
+  @ApiModelProperty(example = "https://endpoint.example.com", required = true, value = "URI where the api of this cloud provider can be accessed.")
   @NotNull
 
 
@@ -119,7 +119,7 @@ public class NewCloud   {
    * Type of the cloud
    * @return cloudType
   **/
-  @ApiModelProperty(required = true, value = "Type of the cloud")
+  @ApiModelProperty(example = "PRIVATE", required = true, value = "Type of the cloud")
   @NotNull
 
 

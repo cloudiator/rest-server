@@ -15,11 +15,34 @@ import javax.validation.constraints.*;
  * Repesents the configuration of a cloud. 
  */
 @ApiModel(description = "Repesents the configuration of a cloud. ")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2017-05-30T11:45:10.801+02:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2017-06-02T09:24:26.089+02:00")
 
 public class CloudConfiguration   {
+  @JsonProperty("nodeGroup")
+  private String nodeGroup = null;
+
   @JsonProperty("properties")
   private List<Property> properties = null;
+
+  public CloudConfiguration nodeGroup(String nodeGroup) {
+    this.nodeGroup = nodeGroup;
+    return this;
+  }
+
+   /**
+   * A prefix all Cloudiator managed entities will belong to.
+   * @return nodeGroup
+  **/
+  @ApiModelProperty(example = "cloudiator", value = "A prefix all Cloudiator managed entities will belong to.")
+
+
+  public String getNodeGroup() {
+    return nodeGroup;
+  }
+
+  public void setNodeGroup(String nodeGroup) {
+    this.nodeGroup = nodeGroup;
+  }
 
   public CloudConfiguration properties(List<Property> properties) {
     this.properties = properties;
@@ -60,12 +83,13 @@ public class CloudConfiguration   {
       return false;
     }
     CloudConfiguration cloudConfiguration = (CloudConfiguration) o;
-    return Objects.equals(this.properties, cloudConfiguration.properties);
+    return Objects.equals(this.nodeGroup, cloudConfiguration.nodeGroup) &&
+        Objects.equals(this.properties, cloudConfiguration.properties);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(properties);
+    return Objects.hash(nodeGroup, properties);
   }
 
   @Override
@@ -73,6 +97,7 @@ public class CloudConfiguration   {
     StringBuilder sb = new StringBuilder();
     sb.append("class CloudConfiguration {\n");
     
+    sb.append("    nodeGroup: ").append(toIndentedString(nodeGroup)).append("\n");
     sb.append("    properties: ").append(toIndentedString(properties)).append("\n");
     sb.append("}");
     return sb.toString();

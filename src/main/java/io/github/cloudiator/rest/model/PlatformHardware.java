@@ -12,7 +12,7 @@ import javax.validation.constraints.*;
  * Represents a hardware configuration for a Platform (not all attributes might be supported for all PaaS providers) 
  */
 @ApiModel(description = "Represents a hardware configuration for a Platform (not all attributes might be supported for all PaaS providers) ")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2017-05-30T11:45:10.801+02:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2017-06-02T09:24:26.089+02:00")
 
 public class PlatformHardware   {
   @JsonProperty("id")

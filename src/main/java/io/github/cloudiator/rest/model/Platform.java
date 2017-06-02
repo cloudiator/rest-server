@@ -6,18 +6,19 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.github.cloudiator.rest.model.Api;
 import io.github.cloudiator.rest.model.CloudCredential;
+import io.github.cloudiator.rest.model.NewPlatform;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * Repesents a new PaaS provider to be created 
+ * Representation of a platform used by Cloudiator
  */
-@ApiModel(description = "Repesents a new PaaS provider to be created ")
+@ApiModel(description = "Representation of a platform used by Cloudiator")
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2017-06-02T09:24:26.089+02:00")
 
-public class NewPlatform   {
+public class Platform   {
   @JsonProperty("id")
   private String id = null;
 
@@ -66,16 +67,16 @@ public class NewPlatform   {
   @JsonProperty("credential")
   private CloudCredential credential = null;
 
-  public NewPlatform id(String id) {
+  public Platform id(String id) {
     this.id = id;
     return this;
   }
 
    /**
-   * Unique identifier
+   * Unique identifier for the platform
    * @return id
   **/
-  @ApiModelProperty(required = true, value = "Unique identifier")
+  @ApiModelProperty(required = true, value = "Unique identifier for the platform")
   @NotNull
 
 
@@ -87,7 +88,7 @@ public class NewPlatform   {
     this.id = id;
   }
 
-  public NewPlatform name(String name) {
+  public Platform name(String name) {
     this.name = name;
     return this;
   }
@@ -108,7 +109,7 @@ public class NewPlatform   {
     this.name = name;
   }
 
-  public NewPlatform type(TypeEnum type) {
+  public Platform type(TypeEnum type) {
     this.type = type;
     return this;
   }
@@ -128,7 +129,7 @@ public class NewPlatform   {
     this.type = type;
   }
 
-  public NewPlatform api(Api api) {
+  public Platform api(Api api) {
     this.api = api;
     return this;
   }
@@ -150,7 +151,7 @@ public class NewPlatform   {
     this.api = api;
   }
 
-  public NewPlatform credential(CloudCredential credential) {
+  public Platform credential(CloudCredential credential) {
     this.credential = credential;
     return this;
   }
@@ -181,12 +182,12 @@ public class NewPlatform   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    NewPlatform newPlatform = (NewPlatform) o;
-    return Objects.equals(this.id, newPlatform.id) &&
-        Objects.equals(this.name, newPlatform.name) &&
-        Objects.equals(this.type, newPlatform.type) &&
-        Objects.equals(this.api, newPlatform.api) &&
-        Objects.equals(this.credential, newPlatform.credential);
+    Platform platform = (Platform) o;
+    return Objects.equals(this.id, platform.id) &&
+        Objects.equals(this.name, platform.name) &&
+        Objects.equals(this.type, platform.type) &&
+        Objects.equals(this.api, platform.api) &&
+        Objects.equals(this.credential, platform.credential);
   }
 
   @Override
@@ -197,7 +198,7 @@ public class NewPlatform   {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class NewPlatform {\n");
+    sb.append("class Platform {\n");
     
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");

@@ -17,7 +17,7 @@ import javax.validation.constraints.*;
  * Representation of a cloud used by Cloudiator 
  */
 @ApiModel(description = "Representation of a cloud used by Cloudiator ")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2017-05-30T11:45:10.801+02:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2017-06-02T09:24:26.089+02:00")
 
 public class Cloud   {
   @JsonProperty("name")
@@ -81,7 +81,7 @@ public class Cloud   {
    * Human readable name for the cloud. Needs to be unique.
    * @return name
   **/
-  @ApiModelProperty(required = true, value = "Human readable name for the cloud. Needs to be unique.")
+  @ApiModelProperty(example = "Openstack", required = true, value = "Human readable name for the cloud. Needs to be unique.")
   @NotNull
 
 
@@ -102,7 +102,7 @@ public class Cloud   {
    * URI where the api of this cloud provider can be accessed.
    * @return endpoint
   **/
-  @ApiModelProperty(required = true, value = "URI where the api of this cloud provider can be accessed.")
+  @ApiModelProperty(example = "https://endpoint.example.com", required = true, value = "URI where the api of this cloud provider can be accessed.")
   @NotNull
 
 
@@ -123,7 +123,7 @@ public class Cloud   {
    * Type of the cloud
    * @return cloudType
   **/
-  @ApiModelProperty(required = true, value = "Type of the cloud")
+  @ApiModelProperty(example = "PRIVATE", required = true, value = "Type of the cloud")
   @NotNull
 
 
@@ -209,7 +209,7 @@ public class Cloud   {
    * Unique identifier for the cloud
    * @return id
   **/
-  @ApiModelProperty(value = "Unique identifier for the cloud")
+  @ApiModelProperty(example = "1a79a4d60de6718e8e5b326e338ae533", value = "Unique identifier for the cloud")
 
 
   public String getId() {

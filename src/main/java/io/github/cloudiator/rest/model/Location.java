@@ -14,7 +14,7 @@ import javax.validation.constraints.*;
  * Repesents a (virtual) location offers by a cloud 
  */
 @ApiModel(description = "Repesents a (virtual) location offers by a cloud ")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2017-05-30T11:45:10.801+02:00")
+@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2017-06-02T09:24:26.089+02:00")
 
 public class Location   {
   @JsonProperty("id")
@@ -79,7 +79,7 @@ public class Location   {
    * Unique identifier
    * @return id
   **/
-  @ApiModelProperty(required = true, value = "Unique identifier")
+  @ApiModelProperty(example = "1a79a4d60de6718e8e5b326e338ae533/RegionOne", required = true, value = "Unique identifier")
   @NotNull
 
 
@@ -100,7 +100,7 @@ public class Location   {
    * Human-readable name
    * @return name
   **/
-  @ApiModelProperty(required = true, value = "Human-readable name")
+  @ApiModelProperty(example = "RegionOne", required = true, value = "Human-readable name")
   @NotNull
 
 
@@ -121,7 +121,7 @@ public class Location   {
    * Original id issued by the provider
    * @return providerId
   **/
-  @ApiModelProperty(required = true, value = "Original id issued by the provider")
+  @ApiModelProperty(example = "RegionOne", required = true, value = "Original id issued by the provider")
   @NotNull
 
 
@@ -142,7 +142,7 @@ public class Location   {
    * Scope of the location
    * @return locationScope
   **/
-  @ApiModelProperty(required = true, value = "Scope of the location")
+  @ApiModelProperty(example = "ZONE", required = true, value = "Scope of the location")
   @NotNull
 
 
@@ -163,7 +163,7 @@ public class Location   {
    * True of the location can be used to start virtual machines, false if not
    * @return isAssignable
   **/
-  @ApiModelProperty(required = true, value = "True of the location can be used to start virtual machines, false if not")
+  @ApiModelProperty(example = "true", required = true, value = "True of the location can be used to start virtual machines, false if not")
   @NotNull
 
 
