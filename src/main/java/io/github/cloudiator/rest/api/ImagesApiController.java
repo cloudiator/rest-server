@@ -26,7 +26,7 @@ public class ImagesApiController implements ImagesApi {
 
 
     public ResponseEntity<Image> editImage(@ApiParam(value = "Unique identifier of the resource",required=true ) @PathVariable("id") String id,
-        @ApiParam(value = "Image to update " ,required=true )  @Valid @RequestBody Image image) {
+        @ApiParam(value = "Image to update " ,required=true )  @Valid @RequestBody Image image) throws Exception {
         // do some magic!
         return new ResponseEntity<Image>(HttpStatus.OK);
     }

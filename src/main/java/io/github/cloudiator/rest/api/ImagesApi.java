@@ -29,7 +29,7 @@ public interface ImagesApi {
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.PUT)
-    ResponseEntity<Image> editImage(@ApiParam(value = "Unique identifier of the resource",required=true ) @PathVariable("id") String id,@ApiParam(value = "Image to update " ,required=true )  @Valid @RequestBody Image image);
+    ResponseEntity<Image> editImage(@ApiParam(value = "Unique identifier of the resource",required=true ) @PathVariable("id") String id,@ApiParam(value = "Image to update " ,required=true )  @Valid @RequestBody Image image) throws Exception;
 
 
     @ApiOperation(value = "", notes = "Returns all images visable to the user ", response = Image.class, responseContainer = "List", tags={ "cloud", })

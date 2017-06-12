@@ -61,23 +61,24 @@ public class ApiExceptionHandler {
             sb.append("Input validation: ");
             sb.append(excount).append(" error(s) in field(s): ");
 
-           while (iterator.hasNext()){
-            FieldError fieldError = (FieldError)iterator.next();
-            sb.append(fieldError.getField());
-            if(iterator.hasNext()){
-                sb.append(", ");
+            while (iterator.hasNext()) {
+                FieldError fieldError = (FieldError) iterator.next();
+                sb.append(fieldError.getField());
+                if (iterator.hasNext()) {
+                    sb.append(", ");
+                }
             }
-           }
-           sb.append(".");
-           error.setMessage(sb.toString());
-           json = mapper.writeValueAsString(error);
+            sb.append(".");
+            error.setMessage(sb.toString());
+            json = mapper.writeValueAsString(error);
 
-           System.out.println("------------------");
-           System.out.println(error.toString());
-           System.out.println("------------------");
-           System.out.println(ex.getMessage());
-           System.out.println("------------------");
-
+            System.out.println("------------------");
+            System.out.println(error.toString());
+            System.out.println("------------------");
+            System.out.println(ex.getClass().toString());
+            System.out.println("------------------");
+            System.out.println(ex.getMessage());
+            System.out.println("------------------");
 
 
         } catch (JsonGenerationException ej) {
@@ -110,9 +111,10 @@ public class ApiExceptionHandler {
             System.out.println("------------------");
             System.out.println(error.toString());
             System.out.println("------------------");
+            System.out.println(ex.getClass().toString());
+            System.out.println("------------------");
             System.out.println(ex.getMessage());
             System.out.println("------------------");
-
 
 
         } catch (JsonGenerationException ej) {

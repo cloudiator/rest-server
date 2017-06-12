@@ -17,19 +17,20 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
+
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2017-06-02T13:00:29.446+02:00")
 
 @Api(value = "vm", description = "the vm API")
 public interface VmApi {
 
-    @ApiOperation(value = "", notes = "Creates a new virtual machine request", response = Task.class, tags={ "cloud", })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 202, message = "ACCEPTED", response = Task.class) })
-    
+    @ApiOperation(value = "", notes = "Creates a new virtual machine request", response = Task.class, tags = {"cloud",})
+    @ApiResponses(value = {
+            @ApiResponse(code = 202, message = "ACCEPTED", response = Task.class)})
+
     @RequestMapping(value = "/vm",
-        produces = { "application/json" }, 
-        consumes = { "application/json" },
-        method = RequestMethod.POST)
-    ResponseEntity<Task> addVM(@ApiParam(value = "VirtualMachine Request" ,required=true )  @Valid @RequestBody VirtualMachineRequest virtualMachineRequest);
+            produces = {"application/json"},
+            consumes = {"application/json"},
+            method = RequestMethod.POST)
+    ResponseEntity<Task> addVM(@ApiParam(value = "VirtualMachine Request", required = true) @Valid @RequestBody VirtualMachineRequest virtualMachineRequest) throws Exception;
 
 }

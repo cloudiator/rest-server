@@ -1,12 +1,15 @@
 package io.github.cloudiator.rest.api;
 
 import io.github.cloudiator.rest.UserServiceImpl;
+import io.github.cloudiator.rest.converter.NewCloudConverter;
 import io.github.cloudiator.rest.converter.UserService;
 import io.github.cloudiator.rest.model.Cloud;
 import io.github.cloudiator.rest.model.NewCloud;
 import io.swagger.annotations.ApiParam;
 import java.util.List;
 import javax.validation.Valid;
+
+import org.cloudiator.messages.entities.IaasEntities;
 import org.cloudiator.messaging.kafka.Kafka;
 import org.cloudiator.messaging.services.CloudService;
 import org.cloudiator.messaging.services.CloudServiceImpl;
@@ -46,8 +49,8 @@ public class CloudsApiController implements CloudsApi {
         builder.setCloud(newCloud);
         builder.setUserId(userService.getUserId());
         cloudService.createCloud(builder.build());
-
 */
+    System.out.println("ready");
     return new ResponseEntity<Cloud>(generated, HttpStatus.OK);
   }
 
