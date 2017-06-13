@@ -33,6 +33,8 @@ import com.fasterxml.jackson.core.JsonGenerationException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import javax.xml.bind.ValidationException;
+
 /**
  * Created by volker on 30.05.17.
  */
@@ -200,5 +202,45 @@ public class ApiExceptionHandler {
         }
 
         return new ResponseEntity<>(jsonout, headers, HttpStatus.NOT_ACCEPTABLE);
+    }
+
+    @ExceptionHandler(ValidationException.class)
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    public ResponseEntity<String> handle(ValidationException ex) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
+
+        Error error = new Error();
+        error.code(400);
+        String json = "";
+
+        try {
+            ObjectMapper mapper = new ObjectMapper();
+            json = mapper.writeValueAsString(ex.getMessage());
+
+            error.setMessage(ex.getMessage());
+
+
+            System.out.println("------------------");
+            System.out.println(error.toString());
+            System.out.println("------------------");
+            System.out.println(ex.getClass().toString());
+            System.out.println("------------------");
+            System.out.println(ex.getMessage());
+            System.out.println("------------------");
+
+
+        } catch (JsonGenerationException ej) {
+            ej.printStackTrace();
+        } catch (JsonMappingException ej) {
+            ej.printStackTrace();
+        } catch (IOException ej) {
+            ej.printStackTrace();
+        }
+
+
+
+
+        return new ResponseEntity<>(json, headers, HttpStatus.BAD_REQUEST);
     }
 }

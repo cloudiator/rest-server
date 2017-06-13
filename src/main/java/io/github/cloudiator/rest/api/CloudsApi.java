@@ -40,7 +40,7 @@ public interface CloudsApi {
     @RequestMapping(value = "/clouds/{id}",
         produces = { "application/json" }, 
         method = RequestMethod.DELETE)
-    ResponseEntity<Void> deleteCloud(@ApiParam(value = "Unique identifier of the resource",required=true ) @PathVariable("id") String id);
+    ResponseEntity<Void> deleteCloud(@ApiParam(value = "Unique identifier of the resource",required=true ) @PathVariable("id") String id) throws Exception;
 
 
     @ApiOperation(value = "", notes = "Returns the cloud identified by the given id parameter ", response = Cloud.class, tags={ "cloud", })
@@ -60,6 +60,6 @@ public interface CloudsApi {
     @RequestMapping(value = "/clouds",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<List<Cloud>> findClouds();
+    ResponseEntity<List<Cloud>> findClouds() throws Exception;
 
 }

@@ -17,19 +17,23 @@ public class CloudConfigurationConverter implements TwoWayConverter<CloudConfigu
     @Override
     public CloudConfiguration applyBack(IaasEntities.Configuration configuration) {
         CloudConfiguration result = new CloudConfiguration();
+        result.nodeGroup(configuration.getNodeGroup());
 
-        for (int c = 0; c < configuration.getPropertyCount(); c++) {
-            result.addPropertiesItem(propertyConverter.applyBack(configuration.getProperty(c)));
+        for(IaasEntities.Property property : configuration.getPropertyList()) {
+            result.addPropertiesItem(propertyConverter.applyBack(property));
         }
-
         return result;
     }
 
     @Override
     public IaasEntities.Configuration apply(CloudConfiguration cloudConfiguration) {
         IaasEntities.Configuration.Builder builder = IaasEntities.Configuration.newBuilder();
-        for (Property property : cloudConfiguration.getProperties()) {
-            builder.addProperty(propertyConverter.apply(property));
+        System.out.println(cloudConfiguration);
+        builder.setNodeGroup(cloudConfiguration.getNodeGroup());
+        if (cloudConfiguration.getProperties() != null) {
+            for (Property property : cloudConfiguration.getProperties()) {
+                builder.addProperty(propertyConverter.apply(property));
+            }
         }
         return builder.build();
     }

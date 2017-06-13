@@ -9,7 +9,7 @@ import org.cloudiator.messages.entities.IaasEntities;
 /**
  * Created by volker on 01.06.17.
  */
-public class NewCloudConverter implements TwoWayConverter<NewCloud, IaasEntities.NewCloud>{
+public class NewCloudConverter implements TwoWayConverter<NewCloud, IaasEntities.NewCloud> {
 
     private final ApiToApiConverter apiToApiConverter = new ApiToApiConverter();
     private final NewCloudConverter.CloudTypeConverter cloudTypeConverter = new NewCloudConverter.CloudTypeConverter();

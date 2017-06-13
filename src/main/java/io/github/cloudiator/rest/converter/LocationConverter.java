@@ -12,19 +12,19 @@ import org.cloudiator.messages.entities.IaasEntities;
 public class LocationConverter implements TwoWayConverter<Location, IaasEntities.Location> {
 
     private final LocationScopeConverter locationScopeConverter = new LocationScopeConverter();
-    private final LocationConverter parentlocation = new LocationConverter();
-
 
     @Override
     public Location applyBack(IaasEntities.Location location) {
+        if(location == null) {
+            return null;
+        }
         Location result = new Location();
-
         result.setName(location.getName());
         result.setId(location.getId());
         result.setProviderId(location.getProviderId());
         result.setLocationScope(locationScopeConverter.applyBack(location.getLocationScope()));
         result.setIsAssignable(location.getIsAssignable());
-        result.setParent(parentlocation.applyBack(location.getParent()));
+        result.setParent(applyBack(location.getParent()));
         return result;
     }
 
@@ -36,7 +36,10 @@ public class LocationConverter implements TwoWayConverter<Location, IaasEntities
         builder.setProviderId(location.getProviderId());
         builder.setLocationScope(locationScopeConverter.apply(location.getLocationScope()));
         builder.setIsAssignable(location.getIsAssignable());
-        builder.setParent(parentlocation.apply(location.getParent()));
+
+        if(location.getParent() != null) {
+            builder.setParent(apply(location.getParent()));
+        }
 
         return builder.build();
     }
