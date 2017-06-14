@@ -44,13 +44,13 @@ public class ApiExceptionHandler {
 
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    @ResponseStatus(value = HttpStatus.NOT_ACCEPTABLE)
     public ResponseEntity<String> handle(MethodArgumentNotValidException ex) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
 
         Error error = new Error();
-        error.code(400);
+        error.code(406);
         String json = "";
 
         try {
@@ -92,7 +92,7 @@ public class ApiExceptionHandler {
         }
 
 
-        return new ResponseEntity<>(json, headers, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(json, headers, HttpStatus.NOT_ACCEPTABLE);
     }
 
     @ExceptionHandler(HttpMessageNotReadableException.class)

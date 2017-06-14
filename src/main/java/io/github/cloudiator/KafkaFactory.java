@@ -1,9 +1,10 @@
 package io.github.cloudiator;
 
 import de.uniulm.omi.cloudiator.util.PropertiesLoader;
+import org.cloudiator.messaging.kafka.Kafka;
+
 import java.io.IOException;
 import java.util.Properties;
-import org.cloudiator.messaging.kafka.Kafka;
 
 /**
  * Created by daniel on 13.06.17.
