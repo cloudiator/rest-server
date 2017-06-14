@@ -114,7 +114,7 @@ public class CloudsApiController implements CloudsApi {
     //prepare
     org.cloudiator.messages.Cloud.CloudQueryRequest cloudQueryRequest = org.cloudiator.messages.Cloud.CloudQueryRequest
         .newBuilder().setUserId(userService.getUserId()).build();
-    System.out.println(cloudQueryRequest);
+    System.out.println("out: \n " + cloudQueryRequest);
     List<Cloud> cloudList = new ArrayList<Cloud>();
     System.out.println("-----------------------------------------------------------------");
 
@@ -123,7 +123,7 @@ public class CloudsApiController implements CloudsApi {
 
     org.cloudiator.messages.Cloud.CloudQueryResponse cloudQueryResponse = cloudService
         .getClouds(cloudQueryRequest);
-    System.out.println("out: \n" + cloudQueryResponse);
+
     System.out.println(
         "---------------------------- waiting for response -----------------------------------------------");
     CloudToCloudConverter cloudToCloudConverter = new CloudToCloudConverter();
@@ -131,7 +131,7 @@ public class CloudsApiController implements CloudsApi {
         .collect(Collectors.toList());
 
     System.out.println(cloudList + " \n ------------   done  --------------- \n " + cloudList.size()
-        + " items listed.");
+        + " Cloud(s) listed.");
     return new ResponseEntity<List<Cloud>>(cloudList, HttpStatus.OK);
   }
 
