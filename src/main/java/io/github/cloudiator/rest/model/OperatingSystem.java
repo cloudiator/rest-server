@@ -12,7 +12,6 @@ import javax.validation.constraints.*;
  * Represents the operating system of an image 
  */
 @ApiModel(description = "Represents the operating system of an image ")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2017-06-02T13:00:29.446+02:00")
 
 public class OperatingSystem   {
   @JsonProperty("operatingSystemFamily")

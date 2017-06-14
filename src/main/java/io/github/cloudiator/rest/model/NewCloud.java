@@ -16,12 +16,8 @@ import javax.validation.constraints.*;
  * Represents a new cloud that is to be created 
  */
 @ApiModel(description = "Represents a new cloud that is to be created ")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2017-06-02T13:00:29.446+02:00")
 
 public class NewCloud   {
-  @JsonProperty("name")
-  private String name = null;
-
   @JsonProperty("endpoint")
   private String endpoint = null;
 
@@ -36,27 +32,6 @@ public class NewCloud   {
 
   @JsonProperty("cloudConfiguration")
   private CloudConfiguration cloudConfiguration = null;
-
-  public NewCloud name(String name) {
-    this.name = name;
-    return this;
-  }
-
-   /**
-   * Human readable name for the cloud. Needs to be unique.
-   * @return name
-  **/
-  @ApiModelProperty(example = "Openstack", required = true, value = "Human readable name for the cloud. Needs to be unique.")
-  @NotNull
-
-
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
-  }
 
   public NewCloud endpoint(String endpoint) {
     this.endpoint = endpoint;
@@ -176,8 +151,7 @@ public class NewCloud   {
       return false;
     }
     NewCloud newCloud = (NewCloud) o;
-    return Objects.equals(this.name, newCloud.name) &&
-        Objects.equals(this.endpoint, newCloud.endpoint) &&
+    return Objects.equals(this.endpoint, newCloud.endpoint) &&
         Objects.equals(this.cloudType, newCloud.cloudType) &&
         Objects.equals(this.api, newCloud.api) &&
         Objects.equals(this.credential, newCloud.credential) &&
@@ -186,7 +160,7 @@ public class NewCloud   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, endpoint, cloudType, api, credential, cloudConfiguration);
+    return Objects.hash(endpoint, cloudType, api, credential, cloudConfiguration);
   }
 
   @Override
@@ -194,7 +168,6 @@ public class NewCloud   {
     StringBuilder sb = new StringBuilder();
     sb.append("class NewCloud {\n");
     
-    sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    endpoint: ").append(toIndentedString(endpoint)).append("\n");
     sb.append("    cloudType: ").append(toIndentedString(cloudType)).append("\n");
     sb.append("    api: ").append(toIndentedString(api)).append("\n");

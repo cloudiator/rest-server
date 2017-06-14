@@ -17,7 +17,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2017-06-02T13:00:29.446+02:00")
 
 @Api(value = "clouds", description = "the clouds API")
 public interface CloudsApi {
@@ -30,7 +29,7 @@ public interface CloudsApi {
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.POST)
-    ResponseEntity<Cloud> addCloud(@ApiParam(value = "Cloud to add" ,required=true )  @Valid @RequestBody NewCloud cloud) throws Exception;
+    ResponseEntity<Cloud> addCloud(@ApiParam(value = "Cloud to add" ,required=true )  @Valid @RequestBody NewCloud cloud);
 
 
     @ApiOperation(value = "", notes = "Deletes the cloud identified by the given id paramater. ", response = Void.class, tags={ "cloud", })
@@ -40,7 +39,7 @@ public interface CloudsApi {
     @RequestMapping(value = "/clouds/{id}",
         produces = { "application/json" }, 
         method = RequestMethod.DELETE)
-    ResponseEntity<Void> deleteCloud(@ApiParam(value = "Unique identifier of the resource",required=true ) @PathVariable("id") String id) throws Exception;
+    ResponseEntity<Void> deleteCloud(@ApiParam(value = "Unique identifier of the resource",required=true ) @PathVariable("id") String id);
 
 
     @ApiOperation(value = "", notes = "Returns the cloud identified by the given id parameter ", response = Cloud.class, tags={ "cloud", })
@@ -50,7 +49,7 @@ public interface CloudsApi {
     @RequestMapping(value = "/clouds/{id}",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<Cloud> findCloud(@ApiParam(value = "Unique identifier of the resource",required=true ) @PathVariable("id") String id) throws Exception;
+    ResponseEntity<Cloud> findCloud(@ApiParam(value = "Unique identifier of the resource",required=true ) @PathVariable("id") String id);
 
 
     @ApiOperation(value = "", notes = "Returns all clouds from the system that the user has access to ", response = Cloud.class, responseContainer = "List", tags={ "cloud", })
@@ -60,6 +59,6 @@ public interface CloudsApi {
     @RequestMapping(value = "/clouds",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<List<Cloud>> findClouds() throws Exception;
+    ResponseEntity<List<Cloud>> findClouds();
 
 }

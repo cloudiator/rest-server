@@ -16,7 +16,6 @@ import javax.validation.constraints.*;
  * Representation of a platform used by Cloudiator
  */
 @ApiModel(description = "Representation of a platform used by Cloudiator")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2017-06-02T13:00:29.446+02:00")
 
 public class Platform   {
   @JsonProperty("id")

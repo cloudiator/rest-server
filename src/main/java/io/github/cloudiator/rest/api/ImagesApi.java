@@ -16,7 +16,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2017-06-02T13:00:29.446+02:00")
 
 @Api(value = "images", description = "the images API")
 public interface ImagesApi {
@@ -29,7 +28,7 @@ public interface ImagesApi {
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.PUT)
-    ResponseEntity<Image> editImage(@ApiParam(value = "Unique identifier of the resource",required=true ) @PathVariable("id") String id,@ApiParam(value = "Image to update " ,required=true )  @Valid @RequestBody Image image) throws Exception;
+    ResponseEntity<Image> editImage(@ApiParam(value = "Unique identifier of the resource",required=true ) @PathVariable("id") String id,@ApiParam(value = "Image to update " ,required=true )  @Valid @RequestBody Image image);
 
 
     @ApiOperation(value = "", notes = "Returns all images visable to the user ", response = Image.class, responseContainer = "List", tags={ "cloud", })

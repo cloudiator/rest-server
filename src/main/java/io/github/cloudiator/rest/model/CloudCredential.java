@@ -12,7 +12,6 @@ import javax.validation.constraints.*;
  * Represents the credentials used to authenticate with a cloud 
  */
 @ApiModel(description = "Represents the credentials used to authenticate with a cloud ")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2017-06-02T13:00:29.446+02:00")
 
 public class CloudCredential   {
   @JsonProperty("user")
