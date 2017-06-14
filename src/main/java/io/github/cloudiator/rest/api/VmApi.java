@@ -29,6 +29,7 @@ public interface VmApi {
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.POST)
-    ResponseEntity<Task> addVM(@ApiParam(value = "VirtualMachine Request" ,required=true )  @Valid @RequestBody VirtualMachineRequest virtualMachineRequest);
+    ResponseEntity<Task> addVM(@ApiParam(value = "VirtualMachine Request" ,required=true )  @Valid @RequestBody VirtualMachineRequest virtualMachineRequest)
+        throws Exception;
 
 }

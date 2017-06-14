@@ -48,7 +48,6 @@ public class CloudsApiController implements CloudsApi {
     System.out.println("input: \n" + cloud);
     //preparation
     Cloud generated = new Cloud();
-    generated.setName(cloud.getName());
     generated.setCloudType(cloud.getCloudType());
     generated.setEndpoint(cloud.getEndpoint());
     generated.setApi(cloud.getApi());
