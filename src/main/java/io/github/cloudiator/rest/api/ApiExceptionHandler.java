@@ -166,12 +166,12 @@ public class ApiExceptionHandler {
         }
 
 
-        return new ResponseEntity<>(jsonout, headers, HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(jsonout, headers, HttpStatus.valueOf(error.getCode()));
     }
 
     @ExceptionHandler(ResponseException.class)
-    @ResponseStatus(value = HttpStatus.NOT_ACCEPTABLE)
-    //@ResponseBody
+    //@ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    @ResponseBody
     public ResponseEntity<String> handle(ResponseException re) {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
@@ -181,6 +181,7 @@ public class ApiExceptionHandler {
         Error error = new Error();
         error.code(re.code());
         error.setMessage(re.getMessage());
+        HttpStatus httpStatus = HttpStatus.valueOf(error.getCode());
 
         try {
             ObjectMapper mapper = new ObjectMapper();
@@ -201,46 +202,7 @@ public class ApiExceptionHandler {
             ej.printStackTrace();
         }
 
-        return new ResponseEntity<>(jsonout, headers, HttpStatus.NOT_ACCEPTABLE);
+        return new ResponseEntity<>(jsonout, headers, httpStatus);
     }
 
-    @ExceptionHandler(ValidationException.class)
-    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
-    public ResponseEntity<String> handle(ValidationException ex) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
-
-        Error error = new Error();
-        error.code(400);
-        String json = "";
-
-        try {
-            ObjectMapper mapper = new ObjectMapper();
-            json = mapper.writeValueAsString(ex.getMessage());
-
-            error.setMessage(ex.getMessage());
-
-
-            System.out.println("------------------");
-            System.out.println(error.toString());
-            System.out.println("------------------");
-            System.out.println(ex.getClass().toString());
-            System.out.println("------------------");
-            System.out.println(ex.getMessage());
-            System.out.println("------------------");
-
-
-        } catch (JsonGenerationException ej) {
-            ej.printStackTrace();
-        } catch (JsonMappingException ej) {
-            ej.printStackTrace();
-        } catch (IOException ej) {
-            ej.printStackTrace();
-        }
-
-
-
-
-        return new ResponseEntity<>(json, headers, HttpStatus.BAD_REQUEST);
-    }
 }
