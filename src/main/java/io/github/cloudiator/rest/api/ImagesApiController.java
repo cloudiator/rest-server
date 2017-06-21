@@ -57,8 +57,8 @@ public class ImagesApiController implements ImagesApi {
     List<Image> imageList = new ArrayList<Image>();
     //to kafka
     ImageQueryResponse imageQueryResponse = imageService.getImages(imageQueryRequest);
+    //converting response
     ImageConverter imageConverter = new ImageConverter();
-
     for (IaasEntities.Image image : imageQueryResponse.getImagesList()) {
       imageList.add(imageConverter.applyBack(image));
     }
