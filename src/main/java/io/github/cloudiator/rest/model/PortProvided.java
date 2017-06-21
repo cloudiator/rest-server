@@ -3,41 +3,39 @@ package io.github.cloudiator.rest.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.github.cloudiator.rest.model.Component;
 import io.github.cloudiator.rest.model.Port;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.util.List;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * Represents a PaaS component 
+ * Represents a communication port that the component provides for other components or the end user. 
  */
-@ApiModel(description = "Represents a PaaS component ")
+@ApiModel(description = "Represents a communication port that the component provides for other components or the end user. ")
 
-public class PlatformComponent extends Component  {
-  @JsonProperty("sourceRepository")
-  private String sourceRepository = null;
+public class PortProvided extends Port  {
+  @JsonProperty("port")
+  private Integer port = null;
 
-  public PlatformComponent sourceRepository(String sourceRepository) {
-    this.sourceRepository = sourceRepository;
+  public PortProvided port(Integer port) {
+    this.port = port;
     return this;
   }
 
    /**
-   * url to the source code repository (currently only git is supported) 
-   * @return sourceRepository
+   * Get port
+   * @return port
   **/
-  @ApiModelProperty(value = "url to the source code repository (currently only git is supported) ")
+  @ApiModelProperty(example = "80", value = "")
 
 
-  public String getSourceRepository() {
-    return sourceRepository;
+  public Integer getPort() {
+    return port;
   }
 
-  public void setSourceRepository(String sourceRepository) {
-    this.sourceRepository = sourceRepository;
+  public void setPort(Integer port) {
+    this.port = port;
   }
 
 
@@ -49,22 +47,22 @@ public class PlatformComponent extends Component  {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    PlatformComponent platformComponent = (PlatformComponent) o;
-    return Objects.equals(this.sourceRepository, platformComponent.sourceRepository) &&
+    PortProvided portProvided = (PortProvided) o;
+    return Objects.equals(this.port, portProvided.port) &&
         super.equals(o);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(sourceRepository, super.hashCode());
+    return Objects.hash(port, super.hashCode());
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class PlatformComponent {\n");
+    sb.append("class PortProvided {\n");
     sb.append("    ").append(toIndentedString(super.toString())).append("\n");
-    sb.append("    sourceRepository: ").append(toIndentedString(sourceRepository)).append("\n");
+    sb.append("    port: ").append(toIndentedString(port)).append("\n");
     sb.append("}");
     return sb.toString();
   }
