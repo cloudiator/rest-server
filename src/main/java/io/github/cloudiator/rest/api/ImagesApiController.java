@@ -36,14 +36,15 @@ public class ImagesApiController implements ImagesApi {
   @Autowired
   private UserService userService;
 
-  @Autowired
-  private ImageService imageService;
-
+//  @Autowired
+//  private ImageService imageService;
 
   public ResponseEntity<Image> editImage(
       @ApiParam(value = "Unique identifier of the resource", required = true) @PathVariable("id") String id,
       @ApiParam(value = "Image to update ", required = true) @Valid @RequestBody Image image)
       throws Exception {
+    String newid = id;
+    Image input = image;
     // do some magic!
     return new ResponseEntity<Image>(HttpStatus.OK);
   }
@@ -56,12 +57,13 @@ public class ImagesApiController implements ImagesApi {
     System.out.println("imageQueryRequest: \n " + imageQueryRequest);
     List<Image> imageList = new ArrayList<Image>();
     //to kafka
-    ImageQueryResponse imageQueryResponse = imageService.getImages(imageQueryRequest);
+   /* ImageQueryResponse imageQueryResponse = imageService.getImages(imageQueryRequest);
     //converting response
     ImageConverter imageConverter = new ImageConverter();
     for (IaasEntities.Image image : imageQueryResponse.getImagesList()) {
       imageList.add(imageConverter.applyBack(image));
     }
+    */
     System.out.println("imageList: \n " + imageList + "\n " + imageList.size() + " items listed.");
 
     return new ResponseEntity<List<Image>>(imageList, HttpStatus.OK);
