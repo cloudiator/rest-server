@@ -1,9 +1,13 @@
 package io.github.cloudiator.rest.api;
 
+import io.github.cloudiator.rest.UserService;
 import io.github.cloudiator.rest.model.Component;
 
 import io.swagger.annotations.*;
 
+import org.cloudiator.messaging.services.ApplicationService;
+import org.cloudiator.messaging.services.ComponentService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -23,7 +27,11 @@ import javax.validation.Valid;
 @Controller
 public class ComponentsApiController implements ComponentsApi {
 
+    @Autowired
+    private UserService userService;
 
+    @Autowired
+    private ComponentService componentService;
 
     public ResponseEntity<Component> addComponent(@ApiParam(value = "Component to be created " ,required=true )  @Valid @RequestBody Component component) {
         // do some magic!

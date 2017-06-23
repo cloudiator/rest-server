@@ -17,6 +17,12 @@
 
   <bean id="imageService" factory-bean="serviceFactory" factory-method="createImageService"/>
 
+  <bean id="applicationService" factory-bean="serviceFactory"
+    factory-method="createApplicationService"/>
+
+  <bean id="componentService" factory-bean="serviceFactory"
+    factory-method="createComponentService"/>
+
   <bean id="messageInterface" class="org.cloudiator.messaging.kafka.KafkaMessageInterface"/>
 
   <bean id="kafkaFactory" class="io.github.cloudiator.KafkaFactory"/>

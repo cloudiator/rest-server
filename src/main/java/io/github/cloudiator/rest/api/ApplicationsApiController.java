@@ -1,9 +1,13 @@
 package io.github.cloudiator.rest.api;
 
+import io.github.cloudiator.rest.UserService;
 import io.github.cloudiator.rest.model.Application;
 
 import io.swagger.annotations.*;
 
+import org.cloudiator.messaging.services.ApplicationService;
+import org.cloudiator.messaging.services.CloudService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -22,6 +26,11 @@ import javax.validation.Valid;
 @Controller
 public class ApplicationsApiController implements ApplicationsApi {
 
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private ApplicationService applicationService;
 
 
     public ResponseEntity<Application> addApplication(@ApiParam(value = "Application to be created. " ,required=true )  @Valid @RequestBody Application application) {
