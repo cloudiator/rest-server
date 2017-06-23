@@ -3,6 +3,7 @@ package io.github.cloudiator.rest.api;
 import io.github.cloudiator.rest.model.Image;
 
 import io.swagger.annotations.*;
+import org.cloudiator.messaging.ResponseException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,7 +29,8 @@ public interface ImagesApi {
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.PUT)
-    ResponseEntity<Image> editImage(@ApiParam(value = "Unique identifier of the resource",required=true ) @PathVariable("id") String id,@ApiParam(value = "Image to update " ,required=true )  @Valid @RequestBody Image image);
+    ResponseEntity<Image> editImage(@ApiParam(value = "Unique identifier of the resource",required=true ) @PathVariable("id") String id,@ApiParam(value = "Image to update " ,required=true )  @Valid @RequestBody Image image)
+        throws Exception;
 
 
     @ApiOperation(value = "", notes = "Returns all images visable to the user ", response = Image.class, responseContainer = "List", tags={ "cloud", })
@@ -38,6 +40,6 @@ public interface ImagesApi {
     @RequestMapping(value = "/images",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<List<Image>> findImages();
+    ResponseEntity<List<Image>> findImages() throws ResponseException;
 
 }

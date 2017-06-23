@@ -29,7 +29,8 @@ public interface CloudsApi {
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.POST)
-    ResponseEntity<Cloud> addCloud(@ApiParam(value = "Cloud to add" ,required=true )  @Valid @RequestBody NewCloud cloud);
+    ResponseEntity<Cloud> addCloud(@ApiParam(value = "Cloud to add" ,required=true )  @Valid @RequestBody NewCloud cloud)
+        throws Exception;
 
 
     @ApiOperation(value = "", notes = "Deletes the cloud identified by the given id paramater. ", response = Void.class, tags={ "cloud", })
@@ -39,7 +40,8 @@ public interface CloudsApi {
     @RequestMapping(value = "/clouds/{id}",
         produces = { "application/json" }, 
         method = RequestMethod.DELETE)
-    ResponseEntity<Void> deleteCloud(@ApiParam(value = "Unique identifier of the resource",required=true ) @PathVariable("id") String id);
+    ResponseEntity<Void> deleteCloud(@ApiParam(value = "Unique identifier of the resource",required=true ) @PathVariable("id") String id)
+        throws Exception;
 
 
     @ApiOperation(value = "", notes = "Returns the cloud identified by the given id parameter ", response = Cloud.class, tags={ "cloud", })
@@ -49,7 +51,8 @@ public interface CloudsApi {
     @RequestMapping(value = "/clouds/{id}",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<Cloud> findCloud(@ApiParam(value = "Unique identifier of the resource",required=true ) @PathVariable("id") String id);
+    ResponseEntity<Cloud> findCloud(@ApiParam(value = "Unique identifier of the resource",required=true ) @PathVariable("id") String id)
+        throws Exception;
 
 
     @ApiOperation(value = "", notes = "Returns all clouds from the system that the user has access to ", response = Cloud.class, responseContainer = "List", tags={ "cloud", })
@@ -59,6 +62,6 @@ public interface CloudsApi {
     @RequestMapping(value = "/clouds",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<List<Cloud>> findClouds();
+    ResponseEntity<List<Cloud>> findClouds() throws Exception;
 
 }

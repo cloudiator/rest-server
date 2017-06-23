@@ -19,7 +19,7 @@ public class HardwareConverter implements TwoWayConverter<Hardware, IaasEntities
         result.setName(hardwareFlavor.getName());
         result.setId(hardwareFlavor.getId());
         result.setCores(hardwareFlavor.getCores());
-        result.setDisk((double) hardwareFlavor.getDisk());
+        result.setDisk(hardwareFlavor.getDisk());
         result.setProviderId(hardwareFlavor.getProviderId());
         result.setRam(hardwareFlavor.getRam());
         result.setLocation(locationConverter.applyBack(hardwareFlavor.getLocation()));
@@ -33,7 +33,7 @@ public class HardwareConverter implements TwoWayConverter<Hardware, IaasEntities
         builder.setName(hardware.getName());
         builder.setId(hardware.getId());
         builder.setCores(hardware.getCores());
-        builder.setDisk(hardware.getDisk().floatValue());
+        builder.setDisk(hardware.getDisk());
         builder.setProviderId(hardware.getProviderId());
         builder.setRam(hardware.getRam());
         builder.setLocation(locationConverter.apply(hardware.getLocation()));
