@@ -20,6 +20,16 @@ import javax.validation.Valid;
 @Api(value = "tasks", description = "the tasks API")
 public interface TasksApi {
 
+    @ApiOperation(value = "", notes = "Returns the task identified by the id parameter. ", response = Task.class, tags={ "task", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "OK", response = Task.class) })
+    
+    @RequestMapping(value = "/tasks/{id}",
+        produces = { "application/json" }, 
+        method = RequestMethod.GET)
+    ResponseEntity<Task> findTask(@ApiParam(value = "Unique identifier of the resource",required=true ) @PathVariable("id") String id);
+
+
     @ApiOperation(value = "", notes = "Returns all running tasks visible to the user ", response = Task.class, responseContainer = "List", tags={ "task", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "OK", response = Task.class) })

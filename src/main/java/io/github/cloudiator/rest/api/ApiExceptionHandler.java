@@ -209,4 +209,40 @@ public class ApiExceptionHandler {
     return new ResponseEntity<>(jsonout, headers, httpStatus);
   }
 
+  @ExceptionHandler(IllegalArgumentException.class)
+  @ResponseStatus(value = HttpStatus.NOT_FOUND)
+  @ResponseBody
+  public ResponseEntity<Void> handle(IllegalArgumentException iae) {
+    HttpHeaders headers = new HttpHeaders();
+    headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
+    //headers.setContentType(MediaType.TEXT_PLAIN);
+    String jsonout = "";
+    StackTraceElement elements[] = iae.getStackTrace();
+    Error error = new Error();
+    error.code(404);
+    error.setMessage(iae.getMessage());
+
+    try {
+      ObjectMapper mapper = new ObjectMapper();
+
+      // convert map to JSON string
+      jsonout = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(error);
+
+      System.out.println("----------------------------------------------");
+      System.out.println(error.toString());
+      System.out.println("----------------------------------------------");
+      System.out.println(iae.getMessage());
+      System.out.println("----------------------------------------------");
+
+    } catch (JsonGenerationException ej) {
+      ej.printStackTrace();
+    } catch (JsonMappingException ej) {
+      ej.printStackTrace();
+    } catch (IOException ej) {
+      ej.printStackTrace();
+    }
+
+    return new ResponseEntity<Void>(HttpStatus.valueOf(error.getCode()));
+  }
+
 }

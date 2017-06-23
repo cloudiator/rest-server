@@ -35,7 +35,6 @@ src/main/java/io/github/cloudiator/rest/api/ComponentsApiController.java
 src/main/java/io/github/cloudiator/rest/api/HardwareApiController.java
 src/main/java/io/github/cloudiator/rest/api/ImagesApiController.java
 src/main/java/io/github/cloudiator/rest/api/LocationsApiController.java
-src/main/java/io/github/cloudiator/rest/api/TaskApiController.java
 src/main/java/io/github/cloudiator/rest/api/TasksApiController.java
 src/main/java/io/github/cloudiator/rest/api/VmApiController.java
 src/main/java/io/swagger/configuration/HomeController.java

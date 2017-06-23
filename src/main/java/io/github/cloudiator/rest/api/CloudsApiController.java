@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 import javax.validation.Valid;
 import javax.validation.ValidationException;
 
+import org.cloudiator.messages.Cloud.CloudDeletedResponse;
 import org.cloudiator.messages.entities.IaasEntities;
 import org.cloudiator.messaging.ResponseException;
 import org.cloudiator.messaging.services.CloudService;
@@ -76,11 +77,10 @@ public class CloudsApiController implements CloudsApi {
   }
 
   public ResponseEntity<Void> deleteCloud(
-      @ApiParam(value = "Unique identifier of the resource", required = true) @PathVariable("id") String id)
-      throws Exception {
+      @ApiParam(value = "Unique identifier of the resource", required = true) @PathVariable("id") String id){
     // inputvalidation+preparation
     if (id.length() != 32) {
-      throw new ResponseException(406, "ID not valid. Length must be 32");
+      throw new ApiException(406, "ID not valid. Length must be 32");
     }
     org.cloudiator.messages.Cloud.DeleteCloudRequest deleteCloudRequest = org.cloudiator.messages.Cloud.DeleteCloudRequest
         .newBuilder().setUserId(userService.getUserId()).setCloudId(id).build();
@@ -88,9 +88,12 @@ public class CloudsApiController implements CloudsApi {
         .println("----------- delete Cloud --------------- \n request: " + deleteCloudRequest);
 
     // to Kafka
-
-    org.cloudiator.messages.Cloud.CloudDeletedResponse cloudDeletedResponse = cloudService
-        .deleteCloud(deleteCloudRequest);
+    org.cloudiator.messages.Cloud.CloudDeletedResponse cloudDeletedResponse = null;
+    try {
+      cloudDeletedResponse = cloudService.deleteCloud(deleteCloudRequest);
+    }catch(ResponseException re){
+      throw new ApiException(re.code(), re.getMessage());
+    }
     System.out.println("----------------- response -----------\n" + cloudDeletedResponse);
 
     System.out.println("------ done ---------");
