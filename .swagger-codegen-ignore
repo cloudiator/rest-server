@@ -31,6 +31,7 @@ README.md
 
 # Ignore implemented controllers
 src/main/java/io/github/cloudiator/rest/api/CloudsApiController.java
+src/main/java/io/github/cloudiator/rest/api/ApplicationsApiController.java
 src/main/java/io/github/cloudiator/rest/api/ComponentsApiController.java
 src/main/java/io/github/cloudiator/rest/api/HardwareApiController.java
 src/main/java/io/github/cloudiator/rest/api/ImagesApiController.java

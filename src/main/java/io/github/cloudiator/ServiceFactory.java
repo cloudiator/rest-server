@@ -4,7 +4,9 @@ import de.uniulm.omi.cloudiator.util.PropertiesLoader;
 import java.io.IOException;
 import java.util.Properties;
 import org.cloudiator.messaging.MessageInterface;
+import org.cloudiator.messaging.services.ApplicationServiceImpl;
 import org.cloudiator.messaging.services.CloudServiceImpl;
+import org.cloudiator.messaging.services.ComponentServiceImpl;
 import org.cloudiator.messaging.services.HardwareServiceImpl;
 import org.cloudiator.messaging.services.ImageServiceImpl;
 import org.cloudiator.messaging.services.LocationServiceImpl;
@@ -52,6 +54,18 @@ public class ServiceFactory {
     final LocationServiceImpl locationService = new LocationServiceImpl(messageInterface);
     locationService.setResponseTimeout(timeout);
     return locationService;
+  }
+
+  public ApplicationServiceImpl createApplicationService() {
+    final ApplicationServiceImpl applicationService = new ApplicationServiceImpl(messageInterface);
+    applicationService.setResponseTimeout(timeout);
+    return applicationService;
+  }
+
+  public ComponentServiceImpl createComponentService() {
+    final ComponentServiceImpl componentService = new ComponentServiceImpl(messageInterface);
+    componentService.setResponseTimeout(timeout);
+    return componentService;
   }
 
 }
