@@ -1,12 +1,16 @@
 package io.github.cloudiator.rest.api;
 
 import io.github.cloudiator.rest.UserService;
+import io.github.cloudiator.rest.converter.ImageConverter;
 import io.github.cloudiator.rest.model.Image;
 import io.swagger.annotations.ApiParam;
 import java.util.ArrayList;
 import java.util.List;
 import javax.validation.Valid;
 import org.cloudiator.messages.Image.ImageQueryRequest;
+import org.cloudiator.messages.Image.ImageQueryResponse;
+import org.cloudiator.messages.Image.ImageUpdatedResponse;
+import org.cloudiator.messages.entities.IaasEntities;
 import org.cloudiator.messaging.ResponseException;
 import org.cloudiator.messaging.services.ImageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,9 +35,19 @@ public class ImagesApiController implements ImagesApi {
       @ApiParam(value = "Unique identifier of the resource", required = true) @PathVariable("id") String id,
       @ApiParam(value = "Image to update ", required = true) @Valid @RequestBody Image image)
       throws Exception {
-    String newid = id;
+
+    //Preparation
+    if (id.length() != 32) {
+      throw new ResponseException(406, "ID not valid. Length must be 32");
+    }
     Image input = image;
-    // do some magic!
+    ImageConverter imageConverter = new ImageConverter();
+    org.cloudiator.messages.Image.ImageUpdateRequest.Builder request = org.cloudiator.messages.Image.ImageUpdateRequest
+        .newBuilder();
+    request.setUserId(userService.getUserId());
+    request.setImage(imageConverter.apply(image));
+    //to Kafka
+    org.cloudiator.messages.Image.ImageUpdatedResponse updatedResponse; //not yet implemented
     return new ResponseEntity<Image>(HttpStatus.OK);
   }
 
@@ -42,16 +56,15 @@ public class ImagesApiController implements ImagesApi {
     System.out.println("----------------- find Images -------------");
     ImageQueryRequest imageQueryRequest = ImageQueryRequest.newBuilder()
         .setUserId(userService.getUserId()).build();
-    System.out.println("imageQueryRequest: \n " + imageQueryRequest);
     List<Image> imageList = new ArrayList<Image>();
     //to kafka
-   /* ImageQueryResponse imageQueryResponse = imageService.getImages(imageQueryRequest);
+    ImageQueryResponse imageQueryResponse = imageService.getImages(imageQueryRequest);
     //converting response
     ImageConverter imageConverter = new ImageConverter();
     for (IaasEntities.Image image : imageQueryResponse.getImagesList()) {
       imageList.add(imageConverter.applyBack(image));
     }
-    */
+
     System.out.println("imageList: \n " + imageList + "\n " + imageList.size() + " items listed.");
 
     return new ResponseEntity<List<Image>>(imageList, HttpStatus.OK);

@@ -72,7 +72,7 @@ public class CloudsApiController implements CloudsApi {
     generated = cloudToCloudConverter.applyBack(response.getCloud());
 
     System.out.println("--------- done ------------");
-    return new ResponseEntity<Cloud>(generated, HttpStatus.OK);
+    return new ResponseEntity<Cloud>(generated, HttpStatus.CREATED);
   }
 
   public ResponseEntity<Void> deleteCloud(
@@ -101,22 +101,29 @@ public class CloudsApiController implements CloudsApi {
       @ApiParam(value = "Unique identifier of the resource", required = true) @PathVariable("id") String id)
       throws Exception {
 
+    // einfacher test
     if (id.equals("345")) {
       System.out.println(id + " not found ");
       throw new NotFoundException(404, "Could not find cloud " + id);
     }
+    //ID Validation
+    if (id.length() != 32) {
+      throw new ResponseException(406, "ID not valid. Length must be 32");
+    }
+
+    org.cloudiator.messages.Cloud.UpdateCloudRequest.Builder updateCloudRequest = org.cloudiator.messages.Cloud.UpdateCloudRequest
+        .newBuilder().setUserId(userService.getUserId()); // implementation not finished
 
     return new ResponseEntity<Cloud>(HttpStatus.OK);
   }
 
   public ResponseEntity<List<Cloud>> findClouds() throws Exception {
-    System.out.println("---  QueryRequest  ---");
+    System.out.println("------------------ find Clouds ----------------");
     //prepare
     org.cloudiator.messages.Cloud.CloudQueryRequest cloudQueryRequest = org.cloudiator.messages.Cloud.CloudQueryRequest
         .newBuilder().setUserId(userService.getUserId()).build();
-    System.out.println("out: \n " + cloudQueryRequest);
     List<Cloud> cloudList = new ArrayList<Cloud>();
-    System.out.println("-----------------------------------------------------------------");
+    CloudToCloudConverter cloudToCloudConverter = new CloudToCloudConverter();
 
     //kafka
     System.out.println("------------------------- to kafka -------------------------------------");
@@ -124,9 +131,8 @@ public class CloudsApiController implements CloudsApi {
     org.cloudiator.messages.Cloud.CloudQueryResponse cloudQueryResponse = cloudService
         .getClouds(cloudQueryRequest);
 
-    System.out.println(
-        "---------------------------- waiting for response -----------------------------------------------");
-    CloudToCloudConverter cloudToCloudConverter = new CloudToCloudConverter();
+    System.out.println("--------------------- waiting for response --------------------------");
+
     cloudList = cloudQueryResponse.getCloudsList().stream().map(cloudToCloudConverter::applyBack)
         .collect(Collectors.toList());
 

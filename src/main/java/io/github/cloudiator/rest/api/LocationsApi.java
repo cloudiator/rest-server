@@ -3,6 +3,7 @@ package io.github.cloudiator.rest.api;
 import io.github.cloudiator.rest.model.Location;
 
 import io.swagger.annotations.*;
+import org.cloudiator.messaging.ResponseException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,6 +28,6 @@ public interface LocationsApi {
     @RequestMapping(value = "/locations",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<List<Location>> findLocations();
+    ResponseEntity<List<Location>> findLocations() throws Exception;
 
 }
