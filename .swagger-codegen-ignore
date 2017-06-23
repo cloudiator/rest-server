@@ -30,5 +30,16 @@ LICENSE.md
 README.md
 
 # Ignore implemented controllers
-src/**/*Controller.java
+src/main/java/io/github/cloudiator/rest/api/CloudsApiController.java
+src/main/java/io/github/cloudiator/rest/api/ComponentsApiController.java
+src/main/java/io/github/cloudiator/rest/api/HardwareApiController.java
+src/main/java/io/github/cloudiator/rest/api/ImagesApiController.java
+src/main/java/io/github/cloudiator/rest/api/LocationsApiController.java
+src/main/java/io/github/cloudiator/rest/api/TaskApiController.java
+src/main/java/io/github/cloudiator/rest/api/TasksApiController.java
+src/main/java/io/github/cloudiator/rest/api/VmApiController.java
+src/main/java/io/swagger/configuration/HomeController.java
+
+
+# Ignore Spring Boot config
 src/**/Swagger2SpringBoot.java
