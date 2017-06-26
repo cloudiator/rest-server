@@ -28,6 +28,6 @@ public interface LocationsApi {
     @RequestMapping(value = "/locations",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<List<Location>> findLocations() throws ResponseException;
+    ResponseEntity<List<Location>> findLocations();
 
 }

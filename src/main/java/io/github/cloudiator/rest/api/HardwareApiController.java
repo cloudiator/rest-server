@@ -40,15 +40,20 @@ public class HardwareApiController implements HardwareApi {
   private HardwareService hardwareService;
 
 
-  public ResponseEntity<List<Hardware>> findHardware() throws ResponseException {
+  public ResponseEntity<List<Hardware>> findHardware() {
     //Preparation
     System.out.println("------------------ find Hardware -------------------");
     HardwareQueryRequest hardwareQueryRequest = HardwareQueryRequest.newBuilder()
         .setUserId(userService.getUserId()).build();
     HardwareConverter hardwareConverter = new HardwareConverter();
     List<Hardware> hardwareList = new ArrayList<>();
+    HardwareQueryResponse response = null;
     // to Kafka
-    HardwareQueryResponse response = hardwareService.getHardware(hardwareQueryRequest);
+    try {
+      response = hardwareService.getHardware(hardwareQueryRequest);
+    } catch (ResponseException re) {
+      throw new ApiException(re.code(), re.getMessage());
+    }
 
     for (IaasEntities.HardwareFlavor hardware : response.getHardwareFlavorsList()) {
       hardwareList.add(hardwareConverter.applyBack(hardware));

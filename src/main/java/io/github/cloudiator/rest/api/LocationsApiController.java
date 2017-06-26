@@ -40,15 +40,20 @@ public class LocationsApiController implements LocationsApi {
   private LocationService locationService;
 
 
-  public ResponseEntity<List<Location>> findLocations() throws ResponseException {
+  public ResponseEntity<List<Location>> findLocations() {
     //Preparation
     System.out.println("--------------- find Location --------------------");
     LocationConverter locationConverter = new LocationConverter();
     List<Location> locationList = new ArrayList<>();
     LocationQueryRequest request = LocationQueryRequest.newBuilder()
         .setUserId(userService.getUserId()).build();
+    LocationQueryResponse response = null;
     //Communication Kafka
-    LocationQueryResponse response = locationService.getLocations(request);
+    try {
+      response = locationService.getLocations(request);
+    } catch (ResponseException re) {
+      throw new ApiException(re.code(), re.getMessage());
+    }
 
     for (IaasEntities.Location location : response.getLocationsList()) {
       locationList.add(locationConverter.applyBack(location));

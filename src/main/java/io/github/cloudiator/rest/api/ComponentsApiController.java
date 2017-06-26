@@ -22,25 +22,27 @@ import java.util.List;
 
 import javax.validation.constraints.*;
 import javax.validation.Valid;
+
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2017-05-29T12:00:45.563+02:00")
 
 @Controller
 public class ComponentsApiController implements ComponentsApi {
 
-    @Autowired
-    private UserService userService;
+  @Autowired
+  private UserService userService;
 
-    @Autowired
-    private ComponentService componentService;
+  @Autowired
+  private ComponentService componentService;
 
-    public ResponseEntity<Component> addComponent(@ApiParam(value = "Component to be created " ,required=true )  @Valid @RequestBody Component component) {
-        // do some magic!
-        return new ResponseEntity<Component>(HttpStatus.OK);
-    }
+  public ResponseEntity<Component> addComponent(
+      @ApiParam(value = "Component to be created ", required = true) @Valid @RequestBody Component component) {
+    // do some magic!
+    return new ResponseEntity<Component>(HttpStatus.OK);
+  }
 
-    public ResponseEntity<List<Component>> findComponents() {
-        // do some magic!
-        return new ResponseEntity<List<Component>>(HttpStatus.OK);
-    }
+  public ResponseEntity<List<Component>> findComponents() {
+    // do some magic!
+    return new ResponseEntity<List<Component>>(HttpStatus.OK);
+  }
 
 }

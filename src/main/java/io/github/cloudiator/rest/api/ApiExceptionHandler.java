@@ -166,19 +166,19 @@ public class ApiExceptionHandler {
     return new ResponseEntity<>(jsonout, headers, HttpStatus.valueOf(error.getCode()));
   }
 
-  @ExceptionHandler(ResponseException.class)
+  @ExceptionHandler(ApiException.class)
   //@ResponseStatus(value = HttpStatus.BAD_REQUEST)
   @ResponseBody
-  public ResponseEntity<String> handle(ResponseException re) {
+  public ResponseEntity<String> handle(ApiException re) {
     HttpHeaders headers = new HttpHeaders();
     headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
     //headers.setContentType(MediaType.TEXT_PLAIN);
     String jsonout = "";
     Error error = new Error();
-    error.code(re.code());
+    error.code(re.getcode());
     HttpStatus httpStatus = HttpStatus.valueOf(error.getCode());
 
-    if (re.code() == 409) {
+    if (re.getcode() == 409) {
       String org = re.getMessage()
           .substring(re.getMessage().indexOf('='), re.getMessage().indexOf(','));
       error.setMessage("Cloud already exists: id" + org);
@@ -212,7 +212,7 @@ public class ApiExceptionHandler {
   @ExceptionHandler(IllegalArgumentException.class)
   @ResponseStatus(value = HttpStatus.NOT_FOUND)
   @ResponseBody
-  public ResponseEntity<Void> handle(IllegalArgumentException iae) {
+  public ResponseEntity<String> handle(IllegalArgumentException iae) {
     HttpHeaders headers = new HttpHeaders();
     headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
     //headers.setContentType(MediaType.TEXT_PLAIN);
@@ -242,7 +242,7 @@ public class ApiExceptionHandler {
       ej.printStackTrace();
     }
 
-    return new ResponseEntity<Void>(HttpStatus.valueOf(error.getCode()));
+    return new ResponseEntity<String>(jsonout, HttpStatus.valueOf(error.getCode()));
   }
 
 }

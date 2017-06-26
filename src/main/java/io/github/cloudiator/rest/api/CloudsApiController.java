@@ -41,8 +41,7 @@ public class CloudsApiController implements CloudsApi {
   private CloudService cloudService;
 
   public ResponseEntity<Cloud> addCloud(
-      @ApiParam(value = "Cloud to add", required = true) @Valid @RequestBody NewCloud cloud)
-      throws Exception {
+      @ApiParam(value = "Cloud to add", required = true) @Valid @RequestBody NewCloud cloud) {
 
     //validate input
     System.out.println("------------------ addCloud --------------------");
@@ -62,13 +61,18 @@ public class CloudsApiController implements CloudsApi {
         .newBuilder();
     builder.setCloud(newCloud);
     builder.setUserId(userService.getUserId());
+    org.cloudiator.messages.Cloud.CloudCreatedResponse response = null;
 
     //to kafka
     System.out.println("--------- to kafka -------------");
 
-    org.cloudiator.messages.Cloud.CloudCreatedResponse response = cloudService
-        .createCloud(builder.build());
-    System.out.println("response: \n" + response);
+    try {
+      response = cloudService
+          .createCloud(builder.build());
+      System.out.println("response: \n" + response);
+    } catch (ResponseException re) {
+      throw new ApiException(re.code(), re.getMessage());
+    }
 
     generated = cloudToCloudConverter.applyBack(response.getCloud());
 
@@ -77,21 +81,21 @@ public class CloudsApiController implements CloudsApi {
   }
 
   public ResponseEntity<Void> deleteCloud(
-      @ApiParam(value = "Unique identifier of the resource", required = true) @PathVariable("id") String id){
+      @ApiParam(value = "Unique identifier of the resource", required = true) @PathVariable("id") String id) {
     // inputvalidation+preparation
     if (id.length() != 32) {
       throw new ApiException(406, "ID not valid. Length must be 32");
     }
     org.cloudiator.messages.Cloud.DeleteCloudRequest deleteCloudRequest = org.cloudiator.messages.Cloud.DeleteCloudRequest
         .newBuilder().setUserId(userService.getUserId()).setCloudId(id).build();
-    System.out
-        .println("----------- delete Cloud --------------- \n request: " + deleteCloudRequest);
+    org.cloudiator.messages.Cloud.CloudDeletedResponse cloudDeletedResponse = null;
+    System.out.println("----------- delete Cloud ----------- \n request: " + deleteCloudRequest);
 
     // to Kafka
-    org.cloudiator.messages.Cloud.CloudDeletedResponse cloudDeletedResponse = null;
+
     try {
       cloudDeletedResponse = cloudService.deleteCloud(deleteCloudRequest);
-    }catch(ResponseException re){
+    } catch (ResponseException re) {
       throw new ApiException(re.code(), re.getMessage());
     }
     System.out.println("----------------- response -----------\n" + cloudDeletedResponse);
@@ -101,40 +105,37 @@ public class CloudsApiController implements CloudsApi {
   }
 
   public ResponseEntity<Cloud> findCloud(
-      @ApiParam(value = "Unique identifier of the resource", required = true) @PathVariable("id") String id)
-      throws Exception {
+      @ApiParam(value = "Unique identifier of the resource", required = true) @PathVariable("id") String id) {
 
-    // einfacher test
-    if (id.equals("345")) {
-      System.out.println(id + " not found ");
-      throw new NotFoundException(404, "Could not find cloud " + id);
-    }
     //ID Validation
     if (id.length() != 32) {
-      throw new ResponseException(406, "ID not valid. Length must be 32");
+      throw new ApiException(406, "ID not valid. Length must be 32");
     }
-
+    //Preparation
     org.cloudiator.messages.Cloud.UpdateCloudRequest.Builder updateCloudRequest = org.cloudiator.messages.Cloud.UpdateCloudRequest
         .newBuilder().setUserId(userService.getUserId()); // implementation not finished
+
+    //to Kafka
 
     return new ResponseEntity<Cloud>(HttpStatus.OK);
   }
 
-  public ResponseEntity<List<Cloud>> findClouds() throws Exception {
+  public ResponseEntity<List<Cloud>> findClouds() {
     System.out.println("------------------ find Clouds ----------------");
     //prepare
     org.cloudiator.messages.Cloud.CloudQueryRequest cloudQueryRequest = org.cloudiator.messages.Cloud.CloudQueryRequest
         .newBuilder().setUserId(userService.getUserId()).build();
     List<Cloud> cloudList = new ArrayList<Cloud>();
     CloudToCloudConverter cloudToCloudConverter = new CloudToCloudConverter();
+    org.cloudiator.messages.Cloud.CloudQueryResponse cloudQueryResponse = null;
 
     //kafka
     System.out.println("------------------------- to kafka -------------------------------------");
-
-    org.cloudiator.messages.Cloud.CloudQueryResponse cloudQueryResponse = cloudService
-        .getClouds(cloudQueryRequest);
-
-    System.out.println("--------------------- waiting for response --------------------------");
+    try {
+      cloudQueryResponse = cloudService.getClouds(cloudQueryRequest);
+    } catch (ResponseException re) {
+      throw new ApiException(re.code(), re.getMessage());
+    }
 
     cloudList = cloudQueryResponse.getCloudsList().stream().map(cloudToCloudConverter::applyBack)
         .collect(Collectors.toList());

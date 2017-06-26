@@ -24,8 +24,7 @@ public class VmApiController implements VmApi {
   private UserService userService;
 
   public ResponseEntity<Task> addVM(
-      @ApiParam(value = "VirtualMachine Request", required = true) @Valid @RequestBody VirtualMachineRequest virtualMachineRequest)
-      throws Exception {
+      @ApiParam(value = "VirtualMachine Request", required = true) @Valid @RequestBody VirtualMachineRequest virtualMachineRequest) {
     // do some magic!
     return new ResponseEntity<Task>(HttpStatus.OK);
   }

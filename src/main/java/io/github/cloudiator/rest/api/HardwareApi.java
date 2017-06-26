@@ -21,13 +21,14 @@ import javax.validation.Valid;
 @Api(value = "hardware", description = "the hardware API")
 public interface HardwareApi {
 
-    @ApiOperation(value = "", notes = "Returns all hardware visible to the user ", response = Hardware.class, responseContainer = "List", tags={ "cloud", })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "OK ", response = Hardware.class) })
-    
-    @RequestMapping(value = "/hardware",
-        produces = { "application/json" }, 
-        method = RequestMethod.GET)
-    ResponseEntity<List<Hardware>> findHardware() throws ResponseException;
+  @ApiOperation(value = "", notes = "Returns all hardware visible to the user ", response = Hardware.class, responseContainer = "List", tags = {
+      "cloud",})
+  @ApiResponses(value = {
+      @ApiResponse(code = 200, message = "OK ", response = Hardware.class)})
+
+  @RequestMapping(value = "/hardware",
+      produces = {"application/json"},
+      method = RequestMethod.GET)
+  ResponseEntity<List<Hardware>> findHardware();
 
 }
