@@ -51,47 +51,29 @@ public class ApiExceptionHandler {
 
     Error error = new Error();
     error.code(406);
-    String json = "";
-
-    try {
-      ObjectMapper mapper = new ObjectMapper();
-
-      Integer excount = ex.getBindingResult().getErrorCount();
-      Iterator iterator = ex.getBindingResult().getAllErrors().iterator();
-      StringBuilder sb = new StringBuilder();
-
-      sb.append("Input validation: ");
-      sb.append(excount).append(" error(s) in field(s): ");
-
-      while (iterator.hasNext()) {
-        FieldError fieldError = (FieldError) iterator.next();
-        sb.append(fieldError.getField());
-        if (iterator.hasNext()) {
-          sb.append(", ");
-        }
+    //Cutting Error Message
+    Integer excount = ex.getBindingResult().getErrorCount();
+    Iterator iterator = ex.getBindingResult().getAllErrors().iterator();
+    StringBuilder sb = new StringBuilder();
+    sb.append("Input validation: ");
+    sb.append(excount).append(" error(s) in field(s): ");
+    while (iterator.hasNext()) {
+      FieldError fieldError = (FieldError) iterator.next();
+      sb.append(fieldError.getField());
+      if (iterator.hasNext()) {
+        sb.append(", ");
       }
-      sb.append(".");
-      error.setMessage(sb.toString());
-      json = mapper.writeValueAsString(error);
-
-      System.out.println("------------------");
-      System.out.println(error.toString());
-      System.out.println("------------------");
-      System.out.println(ex.getClass().toString());
-      System.out.println("------------------");
-      System.out.println(ex.getMessage());
-      System.out.println("------------------");
-
-
-    } catch (JsonGenerationException ej) {
-      ej.printStackTrace();
-    } catch (JsonMappingException ej) {
-      ej.printStackTrace();
-    } catch (IOException ej) {
-      ej.printStackTrace();
     }
+    sb.append(".");
 
-    return new ResponseEntity<>(json, headers, HttpStatus.NOT_ACCEPTABLE);
+    error.setMessage(sb.toString());
+
+    System.out.println("------------------");
+    System.out.println(ex.getMessage());
+    System.out.println("------------------");
+    System.out.println(error.toString());
+    System.out.println("------------------");
+    return new ResponseEntity<>(error.ErrorInJson(), headers, HttpStatus.NOT_ACCEPTABLE);
   }
 
   @ExceptionHandler(HttpMessageNotReadableException.class)
@@ -103,30 +85,13 @@ public class ApiExceptionHandler {
     Error error = new Error();
     error.code(400);
     error.setMessage(ex.getMessage().substring(0, ex.getMessage().indexOf('\n')));
-    String json = "";
 
-    try {
-      ObjectMapper mapper = new ObjectMapper();
-      json = mapper.writeValueAsString(error);
-
-      System.out.println("------------------");
-      System.out.println(error.toString());
-      System.out.println("------------------");
-      System.out.println(ex.getClass().toString());
-      System.out.println("------------------");
-      System.out.println(ex.getMessage());
-      System.out.println("------------------");
-
-
-    } catch (JsonGenerationException ej) {
-      ej.printStackTrace();
-    } catch (JsonMappingException ej) {
-      ej.printStackTrace();
-    } catch (IOException ej) {
-      ej.printStackTrace();
-    }
-
-    return new ResponseEntity<>(json, headers, HttpStatus.BAD_REQUEST);
+    System.out.println("------------------");
+    System.out.println(ex.getMessage());
+    System.out.println("------------------");
+    System.out.println(error.toString());
+    System.out.println("------------------");
+    return new ResponseEntity<>(error.ErrorInJson(), headers, HttpStatus.BAD_REQUEST);
   }
 
 
@@ -136,49 +101,28 @@ public class ApiExceptionHandler {
   public ResponseEntity<String> handle404(NotFoundException e) {
     HttpHeaders headers = new HttpHeaders();
     headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
-    //headers.setContentType(MediaType.TEXT_PLAIN);
-    String jsonout = "";
-    StackTraceElement elements[] = e.getStackTrace();
+
     Error error = new Error();
     error.code(404);
     error.setMessage(e.getMessage());
 
-    try {
-      ObjectMapper mapper = new ObjectMapper();
-
-      // convert map to JSON string
-      jsonout = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(error);
-
-      System.out.println("----------------------------------------------");
-      System.out.println(error.toString());
-      System.out.println("----------------------------------------------");
-      System.out.println(e.getMessage());
-      System.out.println("----------------------------------------------");
-
-    } catch (JsonGenerationException ej) {
-      ej.printStackTrace();
-    } catch (JsonMappingException ej) {
-      ej.printStackTrace();
-    } catch (IOException ej) {
-      ej.printStackTrace();
-    }
-
-    return new ResponseEntity<>(jsonout, headers, HttpStatus.valueOf(error.getCode()));
+    System.out.println("----------------------------------------------");
+    System.out.println(error.toString());
+    System.out.println("----------------------------------------------");
+    return new ResponseEntity<>(error.ErrorInJson(), headers, HttpStatus.valueOf(error.getCode()));
   }
 
   @ExceptionHandler(ApiException.class)
-  //@ResponseStatus(value = HttpStatus.BAD_REQUEST)
   @ResponseBody
   public ResponseEntity<String> handle(ApiException re) {
     HttpHeaders headers = new HttpHeaders();
     headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
-    //headers.setContentType(MediaType.TEXT_PLAIN);
-    String jsonout = "";
+
     Error error = new Error();
-    error.code(re.getcode());
+    error.code(re.getCode());
     HttpStatus httpStatus = HttpStatus.valueOf(error.getCode());
 
-    if (re.getcode() == 409) {
+    if (re.getCode() == 409) {
       String org = re.getMessage()
           .substring(re.getMessage().indexOf('='), re.getMessage().indexOf(','));
       error.setMessage("Cloud already exists: id" + org);
@@ -186,27 +130,10 @@ public class ApiExceptionHandler {
       error.setMessage(re.getMessage());
     }
 
-    try {
-      ObjectMapper mapper = new ObjectMapper();
-
-      // convert map to JSON string
-      jsonout = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(error);
-
-      System.out.println("----------------------------------------------");
-      System.out.println(re.getMessage());
-
-      System.out.println(error.toString());
-      System.out.println("----------------------------------------------");
-
-    } catch (JsonGenerationException ej) {
-      ej.printStackTrace();
-    } catch (JsonMappingException ej) {
-      ej.printStackTrace();
-    } catch (IOException ej) {
-      ej.printStackTrace();
-    }
-
-    return new ResponseEntity<>(jsonout, headers, httpStatus);
+    System.out.println("----------------------------------------------");
+    System.out.println(error.toString());
+    System.out.println("----------------------------------------------");
+    return new ResponseEntity<>(error.ErrorInJson(), headers, httpStatus);
   }
 
   @ExceptionHandler(IllegalArgumentException.class)
@@ -215,34 +142,15 @@ public class ApiExceptionHandler {
   public ResponseEntity<String> handle(IllegalArgumentException iae) {
     HttpHeaders headers = new HttpHeaders();
     headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
-    //headers.setContentType(MediaType.TEXT_PLAIN);
-    String jsonout = "";
-    StackTraceElement elements[] = iae.getStackTrace();
+
     Error error = new Error();
     error.code(404);
     error.setMessage(iae.getMessage());
 
-    try {
-      ObjectMapper mapper = new ObjectMapper();
-
-      // convert map to JSON string
-      jsonout = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(error);
-
-      System.out.println("----------------------------------------------");
-      System.out.println(error.toString());
-      System.out.println("----------------------------------------------");
-      System.out.println(iae.getMessage());
-      System.out.println("----------------------------------------------");
-
-    } catch (JsonGenerationException ej) {
-      ej.printStackTrace();
-    } catch (JsonMappingException ej) {
-      ej.printStackTrace();
-    } catch (IOException ej) {
-      ej.printStackTrace();
-    }
-
-    return new ResponseEntity<String>(jsonout, HttpStatus.valueOf(error.getCode()));
+    System.out.println("----------------------------------------------");
+    System.out.println(error.toString());
+    System.out.println("----------------------------------------------");
+    return new ResponseEntity<String>(error.ErrorInJson(), HttpStatus.valueOf(error.getCode()));
   }
 
 }

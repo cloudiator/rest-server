@@ -130,7 +130,7 @@ public class CloudsApiController implements CloudsApi {
     org.cloudiator.messages.Cloud.CloudQueryResponse cloudQueryResponse = null;
 
     //kafka
-    System.out.println("------------------------- to kafka -------------------------------------");
+    System.out.println("----------- to kafka ------------");
     try {
       cloudQueryResponse = cloudService.getClouds(cloudQueryRequest);
     } catch (ResponseException re) {

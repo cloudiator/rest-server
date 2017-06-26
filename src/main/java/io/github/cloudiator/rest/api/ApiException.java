@@ -10,7 +10,7 @@ public class ApiException extends RuntimeException {
     this.code = code;
   }
 
-  public int getcode() {
+  public int getCode() {
     return code;
   }
 

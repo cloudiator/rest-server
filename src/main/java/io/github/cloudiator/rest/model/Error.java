@@ -1,5 +1,6 @@
 package io.github.cloudiator.rest.model;
 
+import java.io.IOException;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -8,11 +9,16 @@ import io.swagger.annotations.ApiModelProperty;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
+import com.fasterxml.jackson.core.JsonGenerationException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 /**
  * Error
  */
 
-public class Error   {
+public class Error {
+
   @JsonProperty("code")
   private Integer code = null;
 
@@ -24,13 +30,13 @@ public class Error   {
     return this;
   }
 
-   /**
+  /**
    * Get code
+   *
    * @return code
-  **/
+   **/
   @ApiModelProperty(required = true, value = "")
   @NotNull
-
 
   public Integer getCode() {
     return code;
@@ -45,13 +51,13 @@ public class Error   {
     return this;
   }
 
-   /**
+  /**
    * Get message
+   *
    * @return message
-  **/
+   **/
   @ApiModelProperty(required = true, value = "")
   @NotNull
-
 
   public String getMessage() {
     return message;
@@ -61,6 +67,31 @@ public class Error   {
     this.message = message;
   }
 
+  /**
+   * Get ErrorInJson
+   *
+   * @return ErrorInJson
+   **/
+
+  public String ErrorInJson(){
+
+    String out = "";
+
+    try {
+      ObjectMapper mapper = new ObjectMapper();
+
+      out = mapper.writeValueAsString(this);
+
+
+    }catch (JsonGenerationException ej) {
+      ej.printStackTrace();
+    } catch (JsonMappingException ej) {
+      ej.printStackTrace();
+    } catch (IOException ej) {
+      ej.printStackTrace();
+    }
+    return out;
+  }
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -84,7 +115,7 @@ public class Error   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class Error {\n");
-    
+
     sb.append("    code: ").append(toIndentedString(code)).append("\n");
     sb.append("    message: ").append(toIndentedString(message)).append("\n");
     sb.append("}");
