@@ -45,7 +45,7 @@ public class ApiExceptionHandler {
 
   @ExceptionHandler(MethodArgumentNotValidException.class)
   @ResponseStatus(value = HttpStatus.NOT_ACCEPTABLE)
-  public ResponseEntity<String> handle(MethodArgumentNotValidException ex) {
+  public ResponseEntity<Error> handle(MethodArgumentNotValidException ex) {
     HttpHeaders headers = new HttpHeaders();
     headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
 
@@ -73,12 +73,12 @@ public class ApiExceptionHandler {
     System.out.println("------------------");
     System.out.println(error.toString());
     System.out.println("------------------");
-    return new ResponseEntity<>(error.ErrorInJson(), headers, HttpStatus.NOT_ACCEPTABLE);
+    return new ResponseEntity<>(error, headers, HttpStatus.NOT_ACCEPTABLE);
   }
 
   @ExceptionHandler(HttpMessageNotReadableException.class)
   @ResponseStatus(value = HttpStatus.BAD_REQUEST)
-  public ResponseEntity<String> handle(HttpMessageNotReadableException ex) {
+  public ResponseEntity<Error> handle(HttpMessageNotReadableException ex) {
     HttpHeaders headers = new HttpHeaders();
     headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
 
@@ -91,14 +91,14 @@ public class ApiExceptionHandler {
     System.out.println("------------------");
     System.out.println(error.toString());
     System.out.println("------------------");
-    return new ResponseEntity<>(error.ErrorInJson(), headers, HttpStatus.BAD_REQUEST);
+    return new ResponseEntity<>(error, headers, HttpStatus.BAD_REQUEST);
   }
 
 
   @ExceptionHandler(NotFoundException.class)
   @ResponseStatus(value = HttpStatus.NOT_FOUND)
   @ResponseBody
-  public ResponseEntity<String> handle404(NotFoundException e) {
+  public ResponseEntity<Error> handle404(NotFoundException e) {
     HttpHeaders headers = new HttpHeaders();
     headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
 
@@ -109,12 +109,12 @@ public class ApiExceptionHandler {
     System.out.println("----------------------------------------------");
     System.out.println(error.toString());
     System.out.println("----------------------------------------------");
-    return new ResponseEntity<>(error.ErrorInJson(), headers, HttpStatus.valueOf(error.getCode()));
+    return new ResponseEntity<>(error, headers, HttpStatus.valueOf(error.getCode()));
   }
 
   @ExceptionHandler(ApiException.class)
   @ResponseBody
-  public ResponseEntity<String> handle(ApiException re) {
+  public ResponseEntity<Error> handle(ApiException re) {
     HttpHeaders headers = new HttpHeaders();
     headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
 
@@ -133,13 +133,13 @@ public class ApiExceptionHandler {
     System.out.println("----------------------------------------------");
     System.out.println(error.toString());
     System.out.println("----------------------------------------------");
-    return new ResponseEntity<>(error.ErrorInJson(), headers, httpStatus);
+    return new ResponseEntity<>(error, headers, httpStatus);
   }
 
   @ExceptionHandler(IllegalArgumentException.class)
   @ResponseStatus(value = HttpStatus.NOT_FOUND)
   @ResponseBody
-  public ResponseEntity<String> handle(IllegalArgumentException iae) {
+  public ResponseEntity<Error> handle(IllegalArgumentException iae) {
     HttpHeaders headers = new HttpHeaders();
     headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
 
@@ -150,7 +150,7 @@ public class ApiExceptionHandler {
     System.out.println("----------------------------------------------");
     System.out.println(error.toString());
     System.out.println("----------------------------------------------");
-    return new ResponseEntity<String>(error.ErrorInJson(), HttpStatus.valueOf(error.getCode()));
+    return new ResponseEntity<>(error, HttpStatus.valueOf(error.getCode()));
   }
 
 }
