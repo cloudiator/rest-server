@@ -21,16 +21,14 @@ import javax.validation.Valid;
 @Api(value = "vm", description = "the vm API")
 public interface VmApi {
 
-  @ApiOperation(value = "", notes = "Creates a new virtual machine request", response = Task.class, tags = {
-      "cloud",})
-  @ApiResponses(value = {
-      @ApiResponse(code = 202, message = "ACCEPTED", response = Task.class)})
-
-  @RequestMapping(value = "/vm",
-      produces = {"application/json"},
-      consumes = {"application/json"},
-      method = RequestMethod.POST)
-  ResponseEntity<Task> addVM(
-      @ApiParam(value = "VirtualMachine Request", required = true) @Valid @RequestBody VirtualMachineRequest virtualMachineRequest);
+    @ApiOperation(value = "", notes = "Creates a new virtual machine request", response = Task.class, tags={ "cloud", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 202, message = "ACCEPTED", response = Task.class) })
+    
+    @RequestMapping(value = "/vm",
+        produces = { "application/json" }, 
+        consumes = { "application/json" },
+        method = RequestMethod.POST)
+    ResponseEntity<Task> addVM(@ApiParam(value = "VirtualMachine Request" ,required=true )  @Valid @RequestBody VirtualMachineRequest virtualMachineRequest);
 
 }

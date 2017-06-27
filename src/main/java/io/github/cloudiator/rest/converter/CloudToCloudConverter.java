@@ -46,9 +46,9 @@ public class CloudToCloudConverter implements TwoWayConverter<Cloud, IaasEntitie
     @Override
     public CloudType applyBack(IaasEntities.CloudType cloudType) {
       switch (cloudType) {
-        case PUBLIC:
+        case PUBLIC_CLOUD:
           return CloudType.PUBLIC;
-        case PRIVATE:
+        case PRIVATE_CLOUD:
           return CloudType.PRIVATE;
         case UNRECOGNIZED:
         default:
@@ -60,9 +60,9 @@ public class CloudToCloudConverter implements TwoWayConverter<Cloud, IaasEntitie
     public IaasEntities.CloudType apply(CloudType cloudTypeEnum) {
       switch (cloudTypeEnum) {
         case PRIVATE:
-          return IaasEntities.CloudType.PRIVATE;
+          return IaasEntities.CloudType.PRIVATE_CLOUD;
         case PUBLIC:
-          return IaasEntities.CloudType.PUBLIC;
+          return IaasEntities.CloudType.PUBLIC_CLOUD;
         default:
           throw new AssertionError("Unrecognized cloudType " + cloudTypeEnum);
       }

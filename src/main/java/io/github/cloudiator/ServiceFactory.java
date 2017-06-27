@@ -10,6 +10,7 @@ import org.cloudiator.messaging.services.ComponentServiceImpl;
 import org.cloudiator.messaging.services.HardwareServiceImpl;
 import org.cloudiator.messaging.services.ImageServiceImpl;
 import org.cloudiator.messaging.services.LocationServiceImpl;
+import org.cloudiator.messaging.services.VirtualMachineServiceImpl;
 
 /**
  * Created by daniel on 21.06.17.
@@ -54,6 +55,13 @@ public class ServiceFactory {
     final LocationServiceImpl locationService = new LocationServiceImpl(messageInterface);
     locationService.setResponseTimeout(timeout);
     return locationService;
+  }
+
+  public VirtualMachineServiceImpl createVirtualMachineService() {
+    final VirtualMachineServiceImpl virtualMachineService = new VirtualMachineServiceImpl(
+        messageInterface);
+    virtualMachineService.setResponseTimeout(0);
+    return virtualMachineService;
   }
 
   public ApplicationServiceImpl createApplicationService() {

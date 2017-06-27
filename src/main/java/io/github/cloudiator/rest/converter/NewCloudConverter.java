@@ -1,7 +1,6 @@
 package io.github.cloudiator.rest.converter;
 
 import de.uniulm.omi.cloudiator.util.TwoWayConverter;
-import io.github.cloudiator.rest.model.Cloud;
 import io.github.cloudiator.rest.model.CloudType;
 import io.github.cloudiator.rest.model.NewCloud;
 import org.cloudiator.messages.entities.IaasEntities;
@@ -45,9 +44,9 @@ public class NewCloudConverter implements TwoWayConverter<NewCloud, IaasEntities
     @Override
     public CloudType applyBack(IaasEntities.CloudType cloudType) {
       switch (cloudType) {
-        case PUBLIC:
+        case PUBLIC_CLOUD:
           return CloudType.PUBLIC;
-        case PRIVATE:
+        case PRIVATE_CLOUD:
           return CloudType.PRIVATE;
         case UNRECOGNIZED:
         default:
@@ -59,9 +58,9 @@ public class NewCloudConverter implements TwoWayConverter<NewCloud, IaasEntities
     public IaasEntities.CloudType apply(CloudType cloudTypeEnum) {
       switch (cloudTypeEnum) {
         case PRIVATE:
-          return IaasEntities.CloudType.PRIVATE;
+          return IaasEntities.CloudType.PRIVATE_CLOUD;
         case PUBLIC:
-          return IaasEntities.CloudType.PUBLIC;
+          return IaasEntities.CloudType.PUBLIC_CLOUD;
         default:
           throw new AssertionError("Unrecognized cloudType " + cloudTypeEnum);
       }

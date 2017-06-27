@@ -1,11 +1,6 @@
 package io.github.cloudiator.rest.model;
 
 import java.util.Objects;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import io.github.cloudiator.rest.model.Node;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
@@ -14,29 +9,6 @@ import javax.validation.constraints.*;
  */
 
 public class VirtualMachine   {
-  @JsonProperty("name")
-  private String name = null;
-
-  public VirtualMachine name(String name) {
-    this.name = name;
-    return this;
-  }
-
-   /**
-   * Get name
-   * @return name
-  **/
-  @ApiModelProperty(value = "")
-
-
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
-  }
-
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -46,13 +18,12 @@ public class VirtualMachine   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    VirtualMachine virtualMachine = (VirtualMachine) o;
-    return Objects.equals(this.name, virtualMachine.name);
+    return true;
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name);
+    return Objects.hash();
   }
 
   @Override
@@ -60,7 +31,6 @@ public class VirtualMachine   {
     StringBuilder sb = new StringBuilder();
     sb.append("class VirtualMachine {\n");
     
-    sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("}");
     return sb.toString();
   }

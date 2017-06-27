@@ -9,8 +9,9 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * VirtualMachineRequest
+ * Represents a request to create a new virtual machine. 
  */
+@ApiModel(description = "Represents a request to create a new virtual machine. ")
 
 public class VirtualMachineRequest   {
   @JsonProperty("image")
