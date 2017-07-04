@@ -1,5 +1,6 @@
 package io.github.cloudiator.rest.api;
 
+import io.github.cloudiator.rest.model.Error;
 import io.github.cloudiator.rest.model.PlatformRuntime;
 
 import io.swagger.annotations.*;
@@ -20,36 +21,55 @@ import javax.validation.Valid;
 @Api(value = "platformRuntime", description = "the platformRuntime API")
 public interface PlatformRuntimeApi {
 
-    @ApiOperation(value = "", notes = "Creates a new PlatformRuntime ", response = PlatformRuntime.class, tags={ "platform", })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "OK ", response = PlatformRuntime.class) })
-    
-    @RequestMapping(value = "/platformRuntime",
-        produces = { "application/json" }, 
-        consumes = { "application/json" },
-        method = RequestMethod.POST)
-    ResponseEntity<PlatformRuntime> addPlatformRuntime(@ApiParam(value = "PlatformRuntime to be created " ,required=true )  @Valid @RequestBody PlatformRuntime platformRuntime);
+  @ApiOperation(value = "", notes = "Creates a new PlatformRuntime ", response = PlatformRuntime.class, tags = {
+      "platform",})
+  @ApiResponses(value = {
+      @ApiResponse(code = 200, message = "OK ", response = PlatformRuntime.class),
+      @ApiResponse(code = 400, message = "Bad Request", response = Error.class),
+      @ApiResponse(code = 401, message = "Authorization for this action is missing", response = Error.class),
+      @ApiResponse(code = 403, message = "Forbidden action", response = Error.class),
+      @ApiResponse(code = 404, message = "Item not found", response = Error.class),
+      @ApiResponse(code = 500, message = "An unexpected Error occured", response = Error.class),
+      @ApiResponse(code = 504, message = "Service temporary unavailable", response = Error.class)})
+
+  @RequestMapping(value = "/platformRuntime",
+      produces = {"application/json"},
+      method = RequestMethod.POST)
+  ResponseEntity<PlatformRuntime> addPlatformRuntime(
+      @ApiParam(value = "PlatformRuntime to be created ", required = true) @Valid @RequestBody PlatformRuntime platformRuntime);
 
 
-    @ApiOperation(value = "", notes = "Returns the PlatformRuntime identified by the id parameter. ", response = PlatformRuntime.class, tags={ "platform", })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "OK", response = PlatformRuntime.class) })
-    
-    @RequestMapping(value = "/platformRuntime/{id}",
-        produces = { "application/json" }, 
-        consumes = { "application/json" },
-        method = RequestMethod.GET)
-    ResponseEntity<PlatformRuntime> findPlatformRuntime(@ApiParam(value = "Unique identifier of the resource",required=true ) @PathVariable("id") String id);
+  @ApiOperation(value = "", notes = "Returns the PlatformRuntime identified by the id parameter. ", response = PlatformRuntime.class, tags = {
+      "platform",})
+  @ApiResponses(value = {
+      @ApiResponse(code = 200, message = "OK", response = PlatformRuntime.class),
+      @ApiResponse(code = 400, message = "Bad Request", response = Error.class),
+      @ApiResponse(code = 401, message = "Authorization for this action is missing", response = Error.class),
+      @ApiResponse(code = 403, message = "Forbidden action", response = Error.class),
+      @ApiResponse(code = 404, message = "Item not found", response = Error.class),
+      @ApiResponse(code = 500, message = "An unexpected Error occured", response = Error.class),
+      @ApiResponse(code = 504, message = "Service temporary unavailable", response = Error.class)})
+
+  @RequestMapping(value = "/platformRuntime/{id}",
+      produces = {"application/json"},
+      method = RequestMethod.GET)
+  ResponseEntity<PlatformRuntime> findPlatformRuntime(
+      @ApiParam(value = "Unique identifier of the resource", required = true) @PathVariable("id") String id);
 
 
-    @ApiOperation(value = "", notes = "Returns all platform runtime  visible to the user ", response = PlatformRuntime.class, responseContainer = "List", tags={ "platform", })
-    @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "OK ", response = PlatformRuntime.class) })
-    
-    @RequestMapping(value = "/platformRuntime",
-        produces = { "application/json" }, 
-        consumes = { "application/json" },
-        method = RequestMethod.GET)
-    ResponseEntity<List<PlatformRuntime>> findPlatformRuntimes();
+  @ApiOperation(value = "", notes = "Returns all platform runtime  visible to the user ", response = PlatformRuntime.class, responseContainer = "List", tags = {
+      "platform",})
+  @ApiResponses(value = {
+      @ApiResponse(code = 200, message = "OK ", response = PlatformRuntime.class),
+      @ApiResponse(code = 400, message = "Bad Request", response = Error.class),
+      @ApiResponse(code = 401, message = "Authorization for this action is missing", response = Error.class),
+      @ApiResponse(code = 403, message = "Forbidden action", response = Error.class),
+      @ApiResponse(code = 500, message = "An unexpected Error occured", response = Error.class),
+      @ApiResponse(code = 504, message = "Service temporary unavailable", response = Error.class)})
+
+  @RequestMapping(value = "/platformRuntime",
+      produces = {"application/json"},
+      method = RequestMethod.GET)
+  ResponseEntity<List<PlatformRuntime>> findPlatformRuntimes();
 
 }

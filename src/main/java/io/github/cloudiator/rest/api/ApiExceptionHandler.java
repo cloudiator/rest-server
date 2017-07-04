@@ -44,13 +44,13 @@ public class ApiExceptionHandler {
 
 
   @ExceptionHandler(MethodArgumentNotValidException.class)
-  @ResponseStatus(value = HttpStatus.NOT_ACCEPTABLE)
+  @ResponseStatus(value = HttpStatus.BAD_REQUEST)
   public ResponseEntity<Error> handle(MethodArgumentNotValidException ex) {
     HttpHeaders headers = new HttpHeaders();
     headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
 
     Error error = new Error();
-    error.code(406);
+    error.code(400);
     //Cutting Error Message
     Integer excount = ex.getBindingResult().getErrorCount();
     Iterator iterator = ex.getBindingResult().getAllErrors().iterator();
@@ -73,7 +73,7 @@ public class ApiExceptionHandler {
     System.out.println("------------------");
     System.out.println(error.toString());
     System.out.println("------------------");
-    return new ResponseEntity<>(error, headers, HttpStatus.NOT_ACCEPTABLE);
+    return new ResponseEntity<>(error, headers, HttpStatus.BAD_REQUEST);
   }
 
   @ExceptionHandler(HttpMessageNotReadableException.class)
@@ -122,7 +122,7 @@ public class ApiExceptionHandler {
     error.code(re.getCode());
     HttpStatus httpStatus = HttpStatus.valueOf(error.getCode());
 
-    if (re.getCode() == 409) {
+    if (error.getCode() == 409) {
       String org = re.getMessage()
           .substring(re.getMessage().indexOf('='), re.getMessage().indexOf(','));
       error.setMessage("Cloud already exists: id" + org);

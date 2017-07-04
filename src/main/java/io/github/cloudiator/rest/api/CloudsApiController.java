@@ -84,7 +84,7 @@ public class CloudsApiController implements CloudsApi {
       @ApiParam(value = "Unique identifier of the resource", required = true) @PathVariable("id") String id) {
     // inputvalidation+preparation
     if (id.length() != 32) {
-      throw new ApiException(406, "ID not valid. Length must be 32");
+      throw new ApiException(400, "ID not valid. Length must be 32");
     }
     org.cloudiator.messages.Cloud.DeleteCloudRequest deleteCloudRequest = org.cloudiator.messages.Cloud.DeleteCloudRequest
         .newBuilder().setUserId(userService.getUserId()).setCloudId(id).build();
@@ -109,7 +109,7 @@ public class CloudsApiController implements CloudsApi {
 
     //ID Validation
     if (id.length() != 32) {
-      throw new ApiException(406, "ID not valid. Length must be 32");
+      throw new ApiException(400, "ID not valid. Length must be 32");
     }
     //Preparation
     org.cloudiator.messages.Cloud.UpdateCloudRequest.Builder updateCloudRequest = org.cloudiator.messages.Cloud.UpdateCloudRequest
