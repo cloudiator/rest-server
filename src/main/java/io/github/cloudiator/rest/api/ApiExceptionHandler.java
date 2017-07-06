@@ -5,6 +5,8 @@ import io.github.cloudiator.rest.model.Error;
 import io.github.cloudiator.rest.model.NewCloud;
 import io.github.cloudiator.rest.model.Cloud;
 
+import java.net.SocketTimeoutException;
+import java.sql.Timestamp;
 import org.cloudiator.messaging.ResponseException;
 import org.springframework.core.MethodParameter;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -49,8 +51,7 @@ public class ApiExceptionHandler {
     HttpHeaders headers = new HttpHeaders();
     headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
 
-    Error error = new Error();
-    error.code(400);
+    Error error = new Error(400, "");
     //Cutting Error Message
     Integer excount = ex.getBindingResult().getErrorCount();
     Iterator iterator = ex.getBindingResult().getAllErrors().iterator();
@@ -82,8 +83,7 @@ public class ApiExceptionHandler {
     HttpHeaders headers = new HttpHeaders();
     headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
 
-    Error error = new Error();
-    error.code(400);
+    Error error = new Error(400, "");
     error.setMessage(ex.getMessage().substring(0, ex.getMessage().indexOf('\n')));
 
     System.out.println("------------------");
@@ -102,9 +102,7 @@ public class ApiExceptionHandler {
     HttpHeaders headers = new HttpHeaders();
     headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
 
-    Error error = new Error();
-    error.code(404);
-    error.setMessage(e.getMessage());
+    Error error = new Error(404, e.getMessage());
 
     System.out.println("----------------------------------------------");
     System.out.println(error.toString());
@@ -117,19 +115,42 @@ public class ApiExceptionHandler {
   public ResponseEntity<Error> handle(ApiException re) {
     HttpHeaders headers = new HttpHeaders();
     headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
+    Timestamp timestamp = new Timestamp(System.currentTimeMillis());
+    System.out.println(timestamp + " : Server Exception! ");
+    System.err.println("ApiException: " + re.getCode() + ", " + re.getMessage());
 
-    Error error = new Error();
-    error.code(re.getCode());
-    HttpStatus httpStatus = HttpStatus.valueOf(error.getCode());
+    Error error = new Error(re.getCode(), "");
 
-    if (error.getCode() == 409) {
-      String org = re.getMessage()
-          .substring(re.getMessage().indexOf('='), re.getMessage().indexOf(','));
-      error.setMessage("Cloud already exists: id" + org);
-    } else {
-      error.setMessage(re.getMessage());
+    myHttpStatus httpStatus = null;
+
+    switch (re.getCode()) {
+      case 409:
+        String org = re.getMessage()
+            .substring(re.getMessage().indexOf('='), re.getMessage().indexOf(','));
+        error.setMessage("Cloud already exists: id" + org);
+        break;
+      default:
+        error.setMessage(re.getMessage());
+        httpStatus = new myHttpStatus(error.getCode(), error.getMessage());
     }
 
+    System.out.println("----------------------------------------------");
+    System.out.println(error.toString());
+    System.out.println("----------------------------------------------");
+    ResponseEntity<Error> test = new ResponseEntity<Error>(error,headers,HttpStatus.CONFLICT);
+    System.out.println(test);
+    return test;
+  }
+
+  @ExceptionHandler(SocketTimeoutException.class)
+  @ResponseBody
+  public ResponseEntity<Error> handle(SocketTimeoutException re) {
+    HttpHeaders headers = new HttpHeaders();
+    headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
+
+    Error error = new Error(504, re.getMessage());
+
+    HttpStatus httpStatus = HttpStatus.valueOf(error.getCode());
     System.out.println("----------------------------------------------");
     System.out.println(error.toString());
     System.out.println("----------------------------------------------");
@@ -143,9 +164,7 @@ public class ApiExceptionHandler {
     HttpHeaders headers = new HttpHeaders();
     headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
 
-    Error error = new Error();
-    error.code(404);
-    error.setMessage(iae.getMessage());
+    Error error = new Error(404, iae.getMessage());
 
     System.out.println("----------------------------------------------");
     System.out.println(error.toString());
@@ -153,4 +172,29 @@ public class ApiExceptionHandler {
     return new ResponseEntity<>(error, HttpStatus.valueOf(error.getCode()));
   }
 
+}
+
+class myHttpStatus {
+
+  private int value;
+  private String reasonPhrase;
+
+  public myHttpStatus(int value, String reasonPhrase) {
+    this.value = value;
+    this.reasonPhrase = reasonPhrase;
+  }
+
+  /**
+   * Return the integer value of this status code.
+   */
+  public int value() {
+    return this.value;
+  }
+
+  /**
+   * Return the reason phrase of this status code.
+   */
+  public String getReasonPhrase() {
+    return this.reasonPhrase;
+  }
 }

@@ -28,15 +28,19 @@ public class CloudConfigurationConverter implements
 
   @Override
   public IaasEntities.Configuration apply(CloudConfiguration cloudConfiguration) {
-    IaasEntities.Configuration.Builder builder = IaasEntities.Configuration.newBuilder();
-    System.out.println(cloudConfiguration);
-    builder.setNodeGroup(cloudConfiguration.getNodeGroup());
-    if (cloudConfiguration.getProperties() != null) {
-      for (Property property : cloudConfiguration.getProperties()) {
-        builder.addProperty(propertyConverter.apply(property));
+    IaasEntities.Configuration result = null;
+    if (cloudConfiguration != null) {
+      IaasEntities.Configuration.Builder builder = IaasEntities.Configuration.newBuilder();
+      System.out.println(cloudConfiguration);
+      builder.setNodeGroup(cloudConfiguration.getNodeGroup());
+      if (cloudConfiguration.getProperties() != null) {
+        for (Property property : cloudConfiguration.getProperties()) {
+          builder.addProperty(propertyConverter.apply(property));
+        }
       }
+      result = builder.build();
     }
-    return builder.build();
+    return result;
   }
 
 
