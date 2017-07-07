@@ -121,7 +121,6 @@ public class ApiExceptionHandler {
 
     Error error = new Error(re.getCode(), "");
 
-    myHttpStatus httpStatus = null;
 
     switch (re.getCode()) {
       case 409:
@@ -131,7 +130,6 @@ public class ApiExceptionHandler {
         break;
       default:
         error.setMessage(re.getMessage());
-        httpStatus = new myHttpStatus(error.getCode(), error.getMessage());
     }
 
     System.out.println("----------------------------------------------");
@@ -174,27 +172,3 @@ public class ApiExceptionHandler {
 
 }
 
-class myHttpStatus {
-
-  private int value;
-  private String reasonPhrase;
-
-  public myHttpStatus(int value, String reasonPhrase) {
-    this.value = value;
-    this.reasonPhrase = reasonPhrase;
-  }
-
-  /**
-   * Return the integer value of this status code.
-   */
-  public int value() {
-    return this.value;
-  }
-
-  /**
-   * Return the reason phrase of this status code.
-   */
-  public String getReasonPhrase() {
-    return this.reasonPhrase;
-  }
-}

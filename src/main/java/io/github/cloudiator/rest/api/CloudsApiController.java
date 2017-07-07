@@ -47,22 +47,25 @@ public class CloudsApiController implements CloudsApi {
     System.out.println("------------------ addCloud --------------------");
     System.out.println("input: \n" + cloud);
     //preparation
-    Cloud generated = new Cloud();
+    NewCloud generated = new NewCloud();
     generated.setCloudType(cloud.getCloudType());
     generated.setEndpoint(cloud.getEndpoint());
     generated.setApi(cloud.getApi());
     generated.setCredential(cloud.getCredential());
     generated.setCloudConfiguration(cloud.getCloudConfiguration());
+    System.out.println("------------- generated ---------------");
+    System.out.println(generated);
 
     NewCloudConverter newCloudConverter = new NewCloudConverter();
     CloudToCloudConverter cloudToCloudConverter = new CloudToCloudConverter();
-    IaasEntities.NewCloud newCloud = newCloudConverter.apply(cloud);
+    IaasEntities.NewCloud newCloud = newCloudConverter.apply(generated);
     org.cloudiator.messages.Cloud.CreateCloudRequest.Builder builder = org.cloudiator.messages.Cloud.CreateCloudRequest
         .newBuilder();
     builder.setCloud(newCloud);
     builder.setUserId(userService.getUserId());
     org.cloudiator.messages.Cloud.CloudCreatedResponse response = null;
 
+    Cloud feedback = new Cloud();
     //to kafka
     System.out.println("--------- to kafka -------------");
 
@@ -74,10 +77,10 @@ public class CloudsApiController implements CloudsApi {
       throw new ApiException(re.code(), re.getMessage());
     }
 
-    generated = cloudToCloudConverter.applyBack(response.getCloud());
+    feedback = cloudToCloudConverter.applyBack(response.getCloud());
 
     System.out.println("--------- done ------------");
-    return new ResponseEntity<Cloud>(generated, HttpStatus.CREATED);
+    return new ResponseEntity<Cloud>(feedback, HttpStatus.CREATED);
   }
 
   public ResponseEntity<Void> deleteCloud(
