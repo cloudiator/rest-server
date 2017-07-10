@@ -18,7 +18,8 @@ public class VirtualMachineRequestConverter implements
       @Nullable VirtualMachineRequest virtualMachineRequest) {
     return IaasEntities.VirtualMachineRequest.newBuilder()
         .setHardware(virtualMachineRequest.getHardware())
-        .setLocation(virtualMachineRequest.getLocation()).setImage(virtualMachineRequest.getImage())
+        .setLocation(virtualMachineRequest.getLocation())
+        .setImage(virtualMachineRequest.getImage())
         .build();
   }
 }

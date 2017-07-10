@@ -31,12 +31,18 @@ public class CloudConfigurationConverter implements
     IaasEntities.Configuration result = null;
     if (cloudConfiguration != null) {
       IaasEntities.Configuration.Builder builder = IaasEntities.Configuration.newBuilder();
-      System.out.println(cloudConfiguration);
-      builder.setNodeGroup(cloudConfiguration.getNodeGroup());
+      if (cloudConfiguration.getNodeGroup() != null) {
+        builder.setNodeGroup(cloudConfiguration.getNodeGroup());
+      } else {
+        builder.clearNodeGroup();
+      }
+
       if (cloudConfiguration.getProperties() != null) {
         for (Property property : cloudConfiguration.getProperties()) {
           builder.addProperty(propertyConverter.apply(property));
         }
+      } else {
+        builder.clearProperty();
       }
       result = builder.build();
     }
@@ -57,7 +63,8 @@ public class CloudConfigurationConverter implements
 
     @Override
     public IaasEntities.Property apply(Property property) {
-      return IaasEntities.Property.newBuilder().setKey(property.getKey())
+      return IaasEntities.Property.newBuilder()
+          .setKey(property.getKey())
           .setValue(property.getValue()).build();
     }
   }

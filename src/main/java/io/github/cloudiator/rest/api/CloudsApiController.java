@@ -53,8 +53,6 @@ public class CloudsApiController implements CloudsApi {
     generated.setApi(cloud.getApi());
     generated.setCredential(cloud.getCredential());
     generated.setCloudConfiguration(cloud.getCloudConfiguration());
-    System.out.println("------------- generated ---------------");
-    System.out.println(generated);
 
     NewCloudConverter newCloudConverter = new NewCloudConverter();
     CloudToCloudConverter cloudToCloudConverter = new CloudToCloudConverter();

@@ -10,36 +10,44 @@ import org.cloudiator.messages.entities.IaasEntities;
  */
 public class HardwareConverter implements TwoWayConverter<Hardware, IaasEntities.HardwareFlavor> {
 
-    private final LocationConverter locationConverter = new LocationConverter();
+  private final LocationConverter locationConverter = new LocationConverter();
 
 
-    @Override
-    public Hardware applyBack(IaasEntities.HardwareFlavor hardwareFlavor) {
-        Hardware result = new Hardware();
-        result.setName(hardwareFlavor.getName());
-        result.setId(hardwareFlavor.getId());
-        result.setCores(hardwareFlavor.getCores());
-        result.setDisk(hardwareFlavor.getDisk());
-        result.setProviderId(hardwareFlavor.getProviderId());
-        result.setRam(hardwareFlavor.getRam());
-        result.setLocation(locationConverter.applyBack(hardwareFlavor.getLocation()));
+  @Override
+  public Hardware applyBack(IaasEntities.HardwareFlavor hardwareFlavor) {
+    Hardware result = new Hardware();
+    result.setName(hardwareFlavor.getName());
+    result.setId(hardwareFlavor.getId());
+    result.setCores(hardwareFlavor.getCores());
+    result.setDisk(hardwareFlavor.getDisk());
+    result.setProviderId(hardwareFlavor.getProviderId());
+    result.setRam(hardwareFlavor.getRam());
+    result.setLocation(locationConverter.applyBack(hardwareFlavor.getLocation()));
 
-        return result;
+    return result;
+  }
+
+  @Override
+  public IaasEntities.HardwareFlavor apply(Hardware hardware) {
+    IaasEntities.HardwareFlavor.Builder builder = IaasEntities.HardwareFlavor.newBuilder();
+    builder.setName(hardware.getName());
+    builder.setId(hardware.getId());
+    builder.setCores(hardware.getCores());
+    builder.setProviderId(hardware.getProviderId());
+    builder.setRam(hardware.getRam());
+    if (hardware.getDisk() != null) {
+      builder.setDisk(hardware.getDisk());
+    } else {
+      builder.clearDisk();
+    }
+    if (hardware.getLocation() != null) {
+      builder.setLocation(locationConverter.apply(hardware.getLocation()));
+    } else {
+      builder.clearLocation();
     }
 
-    @Override
-    public IaasEntities.HardwareFlavor apply(Hardware hardware) {
-        IaasEntities.HardwareFlavor.Builder builder = IaasEntities.HardwareFlavor.newBuilder();
-        builder.setName(hardware.getName());
-        builder.setId(hardware.getId());
-        builder.setCores(hardware.getCores());
-        builder.setDisk(hardware.getDisk());
-        builder.setProviderId(hardware.getProviderId());
-        builder.setRam(hardware.getRam());
-        builder.setLocation(locationConverter.apply(hardware.getLocation()));
-
-        return builder.build();
-    }
+    return builder.build();
+  }
 
 
 }
