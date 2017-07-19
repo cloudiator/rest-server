@@ -139,7 +139,8 @@ public class ApiExceptionHandler {
     System.out.println("----------------------------------------------");
     System.out.println(error.toString());
     System.out.println("----------------------------------------------");
-    ResponseEntity<Error> test = new ResponseEntity<Error>(error, headers, HttpStatus.CONFLICT);
+    ResponseEntity<Error> test = new ResponseEntity<Error>(error, headers,
+        HttpStatus.valueOf(error.getCode()));
     System.out.println(test);
     return test;
   }
