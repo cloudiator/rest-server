@@ -9,9 +9,9 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * Represents a communication requirement between two components by mapping a required port of a component to a provided port of another component. 
+ * Represents a communication requirement between two tasks by mapping a required port of a task to a provided port of another task. 
  */
-@ApiModel(description = "Represents a communication requirement between two components by mapping a required port of a component to a provided port of another component. ")
+@ApiModel(description = "Represents a communication requirement between two tasks by mapping a required port of a task to a provided port of another task. ")
 
 public class Communication   {
   @JsonProperty("portRequired")

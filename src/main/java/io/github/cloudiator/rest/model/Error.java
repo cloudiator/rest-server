@@ -1,6 +1,5 @@
 package io.github.cloudiator.rest.model;
 
-import io.github.cloudiator.rest.api.ApiException;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -13,17 +12,12 @@ import javax.validation.constraints.*;
  * Error
  */
 
-public class Error {
+public class Error   {
   @JsonProperty("code")
   private Integer code = null;
 
   @JsonProperty("message")
   private String message = null;
-
-  public Error(int code, String msg) {
-    this.code = code;
-    this.message=msg;
-  }
 
   public Error code(Integer code) {
     this.code = code;
@@ -38,7 +32,7 @@ public class Error {
   @NotNull
 
 
-  public int getCode() {
+  public Integer getCode() {
     return code;
   }
 

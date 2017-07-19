@@ -10,9 +10,9 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * Represents a communication port that the component provides for other components or the end user. 
+ * Represents a communication port that the tasks provides for other tasks or the end user. 
  */
-@ApiModel(description = "Represents a communication port that the component provides for other components or the end user. ")
+@ApiModel(description = "Represents a communication port that the tasks provides for other tasks or the end user. ")
 
 public class PortProvided extends Port  {
   @JsonProperty("port")

@@ -51,7 +51,8 @@ public class ApiExceptionHandler {
     HttpHeaders headers = new HttpHeaders();
     headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
 
-    Error error = new Error(400, "");
+    Error error = new Error();
+    error.setCode(400);
     //Cutting Error Message
     Integer excount = ex.getBindingResult().getErrorCount();
     Iterator iterator = ex.getBindingResult().getAllErrors().iterator();
@@ -83,7 +84,8 @@ public class ApiExceptionHandler {
     HttpHeaders headers = new HttpHeaders();
     headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
 
-    Error error = new Error(400, "");
+    Error error = new Error();
+    error.setCode(400);
     error.setMessage(ex.getMessage().substring(0, ex.getMessage().indexOf('\n')));
 
     System.out.println("------------------");
@@ -102,7 +104,9 @@ public class ApiExceptionHandler {
     HttpHeaders headers = new HttpHeaders();
     headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
 
-    Error error = new Error(404, e.getMessage());
+    Error error = new Error();
+    error.setCode(404);
+    error.setMessage(e.getMessage());
 
     System.out.println("----------------------------------------------");
     System.out.println(error.toString());
@@ -119,8 +123,8 @@ public class ApiExceptionHandler {
     System.out.println(timestamp + " : Server Exception! ");
     System.err.println("ApiException: " + re.getCode() + ", " + re.getMessage());
 
-    Error error = new Error(re.getCode(), "");
-
+    Error error = new Error();
+    error.setCode(re.getCode());
 
     switch (re.getCode()) {
       case 409:
@@ -135,7 +139,7 @@ public class ApiExceptionHandler {
     System.out.println("----------------------------------------------");
     System.out.println(error.toString());
     System.out.println("----------------------------------------------");
-    ResponseEntity<Error> test = new ResponseEntity<Error>(error,headers,HttpStatus.CONFLICT);
+    ResponseEntity<Error> test = new ResponseEntity<Error>(error, headers, HttpStatus.CONFLICT);
     System.out.println(test);
     return test;
   }
@@ -146,7 +150,9 @@ public class ApiExceptionHandler {
     HttpHeaders headers = new HttpHeaders();
     headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
 
-    Error error = new Error(504, re.getMessage());
+    Error error = new Error();
+    error.setCode(504);
+    error.setMessage(re.getMessage());
 
     HttpStatus httpStatus = HttpStatus.valueOf(error.getCode());
     System.out.println("----------------------------------------------");
@@ -162,7 +168,9 @@ public class ApiExceptionHandler {
     HttpHeaders headers = new HttpHeaders();
     headers.setContentType(MediaType.APPLICATION_JSON_UTF8);
 
-    Error error = new Error(404, iae.getMessage());
+    Error error = new Error();
+    error.setCode(404);
+    error.setMessage(iae.getMessage());
 
     System.out.println("----------------------------------------------");
     System.out.println(error.toString());

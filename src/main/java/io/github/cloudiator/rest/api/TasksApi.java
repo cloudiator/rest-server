@@ -21,37 +21,34 @@ import javax.validation.Valid;
 @Api(value = "tasks", description = "the tasks API")
 public interface TasksApi {
 
-  @ApiOperation(value = "", notes = "Returns the task identified by the id parameter. ", response = Task.class, tags = {
-      "task",})
-  @ApiResponses(value = {
-      @ApiResponse(code = 200, message = "OK", response = Task.class),
-      @ApiResponse(code = 400, message = "Bad Request", response = Error.class),
-      @ApiResponse(code = 401, message = "Authorization for this action is missing", response = Error.class),
-      @ApiResponse(code = 403, message = "Forbidden action", response = Error.class),
-      @ApiResponse(code = 404, message = "Item not found", response = Error.class),
-      @ApiResponse(code = 500, message = "An unexpected Error occured", response = Error.class),
-      @ApiResponse(code = 504, message = "Service temporary unavailable", response = Error.class)})
+    @ApiOperation(value = "", notes = "Creates a new task ", response = Task.class, tags={ "job", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "OK ", response = Task.class),
+        @ApiResponse(code = 400, message = "Bad Request", response = Task.class),
+        @ApiResponse(code = 401, message = "Authorization for this action is missing", response = Task.class),
+        @ApiResponse(code = 403, message = "Forbidden action", response = Task.class),
+        @ApiResponse(code = 404, message = "Item not found", response = Task.class),
+        @ApiResponse(code = 500, message = "An unexpected Error occured", response = Task.class),
+        @ApiResponse(code = 504, message = "Server temporary not available", response = Task.class) })
+    
+    @RequestMapping(value = "/tasks",
+        produces = { "application/json" }, 
+        consumes = { "application/json" },
+        method = RequestMethod.POST)
+    ResponseEntity<Task> addTask(@ApiParam(value = "Task to be created " ,required=true )  @Valid @RequestBody Task task);
 
-  @RequestMapping(value = "/tasks/{id}",
-      produces = {"application/json"},
-      method = RequestMethod.GET)
-  ResponseEntity<Task> findTask(
-      @ApiParam(value = "Unique identifier of the resource", required = true) @PathVariable("id") String id);
 
-
-  @ApiOperation(value = "", notes = "Returns all running tasks visible to the user ", response = Task.class, responseContainer = "List", tags = {
-      "task",})
-  @ApiResponses(value = {
-      @ApiResponse(code = 200, message = "OK", response = Task.class),
-      @ApiResponse(code = 400, message = "Bad Request", response = Error.class),
-      @ApiResponse(code = 401, message = "Authorization for this action is missing", response = Error.class),
-      @ApiResponse(code = 403, message = "Forbidden action", response = Error.class),
-      @ApiResponse(code = 500, message = "An unexpected Error occured", response = Error.class),
-      @ApiResponse(code = 504, message = "Service temporary unavailable", response = Error.class)})
-
-  @RequestMapping(value = "/tasks",
-      produces = {"application/json"},
-      method = RequestMethod.GET)
-  ResponseEntity<List<Task>> findTasks();
+    @ApiOperation(value = "", notes = "Returns all tasks visible to the user ", response = Task.class, responseContainer = "List", tags={ "job", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "OK ", response = Task.class),
+        @ApiResponse(code = 401, message = "Authorization for this action is missing", response = Task.class),
+        @ApiResponse(code = 403, message = "Forbidden action", response = Task.class),
+        @ApiResponse(code = 500, message = "An unexpected Error occured", response = Task.class),
+        @ApiResponse(code = 504, message = "Server temporary not available", response = Task.class) })
+    
+    @RequestMapping(value = "/tasks",
+        produces = { "application/json" }, 
+        method = RequestMethod.GET)
+    ResponseEntity<List<Task>> findTasks();
 
 }

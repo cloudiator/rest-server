@@ -29,15 +29,20 @@ public class TasksApiController implements TasksApi {
   @Autowired
   private UserService userService;
 
+  @Override
+  public ResponseEntity<Task> addTask(Task task) {
+    return null;
+  }
+
   public ResponseEntity<List<Task>> findTasks() {
     // do some magic!
     return new ResponseEntity<List<Task>>(HttpStatus.OK);
   }
-
+/*
   public ResponseEntity<Task> findTask(
       @ApiParam(value = "Unique identifier of the resource", required = true) @PathVariable("id") String id) {
     // do some magic!
     return new ResponseEntity<Task>(HttpStatus.OK);
   }
-
+*/
 }

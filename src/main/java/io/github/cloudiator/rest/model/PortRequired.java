@@ -10,9 +10,9 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * Represents a communication port that the component requires from other (downstream) components. 
+ * Represents a communication port that the task requires from other (downstream) tasks. 
  */
-@ApiModel(description = "Represents a communication port that the component requires from other (downstream) components. ")
+@ApiModel(description = "Represents a communication port that the task requires from other (downstream) tasks. ")
 
 public class PortRequired extends Port  {
   @JsonProperty("updateAction")
@@ -27,10 +27,10 @@ public class PortRequired extends Port  {
   }
 
    /**
-   * A script that is executed if a new instance of a downstream component is available. 
+   * A script that is executed if a new instance of a downstream task is available. 
    * @return updateAction
   **/
-  @ApiModelProperty(example = "./mediawiki-tutorial/scripts/lance/haproxy.sh configure", value = "A script that is executed if a new instance of a downstream component is available. ")
+  @ApiModelProperty(example = "./mediawiki-tutorial/scripts/lance/haproxy.sh configure", value = "A script that is executed if a new instance of a downstream task is available. ")
 
 
   public String getUpdateAction() {
@@ -47,10 +47,10 @@ public class PortRequired extends Port  {
   }
 
    /**
-   * States if an instance of a downstream components needs to be already started (true), or if the component can start without a downstream component (false). 
+   * States if an instance of a downstream tasks needs to be already started (true), or if the task can start without a downstream task (false). 
    * @return isMandatory
   **/
-  @ApiModelProperty(example = "true", value = "States if an instance of a downstream components needs to be already started (true), or if the component can start without a downstream component (false). ")
+  @ApiModelProperty(example = "true", value = "States if an instance of a downstream tasks needs to be already started (true), or if the task can start without a downstream task (false). ")
 
 
   public Boolean getIsMandatory() {
