@@ -31,10 +31,18 @@ public class CloudToCloudConverter implements TwoWayConverter<Cloud, IaasEntitie
     IaasEntities.Cloud.Builder builder = IaasEntities.Cloud.newBuilder();
 
     builder.setId(cloud.getId());
-    builder.setEndpoint(cloud.getEndpoint());
+    if (cloud.getEndpoint() != null) {
+      builder.setEndpoint(cloud.getEndpoint());
+    } else {
+      builder.clearEndpoint();
+    }
     builder.setCloudType(cloudTypeConverter.apply(cloud.getCloudType()));
     builder.setApi(apiToApiConverter.apply(cloud.getApi()));
-    builder.setConfiguration(cloudConfigurationConverter.apply(cloud.getCloudConfiguration()));
+    if (cloud.getCloudConfiguration() != null) {
+      builder.setConfiguration(cloudConfigurationConverter.apply(cloud.getCloudConfiguration()));
+    } else {
+      builder.clearConfiguration();
+    }
     builder.setCredential(cloudCredentialConverter.apply(cloud.getCredential()));
 
     return builder.build();

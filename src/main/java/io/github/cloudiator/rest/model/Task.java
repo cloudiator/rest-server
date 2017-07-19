@@ -3,74 +3,107 @@ package io.github.cloudiator.rest.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
+import io.github.cloudiator.rest.model.ModelInterface;
+import io.github.cloudiator.rest.model.Port;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import java.util.ArrayList;
+import java.util.List;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * Represents a long-running task within the system 
+ * Represents a task of a job. 
  */
-@ApiModel(description = "Represents a long-running task within the system ")
+@ApiModel(description = "Represents a task of a job. ")
 
 public class Task   {
-  /**
-   * The status of the running task 
-   */
-  public enum StatusEnum {
-    SCHEDULED("SCHEDULED"),
-    
-    RUNNING("RUNNING"),
-    
-    COMPLETED("COMPLETED"),
-    
-    FAILED("FAILED");
+  @JsonProperty("name")
+  private String name = null;
 
-    private String value;
+  @JsonProperty("ports")
+  private List<Port> ports = null;
 
-    StatusEnum(String value) {
-      this.value = value;
-    }
+  @JsonProperty("interfaces")
+  private List<ModelInterface> interfaces = null;
 
-    @Override
-    @JsonValue
-    public String toString() {
-      return String.valueOf(value);
-    }
-
-    @JsonCreator
-    public static StatusEnum fromValue(String text) {
-      for (StatusEnum b : StatusEnum.values()) {
-        if (String.valueOf(b.value).equals(text)) {
-          return b;
-        }
-      }
-      return null;
-    }
-  }
-
-  @JsonProperty("status")
-  private StatusEnum status = null;
-
-  public Task status(StatusEnum status) {
-    this.status = status;
+  public Task name(String name) {
+    this.name = name;
     return this;
   }
 
    /**
-   * The status of the running task 
-   * @return status
+   * Human-readable name. Uniquely identifies a task.
+   * @return name
   **/
-  @ApiModelProperty(value = "The status of the running task ")
+  @ApiModelProperty(required = true, value = "Human-readable name. Uniquely identifies a task.")
+  @NotNull
 
 
-  public StatusEnum getStatus() {
-    return status;
+  public String getName() {
+    return name;
   }
 
-  public void setStatus(StatusEnum status) {
-    this.status = status;
+  public void setName(String name) {
+    this.name = name;
+  }
+
+  public Task ports(List<Port> ports) {
+    this.ports = ports;
+    return this;
+  }
+
+  public Task addPortsItem(Port portsItem) {
+    if (this.ports == null) {
+      this.ports = new ArrayList<Port>();
+    }
+    this.ports.add(portsItem);
+    return this;
+  }
+
+   /**
+   * Get ports
+   * @return ports
+  **/
+  @ApiModelProperty(value = "")
+
+  @Valid
+
+  public List<Port> getPorts() {
+    return ports;
+  }
+
+  public void setPorts(List<Port> ports) {
+    this.ports = ports;
+  }
+
+  public Task interfaces(List<ModelInterface> interfaces) {
+    this.interfaces = interfaces;
+    return this;
+  }
+
+  public Task addInterfacesItem(ModelInterface interfacesItem) {
+    if (this.interfaces == null) {
+      this.interfaces = new ArrayList<ModelInterface>();
+    }
+    this.interfaces.add(interfacesItem);
+    return this;
+  }
+
+   /**
+   * Interfaces of this task
+   * @return interfaces
+  **/
+  @ApiModelProperty(value = "Interfaces of this task")
+
+  @Valid
+
+  public List<ModelInterface> getInterfaces() {
+    return interfaces;
+  }
+
+  public void setInterfaces(List<ModelInterface> interfaces) {
+    this.interfaces = interfaces;
   }
 
 
@@ -83,12 +116,14 @@ public class Task   {
       return false;
     }
     Task task = (Task) o;
-    return Objects.equals(this.status, task.status);
+    return Objects.equals(this.name, task.name) &&
+        Objects.equals(this.ports, task.ports) &&
+        Objects.equals(this.interfaces, task.interfaces);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(status);
+    return Objects.hash(name, ports, interfaces);
   }
 
   @Override
@@ -96,7 +131,9 @@ public class Task   {
     StringBuilder sb = new StringBuilder();
     sb.append("class Task {\n");
     
-    sb.append("    status: ").append(toIndentedString(status)).append("\n");
+    sb.append("    name: ").append(toIndentedString(name)).append("\n");
+    sb.append("    ports: ").append(toIndentedString(ports)).append("\n");
+    sb.append("    interfaces: ").append(toIndentedString(interfaces)).append("\n");
     sb.append("}");
     return sb.toString();
   }

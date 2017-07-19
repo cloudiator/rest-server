@@ -11,9 +11,9 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * Represents a communication port of a component 
+ * Represents a communication port of a task 
  */
-@ApiModel(description = "Represents a communication port of a component ")
+@ApiModel(description = "Represents a communication port of a task ")
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type", visible = true )
 @JsonSubTypes({
   @JsonSubTypes.Type(value = PortProvided.class, name = "PortProvided"),
@@ -53,10 +53,10 @@ public class Port   {
   }
 
    /**
-   * Uniquely identifies a port. Defines the name of the environment variables holding IP addresses of remote components. 
+   * Uniquely identifies a port. Defines the name of the environment variables holding IP addresses of remote tasks. 
    * @return name
   **/
-  @ApiModelProperty(example = "LOADBALANCERREQWIKI", required = true, value = "Uniquely identifies a port. Defines the name of the environment variables holding IP addresses of remote components. ")
+  @ApiModelProperty(example = "LOADBALANCERREQWIKI", required = true, value = "Uniquely identifies a port. Defines the name of the environment variables holding IP addresses of remote tasks. ")
   @NotNull
 
 

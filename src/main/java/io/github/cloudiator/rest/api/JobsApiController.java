@@ -1,7 +1,7 @@
 package io.github.cloudiator.rest.api;
 
 import io.github.cloudiator.rest.model.Error;
-import io.github.cloudiator.rest.model.PlatformRuntime;
+import io.github.cloudiator.rest.model.Job;
 
 import io.swagger.annotations.*;
 
@@ -21,23 +21,18 @@ import javax.validation.constraints.*;
 import javax.validation.Valid;
 
 @Controller
-public class PlatformRuntimeApiController implements PlatformRuntimeApi {
+public class JobsApiController implements JobsApi {
 
 
 
-    public ResponseEntity<PlatformRuntime> addPlatformRuntime(@ApiParam(value = "PlatformRuntime to be created " ,required=true )  @Valid @RequestBody PlatformRuntime platformRuntime) {
+    public ResponseEntity<Job> addJob(@ApiParam(value = "Job to be created. " ,required=true )  @Valid @RequestBody Job job) {
         // do some magic!
-        return new ResponseEntity<PlatformRuntime>(HttpStatus.OK);
+        return new ResponseEntity<Job>(HttpStatus.OK);
     }
 
-    public ResponseEntity<PlatformRuntime> findPlatformRuntime(@ApiParam(value = "Unique identifier of the resource",required=true ) @PathVariable("id") String id) {
+    public ResponseEntity<List<Job>> findJobs() {
         // do some magic!
-        return new ResponseEntity<PlatformRuntime>(HttpStatus.OK);
-    }
-
-    public ResponseEntity<List<PlatformRuntime>> findPlatformRuntimes() {
-        // do some magic!
-        return new ResponseEntity<List<PlatformRuntime>>(HttpStatus.OK);
+        return new ResponseEntity<List<Job>>(HttpStatus.OK);
     }
 
 }

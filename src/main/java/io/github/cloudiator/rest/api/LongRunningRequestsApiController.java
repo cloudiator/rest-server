@@ -1,7 +1,7 @@
 package io.github.cloudiator.rest.api;
 
 import io.github.cloudiator.rest.model.Error;
-import io.github.cloudiator.rest.model.PlatformRuntime;
+import io.github.cloudiator.rest.model.LongRunningRequest;
 
 import io.swagger.annotations.*;
 
@@ -21,23 +21,18 @@ import javax.validation.constraints.*;
 import javax.validation.Valid;
 
 @Controller
-public class PlatformRuntimeApiController implements PlatformRuntimeApi {
+public class LongRunningRequestsApiController implements LongRunningRequestsApi {
 
 
 
-    public ResponseEntity<PlatformRuntime> addPlatformRuntime(@ApiParam(value = "PlatformRuntime to be created " ,required=true )  @Valid @RequestBody PlatformRuntime platformRuntime) {
+    public ResponseEntity<List<LongRunningRequest>> findAllLongRunningRequest() {
         // do some magic!
-        return new ResponseEntity<PlatformRuntime>(HttpStatus.OK);
+        return new ResponseEntity<List<LongRunningRequest>>(HttpStatus.OK);
     }
 
-    public ResponseEntity<PlatformRuntime> findPlatformRuntime(@ApiParam(value = "Unique identifier of the resource",required=true ) @PathVariable("id") String id) {
+    public ResponseEntity<LongRunningRequest> findLongRunningRequest(@ApiParam(value = "Unique identifier of the resource",required=true ) @PathVariable("id") String id) {
         // do some magic!
-        return new ResponseEntity<PlatformRuntime>(HttpStatus.OK);
-    }
-
-    public ResponseEntity<List<PlatformRuntime>> findPlatformRuntimes() {
-        // do some magic!
-        return new ResponseEntity<List<PlatformRuntime>>(HttpStatus.OK);
+        return new ResponseEntity<LongRunningRequest>(HttpStatus.OK);
     }
 
 }

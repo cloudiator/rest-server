@@ -46,8 +46,7 @@ public class Cloud   {
    * URI where the api of this cloud provider can be accessed.
    * @return endpoint
   **/
-  @ApiModelProperty(example = "https://endpoint.example.com", required = true, value = "URI where the api of this cloud provider can be accessed.")
-  @NotNull
+  @ApiModelProperty(example = "https://endpoint.example.com", value = "URI where the api of this cloud provider can be accessed.")
 
 
   public String getEndpoint() {

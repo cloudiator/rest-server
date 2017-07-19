@@ -1,5 +1,6 @@
 package io.github.cloudiator.rest.api;
 
+import io.github.cloudiator.rest.model.Error;
 import io.github.cloudiator.rest.model.PlatformHardware;
 
 import io.swagger.annotations.*;
@@ -22,7 +23,13 @@ public interface PlatformHardwareApi {
 
     @ApiOperation(value = "", notes = "Creates a new PlatformHardware ", response = PlatformHardware.class, tags={ "platform", })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "OK ", response = PlatformHardware.class) })
+        @ApiResponse(code = 200, message = "OK ", response = PlatformHardware.class),
+        @ApiResponse(code = 400, message = "Bad Request", response = PlatformHardware.class),
+        @ApiResponse(code = 401, message = "Authorization for this action is missing", response = PlatformHardware.class),
+        @ApiResponse(code = 403, message = "Forbidden action", response = PlatformHardware.class),
+        @ApiResponse(code = 404, message = "Item not found", response = PlatformHardware.class),
+        @ApiResponse(code = 500, message = "An unexpected Error occured", response = PlatformHardware.class),
+        @ApiResponse(code = 504, message = "Server temporary not available", response = PlatformHardware.class) })
     
     @RequestMapping(value = "/platformHardware",
         produces = { "application/json" }, 
@@ -33,22 +40,28 @@ public interface PlatformHardwareApi {
 
     @ApiOperation(value = "", notes = "Returns the PlatformHardware identified by the id parameter. ", response = PlatformHardware.class, tags={ "platform", })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "OK", response = PlatformHardware.class) })
+        @ApiResponse(code = 200, message = "OK", response = PlatformHardware.class),
+        @ApiResponse(code = 401, message = "Authorization for this action is missing", response = PlatformHardware.class),
+        @ApiResponse(code = 403, message = "Forbidden action", response = PlatformHardware.class),
+        @ApiResponse(code = 500, message = "An unexpected Error occured", response = PlatformHardware.class),
+        @ApiResponse(code = 504, message = "Server temporary not available", response = PlatformHardware.class) })
     
     @RequestMapping(value = "/platformHardware/{id}",
         produces = { "application/json" }, 
-        consumes = { "application/json" },
         method = RequestMethod.GET)
     ResponseEntity<PlatformHardware> findPlatformHardware(@ApiParam(value = "Unique identifier of the resource",required=true ) @PathVariable("id") String id);
 
 
     @ApiOperation(value = "", notes = "Returns all platform hardware visible to the user ", response = PlatformHardware.class, responseContainer = "List", tags={ "platform", })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "OK ", response = PlatformHardware.class) })
+        @ApiResponse(code = 200, message = "OK ", response = PlatformHardware.class),
+        @ApiResponse(code = 401, message = "Authorization for this action is missing", response = PlatformHardware.class),
+        @ApiResponse(code = 403, message = "Forbidden action", response = PlatformHardware.class),
+        @ApiResponse(code = 500, message = "An unexpected Error occured", response = PlatformHardware.class),
+        @ApiResponse(code = 504, message = "Server temporary not available", response = PlatformHardware.class) })
     
     @RequestMapping(value = "/platformHardware",
         produces = { "application/json" }, 
-        consumes = { "application/json" },
         method = RequestMethod.GET)
     ResponseEntity<List<PlatformHardware>> findPlatformHardwares();
 

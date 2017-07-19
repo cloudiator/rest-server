@@ -3,39 +3,38 @@ package io.github.cloudiator.rest.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.github.cloudiator.rest.model.Port;
+import io.github.cloudiator.rest.model.ModelInterface;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * Represents a communication port that the tasks provides for other tasks or the end user. 
+ * DockerInterface
  */
-@ApiModel(description = "Represents a communication port that the tasks provides for other tasks or the end user. ")
 
-public class PortProvided extends Port  {
-  @JsonProperty("port")
-  private Integer port = null;
+public class DockerInterface extends ModelInterface  {
+  @JsonProperty("dockerImage")
+  private String dockerImage = null;
 
-  public PortProvided port(Integer port) {
-    this.port = port;
+  public DockerInterface dockerImage(String dockerImage) {
+    this.dockerImage = dockerImage;
     return this;
   }
 
    /**
-   * Get port
-   * @return port
+   * Name of the docker image 
+   * @return dockerImage
   **/
-  @ApiModelProperty(example = "80", value = "")
+  @ApiModelProperty(value = "Name of the docker image ")
 
 
-  public Integer getPort() {
-    return port;
+  public String getDockerImage() {
+    return dockerImage;
   }
 
-  public void setPort(Integer port) {
-    this.port = port;
+  public void setDockerImage(String dockerImage) {
+    this.dockerImage = dockerImage;
   }
 
 
@@ -47,22 +46,22 @@ public class PortProvided extends Port  {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    PortProvided portProvided = (PortProvided) o;
-    return Objects.equals(this.port, portProvided.port) &&
+    DockerInterface dockerInterface = (DockerInterface) o;
+    return Objects.equals(this.dockerImage, dockerInterface.dockerImage) &&
         super.equals(o);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(port, super.hashCode());
+    return Objects.hash(dockerImage, super.hashCode());
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class PortProvided {\n");
+    sb.append("class DockerInterface {\n");
     sb.append("    ").append(toIndentedString(super.toString())).append("\n");
-    sb.append("    port: ").append(toIndentedString(port)).append("\n");
+    sb.append("    dockerImage: ").append(toIndentedString(dockerImage)).append("\n");
     sb.append("}");
     return sb.toString();
   }

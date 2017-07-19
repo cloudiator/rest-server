@@ -1,5 +1,6 @@
 package io.github.cloudiator.rest.api;
 
+import io.github.cloudiator.rest.model.Error;
 import io.github.cloudiator.rest.model.PlatformHardware;
 
 import io.swagger.annotations.*;

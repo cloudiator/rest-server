@@ -1,5 +1,6 @@
 package io.github.cloudiator.rest.api;
 
+import io.github.cloudiator.rest.model.Error;
 import io.github.cloudiator.rest.model.Image;
 
 import io.swagger.annotations.*;
@@ -22,7 +23,13 @@ public interface ImagesApi {
 
     @ApiOperation(value = "", notes = "Updates a specific image ", response = Image.class, tags={ "cloud", })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "OK ", response = Image.class) })
+        @ApiResponse(code = 200, message = "OK ", response = Image.class),
+        @ApiResponse(code = 400, message = "Bad Request", response = Image.class),
+        @ApiResponse(code = 401, message = "Authorization for this action is missing", response = Image.class),
+        @ApiResponse(code = 403, message = "Forbidden action", response = Image.class),
+        @ApiResponse(code = 404, message = "Item not found", response = Image.class),
+        @ApiResponse(code = 500, message = "An unexpected Error occured", response = Image.class),
+        @ApiResponse(code = 504, message = "Server temporary not available", response = Image.class) })
     
     @RequestMapping(value = "/images/{id}",
         produces = { "application/json" }, 
@@ -33,7 +40,11 @@ public interface ImagesApi {
 
     @ApiOperation(value = "", notes = "Returns all images visable to the user ", response = Image.class, responseContainer = "List", tags={ "cloud", })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "All images ", response = Image.class) })
+        @ApiResponse(code = 200, message = "All images ", response = Image.class),
+        @ApiResponse(code = 401, message = "Authorization for this action is missing", response = Image.class),
+        @ApiResponse(code = 403, message = "Forbidden action", response = Image.class),
+        @ApiResponse(code = 500, message = "An unexpected Error occured", response = Image.class),
+        @ApiResponse(code = 504, message = "Server temporary not available", response = Image.class) })
     
     @RequestMapping(value = "/images",
         produces = { "application/json" }, 

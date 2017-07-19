@@ -16,8 +16,9 @@
   <bean id="locationService" factory-bean="serviceFactory" factory-method="createLocationService"/>
 
   <bean id="imageService" factory-bean="serviceFactory" factory-method="createImageService"/>
-
-  <bean id="virtualMachineService" factory-bean="serviceFactory" factory-method="createVirtualMachineService"/>
+  
+  <bean id="virtualMachineService" factory-bean="serviceFactory"
+    factory-method="createVirtualMachineService"/>
 
   <bean id="applicationService" factory-bean="serviceFactory"
     factory-method="createApplicationService"/>

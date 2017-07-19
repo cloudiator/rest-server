@@ -47,7 +47,7 @@ public class CloudsApiController implements CloudsApi {
     System.out.println("------------------ addCloud --------------------");
     System.out.println("input: \n" + cloud);
     //preparation
-    Cloud generated = new Cloud();
+    NewCloud generated = new NewCloud();
     generated.setCloudType(cloud.getCloudType());
     generated.setEndpoint(cloud.getEndpoint());
     generated.setApi(cloud.getApi());
@@ -56,13 +56,14 @@ public class CloudsApiController implements CloudsApi {
 
     NewCloudConverter newCloudConverter = new NewCloudConverter();
     CloudToCloudConverter cloudToCloudConverter = new CloudToCloudConverter();
-    IaasEntities.NewCloud newCloud = newCloudConverter.apply(cloud);
+    IaasEntities.NewCloud newCloud = newCloudConverter.apply(generated);
     org.cloudiator.messages.Cloud.CreateCloudRequest.Builder builder = org.cloudiator.messages.Cloud.CreateCloudRequest
         .newBuilder();
     builder.setCloud(newCloud);
     builder.setUserId(userService.getUserId());
     org.cloudiator.messages.Cloud.CloudCreatedResponse response = null;
 
+    Cloud feedback = new Cloud();
     //to kafka
     System.out.println("--------- to kafka -------------");
 
@@ -74,17 +75,17 @@ public class CloudsApiController implements CloudsApi {
       throw new ApiException(re.code(), re.getMessage());
     }
 
-    generated = cloudToCloudConverter.applyBack(response.getCloud());
+    feedback = cloudToCloudConverter.applyBack(response.getCloud());
 
     System.out.println("--------- done ------------");
-    return new ResponseEntity<Cloud>(generated, HttpStatus.CREATED);
+    return new ResponseEntity<Cloud>(feedback, HttpStatus.CREATED);
   }
 
   public ResponseEntity<Void> deleteCloud(
       @ApiParam(value = "Unique identifier of the resource", required = true) @PathVariable("id") String id) {
     // inputvalidation+preparation
     if (id.length() != 32) {
-      throw new ApiException(406, "ID not valid. Length must be 32");
+      throw new ApiException(400, "ID not valid. Length must be 32");
     }
     org.cloudiator.messages.Cloud.DeleteCloudRequest deleteCloudRequest = org.cloudiator.messages.Cloud.DeleteCloudRequest
         .newBuilder().setUserId(userService.getUserId()).setCloudId(id).build();
@@ -109,7 +110,7 @@ public class CloudsApiController implements CloudsApi {
 
     //ID Validation
     if (id.length() != 32) {
-      throw new ApiException(406, "ID not valid. Length must be 32");
+      throw new ApiException(400, "ID not valid. Length must be 32");
     }
     //Preparation
     org.cloudiator.messages.Cloud.UpdateCloudRequest.Builder updateCloudRequest = org.cloudiator.messages.Cloud.UpdateCloudRequest
