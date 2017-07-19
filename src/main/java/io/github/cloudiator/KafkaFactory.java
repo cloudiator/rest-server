@@ -12,22 +12,16 @@ import org.slf4j.LoggerFactory;
  */
 public class KafkaFactory {
 
-  private static String CONFIG_FILE_LOCATION = System.getProperty("kafkaConfigFile");
-  private static final String DEFAULT_CONFIG_FILE_LOCATION = "kafka.properties";
+  private static final String CONFIG_FILE_LOCATION_KEY = "kafka.config.file";
+  private static final String DEFAULT_CONFIG_FILE_NAME = "kafka.properties";
 
-  private static final Logger LOGGER =
-      LoggerFactory.getLogger(KafkaFactory.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(KafkaFactory.class);
 
   public Kafka createKafka() {
-
-    if (CONFIG_FILE_LOCATION == null) {
-      CONFIG_FILE_LOCATION = DEFAULT_CONFIG_FILE_LOCATION;
-      LOGGER.warn("Could not read system property. Falling back to default.");
-    }
-    LOGGER.debug("Trying to open kafkaConfigFile from " + CONFIG_FILE_LOCATION);
-
+    
     try {
-      Properties properties = PropertiesLoader.loadPropertiesFrom(CONFIG_FILE_LOCATION);
+      LOGGER.info("creating kafka: loading properties");
+      Properties properties = PropertiesLoader.loadPropertiesWithException(CONFIG_FILE_LOCATION_KEY, DEFAULT_CONFIG_FILE_NAME);
       return new Kafka(properties.getProperty("bootstrap.servers"),
           properties.getProperty("group.id"));
     } catch (IOException e) {
