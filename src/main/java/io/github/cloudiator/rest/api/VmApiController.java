@@ -3,10 +3,10 @@ package io.github.cloudiator.rest.api;
 import io.github.cloudiator.rest.UserService;
 import io.github.cloudiator.rest.converter.VirtualMachineRequestConverter;
 import io.github.cloudiator.rest.model.LongRunningRequest;
-import io.github.cloudiator.rest.model.Task;
 import io.github.cloudiator.rest.model.VirtualMachineRequest;
 import io.swagger.annotations.ApiParam;
 import javax.validation.Valid;
+import org.cloudiator.messages.Vm.CreateVirtualMachineRequestMessage;
 import org.cloudiator.messaging.ResponseException;
 import org.cloudiator.messaging.services.VirtualMachineService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,10 +28,10 @@ public class VmApiController implements VmApi {
 
   public ResponseEntity<LongRunningRequest> addVM(
       @ApiParam(value = "VirtualMachine Request", required = true) @Valid @RequestBody VirtualMachineRequest virtualMachineRequest) {
-/*
+
     VirtualMachineRequestConverter virtualMachineRequestConverter = new VirtualMachineRequestConverter();
 
-    CreateVirtualMachineRequestRequest request = CreateVirtualMachineRequestRequest.newBuilder()
+    CreateVirtualMachineRequestMessage request = CreateVirtualMachineRequestMessage.newBuilder()
         .setUserId(userService.getUserId())
         .setVirtualMachineRequest(virtualMachineRequestConverter.apply(virtualMachineRequest))
         .build();
@@ -41,7 +41,7 @@ public class VmApiController implements VmApi {
     } catch (ResponseException e) {
       e.printStackTrace();
     }
-*/
+
     // do some magic!
     return new ResponseEntity<>(HttpStatus.OK);
   }
