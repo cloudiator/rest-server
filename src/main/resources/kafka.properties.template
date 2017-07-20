@@ -1,3 +1,2 @@
 bootstrap.servers = $KAFKA_BOOTSTRAP_SERVERS_IP
 group.id = "$KAFKA_GROUP_ID"
-responseTimeout = $KAFKA_RESPONSE_TIMEOUT
