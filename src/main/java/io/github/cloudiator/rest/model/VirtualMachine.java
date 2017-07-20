@@ -3,9 +3,8 @@ package io.github.cloudiator.rest.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.github.cloudiator.rest.model.Hardware;
-import io.github.cloudiator.rest.model.Image;
-import io.github.cloudiator.rest.model.Location;
+import io.github.cloudiator.rest.model.IpAddress;
+import io.github.cloudiator.rest.model.LoginCredential;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import javax.validation.Valid;
@@ -17,15 +16,24 @@ import javax.validation.constraints.*;
 
 public class VirtualMachine   {
   @JsonProperty("image")
-  private Image image = null;
+  private String image = null;
 
   @JsonProperty("hardware")
-  private Hardware hardware = null;
+  private String hardware = null;
 
   @JsonProperty("location")
-  private Location location = null;
+  private String location = null;
 
-  public VirtualMachine image(Image image) {
+  @JsonProperty("id")
+  private String id = null;
+
+  @JsonProperty("ipaddress")
+  private IpAddress ipaddress = null;
+
+  @JsonProperty("logincredential")
+  private LoginCredential logincredential = null;
+
+  public VirtualMachine image(String image) {
     this.image = image;
     return this;
   }
@@ -34,19 +42,18 @@ public class VirtualMachine   {
    * Get image
    * @return image
   **/
-  @ApiModelProperty(value = "")
+  @ApiModelProperty(example = "the image", value = "")
 
-  @Valid
 
-  public Image getImage() {
+  public String getImage() {
     return image;
   }
 
-  public void setImage(Image image) {
+  public void setImage(String image) {
     this.image = image;
   }
 
-  public VirtualMachine hardware(Hardware hardware) {
+  public VirtualMachine hardware(String hardware) {
     this.hardware = hardware;
     return this;
   }
@@ -55,19 +62,18 @@ public class VirtualMachine   {
    * Get hardware
    * @return hardware
   **/
-  @ApiModelProperty(value = "")
+  @ApiModelProperty(example = "this is vm hardware", value = "")
 
-  @Valid
 
-  public Hardware getHardware() {
+  public String getHardware() {
     return hardware;
   }
 
-  public void setHardware(Hardware hardware) {
+  public void setHardware(String hardware) {
     this.hardware = hardware;
   }
 
-  public VirtualMachine location(Location location) {
+  public VirtualMachine location(String location) {
     this.location = location;
     return this;
   }
@@ -76,16 +82,77 @@ public class VirtualMachine   {
    * Get location
    * @return location
   **/
+  @ApiModelProperty(example = "here I am", value = "")
+
+
+  public String getLocation() {
+    return location;
+  }
+
+  public void setLocation(String location) {
+    this.location = location;
+  }
+
+  public VirtualMachine id(String id) {
+    this.id = id;
+    return this;
+  }
+
+   /**
+   * Get id
+   * @return id
+  **/
+  @ApiModelProperty(example = "1a79a4d60de6718e8e5b326e338ae5vm", value = "")
+
+
+  public String getId() {
+    return id;
+  }
+
+  public void setId(String id) {
+    this.id = id;
+  }
+
+  public VirtualMachine ipaddress(IpAddress ipaddress) {
+    this.ipaddress = ipaddress;
+    return this;
+  }
+
+   /**
+   * Get ipaddress
+   * @return ipaddress
+  **/
   @ApiModelProperty(value = "")
 
   @Valid
 
-  public Location getLocation() {
-    return location;
+  public IpAddress getIpaddress() {
+    return ipaddress;
   }
 
-  public void setLocation(Location location) {
-    this.location = location;
+  public void setIpaddress(IpAddress ipaddress) {
+    this.ipaddress = ipaddress;
+  }
+
+  public VirtualMachine logincredential(LoginCredential logincredential) {
+    this.logincredential = logincredential;
+    return this;
+  }
+
+   /**
+   * Get logincredential
+   * @return logincredential
+  **/
+  @ApiModelProperty(value = "")
+
+  @Valid
+
+  public LoginCredential getLogincredential() {
+    return logincredential;
+  }
+
+  public void setLogincredential(LoginCredential logincredential) {
+    this.logincredential = logincredential;
   }
 
 
@@ -100,12 +167,15 @@ public class VirtualMachine   {
     VirtualMachine virtualMachine = (VirtualMachine) o;
     return Objects.equals(this.image, virtualMachine.image) &&
         Objects.equals(this.hardware, virtualMachine.hardware) &&
-        Objects.equals(this.location, virtualMachine.location);
+        Objects.equals(this.location, virtualMachine.location) &&
+        Objects.equals(this.id, virtualMachine.id) &&
+        Objects.equals(this.ipaddress, virtualMachine.ipaddress) &&
+        Objects.equals(this.logincredential, virtualMachine.logincredential);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(image, hardware, location);
+    return Objects.hash(image, hardware, location, id, ipaddress, logincredential);
   }
 
   @Override
@@ -116,6 +186,9 @@ public class VirtualMachine   {
     sb.append("    image: ").append(toIndentedString(image)).append("\n");
     sb.append("    hardware: ").append(toIndentedString(hardware)).append("\n");
     sb.append("    location: ").append(toIndentedString(location)).append("\n");
+    sb.append("    id: ").append(toIndentedString(id)).append("\n");
+    sb.append("    ipaddress: ").append(toIndentedString(ipaddress)).append("\n");
+    sb.append("    logincredential: ").append(toIndentedString(logincredential)).append("\n");
     sb.append("}");
     return sb.toString();
   }

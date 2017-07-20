@@ -7,17 +7,22 @@ import org.cloudiator.messages.entities.IaasEntities;
 /**
  * Created by volker on 29.05.17.
  */
-public class VirtualMachineConverter /*implements TwoWayConverter<VirtualMachine, IaasEntities.VirtualMachine>*/{
+public class VirtualMachineConverter implements TwoWayConverter<VirtualMachine, IaasEntities.VirtualMachine>{
 
- // @Override
-  public Api applyBack(IaasEntities.Api api) {
-    Api result = new Api();
-    result.setProviderName(api.getProviderName());
-    return result;
+
+  @Override
+  public VirtualMachine applyBack(IaasEntities.VirtualMachine virtualMachine) {
+    VirtualMachine vm = new VirtualMachine();
+    vm.setHardware(virtualMachine.getHardware());
+    vm.setImage(virtualMachine.getImage());
+    vm.setLocation(virtualMachine.getLocation());
+    return vm;
   }
 
-  //@Override
-  public IaasEntities.Api apply(Api api) {
-    return IaasEntities.Api.newBuilder().setProviderName(api.getProviderName()).build();
+  @Override
+  public IaasEntities.VirtualMachine apply(VirtualMachine virtualMachine) {
+    IaasEntities.VirtualMachine.Builder builder = IaasEntities.VirtualMachine.newBuilder();
+
+    return null;
   }
 }
