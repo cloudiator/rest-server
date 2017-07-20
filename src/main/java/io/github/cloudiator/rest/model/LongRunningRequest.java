@@ -25,6 +25,9 @@ public class LongRunningRequest   {
   @JsonProperty("taskStatus")
   private LRRStatus taskStatus = null;
 
+  @JsonProperty("LRRData")
+  private String lrRData = null;
+
   public LongRunningRequest id(String id) {
     this.id = id;
     return this;
@@ -87,6 +90,26 @@ public class LongRunningRequest   {
     this.taskStatus = taskStatus;
   }
 
+  public LongRunningRequest lrRData(String lrRData) {
+    this.lrRData = lrRData;
+    return this;
+  }
+
+   /**
+   * Get lrRData
+   * @return lrRData
+  **/
+  @ApiModelProperty(value = "")
+
+
+  public String getLrRData() {
+    return lrRData;
+  }
+
+  public void setLrRData(String lrRData) {
+    this.lrRData = lrRData;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -99,12 +122,13 @@ public class LongRunningRequest   {
     LongRunningRequest longRunningRequest = (LongRunningRequest) o;
     return Objects.equals(this.id, longRunningRequest.id) &&
         Objects.equals(this.taskType, longRunningRequest.taskType) &&
-        Objects.equals(this.taskStatus, longRunningRequest.taskStatus);
+        Objects.equals(this.taskStatus, longRunningRequest.taskStatus) &&
+        Objects.equals(this.lrRData, longRunningRequest.lrRData);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, taskType, taskStatus);
+    return Objects.hash(id, taskType, taskStatus, lrRData);
   }
 
   @Override
@@ -115,6 +139,7 @@ public class LongRunningRequest   {
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    taskType: ").append(toIndentedString(taskType)).append("\n");
     sb.append("    taskStatus: ").append(toIndentedString(taskStatus)).append("\n");
+    sb.append("    lrRData: ").append(toIndentedString(lrRData)).append("\n");
     sb.append("}");
     return sb.toString();
   }
