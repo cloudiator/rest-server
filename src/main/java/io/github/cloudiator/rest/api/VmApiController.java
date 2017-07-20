@@ -7,6 +7,7 @@ import io.github.cloudiator.rest.model.VirtualMachineRequest;
 import io.swagger.annotations.ApiParam;
 import javax.validation.Valid;
 import org.cloudiator.messages.Vm.CreateVirtualMachineRequestMessage;
+import org.cloudiator.messages.Vm.VirtualMachineCreatedResponse;
 import org.cloudiator.messaging.ResponseException;
 import org.cloudiator.messaging.services.VirtualMachineService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,12 +37,15 @@ public class VmApiController implements VmApi {
         .setVirtualMachineRequest(virtualMachineRequestConverter.apply(virtualMachineRequest))
         .build();
 
+    VirtualMachineCreatedResponse virtualMachineCreatedResponse = null;
+
     try {
-      virtualMachineService.createVirtualMachine(request);
+      virtualMachineCreatedResponse = virtualMachineService.createVirtualMachine(request);
     } catch (ResponseException e) {
       e.printStackTrace();
     }
 
+    System.out.println("HAHA !! \n" + virtualMachineCreatedResponse);
     // do some magic!
     return new ResponseEntity<>(HttpStatus.OK);
   }

@@ -47,3 +47,4 @@ src/main/java/io/github/cloudiator/rest/api/ApiExceptionHandler.java
 
 # Ignore Spring Boot config
 src/**/Swagger2SpringBoot.java
+src/**/SwaggerDocumentationConfig.java

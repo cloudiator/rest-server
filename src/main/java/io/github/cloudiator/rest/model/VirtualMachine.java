@@ -7,6 +7,8 @@ import io.github.cloudiator.rest.model.IpAddress;
 import io.github.cloudiator.rest.model.LoginCredential;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import java.util.ArrayList;
+import java.util.List;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
@@ -27,8 +29,8 @@ public class VirtualMachine   {
   @JsonProperty("id")
   private String id = null;
 
-  @JsonProperty("ipaddress")
-  private IpAddress ipaddress = null;
+  @JsonProperty("ipaddresses")
+  private List<IpAddress> ipaddresses = null;
 
   @JsonProperty("logincredential")
   private LoginCredential logincredential = null;
@@ -113,25 +115,33 @@ public class VirtualMachine   {
     this.id = id;
   }
 
-  public VirtualMachine ipaddress(IpAddress ipaddress) {
-    this.ipaddress = ipaddress;
+  public VirtualMachine ipaddresses(List<IpAddress> ipaddresses) {
+    this.ipaddresses = ipaddresses;
+    return this;
+  }
+
+  public VirtualMachine addIpaddressesItem(IpAddress ipaddressesItem) {
+    if (this.ipaddresses == null) {
+      this.ipaddresses = new ArrayList<IpAddress>();
+    }
+    this.ipaddresses.add(ipaddressesItem);
     return this;
   }
 
    /**
-   * Get ipaddress
-   * @return ipaddress
+   * Get ipaddresses
+   * @return ipaddresses
   **/
   @ApiModelProperty(value = "")
 
   @Valid
 
-  public IpAddress getIpaddress() {
-    return ipaddress;
+  public List<IpAddress> getIpaddresses() {
+    return ipaddresses;
   }
 
-  public void setIpaddress(IpAddress ipaddress) {
-    this.ipaddress = ipaddress;
+  public void setIpaddresses(List<IpAddress> ipaddresses) {
+    this.ipaddresses = ipaddresses;
   }
 
   public VirtualMachine logincredential(LoginCredential logincredential) {
@@ -169,13 +179,13 @@ public class VirtualMachine   {
         Objects.equals(this.hardware, virtualMachine.hardware) &&
         Objects.equals(this.location, virtualMachine.location) &&
         Objects.equals(this.id, virtualMachine.id) &&
-        Objects.equals(this.ipaddress, virtualMachine.ipaddress) &&
+        Objects.equals(this.ipaddresses, virtualMachine.ipaddresses) &&
         Objects.equals(this.logincredential, virtualMachine.logincredential);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(image, hardware, location, id, ipaddress, logincredential);
+    return Objects.hash(image, hardware, location, id, ipaddresses, logincredential);
   }
 
   @Override
@@ -187,7 +197,7 @@ public class VirtualMachine   {
     sb.append("    hardware: ").append(toIndentedString(hardware)).append("\n");
     sb.append("    location: ").append(toIndentedString(location)).append("\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    ipaddress: ").append(toIndentedString(ipaddress)).append("\n");
+    sb.append("    ipaddresses: ").append(toIndentedString(ipaddresses)).append("\n");
     sb.append("    logincredential: ").append(toIndentedString(logincredential)).append("\n");
     sb.append("}");
     return sb.toString();
