@@ -25,12 +25,12 @@ public interface CloudsApi {
     @ApiOperation(value = "", notes = "Creates a new cloud.", response = Cloud.class, tags={ "cloud", })
     @ApiResponses(value = { 
         @ApiResponse(code = 201, message = "Created", response = Cloud.class),
-        @ApiResponse(code = 400, message = "Bad Request", response = Cloud.class),
-        @ApiResponse(code = 401, message = "Authorization for this action is missing", response = Cloud.class),
-        @ApiResponse(code = 403, message = "Forbidden action", response = Cloud.class),
-        @ApiResponse(code = 404, message = "Item not found", response = Cloud.class),
-        @ApiResponse(code = 500, message = "An unexpected Error occured", response = Cloud.class),
-        @ApiResponse(code = 504, message = "Service temporary unavailable", response = Cloud.class) })
+        @ApiResponse(code = 400, message = "Bad Request", response = Error.class),
+        @ApiResponse(code = 401, message = "Authorization for this action is missing", response = Error.class),
+        @ApiResponse(code = 403, message = "Forbidden action", response = Error.class),
+        @ApiResponse(code = 404, message = "Item not found", response = Error.class),
+        @ApiResponse(code = 500, message = "An unexpected Error occured", response = Error.class),
+        @ApiResponse(code = 504, message = "Service temporary unavailable", response = Error.class) })
     
     @RequestMapping(value = "/clouds",
         produces = { "application/json" }, 
@@ -42,12 +42,12 @@ public interface CloudsApi {
     @ApiOperation(value = "", notes = "Deletes the cloud identified by the given id paramater. ", response = Void.class, tags={ "cloud", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "OK", response = Void.class),
-        @ApiResponse(code = 400, message = "Bad Request", response = Void.class),
-        @ApiResponse(code = 401, message = "Authorization for this action is missing", response = Void.class),
-        @ApiResponse(code = 403, message = "Forbidden action", response = Void.class),
-        @ApiResponse(code = 404, message = "Item not found", response = Void.class),
-        @ApiResponse(code = 500, message = "An unexpected Error occured", response = Void.class),
-        @ApiResponse(code = 504, message = "Server temporary not available", response = Void.class) })
+        @ApiResponse(code = 400, message = "Bad Request", response = Error.class),
+        @ApiResponse(code = 401, message = "Authorization for this action is missing", response = Error.class),
+        @ApiResponse(code = 403, message = "Forbidden action", response = Error.class),
+        @ApiResponse(code = 404, message = "Item not found", response = Error.class),
+        @ApiResponse(code = 500, message = "An unexpected Error occured", response = Error.class),
+        @ApiResponse(code = 504, message = "Server temporary not available", response = Error.class) })
     
     @RequestMapping(value = "/clouds/{id}",
         produces = { "application/json" }, 
@@ -58,10 +58,10 @@ public interface CloudsApi {
     @ApiOperation(value = "", notes = "Returns the cloud identified by the given id parameter ", response = Cloud.class, tags={ "cloud", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "The cloud identified by the id ", response = Cloud.class),
-        @ApiResponse(code = 401, message = "Authorization for this action is missing", response = Cloud.class),
-        @ApiResponse(code = 403, message = "Forbidden action", response = Cloud.class),
-        @ApiResponse(code = 500, message = "An unexpected Error occured", response = Cloud.class),
-        @ApiResponse(code = 504, message = "Server temporary not available", response = Cloud.class) })
+        @ApiResponse(code = 401, message = "Authorization for this action is missing", response = Error.class),
+        @ApiResponse(code = 403, message = "Forbidden action", response = Error.class),
+        @ApiResponse(code = 500, message = "An unexpected Error occured", response = Error.class),
+        @ApiResponse(code = 504, message = "Server temporary not available", response = Error.class) })
     
     @RequestMapping(value = "/clouds/{id}",
         produces = { "application/json" }, 
@@ -72,10 +72,10 @@ public interface CloudsApi {
     @ApiOperation(value = "", notes = "Returns all clouds from the system that the user has access to ", response = Cloud.class, responseContainer = "List", tags={ "cloud", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "All clouds ", response = Cloud.class),
-        @ApiResponse(code = 401, message = "Authorization for this action is missing", response = Cloud.class),
-        @ApiResponse(code = 403, message = "Forbidden action", response = Cloud.class),
-        @ApiResponse(code = 500, message = "An unexpected Error occured", response = Cloud.class),
-        @ApiResponse(code = 504, message = "Server temporary not available", response = Cloud.class) })
+        @ApiResponse(code = 401, message = "Authorization for this action is missing", response = Error.class),
+        @ApiResponse(code = 403, message = "Forbidden action", response = Error.class),
+        @ApiResponse(code = 500, message = "An unexpected Error occured", response = Error.class),
+        @ApiResponse(code = 504, message = "Server temporary not available", response = Error.class) })
     
     @RequestMapping(value = "/clouds",
         produces = { "application/json" }, 

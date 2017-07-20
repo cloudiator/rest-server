@@ -24,10 +24,10 @@ public interface LocationsApi {
     @ApiOperation(value = "", notes = "Returns all locations visible to the user ", response = Location.class, responseContainer = "List", tags={ "cloud", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "OK ", response = Location.class),
-        @ApiResponse(code = 401, message = "Authorization for this action is missing", response = Location.class),
-        @ApiResponse(code = 403, message = "Forbidden action", response = Location.class),
-        @ApiResponse(code = 500, message = "An unexpected Error occured", response = Location.class),
-        @ApiResponse(code = 504, message = "Server temporary not available", response = Location.class) })
+        @ApiResponse(code = 401, message = "Authorization for this action is missing", response = Error.class),
+        @ApiResponse(code = 403, message = "Forbidden action", response = Error.class),
+        @ApiResponse(code = 500, message = "An unexpected Error occured", response = Error.class),
+        @ApiResponse(code = 504, message = "Server temporary not available", response = Error.class) })
     
     @RequestMapping(value = "/locations",
         produces = { "application/json" }, 

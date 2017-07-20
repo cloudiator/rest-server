@@ -24,12 +24,12 @@ public interface JobsApi {
     @ApiOperation(value = "", notes = "Creates a new job", response = Job.class, tags={ "job", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "OK ", response = Job.class),
-        @ApiResponse(code = 400, message = "Bad Request", response = Job.class),
-        @ApiResponse(code = 401, message = "Authorization for this action is missing", response = Job.class),
-        @ApiResponse(code = 403, message = "Forbidden action", response = Job.class),
-        @ApiResponse(code = 404, message = "Item not found", response = Job.class),
-        @ApiResponse(code = 500, message = "An unexpected Error occured", response = Job.class),
-        @ApiResponse(code = 504, message = "Server temporary not available", response = Job.class) })
+        @ApiResponse(code = 400, message = "Bad Request", response = Error.class),
+        @ApiResponse(code = 401, message = "Authorization for this action is missing", response = Error.class),
+        @ApiResponse(code = 403, message = "Forbidden action", response = Error.class),
+        @ApiResponse(code = 404, message = "Item not found", response = Error.class),
+        @ApiResponse(code = 500, message = "An unexpected Error occured", response = Error.class),
+        @ApiResponse(code = 504, message = "Server temporary not available", response = Error.class) })
     
     @RequestMapping(value = "/jobs",
         produces = { "application/json" }, 
@@ -41,10 +41,10 @@ public interface JobsApi {
     @ApiOperation(value = "", notes = "Returns all jobs visible to the user ", response = Job.class, responseContainer = "List", tags={ "job", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "OK ", response = Job.class),
-        @ApiResponse(code = 401, message = "Authorization for this action is missing", response = Job.class),
-        @ApiResponse(code = 403, message = "Forbidden action", response = Job.class),
-        @ApiResponse(code = 500, message = "An unexpected Error occured", response = Job.class),
-        @ApiResponse(code = 504, message = "Server temporary not available", response = Job.class) })
+        @ApiResponse(code = 401, message = "Authorization for this action is missing", response = Error.class),
+        @ApiResponse(code = 403, message = "Forbidden action", response = Error.class),
+        @ApiResponse(code = 500, message = "An unexpected Error occured", response = Error.class),
+        @ApiResponse(code = 504, message = "Server temporary not available", response = Error.class) })
     
     @RequestMapping(value = "/jobs",
         produces = { "application/json" }, 

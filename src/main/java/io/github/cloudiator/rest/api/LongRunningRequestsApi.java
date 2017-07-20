@@ -24,10 +24,10 @@ public interface LongRunningRequestsApi {
     @ApiOperation(value = "", notes = "Returns all running LLRs visible to the user ", response = LongRunningRequest.class, responseContainer = "List", tags={ "longRunningRequest", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "OK", response = LongRunningRequest.class),
-        @ApiResponse(code = 401, message = "Authorization for this action is missing", response = LongRunningRequest.class),
-        @ApiResponse(code = 403, message = "Forbidden action", response = LongRunningRequest.class),
-        @ApiResponse(code = 500, message = "An unexpected Error occured", response = LongRunningRequest.class),
-        @ApiResponse(code = 504, message = "Server temporary not available", response = LongRunningRequest.class) })
+        @ApiResponse(code = 401, message = "Authorization for this action is missing", response = Error.class),
+        @ApiResponse(code = 403, message = "Forbidden action", response = Error.class),
+        @ApiResponse(code = 500, message = "An unexpected Error occured", response = Error.class),
+        @ApiResponse(code = 504, message = "Server temporary not available", response = Error.class) })
     
     @RequestMapping(value = "/longRunningRequests",
         produces = { "application/json" }, 
@@ -38,10 +38,10 @@ public interface LongRunningRequestsApi {
     @ApiOperation(value = "", notes = "Returns the LLR identified by the id parameter. ", response = LongRunningRequest.class, tags={ "longRunningRequest", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "OK", response = LongRunningRequest.class),
-        @ApiResponse(code = 401, message = "Authorization for this action is missing", response = LongRunningRequest.class),
-        @ApiResponse(code = 403, message = "Forbidden action", response = LongRunningRequest.class),
-        @ApiResponse(code = 500, message = "An unexpected Error occured", response = LongRunningRequest.class),
-        @ApiResponse(code = 504, message = "Server temporary not available", response = LongRunningRequest.class) })
+        @ApiResponse(code = 401, message = "Authorization for this action is missing", response = Error.class),
+        @ApiResponse(code = 403, message = "Forbidden action", response = Error.class),
+        @ApiResponse(code = 500, message = "An unexpected Error occured", response = Error.class),
+        @ApiResponse(code = 504, message = "Server temporary not available", response = Error.class) })
     
     @RequestMapping(value = "/longRunningRequests/{id}",
         produces = { "application/json" }, 

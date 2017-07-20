@@ -27,8 +27,12 @@ public class VmApiController implements VmApi {
   @Autowired
   private UserService userService;
 
+  public LongRunningRequest LRR;
+
   public ResponseEntity<LongRunningRequest> addVM(
       @ApiParam(value = "VirtualMachine Request", required = true) @Valid @RequestBody VirtualMachineRequest virtualMachineRequest) {
+
+
 
     VirtualMachineRequestConverter virtualMachineRequestConverter = new VirtualMachineRequestConverter();
 
