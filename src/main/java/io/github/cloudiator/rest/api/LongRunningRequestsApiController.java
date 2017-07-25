@@ -46,7 +46,7 @@ public class LongRunningRequestsApiController implements LongRunningRequestsApi 
         if (lrrMapService.getLRR(userService.getUserId(), id) != null) {
             result = lrrMapService.getLRR(userService.getUserId(), id);
         } else {
-            throw new ApiException(404, "Not Found");
+            throw new ApiException(404, "LRR not found. ID: " + id);
         }
 
         return new ResponseEntity<LongRunningRequest>(result, HttpStatus.OK);

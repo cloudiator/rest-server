@@ -25,8 +25,14 @@ public class LongRunningRequest   {
   @JsonProperty("taskStatus")
   private LRRStatus taskStatus = null;
 
-  @JsonProperty("LRRData")
-  private String lrRData = null;
+  @JsonProperty("lrrData")
+  private String lrrData = null;
+
+  @JsonProperty("lrrDiagnostic")
+  private String lrrDiagnostic = null;
+
+  @JsonProperty("referenceId")
+  private String referenceId = null;
 
   public LongRunningRequest id(String id) {
     this.id = id;
@@ -90,24 +96,64 @@ public class LongRunningRequest   {
     this.taskStatus = taskStatus;
   }
 
-  public LongRunningRequest lrRData(String lrRData) {
-    this.lrRData = lrRData;
+  public LongRunningRequest lrrData(String lrrData) {
+    this.lrrData = lrrData;
     return this;
   }
 
    /**
-   * Get lrRData
-   * @return lrRData
+   * Get lrrData
+   * @return lrrData
   **/
   @ApiModelProperty(value = "")
 
 
-  public String getLrRData() {
-    return lrRData;
+  public String getLrrData() {
+    return lrrData;
   }
 
-  public void setLrRData(String lrRData) {
-    this.lrRData = lrRData;
+  public void setLrrData(String lrrData) {
+    this.lrrData = lrrData;
+  }
+
+  public LongRunningRequest lrrDiagnostic(String lrrDiagnostic) {
+    this.lrrDiagnostic = lrrDiagnostic;
+    return this;
+  }
+
+   /**
+   * Get lrrDiagnostic
+   * @return lrrDiagnostic
+  **/
+  @ApiModelProperty(value = "")
+
+
+  public String getLrrDiagnostic() {
+    return lrrDiagnostic;
+  }
+
+  public void setLrrDiagnostic(String lrrDiagnostic) {
+    this.lrrDiagnostic = lrrDiagnostic;
+  }
+
+  public LongRunningRequest referenceId(String referenceId) {
+    this.referenceId = referenceId;
+    return this;
+  }
+
+   /**
+   * Get referenceId
+   * @return referenceId
+  **/
+  @ApiModelProperty(value = "")
+
+
+  public String getReferenceId() {
+    return referenceId;
+  }
+
+  public void setReferenceId(String referenceId) {
+    this.referenceId = referenceId;
   }
 
 
@@ -123,12 +169,14 @@ public class LongRunningRequest   {
     return Objects.equals(this.id, longRunningRequest.id) &&
         Objects.equals(this.taskType, longRunningRequest.taskType) &&
         Objects.equals(this.taskStatus, longRunningRequest.taskStatus) &&
-        Objects.equals(this.lrRData, longRunningRequest.lrRData);
+        Objects.equals(this.lrrData, longRunningRequest.lrrData) &&
+        Objects.equals(this.lrrDiagnostic, longRunningRequest.lrrDiagnostic) &&
+        Objects.equals(this.referenceId, longRunningRequest.referenceId);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, taskType, taskStatus, lrRData);
+    return Objects.hash(id, taskType, taskStatus, lrrData, lrrDiagnostic, referenceId);
   }
 
   @Override
@@ -139,7 +187,9 @@ public class LongRunningRequest   {
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    taskType: ").append(toIndentedString(taskType)).append("\n");
     sb.append("    taskStatus: ").append(toIndentedString(taskStatus)).append("\n");
-    sb.append("    lrRData: ").append(toIndentedString(lrRData)).append("\n");
+    sb.append("    lrrData: ").append(toIndentedString(lrrData)).append("\n");
+    sb.append("    lrrDiagnostic: ").append(toIndentedString(lrrDiagnostic)).append("\n");
+    sb.append("    referenceId: ").append(toIndentedString(referenceId)).append("\n");
     sb.append("}");
     return sb.toString();
   }

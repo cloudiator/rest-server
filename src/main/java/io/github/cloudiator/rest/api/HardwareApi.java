@@ -24,10 +24,10 @@ public interface HardwareApi {
     @ApiOperation(value = "", notes = "Returns all hardware visible to the user ", response = Hardware.class, responseContainer = "List", tags={ "cloud", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "OK ", response = Hardware.class),
-        @ApiResponse(code = 401, message = "Authorization for this action is missing", response = Error.class),
-        @ApiResponse(code = 403, message = "Forbidden action", response = Error.class),
-        @ApiResponse(code = 500, message = "An unexpected Error occured", response = Error.class),
-        @ApiResponse(code = 504, message = "Server temporary not available", response = Error.class) })
+        @ApiResponse(code = 401, message = "Authorization for this action is missing", response = Hardware.class),
+        @ApiResponse(code = 403, message = "Forbidden action", response = Hardware.class),
+        @ApiResponse(code = 500, message = "An unexpected Error occured", response = Hardware.class),
+        @ApiResponse(code = 504, message = "Server temporary not available", response = Hardware.class) })
     
     @RequestMapping(value = "/hardware",
         produces = { "application/json" }, 

@@ -10,8 +10,6 @@ import io.github.cloudiator.rest.model.LongRunningRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.Nullable;
-import java.math.BigInteger;
-import java.security.SecureRandom;
 import java.util.*;
 
 import static com.google.common.base.Preconditions.checkArgument;
@@ -23,7 +21,6 @@ public class LRRMapService {
      * userId, (llrId, LongRunningTask)
      */
     private final HashMap<String, HashMap<String, LongRunningRequest>> table;
-    private IDGenerator IDGen = new IDGenerator();
 
     public LRRMapService() {
         this.table = new HashMap<String, HashMap<String, LongRunningRequest>>();
@@ -41,7 +38,7 @@ public class LRRMapService {
         return table.get(userId).get(taskId);
     }
 
-    public LongRunningRequest addLRR(String userId, String vmRequest) {
+    public LongRunningRequest addLRR(String userId, LongRunningRequest lrr) {
 
         checkNotNull(userId, "userId is null");
         checkArgument(!userId.isEmpty(), "userID is empty");
@@ -53,20 +50,8 @@ public class LRRMapService {
         } else {
             map = table.get(userId);
         }
-
-        String newID = "";
-        do {
-            newID = IDGen.nextID();
-        } while (map.containsKey(newID));
-
-        LongRunningRequest newLRR = new LongRunningRequest();
-        newLRR.setId(newID);
-        newLRR.setTaskType(LRRType.VIRTUALMACHINEREQUEST);
-        newLRR.setTaskStatus(LRRStatus.SCHEDULED);
-        newLRR.setLrRData(vmRequest);
-
-        map.put(newLRR.getId(), newLRR);
-        return newLRR;
+        map.put(lrr.getId(), lrr);
+        return lrr;
     }
 
     public List<LongRunningRequest> getAllLRR(String userId) {
@@ -77,13 +62,5 @@ public class LRRMapService {
             return ImmutableList.copyOf(map.values());
         }
 
-    }
-
-    private final class IDGenerator {
-        private SecureRandom random = new SecureRandom();
-
-        public String nextID() {
-            return new BigInteger(130, random).toString(32);
-        }
     }
 }
