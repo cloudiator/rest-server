@@ -41,7 +41,7 @@ public class LRRMapService {
     public LongRunningRequest addLRR(String userId, LongRunningRequest lrr) {
 
         checkNotNull(userId, "userId is null");
-        checkArgument(!userId.isEmpty(), "userID is empty");
+        checkArgument(!userId.isEmpty(), "userId is empty");
 
         HashMap<String, LongRunningRequest> map;
         if (table.get(userId) == null) {
@@ -61,6 +61,21 @@ public class LRRMapService {
         } else {
             return ImmutableList.copyOf(map.values());
         }
+    }
 
+    public LongRunningRequest changeLRRStatus(String userId, String lrrId, LRRStatus newValue) {
+
+        checkNotNull(userId, "userId is null");
+        checkArgument(!userId.isEmpty(), "userId is empty");
+
+        HashMap<String, LongRunningRequest> map = table.get(userId);
+
+        checkArgument(!map.containsKey(lrrId), "Lrr not known. ID: " + lrrId);
+
+        LongRunningRequest changedLrr = map.get(lrrId);
+        changedLrr.setTaskStatus(newValue);
+        map.put(lrrId, changedLrr);
+
+        return changedLrr;
     }
 }
