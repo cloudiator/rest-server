@@ -21,6 +21,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.math.BigInteger;
 import java.security.SecureRandom;
@@ -41,6 +42,7 @@ public class VmApiController implements VmApi {
     private LRRMapService lrrMapService;
 
 
+    @ResponseStatus(value = HttpStatus.ACCEPTED)
     public ResponseEntity<LongRunningRequest> addVM(
             @ApiParam(value = "VirtualMachine Request", required = true) @Valid @RequestBody VirtualMachineRequest virtualMachineRequest) {
 
@@ -72,7 +74,7 @@ public class VmApiController implements VmApi {
             }
         });
 
-        return new ResponseEntity<>(lrr, HttpStatus.OK);
+        return new ResponseEntity<>(lrr, HttpStatus.ACCEPTED);
     }
 
 }

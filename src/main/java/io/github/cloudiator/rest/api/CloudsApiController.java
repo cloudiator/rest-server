@@ -27,6 +27,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2017-05-29T12:00:45.563+02:00")
 
@@ -40,6 +41,7 @@ public class CloudsApiController implements CloudsApi {
   @Autowired
   private CloudService cloudService;
 
+  @ResponseStatus(value = HttpStatus.CREATED)
   public ResponseEntity<Cloud> addCloud(
       @ApiParam(value = "Cloud to add", required = true) @Valid @RequestBody NewCloud cloud) {
 
