@@ -27,7 +27,7 @@ public class PlatformHardware   {
   private Long ram = null;
 
   @JsonProperty("disk")
-  private Double disk = null;
+  private Float disk = null;
 
   public PlatformHardware id(String id) {
     this.id = id;
@@ -38,7 +38,7 @@ public class PlatformHardware   {
    * Unique identifier for the hardware
    * @return id
   **/
-  @ApiModelProperty(required = true, value = "Unique identifier for the hardware")
+  @ApiModelProperty(example = "1a79a4d60de6718e8e5b326e33812345/example.p1", required = true, value = "Unique identifier for the hardware")
   @NotNull
 
 
@@ -59,7 +59,7 @@ public class PlatformHardware   {
    * Human-readable name for the hardware
    * @return name
   **/
-  @ApiModelProperty(required = true, value = "Human-readable name for the hardware")
+  @ApiModelProperty(example = "example.p1", required = true, value = "Human-readable name for the hardware")
   @NotNull
 
 
@@ -80,7 +80,7 @@ public class PlatformHardware   {
    * Number of cores
    * @return cores
   **/
-  @ApiModelProperty(required = true, value = "Number of cores")
+  @ApiModelProperty(example = "16", required = true, value = "Number of cores")
   @NotNull
 
 
@@ -101,7 +101,7 @@ public class PlatformHardware   {
    * Amount of RAM
    * @return ram
   **/
-  @ApiModelProperty(required = true, value = "Amount of RAM")
+  @ApiModelProperty(example = "2048", required = true, value = "Amount of RAM")
   @NotNull
 
 
@@ -113,7 +113,7 @@ public class PlatformHardware   {
     this.ram = ram;
   }
 
-  public PlatformHardware disk(Double disk) {
+  public PlatformHardware disk(Float disk) {
     this.disk = disk;
     return this;
   }
@@ -122,15 +122,15 @@ public class PlatformHardware   {
    * Amount of disk space
    * @return disk
   **/
-  @ApiModelProperty(required = true, value = "Amount of disk space")
+  @ApiModelProperty(example = "100.0", required = true, value = "Amount of disk space")
   @NotNull
 
 
-  public Double getDisk() {
+  public Float getDisk() {
     return disk;
   }
 
-  public void setDisk(Double disk) {
+  public void setDisk(Float disk) {
     this.disk = disk;
   }
 

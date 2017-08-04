@@ -1,6 +1,7 @@
 package io.github.cloudiator.rest.api;
 
 import io.github.cloudiator.rest.UserService;
+import io.github.cloudiator.rest.model.PortProvided;
 import io.github.cloudiator.rest.model.Task;
 
 import io.swagger.annotations.*;
@@ -26,18 +27,21 @@ import javax.validation.Valid;
 @Controller
 public class TasksApiController implements TasksApi {
 
-  @Autowired
-  private UserService userService;
+    @Autowired
+    private UserService userService;
 
-  @Override
-  public ResponseEntity<Task> addTask(Task task) {
-    return null;
-  }
+    @Override
+    public ResponseEntity<Task> addTask(Task task) {
+        return null;
+    }
 
-  public ResponseEntity<List<Task>> findTasks() {
-    // do some magic!
-    return new ResponseEntity<List<Task>>(HttpStatus.OK);
-  }
+    public ResponseEntity<List<Task>> findTasks() {
+        // do some magic!
+        PortProvided testport = new PortProvided();
+        testport.setType(testport.getClass().toString());
+        System.out.println(testport.getClass().getSimpleName());
+        return new ResponseEntity<List<Task>>(HttpStatus.OK);
+    }
 /*
   public ResponseEntity<Task> findTask(
       @ApiParam(value = "Unique identifier of the resource", required = true) @PathVariable("id") String id) {
