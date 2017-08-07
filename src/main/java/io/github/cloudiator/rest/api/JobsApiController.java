@@ -1,10 +1,13 @@
 package io.github.cloudiator.rest.api;
 
+import io.github.cloudiator.rest.UserService;
+import io.github.cloudiator.rest.converter.JobConverter;
 import io.github.cloudiator.rest.model.Error;
 import io.github.cloudiator.rest.model.Job;
 
 import io.swagger.annotations.*;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -23,9 +26,15 @@ import javax.validation.Valid;
 @Controller
 public class JobsApiController implements JobsApi {
 
+    @Autowired
+    UserService userService;
+
+    // jobService is missing
+
+    private final JobConverter jobConverter = new JobConverter();
 
 
-    public ResponseEntity<Job> addJob(@ApiParam(value = "Job to be created. " ,required=true )  @Valid @RequestBody Job job) {
+    public ResponseEntity<Job> addJob(@ApiParam(value = "Job to be created. ", required = true) @Valid @RequestBody Job job) {
         // do some magic!
         return new ResponseEntity<Job>(HttpStatus.OK);
     }

@@ -65,7 +65,7 @@ public class ImagesApiController implements ImagesApi {
       throw new ApiException(re.code(), re.getMessage());
     }
     //converting response
-    ImageConverter imageConverter = new ImageConverter();
+    final ImageConverter imageConverter = new ImageConverter();
     for (IaasEntities.Image image : imageQueryResponse.getImagesList()) {
       imageList.add(imageConverter.applyBack(image));
     }
