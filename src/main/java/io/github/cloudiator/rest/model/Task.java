@@ -3,8 +3,8 @@ package io.github.cloudiator.rest.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.github.cloudiator.rest.model.ModelInterface;
 import io.github.cloudiator.rest.model.Port;
+import io.github.cloudiator.rest.model.TaskInterface;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
@@ -25,7 +25,7 @@ public class Task   {
   private List<Port> ports = null;
 
   @JsonProperty("interfaces")
-  private List<ModelInterface> interfaces = null;
+  private List<TaskInterface> interfaces = null;
 
   public Task name(String name) {
     this.name = name;
@@ -77,14 +77,14 @@ public class Task   {
     this.ports = ports;
   }
 
-  public Task interfaces(List<ModelInterface> interfaces) {
+  public Task interfaces(List<TaskInterface> interfaces) {
     this.interfaces = interfaces;
     return this;
   }
 
-  public Task addInterfacesItem(ModelInterface interfacesItem) {
+  public Task addInterfacesItem(TaskInterface interfacesItem) {
     if (this.interfaces == null) {
-      this.interfaces = new ArrayList<ModelInterface>();
+      this.interfaces = new ArrayList<TaskInterface>();
     }
     this.interfaces.add(interfacesItem);
     return this;
@@ -98,11 +98,11 @@ public class Task   {
 
   @Valid
 
-  public List<ModelInterface> getInterfaces() {
+  public List<TaskInterface> getInterfaces() {
     return interfaces;
   }
 
-  public void setInterfaces(List<ModelInterface> interfaces) {
+  public void setInterfaces(List<TaskInterface> interfaces) {
     this.interfaces = interfaces;
   }
 

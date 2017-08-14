@@ -3,7 +3,7 @@ package io.github.cloudiator.rest.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.github.cloudiator.rest.model.ModelInterface;
+import io.github.cloudiator.rest.model.TaskInterface;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import javax.validation.Valid;
@@ -13,7 +13,7 @@ import javax.validation.constraints.*;
  * DockerInterface
  */
 
-public class DockerInterface extends ModelInterface  {
+public class DockerInterface extends TaskInterface  {
   @JsonProperty("dockerImage")
   private String dockerImage = null;
 
