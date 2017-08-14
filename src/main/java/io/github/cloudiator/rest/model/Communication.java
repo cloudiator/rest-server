@@ -29,7 +29,7 @@ public class Communication   {
    * The name of the required port this communication refers to. 
    * @return portRequired
   **/
-  @ApiModelProperty(value = "The name of the required port this communication refers to. ")
+  @ApiModelProperty(example = "Re10375", value = "The name of the required port this communication refers to. ")
 
 
   public String getPortRequired() {
@@ -49,7 +49,7 @@ public class Communication   {
    * The name of the provided port this communication refers to. 
    * @return portProvided
   **/
-  @ApiModelProperty(value = "The name of the provided port this communication refers to. ")
+  @ApiModelProperty(example = "Pro11745", value = "The name of the provided port this communication refers to. ")
 
 
   public String getPortProvided() {

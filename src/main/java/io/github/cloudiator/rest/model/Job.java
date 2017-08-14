@@ -4,6 +4,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.github.cloudiator.rest.model.Communication;
+import io.github.cloudiator.rest.model.Task;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
@@ -21,7 +22,7 @@ public class Job   {
   private String name = null;
 
   @JsonProperty("tasks")
-  private List<String> tasks = new ArrayList<String>();
+  private List<Task> tasks = new ArrayList<Task>();
 
   @JsonProperty("communications")
   private List<Communication> communications = new ArrayList<Communication>();
@@ -35,7 +36,7 @@ public class Job   {
    * Get name
    * @return name
   **/
-  @ApiModelProperty(required = true, value = "")
+  @ApiModelProperty(example = "MediaWiki Application", required = true, value = "")
   @NotNull
 
 
@@ -47,29 +48,30 @@ public class Job   {
     this.name = name;
   }
 
-  public Job tasks(List<String> tasks) {
+  public Job tasks(List<Task> tasks) {
     this.tasks = tasks;
     return this;
   }
 
-  public Job addTasksItem(String tasksItem) {
+  public Job addTasksItem(Task tasksItem) {
     this.tasks.add(tasksItem);
     return this;
   }
 
    /**
-   * An array of tasks (referenced by names) that form this application. 
+   * An array of tasks that form this application. 
    * @return tasks
   **/
-  @ApiModelProperty(required = true, value = "An array of tasks (referenced by names) that form this application. ")
+  @ApiModelProperty(required = true, value = "An array of tasks that form this application. ")
   @NotNull
 
+  @Valid
 
-  public List<String> getTasks() {
+  public List<Task> getTasks() {
     return tasks;
   }
 
-  public void setTasks(List<String> tasks) {
+  public void setTasks(List<Task> tasks) {
     this.tasks = tasks;
   }
 
