@@ -1,11 +1,11 @@
 package io.github.cloudiator.rest.converter;
 
 import io.github.cloudiator.rest.model.PortProvided;
-import org.cloudiator.messages.entities.ComponentEntities;
+import org.cloudiator.messages.entities.TaskEntities;
 
-public class PortProvidedConverter implements TwoWayConverter<PortProvided, ComponentEntities.PortProvided>{
+public class PortProvidedConverter implements TwoWayConverter<PortProvided, TaskEntities.PortProvided>{
     @Override
-    public PortProvided applyBack(ComponentEntities.PortProvided portProvided) {
+    public PortProvided applyBack(TaskEntities.PortProvided portProvided) {
         PortProvided result = new PortProvided();
         result.setName(portProvided.getName());
         result.setPort(portProvided.getPort());
@@ -15,9 +15,9 @@ public class PortProvidedConverter implements TwoWayConverter<PortProvided, Comp
     }
 
     @Override
-    public ComponentEntities.PortProvided apply(PortProvided portProvided) {
+    public TaskEntities.PortProvided apply(PortProvided portProvided) {
 
-        ComponentEntities.PortProvided.Builder result = ComponentEntities.PortProvided.newBuilder();
+        TaskEntities.PortProvided.Builder result = TaskEntities.PortProvided.newBuilder();
         result.setName(portProvided.getName()).setPort(portProvided.getPort());
 
         return result.build();
