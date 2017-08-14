@@ -20,11 +20,11 @@
     <bean id="virtualMachineService" factory-bean="serviceFactory"
           factory-method="createVirtualMachineService"/>
 
-    <bean id="applicationService" factory-bean="serviceFactory"
-          factory-method="createApplicationService"/>
+    <bean id="jobService" factory-bean="serviceFactory"
+          factory-method="createJobService"/>
 
-    <bean id="componentService" factory-bean="serviceFactory"
-          factory-method="createComponentService"/>
+    <bean id="taskService" factory-bean="serviceFactory"
+          factory-method="createTaskService"/>
 
     <bean id="messageInterface" class="org.cloudiator.messaging.kafka.KafkaMessageInterface"/>
 

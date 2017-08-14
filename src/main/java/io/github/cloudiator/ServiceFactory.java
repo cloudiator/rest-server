@@ -8,7 +8,9 @@ import org.cloudiator.messaging.services.CloudServiceImpl;
 import org.cloudiator.messaging.services.ComponentServiceImpl;
 import org.cloudiator.messaging.services.HardwareServiceImpl;
 import org.cloudiator.messaging.services.ImageServiceImpl;
+import org.cloudiator.messaging.services.JobServiceImpl;
 import org.cloudiator.messaging.services.LocationServiceImpl;
+import org.cloudiator.messaging.services.TaskServiceImpl;
 import org.cloudiator.messaging.services.VirtualMachineServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -79,16 +81,16 @@ public class ServiceFactory {
     return virtualMachineService;
   }
 
-  public ApplicationServiceImpl createApplicationService() {
-    final ApplicationServiceImpl applicationService = new ApplicationServiceImpl(messageInterface);
-    applicationService.setResponseTimeout(messagingTimeout);
-    return applicationService;
+  public JobServiceImpl createJobService() {
+    final JobServiceImpl jobService = new JobServiceImpl(messageInterface);
+    jobService.setResponseTimeout(messagingTimeout);
+    return jobService;
   }
 
-  public ComponentServiceImpl createComponentService() {
-    final ComponentServiceImpl componentService = new ComponentServiceImpl(messageInterface);
-    componentService.setResponseTimeout(messagingTimeout);
-    return componentService;
+  public TaskServiceImpl createTaskService() {
+    final TaskServiceImpl taskService = new TaskServiceImpl(messageInterface);
+    taskService.setResponseTimeout(messagingTimeout);
+    return taskService;
   }
 
 }

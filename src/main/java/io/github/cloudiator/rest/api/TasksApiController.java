@@ -6,6 +6,7 @@ import io.github.cloudiator.rest.model.Task;
 
 import io.swagger.annotations.*;
 
+import org.cloudiator.messaging.services.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,6 +31,9 @@ public class TasksApiController implements TasksApi {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private TaskService taskService;
+
     @Override
     public ResponseEntity<Task> addTask(Task task) {
         return null;
@@ -42,11 +46,4 @@ public class TasksApiController implements TasksApi {
         System.out.println(testport.getClass().getSimpleName());
         return new ResponseEntity<List<Task>>(HttpStatus.OK);
     }
-/*
-  public ResponseEntity<Task> findTask(
-      @ApiParam(value = "Unique identifier of the resource", required = true) @PathVariable("id") String id) {
-    // do some magic!
-    return new ResponseEntity<Task>(HttpStatus.OK);
-  }
-*/
 }
