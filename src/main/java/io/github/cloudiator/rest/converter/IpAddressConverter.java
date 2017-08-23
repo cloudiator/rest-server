@@ -50,7 +50,7 @@ public class IpAddressConverter implements TwoWayConverter<IpAddress, IaasEntiti
           return IpAddressType.PRIVATE_IP;
         case UNRECOGNIZED:
         default:
-          throw new AssertionError("corrupted IPAddressType " + ipAddressType);
+          throw new AssertionError("Illegal IPAddressType " + ipAddressType);
       }
     }
 
@@ -62,7 +62,7 @@ public class IpAddressConverter implements TwoWayConverter<IpAddress, IaasEntiti
         case PUBLIC_IP:
           return IaasEntities.IpAddressType.PUBLIC_IP;
         default:
-          throw new AssertionError("corrupted IPAddressType " + ipAddressType);
+          throw new AssertionError("Illegal IPAddressType " + ipAddressType);
       }
     }
   }
@@ -75,11 +75,11 @@ public class IpAddressConverter implements TwoWayConverter<IpAddress, IaasEntiti
       switch (ipVersion) {
         case V4:
           return IpVersion.V4;
-        case v6:
+        case V6:
           return IpVersion.V6;
         case UNRECOGNIZED:
         default:
-          throw new AssertionError("corrupted IPVersion " + ipVersion);
+          throw new AssertionError("Illegal IPVersion " + ipVersion);
       }
     }
 
@@ -89,9 +89,9 @@ public class IpAddressConverter implements TwoWayConverter<IpAddress, IaasEntiti
         case V4:
           return IaasEntities.IpVersion.V4;
         case V6:
-          return IaasEntities.IpVersion.v6;
+          return IaasEntities.IpVersion.V6;
         default:
-          throw new AssertionError("corrupted IPVersion " + ipVersion);
+          throw new AssertionError("Illegal IPVersion " + ipVersion);
       }
     }
   }
