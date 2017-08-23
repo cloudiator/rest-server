@@ -4,6 +4,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.github.cloudiator.rest.model.Port;
+import io.github.cloudiator.rest.model.Requirement;
 import io.github.cloudiator.rest.model.TaskInterface;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -26,6 +27,9 @@ public class Task   {
 
   @JsonProperty("interfaces")
   private List<TaskInterface> interfaces = null;
+
+  @JsonProperty("requirements")
+  private List<Requirement> requirements = null;
 
   public Task name(String name) {
     this.name = name;
@@ -106,6 +110,35 @@ public class Task   {
     this.interfaces = interfaces;
   }
 
+  public Task requirements(List<Requirement> requirements) {
+    this.requirements = requirements;
+    return this;
+  }
+
+  public Task addRequirementsItem(Requirement requirementsItem) {
+    if (this.requirements == null) {
+      this.requirements = new ArrayList<Requirement>();
+    }
+    this.requirements.add(requirementsItem);
+    return this;
+  }
+
+   /**
+   * Get requirements
+   * @return requirements
+  **/
+  @ApiModelProperty(value = "")
+
+  @Valid
+
+  public List<Requirement> getRequirements() {
+    return requirements;
+  }
+
+  public void setRequirements(List<Requirement> requirements) {
+    this.requirements = requirements;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -118,12 +151,13 @@ public class Task   {
     Task task = (Task) o;
     return Objects.equals(this.name, task.name) &&
         Objects.equals(this.ports, task.ports) &&
-        Objects.equals(this.interfaces, task.interfaces);
+        Objects.equals(this.interfaces, task.interfaces) &&
+        Objects.equals(this.requirements, task.requirements);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, ports, interfaces);
+    return Objects.hash(name, ports, interfaces, requirements);
   }
 
   @Override
@@ -134,6 +168,7 @@ public class Task   {
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    ports: ").append(toIndentedString(ports)).append("\n");
     sb.append("    interfaces: ").append(toIndentedString(interfaces)).append("\n");
+    sb.append("    requirements: ").append(toIndentedString(requirements)).append("\n");
     sb.append("}");
     return sb.toString();
   }

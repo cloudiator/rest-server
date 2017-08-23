@@ -4,6 +4,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.github.cloudiator.rest.model.Communication;
+import io.github.cloudiator.rest.model.Requirement;
 import io.github.cloudiator.rest.model.Task;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -26,6 +27,9 @@ public class Job   {
 
   @JsonProperty("communications")
   private List<Communication> communications = new ArrayList<Communication>();
+
+  @JsonProperty("requirements")
+  private List<Requirement> requirements = null;
 
   public Job name(String name) {
     this.name = name;
@@ -102,6 +106,35 @@ public class Job   {
     this.communications = communications;
   }
 
+  public Job requirements(List<Requirement> requirements) {
+    this.requirements = requirements;
+    return this;
+  }
+
+  public Job addRequirementsItem(Requirement requirementsItem) {
+    if (this.requirements == null) {
+      this.requirements = new ArrayList<Requirement>();
+    }
+    this.requirements.add(requirementsItem);
+    return this;
+  }
+
+   /**
+   * Get requirements
+   * @return requirements
+  **/
+  @ApiModelProperty(value = "")
+
+  @Valid
+
+  public List<Requirement> getRequirements() {
+    return requirements;
+  }
+
+  public void setRequirements(List<Requirement> requirements) {
+    this.requirements = requirements;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -114,12 +147,13 @@ public class Job   {
     Job job = (Job) o;
     return Objects.equals(this.name, job.name) &&
         Objects.equals(this.tasks, job.tasks) &&
-        Objects.equals(this.communications, job.communications);
+        Objects.equals(this.communications, job.communications) &&
+        Objects.equals(this.requirements, job.requirements);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, tasks, communications);
+    return Objects.hash(name, tasks, communications, requirements);
   }
 
   @Override
@@ -130,6 +164,7 @@ public class Job   {
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    tasks: ").append(toIndentedString(tasks)).append("\n");
     sb.append("    communications: ").append(toIndentedString(communications)).append("\n");
+    sb.append("    requirements: ").append(toIndentedString(requirements)).append("\n");
     sb.append("}");
     return sb.toString();
   }

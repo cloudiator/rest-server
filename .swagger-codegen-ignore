@@ -29,17 +29,19 @@ pom.xml
 LICENSE.md
 README.md
 
+# Ignore Home Controller
+src/main/java/io/swagger/configuration/HomeController.java
+
 # Ignore implemented controllers
+src/main/java/io/github/cloudiator/rest/api/ApiErrorController.java
 src/main/java/io/github/cloudiator/rest/api/CloudsApiController.java
-src/main/java/io/github/cloudiator/rest/api/ApplicationsApiController.java
-src/main/java/io/github/cloudiator/rest/api/ComponentsApiController.java
 src/main/java/io/github/cloudiator/rest/api/HardwareApiController.java
 src/main/java/io/github/cloudiator/rest/api/ImagesApiController.java
+src/main/java/io/github/cloudiator/rest/api/JobsApiController.java
 src/main/java/io/github/cloudiator/rest/api/LocationsApiController.java
+src/main/java/io/github/cloudiator/rest/api/LongRunningRequestsApiController.java
 src/main/java/io/github/cloudiator/rest/api/TasksApiController.java
 src/main/java/io/github/cloudiator/rest/api/VmApiController.java
-src/main/java/io/github/cloudiator/rest/api/*Controller.java
-src/main/java/io/swagger/configuration/HomeController.java
 
 # Ignore Exceptionhandling
 src/main/java/io/github/cloudiator/rest/api/ApiException.java
