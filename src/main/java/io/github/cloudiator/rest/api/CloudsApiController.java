@@ -56,8 +56,8 @@ public class CloudsApiController implements CloudsApi {
         generated.setCredential(cloud.getCredential());
         generated.setCloudConfiguration(cloud.getCloudConfiguration());
 
-        NewCloudConverter newCloudConverter = new NewCloudConverter();
-        CloudToCloudConverter cloudToCloudConverter = new CloudToCloudConverter();
+        final NewCloudConverter newCloudConverter = new NewCloudConverter();
+        final CloudToCloudConverter cloudToCloudConverter = new CloudToCloudConverter();
         IaasEntities.NewCloud newCloud = newCloudConverter.apply(generated);
         org.cloudiator.messages.Cloud.CreateCloudRequest.Builder builder = org.cloudiator.messages.Cloud.CreateCloudRequest
                 .newBuilder();
