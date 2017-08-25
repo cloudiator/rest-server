@@ -23,14 +23,14 @@ public class ApiToApiConverterTest {
     }
 
     @Test
-    public void applyBack() throws Exception {
+    public void applyBack_correct() throws Exception {
         //from message to api
         Api actual = converter.applyBack(testMessage);
         assertThat(actual, is(equalTo(testModel)));
     }
 
     @Test
-    public void apply() throws Exception {
+    public void apply_correct() throws Exception {
         //from api to message
         IaasEntities.Api actual = converter.apply(testModel);
         assertThat(actual, is(equalTo(testMessage)));
