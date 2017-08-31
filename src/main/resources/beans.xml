@@ -9,6 +9,8 @@
 
     <bean id="serviceFactory" class="io.github.cloudiator.ServiceFactory"/>
 
+    <bean id="solutionService" factory-bean="serviceFactory" factory-method="createSolutionService" />
+
     <bean id="cloudService" factory-bean="serviceFactory" factory-method="createCloudService"/>
 
     <bean id="hardwareService" factory-bean="serviceFactory" factory-method="createHardwareService"/>

@@ -42,6 +42,7 @@ src/main/java/io/github/cloudiator/rest/api/LocationsApiController.java
 src/main/java/io/github/cloudiator/rest/api/LongRunningRequestsApiController.java
 src/main/java/io/github/cloudiator/rest/api/TasksApiController.java
 src/main/java/io/github/cloudiator/rest/api/VmApiController.java
+src/main/java/io/github/cloudiator/rest/api/OclApiController.java
 
 # Ignore Exceptionhandling
 src/main/java/io/github/cloudiator/rest/api/ApiException.java

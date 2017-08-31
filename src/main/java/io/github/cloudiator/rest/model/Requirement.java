@@ -1,10 +1,6 @@
 package io.github.cloudiator.rest.model;
 
 import java.util.Objects;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonCreator;
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
@@ -13,30 +9,6 @@ import javax.validation.constraints.*;
  */
 
 public class Requirement   {
-  @JsonProperty("requirement")
-  private String requirement = null;
-
-  public Requirement requirement(String requirement) {
-    this.requirement = requirement;
-    return this;
-  }
-
-   /**
-   * Get requirement
-   * @return requirement
-  **/
-  @ApiModelProperty(example = "nodes.forAll(hardware.cores >= 4)", required = true, value = "")
-  @NotNull
-
-
-  public String getRequirement() {
-    return requirement;
-  }
-
-  public void setRequirement(String requirement) {
-    this.requirement = requirement;
-  }
-
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -46,13 +18,12 @@ public class Requirement   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    Requirement requirement = (Requirement) o;
-    return Objects.equals(this.requirement, requirement.requirement);
+    return true;
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(requirement);
+    return Objects.hash();
   }
 
   @Override
@@ -60,7 +31,6 @@ public class Requirement   {
     StringBuilder sb = new StringBuilder();
     sb.append("class Requirement {\n");
     
-    sb.append("    requirement: ").append(toIndentedString(requirement)).append("\n");
     sb.append("}");
     return sb.toString();
   }

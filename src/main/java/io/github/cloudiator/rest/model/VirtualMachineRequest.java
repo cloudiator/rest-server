@@ -32,7 +32,7 @@ public class VirtualMachineRequest   {
    * Get image
    * @return image
   **/
-  @ApiModelProperty(value = "")
+  @ApiModelProperty(example = "01101b2075b7046fff5eaa9beae14ccd:RegionOne/72a4b00b-705f-4290-a4de-c79eddc03fe3", value = "")
 
 
   public String getImage() {
@@ -52,7 +52,7 @@ public class VirtualMachineRequest   {
    * Get hardware
    * @return hardware
   **/
-  @ApiModelProperty(value = "")
+  @ApiModelProperty(example = "01101b2075b7046fff5eaa9beae14ccd:RegionOne/3", value = "")
 
 
   public String getHardware() {
@@ -72,7 +72,7 @@ public class VirtualMachineRequest   {
    * Get location
    * @return location
   **/
-  @ApiModelProperty(value = "")
+  @ApiModelProperty(example = "01101b2075b7046fff5eaa9beae14ccd:RegionOne", value = "")
 
 
   public String getLocation() {
