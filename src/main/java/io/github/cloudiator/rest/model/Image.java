@@ -3,6 +3,7 @@ package io.github.cloudiator.rest.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import io.github.cloudiator.rest.model.Location;
 import io.github.cloudiator.rest.model.OperatingSystem;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -26,6 +27,9 @@ public class Image   {
 
   @JsonProperty("operatingSystem")
   private OperatingSystem operatingSystem = null;
+
+  @JsonProperty("location")
+  private Location location = null;
 
   public Image id(String id) {
     this.id = id;
@@ -112,6 +116,27 @@ public class Image   {
     this.operatingSystem = operatingSystem;
   }
 
+  public Image location(Location location) {
+    this.location = location;
+    return this;
+  }
+
+   /**
+   * Get location
+   * @return location
+  **/
+  @ApiModelProperty(value = "")
+
+  @Valid
+
+  public Location getLocation() {
+    return location;
+  }
+
+  public void setLocation(Location location) {
+    this.location = location;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -125,12 +150,13 @@ public class Image   {
     return Objects.equals(this.id, image.id) &&
         Objects.equals(this.name, image.name) &&
         Objects.equals(this.providerId, image.providerId) &&
-        Objects.equals(this.operatingSystem, image.operatingSystem);
+        Objects.equals(this.operatingSystem, image.operatingSystem) &&
+        Objects.equals(this.location, image.location);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, name, providerId, operatingSystem);
+    return Objects.hash(id, name, providerId, operatingSystem, location);
   }
 
   @Override
@@ -142,6 +168,7 @@ public class Image   {
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    providerId: ").append(toIndentedString(providerId)).append("\n");
     sb.append("    operatingSystem: ").append(toIndentedString(operatingSystem)).append("\n");
+    sb.append("    location: ").append(toIndentedString(location)).append("\n");
     sb.append("}");
     return sb.toString();
   }
