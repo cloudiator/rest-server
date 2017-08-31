@@ -39,6 +39,7 @@ public class CloudConfigurationConverterTest {
     public void apply() throws Exception {
         //from rest to iaas
         IaasEntities.Configuration actual = cloudConfigurationConverter.apply(restCloudConfig);
+
         assertThat(actual, is(equalTo(iaasConfig)));
     }
 

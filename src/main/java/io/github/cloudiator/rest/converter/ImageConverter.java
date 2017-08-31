@@ -10,7 +10,7 @@ import org.cloudiator.messages.entities.IaasEntities;
  */
 public class ImageConverter implements TwoWayConverter<Image, IaasEntities.Image> {
 
-    OperatingSystemConverter operatingSystemConverter = new OperatingSystemConverter();
+    private final OperatingSystemConverter operatingSystemConverter = new OperatingSystemConverter();
 
 
     @Override
@@ -21,6 +21,7 @@ public class ImageConverter implements TwoWayConverter<Image, IaasEntities.Image
         result.setName(image.getName());
         result.setProviderId(image.getProviderId());
         result.setOperatingSystem(operatingSystemConverter.applyBack(image.getOperationSystem()));
+
 
         return result;
     }
@@ -33,47 +34,9 @@ public class ImageConverter implements TwoWayConverter<Image, IaasEntities.Image
         builder.setName(image.getName());
         builder.setProviderId(image.getProviderId());
         builder.setOperationSystem(operatingSystemConverter.apply(image.getOperatingSystem()));
+        builder.clearLocation();
 
         return builder.build();
     }
 
-    private class OperatingSystemConverter implements
-            TwoWayConverter<OperatingSystem, CommonEntities.OperatingSystem> {
-
-        @Override
-        public OperatingSystem applyBack(CommonEntities.OperatingSystem operatingSystem) {
-            OperatingSystem op = new OperatingSystem();
-            /*
-            op.setOperatingSystemVersion(operatingSystem.getOperatingSystemVersion());
-
-      op.setOperatingSystemFamily(operatingSystem.getOperatingSystemFamily());
-      op.setOperatingSystemArchitecture(operatingSystem.getOperatingSystemArchitecture());
-*/
-            return op;
-        }
-
-        @Override
-        public CommonEntities.OperatingSystem apply(OperatingSystem operatingSystem) {
-            CommonEntities.OperatingSystem.Builder builder = CommonEntities.OperatingSystem.newBuilder();
-/*
-      if (operatingSystem.getOperatingSystemArchitecture() != null) {
-        builder.setOperatingSystemArchitecture(operatingSystem.getOperatingSystemArchitecture());
-      } else {
-        builder.clearOperatingSystemArchitecture();
-      }
-      if (operatingSystem.getOperatingSystemFamily() != null) {
-        builder.setOperatingSystemFamily(operatingSystem.getOperatingSystemFamily());
-      } else {
-        builder.clearOperatingSystemFamily();
-      }
-      if (operatingSystem.getOperatingSystemVersion() != null) {
-        builder.setOperatingSystemVersion(operatingSystem.getOperatingSystemVersion());
-      } else {
-        builder.clearOperatingSystemVersion();
-      }
-*/
-            return builder.build();
-        }
-
-    }
 }

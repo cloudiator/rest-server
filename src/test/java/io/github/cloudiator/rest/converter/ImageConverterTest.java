@@ -5,6 +5,7 @@ import org.cloudiator.messages.entities.CommonEntities;
 import org.cloudiator.messages.entities.IaasEntities;
 import org.junit.Test;
 
+import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 
 public class ImageConverterTest {
@@ -19,7 +20,7 @@ public class ImageConverterTest {
     private final IaasEntities.Location iaasLocation;
     private final Location restLocation;
 
-    public ImageConverterTest(){
+    public ImageConverterTest() {
 
         //OperatingSystem
         this.iaasOperatingSystem = CommonEntities.OperatingSystem.newBuilder()
@@ -45,13 +46,13 @@ public class ImageConverterTest {
                 .providerId("TestProvider")
                 .locationScope(Location.LocationScopeEnum.PROVIDER)
                 .isAssignable(true);
-        //Image
+        //Image without Location
         this.iaasImage = IaasEntities.Image.newBuilder()
                 .setId("32chars-long_testID_for_UnitTest")
                 .setName("TestName")
                 .setOperationSystem(iaasOperatingSystem)
                 .setProviderId("TestProvider")
-                .setLocation(iaasLocation)
+                .clearLocation()
                 .build();
         this.restImage = new Image()
                 .id("32chars-long_testID_for_UnitTest")
@@ -63,10 +64,15 @@ public class ImageConverterTest {
 
     @Test
     public void applyBack() throws Exception {
+        //from iaas to rest
+        Image actual = imageConverter.applyBack(iaasImage);
+        assertThat(actual, is(equalTo(restImage)));
     }
 
     @Test
     public void apply() throws Exception {
+        IaasEntities.Image actual = imageConverter.apply(restImage);
+        assertThat(actual, is(equalTo(iaasImage)));
     }
 
 }
