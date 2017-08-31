@@ -33,7 +33,7 @@ public class LRRMapService {
         checkNotNull(taskId, "taskId is null");
 
         checkArgument(!userId.isEmpty(), "userID is empty");
-        checkArgument(!taskId.isEmpty());
+        checkArgument(!taskId.isEmpty(), "TaskID is empty");
 
         return table.get(userId).get(taskId);
     }
@@ -42,6 +42,8 @@ public class LRRMapService {
 
         checkNotNull(userId, "userId is null");
         checkArgument(!userId.isEmpty(), "userId is empty");
+        checkNotNull(lrr.getId(),"lrrID is null");
+        checkArgument(!lrr.getId().isEmpty(), "lrrID is empty");
 
         HashMap<String, LongRunningRequest> map;
         if (table.get(userId) == null) {
@@ -70,7 +72,8 @@ public class LRRMapService {
 
         HashMap<String, LongRunningRequest> map = table.get(userId);
 
-        checkArgument(!map.containsKey(lrrId), "Lrr not known. ID: " + lrrId);
+        checkArgument(map.containsKey(lrrId), "Lrr not known. ID: " + lrrId);
+
 
         LongRunningRequest changedLrr = map.get(lrrId);
         changedLrr.setTaskStatus(newValue);
