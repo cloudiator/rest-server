@@ -23,6 +23,6 @@ public class OclSolutionConverter implements
         oclSolutionMessage.getNodesList().stream().map(virtualMachineRequestConverter::applyBack).collect(
             Collectors.toList()));
 
-    return null;
+    return oclSolution;
   }
 }

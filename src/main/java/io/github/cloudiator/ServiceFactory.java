@@ -95,7 +95,7 @@ public class ServiceFactory {
 
   public SolutionServiceImpl createSolutionService() {
     final SolutionServiceImpl solutionService = new SolutionServiceImpl(messageInterface);
-    solutionService.setResponseTimeout(messagingTimeout);
+    solutionService.setResponseTimeout(0);
     return solutionService;
   }
 

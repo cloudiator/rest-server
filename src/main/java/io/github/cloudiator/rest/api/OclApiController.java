@@ -33,9 +33,13 @@ public class OclApiController implements OclApi {
       @ApiParam(value = "OCL Problem to solve", required = true) @Valid @RequestBody OclProblem oclProblem) {
 
     try {
-      OclSolutionResponse oclSolutionResponse = solutionService.solveOCLProblem(
-          OclSolutionRequest.newBuilder().setProblem(oclProblemConverter.apply(oclProblem))
-              .setUserId(userService.getUserId()).build());
+
+      final OclSolutionRequest oclSolutionRequest = OclSolutionRequest.newBuilder()
+          .setProblem(oclProblemConverter.apply(oclProblem))
+          .setUserId(userService.getUserId()).build();
+
+      OclSolutionResponse oclSolutionResponse = solutionService.solveOCLProblem(oclSolutionRequest
+      );
 
       return new ResponseEntity<>(
           oclSolutionConverter.apply(oclSolutionResponse.getSolution()), HttpStatus.OK);
