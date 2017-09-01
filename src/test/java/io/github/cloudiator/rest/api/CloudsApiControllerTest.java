@@ -2,6 +2,7 @@ package io.github.cloudiator.rest.api;
 
 import io.github.cloudiator.rest.UserService;
 import io.github.cloudiator.rest.converter.CloudToCloudConverter;
+import io.github.cloudiator.rest.converter.NewCloudConverter;
 import io.github.cloudiator.rest.model.*;
 import io.swagger.Swagger2SpringBoot;
 import org.cloudiator.messages.entities.IaasEntities;
@@ -28,14 +29,16 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-/*
+
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes = Swagger2SpringBoot.class)
 @WebMvcTest(CloudsApiController.class)
@@ -53,27 +56,41 @@ public class CloudsApiControllerTest {
     private final MediaType contentType = new MediaType(MediaType.APPLICATION_JSON.getType(),
             MediaType.APPLICATION_JSON.getSubtype(), Charset.forName("utf8"));
 
+    private final CloudToCloudConverter cloudConverter;
+    private final NewCloudConverter newCloudConverter;
+    private final Cloud resttestcloud;
+    private final IaasEntities.Cloud iaastestcloud;
+    private final List<Cloud> allClouds;
+    private final NewCloud restNewCloud;
 
-    Cloud testcloud = new Cloud();
-    IaasEntities.Cloud.Builder iaastestcloudbuilder = IaasEntities.Cloud.newBuilder();
-    IaasEntities.Cloud iaastestcloud = IaasEntities.Cloud.getDefaultInstance();
+    public CloudsApiControllerTest() {
+        this.cloudConverter = new CloudToCloudConverter();
+        this.newCloudConverter = new NewCloudConverter();
+        this.resttestcloud = new Cloud();
+        Api testApi = new Api().providerName("TestProvider");
+        Property testproperty = new Property().key("TestKey").value("TestValue");
+        resttestcloud.setId("1a79a4d60de6718e8e5b326e338atest");
+        resttestcloud.setApi(testApi);
+        resttestcloud.setCloudType(CloudType.PUBLIC);
+        resttestcloud.endpoint("TestEndpoint");
+        resttestcloud.credential(new CloudCredential().user("TestUser").secret("TestSecret"));
+        resttestcloud.cloudConfiguration(new CloudConfiguration().nodeGroup("TestNodeGroup")
+                .addPropertiesItem(testproperty));
 
-    private CloudToCloudConverter cloudConverter = new CloudToCloudConverter();
+        this.iaastestcloud = cloudConverter.apply(resttestcloud);
+        this.allClouds = new ArrayList<>();
+        this.restNewCloud = new NewCloud();
+        restNewCloud.setApi(testApi);
+        restNewCloud.setCloudType(CloudType.PUBLIC);
+        restNewCloud.setEndpoint("TestEndpoint");
+        restNewCloud.credential(new CloudCredential().user("TestUser").secret("TestSecret"));
+        restNewCloud.cloudConfiguration(new CloudConfiguration().nodeGroup("TestNodeGroup")
+                .addPropertiesItem(testproperty));
 
+    }
 
     @Before
     public void setup() throws Exception {
-        Api testApi = new Api().providerName("TestProvider");
-        Property testproperty = new Property().key("TestKey").value("TestValue");
-        testcloud.setId("1a79a4d60de6718e8e5b326e338atest");
-        testcloud.setApi(testApi);
-        testcloud.setCloudType(CloudType.PUBLIC);
-        testcloud.endpoint("TestEndpoint");
-        testcloud.credential(new CloudCredential().user("TestUser").secret("TestSecret"));
-        testcloud.cloudConfiguration(new CloudConfiguration().nodeGroup("TestNodeGroup")
-                .addPropertiesItem(testproperty));
-
-        iaastestcloud = iaastestcloudbuilder.mergeFrom(cloudConverter.apply(testcloud)).build();
 
         given(mockedUserService.getUserId()).willReturn("DummyUser");
 
@@ -81,6 +98,21 @@ public class CloudsApiControllerTest {
 
     @Test
     public void addCloud() throws Exception {
+
+        org.cloudiator.messages.Cloud.CreateCloudRequest createCloudRequest = org.cloudiator.messages.Cloud.CreateCloudRequest
+                .newBuilder()
+                .setUserId(mockedUserService.getUserId())
+                .setCloud(newCloudConverter.apply(restNewCloud)).build();
+        org.cloudiator.messages.Cloud.CloudCreatedResponse cloudCreatedResponse = org.cloudiator.messages.Cloud.CloudCreatedResponse
+                .newBuilder()
+                .setCloud(iaastestcloud)
+                .setUserId(mockedUserService.getUserId()).build();
+
+        given(mockedCloudService.createCloud(createCloudRequest)).willReturn(cloudCreatedResponse);
+
+       mockmvc.perform(post("/clouds"));
+
+
     }
 
     @Test
@@ -93,18 +125,20 @@ public class CloudsApiControllerTest {
 
     @Test
     public void findClouds_correct() throws Exception {
-        List<Cloud> allClouds = new ArrayList<>();
+
+        allClouds.add(resttestcloud);
         org.cloudiator.messages.Cloud.CloudQueryRequest testrequest = org.cloudiator.messages.Cloud.CloudQueryRequest
-                .newBuilder().setUserId(mockedUserService.getUserId()).build();
+                .newBuilder()
+                .setUserId(mockedUserService.getUserId()).build();
         org.cloudiator.messages.Cloud.CloudQueryResponse testresponse = org.cloudiator.messages.Cloud.CloudQueryResponse.newBuilder().addClouds(iaastestcloud).build();
 
         given(mockedCloudService.getClouds(testrequest)).willReturn(testresponse);
 
-        MvcResult result = mockmvc.perform(get("/clouds").contentType(contentType)).andExpect(status().isOk())
-                .andReturn();
+        mockmvc.perform(get("/clouds").contentType(contentType)).andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(contentType))
+                .andExpect(jsonPath("$", hasSize(1)))
+                .andExpect(jsonPath("$[0].id", is(equalTo(resttestcloud.getId())))).andReturn();
 
-        System.out.println(result);
     }
 
 }
-*/
