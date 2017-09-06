@@ -13,7 +13,7 @@ import javax.validation.constraints.*;
  * IdentifierRequirement
  */
 
-public class IdentifierRequirement   {
+public class IdentifierRequirement extends Requirement  {
   @JsonProperty("hardwareId")
   private String hardwareId = null;
 
@@ -95,19 +95,20 @@ public class IdentifierRequirement   {
     IdentifierRequirement identifierRequirement = (IdentifierRequirement) o;
     return Objects.equals(this.hardwareId, identifierRequirement.hardwareId) &&
         Objects.equals(this.locationId, identifierRequirement.locationId) &&
-        Objects.equals(this.imageId, identifierRequirement.imageId);
+        Objects.equals(this.imageId, identifierRequirement.imageId) &&
+        super.equals(o);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(hardwareId, locationId, imageId);
+    return Objects.hash(hardwareId, locationId, imageId, super.hashCode());
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class IdentifierRequirement {\n");
-    
+    sb.append("    ").append(toIndentedString(super.toString())).append("\n");
     sb.append("    hardwareId: ").append(toIndentedString(hardwareId)).append("\n");
     sb.append("    locationId: ").append(toIndentedString(locationId)).append("\n");
     sb.append("    imageId: ").append(toIndentedString(imageId)).append("\n");

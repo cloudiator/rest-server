@@ -1,16 +1,20 @@
 package io.github.cloudiator;
 
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import de.uniulm.omi.cloudiator.util.PropertiesLoader;
 import java.util.Properties;
-import org.cloudiator.messaging.MessageInterface;
-import org.cloudiator.messaging.services.CloudServiceImpl;
-import org.cloudiator.messaging.services.HardwareServiceImpl;
-import org.cloudiator.messaging.services.ImageServiceImpl;
-import org.cloudiator.messaging.services.JobServiceImpl;
-import org.cloudiator.messaging.services.LocationServiceImpl;
-import org.cloudiator.messaging.services.SolutionServiceImpl;
-import org.cloudiator.messaging.services.TaskServiceImpl;
-import org.cloudiator.messaging.services.VirtualMachineServiceImpl;
+import org.cloudiator.messaging.kafka.KafkaMessagingModule;
+import org.cloudiator.messaging.services.CloudService;
+import org.cloudiator.messaging.services.HardwareService;
+import org.cloudiator.messaging.services.ImageService;
+import org.cloudiator.messaging.services.JobService;
+import org.cloudiator.messaging.services.LocationService;
+import org.cloudiator.messaging.services.MessageServiceModule;
+import org.cloudiator.messaging.services.NodeService;
+import org.cloudiator.messaging.services.SolutionService;
+import org.cloudiator.messaging.services.TaskService;
+import org.cloudiator.messaging.services.VirtualMachineService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,6 +29,9 @@ public class ServiceFactory {
   private static final long MESSAGING_TIMEOUT_DEFAULT_VALUE = 10000;
   private static final String MESSAGING_SYSTEM_PROPERTIES_KEY = "messaging.config.file";
   private static final String MESSAGING_DEFAULT_PROPERTIES_FILE = "messaging.properties";
+
+  private static final Injector INJECTOR = Guice
+      .createInjector(new KafkaMessagingModule(), new MessageServiceModule());
 
   private static final long messagingTimeout;
 
@@ -42,61 +49,43 @@ public class ServiceFactory {
     messagingTimeout = l;
   }
 
-  private final MessageInterface messageInterface;
-
-  public ServiceFactory(MessageInterface messageInterface) {
-    this.messageInterface = messageInterface;
+  public ServiceFactory() {
   }
 
-  public CloudServiceImpl createCloudService() {
-
-    final CloudServiceImpl cloudService = new CloudServiceImpl(messageInterface);
-    cloudService.setResponseTimeout(messagingTimeout);
-    return cloudService;
+  public CloudService createCloudService() {
+    return INJECTOR.getInstance(CloudService.class);
   }
 
-  public HardwareServiceImpl createHardwareService() {
-    final HardwareServiceImpl hardwareService = new HardwareServiceImpl(messageInterface);
-    hardwareService.setResponseTimeout(messagingTimeout);
-    return hardwareService;
+  public HardwareService createHardwareService() {
+    return INJECTOR.getInstance(HardwareService.class);
   }
 
-  public ImageServiceImpl createImageService() {
-
-    final ImageServiceImpl imageService = new ImageServiceImpl(messageInterface);
-    imageService.setResponseTimeout(messagingTimeout);
-    return imageService;
+  public ImageService createImageService() {
+    return INJECTOR.getInstance(ImageService.class);
   }
 
-  public LocationServiceImpl createLocationService() {
-    final LocationServiceImpl locationService = new LocationServiceImpl(messageInterface);
-    locationService.setResponseTimeout(messagingTimeout);
-    return locationService;
+  public LocationService createLocationService() {
+    return INJECTOR.getInstance(LocationService.class);
   }
 
-  public VirtualMachineServiceImpl createVirtualMachineService() {
-    final VirtualMachineServiceImpl virtualMachineService = new VirtualMachineServiceImpl(
-        messageInterface);
-    virtualMachineService.setResponseTimeout(0);
-    return virtualMachineService;
+  public VirtualMachineService createVirtualMachineService() {
+    return INJECTOR.getInstance(VirtualMachineService.class);
   }
 
-  public JobServiceImpl createJobService() {
-    final JobServiceImpl jobService = new JobServiceImpl(messageInterface);
-    jobService.setResponseTimeout(messagingTimeout);
-    return jobService;
+  public JobService createJobService() {
+    return INJECTOR.getInstance(JobService.class);
   }
 
-  public TaskServiceImpl createTaskService() {
-    final TaskServiceImpl taskService = new TaskServiceImpl(messageInterface);
-    taskService.setResponseTimeout(messagingTimeout);
-    return taskService;
+  public TaskService createTaskService() {
+    return INJECTOR.getInstance(TaskService.class);
   }
 
-  public SolutionServiceImpl createSolutionService() {
-    final SolutionServiceImpl solutionService = new SolutionServiceImpl(messageInterface);
-    solutionService.setResponseTimeout(0);
-    return solutionService;
+  public SolutionService createSolutionService() {
+    return INJECTOR.getInstance(SolutionService.class);
+  }
+
+  public NodeService createNodeService() {
+    return INJECTOR.getInstance(NodeService.class);
   }
 
 }
