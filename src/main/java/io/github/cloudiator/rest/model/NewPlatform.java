@@ -3,6 +3,7 @@ package io.github.cloudiator.rest.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 import io.github.cloudiator.rest.model.Api;
 import io.github.cloudiator.rest.model.CloudCredential;
 import io.swagger.annotations.ApiModel;
@@ -14,7 +15,6 @@ import javax.validation.constraints.*;
  * Repesents a new PaaS provider to be created 
  */
 @ApiModel(description = "Repesents a new PaaS provider to be created ")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2017-05-30T11:45:10.801+02:00")
 
 public class NewPlatform   {
   @JsonProperty("id")
@@ -22,6 +22,42 @@ public class NewPlatform   {
 
   @JsonProperty("name")
   private String name = null;
+
+  /**
+   * PaaS stack type
+   */
+  public enum TypeEnum {
+    HEROKU("HEROKU"),
+    
+    OPENSHIFT("OPENSHIFT"),
+    
+    CLOUDFOUNDRY("CLOUDFOUNDRY");
+
+    private String value;
+
+    TypeEnum(String value) {
+      this.value = value;
+    }
+
+    @Override
+    @JsonValue
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    @JsonCreator
+    public static TypeEnum fromValue(String text) {
+      for (TypeEnum b : TypeEnum.values()) {
+        if (String.valueOf(b.value).equals(text)) {
+          return b;
+        }
+      }
+      return null;
+    }
+  }
+
+  @JsonProperty("type")
+  private TypeEnum type = null;
 
   @JsonProperty("api")
   private Api api = null;
@@ -69,6 +105,26 @@ public class NewPlatform   {
 
   public void setName(String name) {
     this.name = name;
+  }
+
+  public NewPlatform type(TypeEnum type) {
+    this.type = type;
+    return this;
+  }
+
+   /**
+   * PaaS stack type
+   * @return type
+  **/
+  @ApiModelProperty(value = "PaaS stack type")
+
+
+  public TypeEnum getType() {
+    return type;
+  }
+
+  public void setType(TypeEnum type) {
+    this.type = type;
   }
 
   public NewPlatform api(Api api) {
@@ -127,13 +183,14 @@ public class NewPlatform   {
     NewPlatform newPlatform = (NewPlatform) o;
     return Objects.equals(this.id, newPlatform.id) &&
         Objects.equals(this.name, newPlatform.name) &&
+        Objects.equals(this.type, newPlatform.type) &&
         Objects.equals(this.api, newPlatform.api) &&
         Objects.equals(this.credential, newPlatform.credential);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, name, api, credential);
+    return Objects.hash(id, name, type, api, credential);
   }
 
   @Override
@@ -143,6 +200,7 @@ public class NewPlatform   {
     
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
+    sb.append("    type: ").append(toIndentedString(type)).append("\n");
     sb.append("    api: ").append(toIndentedString(api)).append("\n");
     sb.append("    credential: ").append(toIndentedString(credential)).append("\n");
     sb.append("}");

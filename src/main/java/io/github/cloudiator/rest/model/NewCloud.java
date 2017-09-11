@@ -3,10 +3,10 @@ package io.github.cloudiator.rest.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
 import io.github.cloudiator.rest.model.Api;
 import io.github.cloudiator.rest.model.CloudConfiguration;
 import io.github.cloudiator.rest.model.CloudCredential;
+import io.github.cloudiator.rest.model.CloudType;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import javax.validation.Valid;
@@ -16,48 +16,13 @@ import javax.validation.constraints.*;
  * Represents a new cloud that is to be created 
  */
 @ApiModel(description = "Represents a new cloud that is to be created ")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2017-05-30T11:45:10.801+02:00")
 
 public class NewCloud   {
-  @JsonProperty("name")
-  private String name = null;
-
   @JsonProperty("endpoint")
   private String endpoint = null;
 
-  /**
-   * Type of the cloud
-   */
-  public enum CloudTypeEnum {
-    PRIVATE("PRIVATE"),
-    
-    PUBLIC("PUBLIC");
-
-    private String value;
-
-    CloudTypeEnum(String value) {
-      this.value = value;
-    }
-
-    @Override
-    @JsonValue
-    public String toString() {
-      return String.valueOf(value);
-    }
-
-    @JsonCreator
-    public static CloudTypeEnum fromValue(String text) {
-      for (CloudTypeEnum b : CloudTypeEnum.values()) {
-        if (String.valueOf(b.value).equals(text)) {
-          return b;
-        }
-      }
-      return null;
-    }
-  }
-
   @JsonProperty("cloudType")
-  private CloudTypeEnum cloudType = null;
+  private CloudType cloudType = null;
 
   @JsonProperty("api")
   private Api api = null;
@@ -68,27 +33,6 @@ public class NewCloud   {
   @JsonProperty("cloudConfiguration")
   private CloudConfiguration cloudConfiguration = null;
 
-  public NewCloud name(String name) {
-    this.name = name;
-    return this;
-  }
-
-   /**
-   * Human readable name for the cloud. Needs to be unique.
-   * @return name
-  **/
-  @ApiModelProperty(required = true, value = "Human readable name for the cloud. Needs to be unique.")
-  @NotNull
-
-
-  public String getName() {
-    return name;
-  }
-
-  public void setName(String name) {
-    this.name = name;
-  }
-
   public NewCloud endpoint(String endpoint) {
     this.endpoint = endpoint;
     return this;
@@ -98,8 +42,7 @@ public class NewCloud   {
    * URI where the api of this cloud provider can be accessed.
    * @return endpoint
   **/
-  @ApiModelProperty(required = true, value = "URI where the api of this cloud provider can be accessed.")
-  @NotNull
+  @ApiModelProperty(example = "https://endpoint.example.com", value = "URI where the api of this cloud provider can be accessed.")
 
 
   public String getEndpoint() {
@@ -110,24 +53,25 @@ public class NewCloud   {
     this.endpoint = endpoint;
   }
 
-  public NewCloud cloudType(CloudTypeEnum cloudType) {
+  public NewCloud cloudType(CloudType cloudType) {
     this.cloudType = cloudType;
     return this;
   }
 
    /**
-   * Type of the cloud
+   * Get cloudType
    * @return cloudType
   **/
-  @ApiModelProperty(required = true, value = "Type of the cloud")
+  @ApiModelProperty(required = true, value = "")
   @NotNull
 
+  @Valid
 
-  public CloudTypeEnum getCloudType() {
+  public CloudType getCloudType() {
     return cloudType;
   }
 
-  public void setCloudType(CloudTypeEnum cloudType) {
+  public void setCloudType(CloudType cloudType) {
     this.cloudType = cloudType;
   }
 
@@ -206,8 +150,7 @@ public class NewCloud   {
       return false;
     }
     NewCloud newCloud = (NewCloud) o;
-    return Objects.equals(this.name, newCloud.name) &&
-        Objects.equals(this.endpoint, newCloud.endpoint) &&
+    return Objects.equals(this.endpoint, newCloud.endpoint) &&
         Objects.equals(this.cloudType, newCloud.cloudType) &&
         Objects.equals(this.api, newCloud.api) &&
         Objects.equals(this.credential, newCloud.credential) &&
@@ -216,7 +159,7 @@ public class NewCloud   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, endpoint, cloudType, api, credential, cloudConfiguration);
+    return Objects.hash(endpoint, cloudType, api, credential, cloudConfiguration);
   }
 
   @Override
@@ -224,7 +167,6 @@ public class NewCloud   {
     StringBuilder sb = new StringBuilder();
     sb.append("class NewCloud {\n");
     
-    sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    endpoint: ").append(toIndentedString(endpoint)).append("\n");
     sb.append("    cloudType: ").append(toIndentedString(cloudType)).append("\n");
     sb.append("    api: ").append(toIndentedString(api)).append("\n");

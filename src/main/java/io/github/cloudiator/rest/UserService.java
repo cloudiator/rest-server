@@ -1,4 +1,4 @@
-package io.github.cloudiator.rest.converter;
+package io.github.cloudiator.rest;
 
 /**
  * Created by volker on 29.05.17.

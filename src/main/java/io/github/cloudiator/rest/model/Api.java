@@ -12,7 +12,6 @@ import javax.validation.constraints.*;
  * Represents an API used by a cloud 
  */
 @ApiModel(description = "Represents an API used by a cloud ")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2017-05-30T11:45:10.801+02:00")
 
 public class Api   {
   @JsonProperty("providerName")
@@ -27,7 +26,7 @@ public class Api   {
    * Name of the API provider, maps to a driver
    * @return providerName
   **/
-  @ApiModelProperty(required = true, value = "Name of the API provider, maps to a driver")
+  @ApiModelProperty(example = "openstack-nova", required = true, value = "Name of the API provider, maps to a driver")
   @NotNull
 
 

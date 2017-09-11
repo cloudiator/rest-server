@@ -6,11 +6,13 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
+import org.springframework.context.annotation.ImportResource;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication
+@ImportResource("classpath:beans.xml")
 @EnableSwagger2
-@ComponentScan(basePackages = "io.github.cloudiator.rest")
+@ComponentScan(basePackages = { "io.swagger", "io.github.cloudiator.rest.api" })
 public class Swagger2SpringBoot implements CommandLineRunner {
 
     @Override

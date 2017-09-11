@@ -9,9 +9,9 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * VirtualMachineRequest
+ * Represents a request to create a new virtual machine. 
  */
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2017-05-30T11:45:10.801+02:00")
+@ApiModel(description = "Represents a request to create a new virtual machine. ")
 
 public class VirtualMachineRequest   {
   @JsonProperty("image")
@@ -32,7 +32,7 @@ public class VirtualMachineRequest   {
    * Get image
    * @return image
   **/
-  @ApiModelProperty(value = "")
+  @ApiModelProperty(example = "01101b2075b7046fff5eaa9beae14ccd:RegionOne/72a4b00b-705f-4290-a4de-c79eddc03fe3", value = "")
 
 
   public String getImage() {
@@ -52,7 +52,7 @@ public class VirtualMachineRequest   {
    * Get hardware
    * @return hardware
   **/
-  @ApiModelProperty(value = "")
+  @ApiModelProperty(example = "01101b2075b7046fff5eaa9beae14ccd:RegionOne/3", value = "")
 
 
   public String getHardware() {
@@ -72,7 +72,7 @@ public class VirtualMachineRequest   {
    * Get location
    * @return location
   **/
-  @ApiModelProperty(value = "")
+  @ApiModelProperty(example = "01101b2075b7046fff5eaa9beae14ccd:RegionOne", value = "")
 
 
   public String getLocation() {

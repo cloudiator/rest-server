@@ -14,7 +14,6 @@ import javax.validation.constraints.*;
  * Repesents a PaaS environemnt to run an component 
  */
 @ApiModel(description = "Repesents a PaaS environemnt to run an component ")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2017-05-30T11:45:10.801+02:00")
 
 public class PlatformEnvironment   {
   @JsonProperty("id")

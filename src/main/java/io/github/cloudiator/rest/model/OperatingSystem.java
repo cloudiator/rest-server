@@ -3,6 +3,9 @@ package io.github.cloudiator.rest.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import io.github.cloudiator.rest.model.OperatingSystemArchitecture;
+import io.github.cloudiator.rest.model.OperatingSystemFamily;
+import io.github.cloudiator.rest.model.OperatingSystemType;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import javax.validation.Valid;
@@ -12,55 +15,80 @@ import javax.validation.constraints.*;
  * Represents the operating system of an image 
  */
 @ApiModel(description = "Represents the operating system of an image ")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2017-05-30T11:45:10.801+02:00")
 
 public class OperatingSystem   {
+  @JsonProperty("operatingSystemType")
+  private OperatingSystemType operatingSystemType = null;
+
   @JsonProperty("operatingSystemFamily")
-  private String operatingSystemFamily = null;
+  private OperatingSystemFamily operatingSystemFamily = null;
 
   @JsonProperty("operatingSystemArchitecture")
-  private String operatingSystemArchitecture = null;
+  private OperatingSystemArchitecture operatingSystemArchitecture = null;
 
   @JsonProperty("operatingSystemVersion")
   private String operatingSystemVersion = null;
 
-  public OperatingSystem operatingSystemFamily(String operatingSystemFamily) {
+  public OperatingSystem operatingSystemType(OperatingSystemType operatingSystemType) {
+    this.operatingSystemType = operatingSystemType;
+    return this;
+  }
+
+   /**
+   * Get operatingSystemType
+   * @return operatingSystemType
+  **/
+  @ApiModelProperty(value = "")
+
+  @Valid
+
+  public OperatingSystemType getOperatingSystemType() {
+    return operatingSystemType;
+  }
+
+  public void setOperatingSystemType(OperatingSystemType operatingSystemType) {
+    this.operatingSystemType = operatingSystemType;
+  }
+
+  public OperatingSystem operatingSystemFamily(OperatingSystemFamily operatingSystemFamily) {
     this.operatingSystemFamily = operatingSystemFamily;
     return this;
   }
 
    /**
-   * Family of the OS
+   * Get operatingSystemFamily
    * @return operatingSystemFamily
   **/
-  @ApiModelProperty(value = "Family of the OS")
+  @ApiModelProperty(value = "")
 
+  @Valid
 
-  public String getOperatingSystemFamily() {
+  public OperatingSystemFamily getOperatingSystemFamily() {
     return operatingSystemFamily;
   }
 
-  public void setOperatingSystemFamily(String operatingSystemFamily) {
+  public void setOperatingSystemFamily(OperatingSystemFamily operatingSystemFamily) {
     this.operatingSystemFamily = operatingSystemFamily;
   }
 
-  public OperatingSystem operatingSystemArchitecture(String operatingSystemArchitecture) {
+  public OperatingSystem operatingSystemArchitecture(OperatingSystemArchitecture operatingSystemArchitecture) {
     this.operatingSystemArchitecture = operatingSystemArchitecture;
     return this;
   }
 
    /**
-   * Architecture of the OS
+   * Get operatingSystemArchitecture
    * @return operatingSystemArchitecture
   **/
-  @ApiModelProperty(value = "Architecture of the OS")
+  @ApiModelProperty(value = "")
 
+  @Valid
 
-  public String getOperatingSystemArchitecture() {
+  public OperatingSystemArchitecture getOperatingSystemArchitecture() {
     return operatingSystemArchitecture;
   }
 
-  public void setOperatingSystemArchitecture(String operatingSystemArchitecture) {
+  public void setOperatingSystemArchitecture(OperatingSystemArchitecture operatingSystemArchitecture) {
     this.operatingSystemArchitecture = operatingSystemArchitecture;
   }
 
@@ -73,7 +101,7 @@ public class OperatingSystem   {
    * Version of the OS
    * @return operatingSystemVersion
   **/
-  @ApiModelProperty(value = "Version of the OS")
+  @ApiModelProperty(example = "16.04 LTS", value = "Version of the OS")
 
 
   public String getOperatingSystemVersion() {
@@ -94,14 +122,15 @@ public class OperatingSystem   {
       return false;
     }
     OperatingSystem operatingSystem = (OperatingSystem) o;
-    return Objects.equals(this.operatingSystemFamily, operatingSystem.operatingSystemFamily) &&
+    return Objects.equals(this.operatingSystemType, operatingSystem.operatingSystemType) &&
+        Objects.equals(this.operatingSystemFamily, operatingSystem.operatingSystemFamily) &&
         Objects.equals(this.operatingSystemArchitecture, operatingSystem.operatingSystemArchitecture) &&
         Objects.equals(this.operatingSystemVersion, operatingSystem.operatingSystemVersion);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(operatingSystemFamily, operatingSystemArchitecture, operatingSystemVersion);
+    return Objects.hash(operatingSystemType, operatingSystemFamily, operatingSystemArchitecture, operatingSystemVersion);
   }
 
   @Override
@@ -109,6 +138,7 @@ public class OperatingSystem   {
     StringBuilder sb = new StringBuilder();
     sb.append("class OperatingSystem {\n");
     
+    sb.append("    operatingSystemType: ").append(toIndentedString(operatingSystemType)).append("\n");
     sb.append("    operatingSystemFamily: ").append(toIndentedString(operatingSystemFamily)).append("\n");
     sb.append("    operatingSystemArchitecture: ").append(toIndentedString(operatingSystemArchitecture)).append("\n");
     sb.append("    operatingSystemVersion: ").append(toIndentedString(operatingSystemVersion)).append("\n");

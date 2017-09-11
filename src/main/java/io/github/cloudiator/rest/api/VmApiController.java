@@ -1,34 +1,80 @@
 package io.github.cloudiator.rest.api;
 
-import io.github.cloudiator.rest.model.Task;
-import io.github.cloudiator.rest.model.VirtualMachineRequest;
+import io.github.cloudiator.rest.LRRMapService;
+import io.github.cloudiator.rest.UserService;
+import io.github.cloudiator.rest.converter.VirtualMachineRequestConverter;
+import io.github.cloudiator.rest.model.*;
+import io.swagger.annotations.ApiParam;
 
-import io.swagger.annotations.*;
+import javax.annotation.Nullable;
+import javax.validation.Valid;
 
+import org.cloudiator.messages.General;
+import org.cloudiator.messages.Vm;
+import org.cloudiator.messages.Vm.CreateVirtualMachineRequestMessage;
+import org.cloudiator.messages.Vm.VirtualMachineCreatedResponse;
+import org.cloudiator.messaging.ResponseCallback;
+import org.cloudiator.messaging.ResponseException;
+import org.cloudiator.messaging.services.VirtualMachineService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
-import java.util.List;
+import java.math.BigInteger;
+import java.security.SecureRandom;
+import java.util.UUID;
 
-import javax.validation.constraints.*;
-import javax.validation.Valid;
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2017-05-29T12:00:45.563+02:00")
 
 @Controller
 public class VmApiController implements VmApi {
 
+    @Autowired
+    private VirtualMachineService virtualMachineService;
+
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private LRRMapService lrrMapService;
 
 
-    public ResponseEntity<Task> addVM(@ApiParam(value = "VirtualMachine Request" ,required=true )  @Valid @RequestBody VirtualMachineRequest virtualMachineRequest) {
-        // do some magic!
-        return new ResponseEntity<Task>(HttpStatus.OK);
+    @ResponseStatus(value = HttpStatus.ACCEPTED)
+    public ResponseEntity<LongRunningRequest> addVM(
+            @ApiParam(value = "VirtualMachine Request", required = true) @Valid @RequestBody VirtualMachineRequest virtualMachineRequest) {
+
+
+        final LongRunningRequest lrr = new LongRunningRequest();
+        lrr.setId(UUID.randomUUID().toString());
+        lrr.setTaskStatus(LRRStatus.RUNNING);
+        lrr.setTaskType(LRRType.VIRTUALMACHINEREQUEST);
+        lrr.setLrrData(virtualMachineRequest.toString());
+
+        lrrMapService.addLRR(userService.getUserId(),lrr);
+
+        VirtualMachineRequestConverter virtualMachineRequestConverter = new VirtualMachineRequestConverter();
+        CreateVirtualMachineRequestMessage request = CreateVirtualMachineRequestMessage.newBuilder()
+                .setUserId(userService.getUserId())
+                .setVirtualMachineRequest(virtualMachineRequestConverter.apply(virtualMachineRequest))
+                .build();
+
+        virtualMachineService.createVirtualMachineAsync(request, new ResponseCallback<VirtualMachineCreatedResponse>() {
+            @Override
+            public void accept(@Nullable VirtualMachineCreatedResponse content, @Nullable General.Error error) {
+                if(error == null) {
+                    lrr.setTaskStatus(LRRStatus.COMPLETED);
+                    lrr.setReferenceId(content.getVirtualMachine().getId());
+                } else {
+                    lrr.setTaskStatus(LRRStatus.FAILED);
+                    lrr.setLrrDiagnostic(error.getMessage());
+                }
+            }
+        });
+
+        return new ResponseEntity<>(lrr, HttpStatus.ACCEPTED);
     }
 
 }

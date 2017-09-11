@@ -4,8 +4,10 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.github.cloudiator.rest.model.Component;
+import io.github.cloudiator.rest.model.Port;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import java.util.List;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
@@ -13,7 +15,6 @@ import javax.validation.constraints.*;
  * Represents a docker container 
  */
 @ApiModel(description = "Represents a docker container ")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2017-05-30T11:45:10.801+02:00")
 
 public class DockerComponent extends Component  {
   @JsonProperty("dockerImage")

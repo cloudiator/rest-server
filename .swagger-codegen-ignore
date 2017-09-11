@@ -31,7 +31,26 @@ pom.xml
 LICENSE.md
 README.md
 
+# Ignore Home Controller
+src/main/java/io/swagger/configuration/HomeController.java
+
 # Ignore implemented controllers
-src/**/*Controller.java
+src/main/java/io/github/cloudiator/rest/api/ApiErrorController.java
+src/main/java/io/github/cloudiator/rest/api/CloudsApiController.java
+src/main/java/io/github/cloudiator/rest/api/HardwareApiController.java
+src/main/java/io/github/cloudiator/rest/api/ImagesApiController.java
+src/main/java/io/github/cloudiator/rest/api/JobsApiController.java
+src/main/java/io/github/cloudiator/rest/api/LocationsApiController.java
+src/main/java/io/github/cloudiator/rest/api/LongRunningRequestsApiController.java
+src/main/java/io/github/cloudiator/rest/api/TasksApiController.java
+src/main/java/io/github/cloudiator/rest/api/VmApiController.java
+src/main/java/io/github/cloudiator/rest/api/OclApiController.java
+src/main/java/io/github/cloudiator/rest/api/NodeApiController.java
+
+# Ignore Exceptionhandling
+src/main/java/io/github/cloudiator/rest/api/ApiException.java
+src/main/java/io/github/cloudiator/rest/api/ApiExceptionHandler.java
+
+# Ignore Spring Boot config
 src/**/Swagger2SpringBoot.java
->>>>>>> a698c736d9cb31c33bea8c5a62a8b2792cbc58ea
+src/**/SwaggerDocumentationConfig.java

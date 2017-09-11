@@ -3,8 +3,11 @@ package io.github.cloudiator.rest.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import io.github.cloudiator.rest.model.Communication;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import java.util.ArrayList;
+import java.util.List;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
@@ -12,11 +15,16 @@ import javax.validation.constraints.*;
  * Represents an application. An application is a logical group of components. 
  */
 @ApiModel(description = "Represents an application. An application is a logical group of components. ")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2017-05-30T11:45:10.801+02:00")
 
 public class Application   {
   @JsonProperty("name")
   private String name = null;
+
+  @JsonProperty("components")
+  private List<String> components = new ArrayList<String>();
+
+  @JsonProperty("communications")
+  private List<Communication> communications = new ArrayList<Communication>();
 
   public Application name(String name) {
     this.name = name;
@@ -27,7 +35,8 @@ public class Application   {
    * Get name
    * @return name
   **/
-  @ApiModelProperty(value = "")
+  @ApiModelProperty(required = true, value = "")
+  @NotNull
 
 
   public String getName() {
@@ -36,6 +45,59 @@ public class Application   {
 
   public void setName(String name) {
     this.name = name;
+  }
+
+  public Application components(List<String> components) {
+    this.components = components;
+    return this;
+  }
+
+  public Application addComponentsItem(String componentsItem) {
+    this.components.add(componentsItem);
+    return this;
+  }
+
+   /**
+   * An array of components (referenced by names) that form this application. 
+   * @return components
+  **/
+  @ApiModelProperty(required = true, value = "An array of components (referenced by names) that form this application. ")
+  @NotNull
+
+
+  public List<String> getComponents() {
+    return components;
+  }
+
+  public void setComponents(List<String> components) {
+    this.components = components;
+  }
+
+  public Application communications(List<Communication> communications) {
+    this.communications = communications;
+    return this;
+  }
+
+  public Application addCommunicationsItem(Communication communicationsItem) {
+    this.communications.add(communicationsItem);
+    return this;
+  }
+
+   /**
+   * Get communications
+   * @return communications
+  **/
+  @ApiModelProperty(required = true, value = "")
+  @NotNull
+
+  @Valid
+
+  public List<Communication> getCommunications() {
+    return communications;
+  }
+
+  public void setCommunications(List<Communication> communications) {
+    this.communications = communications;
   }
 
 
@@ -48,12 +110,14 @@ public class Application   {
       return false;
     }
     Application application = (Application) o;
-    return Objects.equals(this.name, application.name);
+    return Objects.equals(this.name, application.name) &&
+        Objects.equals(this.components, application.components) &&
+        Objects.equals(this.communications, application.communications);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name);
+    return Objects.hash(name, components, communications);
   }
 
   @Override
@@ -62,6 +126,8 @@ public class Application   {
     sb.append("class Application {\n");
     
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
+    sb.append("    components: ").append(toIndentedString(components)).append("\n");
+    sb.append("    communications: ").append(toIndentedString(communications)).append("\n");
     sb.append("}");
     return sb.toString();
   }

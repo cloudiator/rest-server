@@ -1,9 +1,13 @@
 package io.github.cloudiator.rest.api;
 
+import io.github.cloudiator.rest.UserService;
+import io.github.cloudiator.rest.model.PortProvided;
 import io.github.cloudiator.rest.model.Task;
 
 import io.swagger.annotations.*;
 
+import org.cloudiator.messaging.services.TaskService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -18,16 +22,28 @@ import java.util.List;
 
 import javax.validation.constraints.*;
 import javax.validation.Valid;
+
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2017-05-29T12:00:45.563+02:00")
 
 @Controller
 public class TasksApiController implements TasksApi {
 
+    @Autowired
+    private UserService userService;
 
+    @Autowired
+    private TaskService taskService;
+
+    @Override
+    public ResponseEntity<Task> addTask(Task task) {
+        return null;
+    }
 
     public ResponseEntity<List<Task>> findTasks() {
         // do some magic!
+        PortProvided testport = new PortProvided();
+        testport.setType(testport.getClass().toString());
+        System.out.println(testport.getClass().getSimpleName());
         return new ResponseEntity<List<Task>>(HttpStatus.OK);
     }
-
 }

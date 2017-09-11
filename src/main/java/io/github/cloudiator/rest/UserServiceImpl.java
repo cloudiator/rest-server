@@ -1,7 +1,5 @@
 package io.github.cloudiator.rest;
 
-import io.github.cloudiator.rest.converter.UserService;
-
 /**
  * Created by volker on 29.05.17.
  */

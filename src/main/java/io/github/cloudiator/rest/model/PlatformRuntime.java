@@ -13,20 +13,54 @@ import javax.validation.constraints.*;
  * Represents a runtime for a Platform component, e.g. Java, PHP, Tomcat
  */
 @ApiModel(description = "Represents a runtime for a Platform component, e.g. Java, PHP, Tomcat")
-@javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2017-05-30T11:45:10.801+02:00")
 
 public class PlatformRuntime   {
   @JsonProperty("id")
   private String id = null;
 
+  /**
+   * the specific runtime language
+   */
+  public enum LanguageEnum {
+    PHP("PHP"),
+    
+    JAVA("JAVA"),
+    
+    RUBY("RUBY"),
+    
+    PYTHON("PYTHON");
+
+    private String value;
+
+    LanguageEnum(String value) {
+      this.value = value;
+    }
+
+    @Override
+    @JsonValue
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    @JsonCreator
+    public static LanguageEnum fromValue(String text) {
+      for (LanguageEnum b : LanguageEnum.values()) {
+        if (String.valueOf(b.value).equals(text)) {
+          return b;
+        }
+      }
+      return null;
+    }
+  }
+
   @JsonProperty("language")
-  private String language = null;
+  private LanguageEnum language = null;
 
   /**
    * specifies the runtime type
    */
   public enum RuntimeTypeEnum {
-    RUNTIME("runtime"),
+    STANDALONE("standalone"),
     
     SERVER("server");
 
@@ -80,7 +114,7 @@ public class PlatformRuntime   {
     this.id = id;
   }
 
-  public PlatformRuntime language(String language) {
+  public PlatformRuntime language(LanguageEnum language) {
     this.language = language;
     return this;
   }
@@ -93,11 +127,11 @@ public class PlatformRuntime   {
   @NotNull
 
 
-  public String getLanguage() {
+  public LanguageEnum getLanguage() {
     return language;
   }
 
-  public void setLanguage(String language) {
+  public void setLanguage(LanguageEnum language) {
     this.language = language;
   }
 
