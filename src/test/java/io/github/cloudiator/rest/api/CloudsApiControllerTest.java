@@ -110,7 +110,7 @@ public class CloudsApiControllerTest {
 
         given(mockedCloudService.createCloud(createCloudRequest)).willReturn(cloudCreatedResponse);
 
-       mockmvc.perform(post("/clouds"));
+       mockmvc.perform(post("/clouds")).andExpect(status().isCreated());
 
 
     }
