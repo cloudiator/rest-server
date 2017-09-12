@@ -26,7 +26,7 @@ public class VirtualMachineRequestConverter implements
   public VirtualMachineRequest applyBack(IaasEntities.VirtualMachineRequest virtualMachineRequest) {
     VirtualMachineRequest result = new VirtualMachineRequest();
     result.setHardware(virtualMachineRequest.getHardware());
-    result.setImage(virtualMachineRequest.getLocation());
+    result.setImage(virtualMachineRequest.getImage());
     result.setLocation(virtualMachineRequest.getLocation());
     return result;
   }

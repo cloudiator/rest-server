@@ -26,7 +26,7 @@ public class OclRequirement extends Requirement  {
    * Get constraint
    * @return constraint
   **/
-  @ApiModelProperty(example = "nodes.forAll(hardware.cores >= 4)", value = "")
+  @ApiModelProperty(value = "")
 
 
   public String getConstraint() {

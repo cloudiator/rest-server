@@ -1,8 +1,6 @@
 package io.github.cloudiator.rest.converter;
 
 import io.github.cloudiator.rest.model.Image;
-import io.github.cloudiator.rest.model.OperatingSystem;
-import org.cloudiator.messages.entities.CommonEntities;
 import org.cloudiator.messages.entities.IaasEntities;
 
 /**
@@ -10,33 +8,37 @@ import org.cloudiator.messages.entities.IaasEntities;
  */
 public class ImageConverter implements TwoWayConverter<Image, IaasEntities.Image> {
 
-    private final OperatingSystemConverter operatingSystemConverter = new OperatingSystemConverter();
+  private final OperatingSystemConverter operatingSystemConverter = new OperatingSystemConverter();
+  private final LocationConverter locationConverter = new LocationConverter();
 
+  @Override
 
-    @Override
-    public Image applyBack(IaasEntities.Image image) {
-        Image result = new Image();
+  public Image applyBack(IaasEntities.Image image) {
+    Image result = new Image();
 
-        result.setId(image.getId());
-        result.setName(image.getName());
-        result.setProviderId(image.getProviderId());
-        result.setOperatingSystem(operatingSystemConverter.applyBack(image.getOperationSystem()));
+    result.setId(image.getId());
+    result.setName(image.getName());
+    result.setProviderId(image.getProviderId());
+    result.setOperatingSystem(operatingSystemConverter.applyBack(image.getOperationSystem()));
+    result.setLocation(locationConverter.applyBack(image.getLocation()));
 
+    return result;
+  }
 
-        return result;
+  @Override
+  public IaasEntities.Image apply(Image image) {
+    IaasEntities.Image.Builder builder = IaasEntities.Image.newBuilder();
+
+    builder.setId(image.getId());
+    builder.setName(image.getName());
+    builder.setProviderId(image.getProviderId());
+    builder.setOperationSystem(operatingSystemConverter.apply(image.getOperatingSystem()));
+
+    if (image.getLocation() != null) {
+      builder.setLocation(locationConverter.apply(image.getLocation()));
     }
 
-    @Override
-    public IaasEntities.Image apply(Image image) {
-        IaasEntities.Image.Builder builder = IaasEntities.Image.newBuilder();
-
-        builder.setId(image.getId());
-        builder.setName(image.getName());
-        builder.setProviderId(image.getProviderId());
-        builder.setOperationSystem(operatingSystemConverter.apply(image.getOperatingSystem()));
-        builder.clearLocation();
-
-        return builder.build();
-    }
+    return builder.build();
+  }
 
 }
