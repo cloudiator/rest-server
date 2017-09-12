@@ -5,7 +5,7 @@
  */
 package io.github.cloudiator.rest.api;
 
-import io.github.cloudiator.rest.model.InstallRequest;
+import io.github.cloudiator.rest.model.InstallationRequest;
 import io.github.cloudiator.rest.model.OclSolution;
 
 import io.swagger.annotations.*;
@@ -34,6 +34,6 @@ public interface InstallerApi {
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.PUT)
-    ResponseEntity<OclSolution> installTools(@ApiParam(value = "a request to install the cloudiator tools on a provided node" ,required=true )  @Valid @RequestBody InstallRequest installRequest);
+    ResponseEntity<OclSolution> installTools(@ApiParam(value = "a request to install the cloudiator tools on a provided node" ,required=true )  @Valid @RequestBody InstallationRequest installRequest);
 
 }
