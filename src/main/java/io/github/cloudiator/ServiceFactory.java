@@ -24,30 +24,8 @@ import org.slf4j.LoggerFactory;
 public class ServiceFactory {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(ServiceFactory.class);
-  private static final String MESSAGING_TIMEOUT_KEY = "timeout";
-
-  private static final long MESSAGING_TIMEOUT_DEFAULT_VALUE = 10000;
-  private static final String MESSAGING_SYSTEM_PROPERTIES_KEY = "messaging.config.file";
-  private static final String MESSAGING_DEFAULT_PROPERTIES_FILE = "messaging.properties";
-
   private static final Injector INJECTOR = Guice
       .createInjector(new KafkaMessagingModule(), new MessageServiceModule());
-
-  private static final long messagingTimeout;
-
-  static {
-    final Properties properties = PropertiesLoader
-        .loadPropertiesFrom(MESSAGING_SYSTEM_PROPERTIES_KEY, MESSAGING_DEFAULT_PROPERTIES_FILE);
-    Long l = null;
-    try {
-      l = Long.valueOf(properties.getProperty(MESSAGING_TIMEOUT_KEY));
-      LOGGER.info("using " + l + " as value for messaging timeout");
-    } catch (NumberFormatException ex) {
-      LOGGER.warn("no timeout value found. using default value");
-      l = MESSAGING_TIMEOUT_DEFAULT_VALUE;
-    }
-    messagingTimeout = l;
-  }
 
   public ServiceFactory() {
   }
