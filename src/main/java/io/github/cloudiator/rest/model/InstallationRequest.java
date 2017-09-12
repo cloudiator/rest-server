@@ -3,6 +3,7 @@ package io.github.cloudiator.rest.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import io.github.cloudiator.rest.model.Node;
 import io.github.cloudiator.rest.model.Tool;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -16,19 +17,19 @@ import javax.validation.constraints.*;
  */
 @ApiModel(description = "Represents an Cloudiator tools installation request ")
 
-public class InstallRequest   {
+public class InstallationRequest   {
   @JsonProperty("tools")
   private List<Tool> tools = new ArrayList<Tool>();
 
   @JsonProperty("node")
-  private Object node = null;
+  private Node node = null;
 
-  public InstallRequest tools(List<Tool> tools) {
+  public InstallationRequest tools(List<Tool> tools) {
     this.tools = tools;
     return this;
   }
 
-  public InstallRequest addToolsItem(Tool toolsItem) {
+  public InstallationRequest addToolsItem(Tool toolsItem) {
     this.tools.add(toolsItem);
     return this;
   }
@@ -50,24 +51,25 @@ public class InstallRequest   {
     this.tools = tools;
   }
 
-  public InstallRequest node(Object node) {
+  public InstallationRequest node(Node node) {
     this.node = node;
     return this;
   }
 
    /**
-   * Human-readable name
+   * Get node
    * @return node
   **/
-  @ApiModelProperty(example = "\"Ubuntu 16.04 LTS AMD 64\"", required = true, value = "Human-readable name")
+  @ApiModelProperty(required = true, value = "")
   @NotNull
 
+  @Valid
 
-  public Object getNode() {
+  public Node getNode() {
     return node;
   }
 
-  public void setNode(Object node) {
+  public void setNode(Node node) {
     this.node = node;
   }
 
@@ -80,9 +82,9 @@ public class InstallRequest   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    InstallRequest installRequest = (InstallRequest) o;
-    return Objects.equals(this.tools, installRequest.tools) &&
-        Objects.equals(this.node, installRequest.node);
+    InstallationRequest installationRequest = (InstallationRequest) o;
+    return Objects.equals(this.tools, installationRequest.tools) &&
+        Objects.equals(this.node, installationRequest.node);
   }
 
   @Override
@@ -93,7 +95,7 @@ public class InstallRequest   {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class InstallRequest {\n");
+    sb.append("class InstallationRequest {\n");
     
     sb.append("    tools: ").append(toIndentedString(tools)).append("\n");
     sb.append("    node: ").append(toIndentedString(node)).append("\n");
