@@ -39,26 +39,28 @@ public class ImageConverterTest {
                 .setName("TestName")
                 .setProviderId("TestProvider")
                 .setLocationScope(CommonEntities.LocationScope.PROVIDER)
-                .setIsAssignable(true).build();
+                .setIsAssignable(true).clearParent().build();
+
         this.restLocation = new Location()
                 .id("32chars-long_testID_for_UnitTest")
                 .name("TestName")
                 .providerId("TestProvider")
                 .locationScope(Location.LocationScopeEnum.PROVIDER)
                 .isAssignable(true);
-        //Image without Location
+        //Image
         this.iaasImage = IaasEntities.Image.newBuilder()
                 .setId("32chars-long_testID_for_UnitTest")
                 .setName("TestName")
                 .setOperationSystem(iaasOperatingSystem)
                 .setProviderId("TestProvider")
-                .clearLocation()
+                .setLocation(iaasLocation)
                 .build();
         this.restImage = new Image()
                 .id("32chars-long_testID_for_UnitTest")
                 .name("TestName")
                 .operatingSystem(restOperatingSystem)
-                .providerId("TestProvider");
+                .providerId("TestProvider")
+                .location(restLocation);
     }
 
 

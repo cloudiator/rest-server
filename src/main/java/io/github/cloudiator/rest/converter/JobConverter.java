@@ -6,15 +6,15 @@ import org.cloudiator.messages.entities.JobEntities;
 
 public class JobConverter implements TwoWayConverter<Job, JobEntities.Job> {
 
-    private final CommunicationConverter communicationConverter = new CommunicationConverter();
+  private final CommunicationConverter communicationConverter = new CommunicationConverter();
 
-    @Override
-    public Job applyBack(JobEntities.Job job) {
-        return null;
-    }
+  @Override
+  public Job applyBack(JobEntities.Job job) {
+    return null;
+  }
 
-    @Override
-    public JobEntities.Job apply(Job job) {
-        return null;
-    }
+  @Override
+  public JobEntities.Job apply(Job job) {
+    return null;
+  }
 }

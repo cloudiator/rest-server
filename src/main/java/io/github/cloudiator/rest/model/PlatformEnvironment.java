@@ -5,8 +5,11 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.github.cloudiator.rest.model.PlatformHardware;
 import io.github.cloudiator.rest.model.PlatformRuntime;
+import io.github.cloudiator.rest.model.PlatformService;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import java.util.ArrayList;
+import java.util.List;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
@@ -27,6 +30,9 @@ public class PlatformEnvironment   {
 
   @JsonProperty("platformRuntime")
   private PlatformRuntime platformRuntime = null;
+
+  @JsonProperty("platformService")
+  private List<PlatformService> platformService = null;
 
   public PlatformEnvironment id(String id) {
     this.id = id;
@@ -114,6 +120,35 @@ public class PlatformEnvironment   {
     this.platformRuntime = platformRuntime;
   }
 
+  public PlatformEnvironment platformService(List<PlatformService> platformService) {
+    this.platformService = platformService;
+    return this;
+  }
+
+  public PlatformEnvironment addPlatformServiceItem(PlatformService platformServiceItem) {
+    if (this.platformService == null) {
+      this.platformService = new ArrayList<PlatformService>();
+    }
+    this.platformService.add(platformServiceItem);
+    return this;
+  }
+
+   /**
+   * Get platformService
+   * @return platformService
+  **/
+  @ApiModelProperty(value = "")
+
+  @Valid
+
+  public List<PlatformService> getPlatformService() {
+    return platformService;
+  }
+
+  public void setPlatformService(List<PlatformService> platformService) {
+    this.platformService = platformService;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -127,12 +162,13 @@ public class PlatformEnvironment   {
     return Objects.equals(this.id, platformEnvironment.id) &&
         Objects.equals(this.name, platformEnvironment.name) &&
         Objects.equals(this.platformHardware, platformEnvironment.platformHardware) &&
-        Objects.equals(this.platformRuntime, platformEnvironment.platformRuntime);
+        Objects.equals(this.platformRuntime, platformEnvironment.platformRuntime) &&
+        Objects.equals(this.platformService, platformEnvironment.platformService);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, name, platformHardware, platformRuntime);
+    return Objects.hash(id, name, platformHardware, platformRuntime, platformService);
   }
 
   @Override
@@ -144,6 +180,7 @@ public class PlatformEnvironment   {
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    platformHardware: ").append(toIndentedString(platformHardware)).append("\n");
     sb.append("    platformRuntime: ").append(toIndentedString(platformRuntime)).append("\n");
+    sb.append("    platformService: ").append(toIndentedString(platformService)).append("\n");
     sb.append("}");
     return sb.toString();
   }

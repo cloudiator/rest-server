@@ -17,9 +17,6 @@ import javax.validation.constraints.*;
 @ApiModel(description = "Repesents a new PaaS provider to be created ")
 
 public class NewPlatform   {
-  @JsonProperty("id")
-  private String id = null;
-
   @JsonProperty("name")
   private String name = null;
 
@@ -65,26 +62,8 @@ public class NewPlatform   {
   @JsonProperty("credential")
   private CloudCredential credential = null;
 
-  public NewPlatform id(String id) {
-    this.id = id;
-    return this;
-  }
-
-   /**
-   * Unique identifier
-   * @return id
-  **/
-  @ApiModelProperty(required = true, value = "Unique identifier")
-  @NotNull
-
-
-  public String getId() {
-    return id;
-  }
-
-  public void setId(String id) {
-    this.id = id;
-  }
+  @JsonProperty("endpoint")
+  private String endpoint = null;
 
   public NewPlatform name(String name) {
     this.name = name;
@@ -171,6 +150,26 @@ public class NewPlatform   {
     this.credential = credential;
   }
 
+  public NewPlatform endpoint(String endpoint) {
+    this.endpoint = endpoint;
+    return this;
+  }
+
+   /**
+   * URI where the api of this platform provider can be accessed.
+   * @return endpoint
+  **/
+  @ApiModelProperty(example = "https://endpoint.example.com", value = "URI where the api of this platform provider can be accessed.")
+
+
+  public String getEndpoint() {
+    return endpoint;
+  }
+
+  public void setEndpoint(String endpoint) {
+    this.endpoint = endpoint;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -181,16 +180,16 @@ public class NewPlatform   {
       return false;
     }
     NewPlatform newPlatform = (NewPlatform) o;
-    return Objects.equals(this.id, newPlatform.id) &&
-        Objects.equals(this.name, newPlatform.name) &&
+    return Objects.equals(this.name, newPlatform.name) &&
         Objects.equals(this.type, newPlatform.type) &&
         Objects.equals(this.api, newPlatform.api) &&
-        Objects.equals(this.credential, newPlatform.credential);
+        Objects.equals(this.credential, newPlatform.credential) &&
+        Objects.equals(this.endpoint, newPlatform.endpoint);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, name, type, api, credential);
+    return Objects.hash(name, type, api, credential, endpoint);
   }
 
   @Override
@@ -198,11 +197,11 @@ public class NewPlatform   {
     StringBuilder sb = new StringBuilder();
     sb.append("class NewPlatform {\n");
     
-    sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    type: ").append(toIndentedString(type)).append("\n");
     sb.append("    api: ").append(toIndentedString(api)).append("\n");
     sb.append("    credential: ").append(toIndentedString(credential)).append("\n");
+    sb.append("    endpoint: ").append(toIndentedString(endpoint)).append("\n");
     sb.append("}");
     return sb.toString();
   }
