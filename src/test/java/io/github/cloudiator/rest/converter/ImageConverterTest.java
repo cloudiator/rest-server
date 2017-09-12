@@ -40,6 +40,7 @@ public class ImageConverterTest {
                 .setProviderId("TestProvider")
                 .setLocationScope(CommonEntities.LocationScope.PROVIDER)
                 .setIsAssignable(true).clearParent().build();
+
         this.restLocation = new Location()
                 .id("32chars-long_testID_for_UnitTest")
                 .name("TestName")

@@ -29,15 +29,16 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.*;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
 
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes = Swagger2SpringBoot.class)
@@ -89,12 +90,6 @@ public class CloudsApiControllerTest {
 
     }
 
-    @Before
-    public void setup() throws Exception {
-
-        given(mockedUserService.getUserId()).willReturn("DummyUser");
-
-    }
 
     @Test
     public void addCloud() throws Exception {
@@ -110,7 +105,7 @@ public class CloudsApiControllerTest {
 
         given(mockedCloudService.createCloud(createCloudRequest)).willReturn(cloudCreatedResponse);
 
-       mockmvc.perform(post("/clouds")).andExpect(status().isCreated());
+        mockmvc.perform(post("/clouds")).andExpect(status().isCreated());
 
 
     }
@@ -130,7 +125,9 @@ public class CloudsApiControllerTest {
         org.cloudiator.messages.Cloud.CloudQueryRequest testrequest = org.cloudiator.messages.Cloud.CloudQueryRequest
                 .newBuilder()
                 .setUserId(mockedUserService.getUserId()).build();
-        org.cloudiator.messages.Cloud.CloudQueryResponse testresponse = org.cloudiator.messages.Cloud.CloudQueryResponse.newBuilder().addClouds(iaastestcloud).build();
+
+        org.cloudiator.messages.Cloud.CloudQueryResponse testresponse = org.cloudiator.messages.Cloud.CloudQueryResponse
+                .newBuilder().addClouds(iaastestcloud).build();
 
         given(mockedCloudService.getClouds(testrequest)).willReturn(testresponse);
 

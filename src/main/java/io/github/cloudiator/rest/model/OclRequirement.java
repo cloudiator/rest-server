@@ -13,7 +13,7 @@ import javax.validation.constraints.*;
  * OclRequirement
  */
 
-public class OclRequirement   {
+public class OclRequirement extends Requirement  {
   @JsonProperty("constraint")
   private String constraint = null;
 
@@ -26,7 +26,7 @@ public class OclRequirement   {
    * Get constraint
    * @return constraint
   **/
-  @ApiModelProperty(example = "nodes.forAll(hardware.cores >= 4)", value = "")
+  @ApiModelProperty(value = "")
 
 
   public String getConstraint() {
@@ -47,19 +47,20 @@ public class OclRequirement   {
       return false;
     }
     OclRequirement oclRequirement = (OclRequirement) o;
-    return Objects.equals(this.constraint, oclRequirement.constraint);
+    return Objects.equals(this.constraint, oclRequirement.constraint) &&
+        super.equals(o);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(constraint);
+    return Objects.hash(constraint, super.hashCode());
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class OclRequirement {\n");
-    
+    sb.append("    ").append(toIndentedString(super.toString())).append("\n");
     sb.append("    constraint: ").append(toIndentedString(constraint)).append("\n");
     sb.append("}");
     return sb.toString();

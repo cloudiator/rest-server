@@ -14,6 +14,7 @@ public class ImageConverter implements TwoWayConverter<Image, IaasEntities.Image
     private final LocationConverter locationConverter = new LocationConverter();
 
 
+
     @Override
     public Image applyBack(IaasEntities.Image image) {
         Image result = new Image();
@@ -24,12 +25,14 @@ public class ImageConverter implements TwoWayConverter<Image, IaasEntities.Image
         result.setOperatingSystem(operatingSystemConverter.applyBack(image.getOperationSystem()));
         result.setLocation(locationConverter.applyBack(image.getLocation()));
 
+
         return result;
     }
 
     @Override
     public IaasEntities.Image apply(Image image) {
         IaasEntities.Image.Builder builder = IaasEntities.Image.newBuilder();
+
 
         if ((image.getId() != null) || (!image.getId().isEmpty())) {
             builder.setId(image.getId());
@@ -56,6 +59,7 @@ public class ImageConverter implements TwoWayConverter<Image, IaasEntities.Image
         } else {
             builder.clearLocation();
         }
+
 
         return builder.build();
     }

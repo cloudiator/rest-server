@@ -11,13 +11,16 @@ public class VirtualMachineConverter implements
         TwoWayConverter<VirtualMachine, IaasEntities.VirtualMachine> {
 
     private final IpAddressConverter ipAddressConverter = new IpAddressConverter();
+    private final HardwareConverter hardwareConverter = new HardwareConverter();
+    private final ImageConverter imageConverter = new ImageConverter();
+    private final LocationConverter locationConverter = new LocationConverter();
 
     @Override
     public VirtualMachine applyBack(IaasEntities.VirtualMachine virtualMachine) {
         VirtualMachine vm = new VirtualMachine();
-        vm.setHardware(virtualMachine.getHardware());
-        vm.setImage(virtualMachine.getImage());
-        vm.setLocation(virtualMachine.getLocation());
+        vm.setHardware(hardwareConverter.applyBack(virtualMachine.getHardware()));
+        vm.setImage(imageConverter.applyBack(virtualMachine.getImage()));
+        vm.setLocation(locationConverter.applyBack(virtualMachine.getLocation()));
         vm.setId(virtualMachine.getId());
         for (IaasEntities.IpAddress ipAddress : virtualMachine.getIpAddressesList()) {
             vm.addIpaddressesItem(ipAddressConverter.applyBack(ipAddress));
@@ -30,7 +33,7 @@ public class VirtualMachineConverter implements
     public IaasEntities.VirtualMachine apply(VirtualMachine virtualMachine) {
         IaasEntities.VirtualMachine.Builder builder = IaasEntities.VirtualMachine.newBuilder();
         if (virtualMachine.getHardware() != null) {
-            builder.setHardware(virtualMachine.getHardware());
+            builder.setHardware(hardwareConverter.apply(virtualMachine.getHardware()));
         } else {
             builder.clearHardware();
         }
@@ -40,7 +43,7 @@ public class VirtualMachineConverter implements
             builder.clearId();
         }
         if (virtualMachine.getImage() != null) {
-            builder.setImage(virtualMachine.getImage());
+            builder.setImage(imageConverter.apply(virtualMachine.getImage()));
         } else {
             builder.clearImage();
         }
@@ -53,7 +56,7 @@ public class VirtualMachineConverter implements
             builder.clearIpAddresses();
         }
         if (virtualMachine.getLocation() != null) {
-            builder.setLocation(virtualMachine.getLocation());
+            builder.setLocation(locationConverter.apply(virtualMachine.getLocation()));
         } else {
             builder.clearLocation();
         }
