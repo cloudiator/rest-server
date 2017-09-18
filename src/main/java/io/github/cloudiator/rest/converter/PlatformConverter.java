@@ -11,13 +11,13 @@ public class PlatformConverter implements TwoWayConverter<Platform, PaasEntities
 
   @Override
   public Platform applyBack(PaasEntities.Platform platform) {
-    Platform result = new Platform();
-    result.setName(platform.getName());
-    result.setId(platform.getId());
-    result.setType(platformTypeConverter.applyBack(platform.getPlatformType()));
-    Api api = new Api();
-    api.setProviderName(platform.getProviderId());
-    result.setApi(api);
+    Platform result = new Platform()
+        .name(platform.getName())
+        .id(platform.getId())
+        .type(platformTypeConverter.applyBack(platform.getPlatformType()))
+        .api(new Api().providerName(platform.getProviderId()))
+        .endpoint(platform.getEndpoint());
+
     CloudCredential dummy = new CloudCredential();
     dummy.setUser("dummyUser");
     dummy.setSecret("dummySecret");

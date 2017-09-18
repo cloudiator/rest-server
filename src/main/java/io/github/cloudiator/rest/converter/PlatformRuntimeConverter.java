@@ -12,11 +12,12 @@ public class PlatformRuntimeConverter implements
 
   @Override
   public PlatformRuntime applyBack(PaasEntities.Runtime runtime) {
-    PlatformRuntime result = new PlatformRuntime();
-    result.setId(runtime.getId());
-    result.setLanguage(runtimeLanguageConverter.applyBack(runtime.getRuntimeLanguage()));
-    result.setRuntimeType(runtimeTypeConverter.applyBack(runtime.getRuntimeType()));
-    result.setVersion(runtime.getRuntimeTypeVersion());
+    PlatformRuntime result = new PlatformRuntime()
+        .id(runtime.getId())
+        .name(runtime.getName())
+        .language(runtimeLanguageConverter.applyBack(runtime.getRuntimeLanguage()))
+        .runtimeType(runtimeTypeConverter.applyBack(runtime.getRuntimeType()))
+        .version(runtime.getRuntimeTypeVersion());
     return result;
   }
 
@@ -28,8 +29,9 @@ public class PlatformRuntimeConverter implements
         .setRuntimeType(runtimeTypeConverter.apply(platformRuntime.getRuntimeType()))
         .setRuntimeLanguageVersion(platformRuntime.getVersion())
         .setRuntimeTypeVersion(platformRuntime.getVersion())
-        .clearProviderId()
-        .clearName();
+        .setName(platformRuntime.getName())
+        .clearProviderId();
+
     return result.build();
   }
 
