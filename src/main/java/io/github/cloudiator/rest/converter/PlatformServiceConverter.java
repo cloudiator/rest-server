@@ -9,13 +9,19 @@ public class PlatformServiceConverter implements
 
   @Override
   public PlatformService applyBack(RuntimeService runtimeService) {
-    PlatformService result = new PlatformService();
+    PlatformService result = new PlatformService()
+        .id(runtimeService.getId())
+        .name(runtimeService.getName());
 
-    return null;
+    return result;
   }
 
   @Override
   public RuntimeService apply(PlatformService platformService) {
-    return null;
+    PaasEntities.RuntimeService.Builder result = RuntimeService.newBuilder()
+        .setId(platformService.getId())
+        .setName(platformService.getName());
+
+    return result.build();
   }
 }

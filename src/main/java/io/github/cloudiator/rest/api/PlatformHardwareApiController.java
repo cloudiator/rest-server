@@ -1,6 +1,7 @@
 package io.github.cloudiator.rest.api;
 
 import io.github.cloudiator.rest.model.Error;
+import io.github.cloudiator.rest.model.NewPlatformHardware;
 import io.github.cloudiator.rest.model.PlatformHardware;
 
 import io.swagger.annotations.*;
@@ -25,7 +26,7 @@ public class PlatformHardwareApiController implements PlatformHardwareApi {
 
 
 
-    public ResponseEntity<PlatformHardware> addPlatformHardware(@ApiParam(value = "PlatformHardware to be created " ,required=true )  @Valid @RequestBody PlatformHardware platformHardware) {
+    public ResponseEntity<PlatformHardware> addPlatformHardware(@ApiParam(value = "PlatformHardware to be created " ,required=true )  @Valid @RequestBody NewPlatformHardware platformHardware) {
         // do some magic!
         return new ResponseEntity<PlatformHardware>(HttpStatus.OK);
     }
