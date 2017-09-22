@@ -7,16 +7,19 @@ import org.cloudiator.messages.entities.CommonEntities;
 import org.cloudiator.messages.entities.CommonEntities.IdRequirement;
 
 public class RequirementConverter implements
-    TwoWayConverter<CommonEntities.Requirement, Requirement> {
+    TwoWayConverter<Requirement, CommonEntities.Requirement> {
 
   @Override
-  public CommonEntities.Requirement applyBack(Requirement requirement) {
+  public CommonEntities.Requirement apply(Requirement requirement) {
 
     if (requirement instanceof IdentifierRequirement) {
-      return CommonEntities.Requirement.newBuilder().setIdRequirement(
-          IdRequirement.newBuilder().setImageId(((IdentifierRequirement) requirement).getImageId())
-              .setLocationId(((IdentifierRequirement) requirement).getLocationId())
-              .setImageId(((IdentifierRequirement) requirement).getImageId()).build()).build();
+      return CommonEntities.Requirement.newBuilder()
+          .setIdRequirement(
+              IdRequirement.newBuilder()
+                  .setImageId(((IdentifierRequirement) requirement).getImageId())
+                  .setLocationId(((IdentifierRequirement) requirement).getLocationId())
+                  .setHardwareId(((IdentifierRequirement) requirement).getHardwareId()).build()
+          ).build();
     } else if (requirement instanceof OclRequirement) {
       return CommonEntities.Requirement.newBuilder().setOclRequirement(
           CommonEntities.OclRequirement.newBuilder()
@@ -28,7 +31,7 @@ public class RequirementConverter implements
   }
 
   @Override
-  public Requirement apply(CommonEntities.Requirement requirement) {
+  public Requirement applyBack(CommonEntities.Requirement requirement) {
     switch (requirement.getRequirementCase()) {
       case REQUIREMENT_NOT_SET:
         throw new IllegalStateException("Requirement not set.");
