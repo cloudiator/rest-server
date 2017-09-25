@@ -8,6 +8,8 @@ import io.github.cloudiator.rest.model.LanceInterface;
 import io.github.cloudiator.rest.model.OclRequirement;
 import io.github.cloudiator.rest.model.PortProvided;
 import io.github.cloudiator.rest.model.PortRequired;
+import io.github.cloudiator.rest.model.Requirement;
+
 import io.github.cloudiator.rest.model.Task;
 import org.cloudiator.messages.entities.CommonEntities;
 import org.cloudiator.messages.entities.TaskEntities;

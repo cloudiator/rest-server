@@ -66,6 +66,7 @@ public class PortConverterTest {
 
     assertThat(providedPortResult, is(equalTo(iaasProPort)));
     assertThat(requiredPortResult, is(equalTo(iaasRePort)));
+
   }
 
 }
