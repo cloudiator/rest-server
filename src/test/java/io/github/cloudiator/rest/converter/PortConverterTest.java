@@ -47,13 +47,12 @@ public class PortConverterTest {
   public void applyBack() throws Exception {
     //form iaas to rest correct
     //Provided Port
-    Port providedresult = portConverter.applyBack(iaasProPort);
-    System.out.println("ConverterAusgabe Apply_Back := " + providedresult + "\n");
-    System.out.println("RestProPort:= " + restProvidedPort + "\n");
-    System.out.println("IaasProPort(Port):= " + iaasProPort + "\n");
-    System.out.println("IaasProvidedPort:= " + iaasProvidedPort + "\n");
+    Port providedPortResult = portConverter.applyBack(iaasProPort);
+    //RequiredPort
+    Port requiredPortResult = portConverter.applyBack(iaasRePort);
 
-    assertThat(providedresult, is(equalTo(restProvidedPort)));
+    assertThat(providedPortResult, is(equalTo(restProvidedPort)));
+    assertThat(requiredPortResult, is(equalTo(restRequiredPort)));
 
   }
 
@@ -61,11 +60,12 @@ public class PortConverterTest {
   public void apply() throws Exception {
     //from rest to iaas correct
     //Provided Port
-    TaskEntities.Port result = portConverter.apply(restProvidedPort);
+    TaskEntities.Port providedPortResult = portConverter.apply(restProvidedPort);
+    //RequiredPort
+    TaskEntities.Port requiredPortResult = portConverter.apply(restRequiredPort);
 
-    System.out.println("Converterausgabe Apply := " + result);
-    assertThat(result, is(equalTo(iaasProPort)));
-
+    assertThat(providedPortResult, is(equalTo(iaasProPort)));
+    assertThat(requiredPortResult, is(equalTo(iaasRePort)));
   }
 
 }

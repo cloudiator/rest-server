@@ -2,14 +2,17 @@ package io.github.cloudiator.rest.converter;
 
 import static org.junit.Assert.*;
 
+import io.github.cloudiator.rest.model.Communication;
 import io.github.cloudiator.rest.model.DockerInterface;
 import io.github.cloudiator.rest.model.IdentifierRequirement;
+import io.github.cloudiator.rest.model.Job;
 import io.github.cloudiator.rest.model.LanceInterface;
 import io.github.cloudiator.rest.model.OclRequirement;
 import io.github.cloudiator.rest.model.PortProvided;
 import io.github.cloudiator.rest.model.PortRequired;
 import io.github.cloudiator.rest.model.Task;
 import org.cloudiator.messages.entities.CommonEntities;
+import org.cloudiator.messages.entities.JobEntities;
 import org.cloudiator.messages.entities.TaskEntities;
 
 import org.junit.Test;
@@ -17,10 +20,18 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 import static org.hamcrest.Matchers.*;
 
-public class TaskConverterTest {
+public class JobConverterTest {
 
-  private final TaskConverter taskConverter = new TaskConverter();
+  private final JobConverter jobConverter = new JobConverter();
 
+  private final Job restJob;
+  private final JobEntities.Job iaasJob;
+  //Requirements
+  private final OclRequirement restOclRequirement;
+  private final CommonEntities.Requirement iaasOclRequirement;
+  private final IdentifierRequirement restIdRequirement;
+  private final CommonEntities.Requirement iaasIdRequirement;
+  //Task
   private final Task restTask;
   private final TaskEntities.Task iaasTask;
   //Ports
@@ -30,13 +41,6 @@ public class TaskConverterTest {
   //RequiredPort
   private final PortRequired restRequiredPort;
   private final TaskEntities.Port iaasPortRequiredPort;
-  //Requirements
-  //Ocl
-  private final OclRequirement restOclRequirement;
-  private final CommonEntities.Requirement iaasReqOclRequirement;
-  //Identifier
-  private final IdentifierRequirement restIdentifierRequirement;
-  private final CommonEntities.Requirement iaasReqIdRequirement;
   //Interfaces
   //Docker
   private final DockerInterface restDockerInterface;
@@ -45,8 +49,22 @@ public class TaskConverterTest {
   private final LanceInterface restLanceInterface;
   private final TaskEntities.TaskInterface iaasTaskLanceInterface;
 
-  public TaskConverterTest() {
-
+  public JobConverterTest() {
+    //Requirements
+    this.restOclRequirement = new OclRequirement()
+        .constraint("OclRequirement");
+    this.iaasOclRequirement = CommonEntities.Requirement.newBuilder()
+        .setOclRequirement(CommonEntities.OclRequirement.newBuilder()
+            .setConstraint("OclRequirement").build()).build();
+    this.restIdRequirement = new IdentifierRequirement()
+        .hardwareId("HardwareId")
+        .imageId("ImageId")
+        .locationId("LocationId");
+    this.iaasIdRequirement = CommonEntities.Requirement.newBuilder()
+        .setIdRequirement(CommonEntities.IdRequirement.newBuilder()
+            .setHardwareId("HardwareId")
+            .setImageId("ImageId")
+            .setLocationId("LocationId").build()).build();
     //Ports
     this.restProvidedPort = new PortProvided()
         .port(12345);
@@ -90,62 +108,56 @@ public class TaskConverterTest {
                 .setPostStop("postStop")
                 .setShutdown("shutdown").build()
         ).build();
-    //Requirements
-    this.restOclRequirement = new OclRequirement()
-        .constraint("oclRequirement");
-    this.iaasReqOclRequirement = CommonEntities.Requirement.newBuilder()
-        .setOclRequirement(
-            CommonEntities.OclRequirement.newBuilder()
-                .setConstraint("oclRequirement").build())
-        .build();
-    this.restIdentifierRequirement = new IdentifierRequirement()
-        .hardwareId("hardwareId")
-        .imageId("imageId")
-        .locationId("locationId");
-    this.iaasReqIdRequirement = CommonEntities.Requirement.newBuilder()
-        .setIdRequirement(
-            CommonEntities.IdRequirement.newBuilder()
-                .setHardwareId("hardwareId")
-                .setImageId("imageId")
-                .setLocationId("locationId").build())
-        .build();
     //Task
     this.restTask = new Task()
-        .name("TaskTest")
+        .name("TestTask")
         .addPortsItem(restProvidedPort)
         .addPortsItem(restRequiredPort)
-        .addInterfacesItem(restDockerInterface)
-        .addInterfacesItem(restLanceInterface)
+        .addRequirementsItem(restIdRequirement)
         .addRequirementsItem(restOclRequirement)
-        .addRequirementsItem(restIdentifierRequirement);
+        .addInterfacesItem(restDockerInterface)
+        .addInterfacesItem(restLanceInterface);
+    //.type(TypeEnum.LONG_RUNNING) //not supported at iaas
     this.iaasTask = TaskEntities.Task.newBuilder()
-        .setName("TaskTest")
+        .setName("TestTask")
         .addPorts(iaasPortProvidedPort)
         .addPorts(iaasPortRequiredPort)
+        .addRequirements(iaasIdRequirement)
+        .addRequirements(iaasOclRequirement)
         .addInterfaces(iaasTaskDockerInterface)
-        .addInterfaces(iaasTaskLanceInterface)
-        .addRequirements(iaasReqOclRequirement)
-        .addRequirements(iaasReqIdRequirement)
-        .build();
-  }
+        .addInterfaces(iaasTaskLanceInterface).build();
+    //Jobs
+    this.restJob = new Job()
+        .name("TestJob")
+        .addCommunicationsItem(new Communication()
+            .portProvided("ProvidedPort").portRequired("RequiredPort"))
+        .addRequirementsItem(restOclRequirement)
+        .addRequirementsItem(restIdRequirement)
+        .addTasksItem(restTask);
+    this.iaasJob = JobEntities.Job.newBuilder()
+        .setName("TestJob")
+        .addCommunications(JobEntities.Communication.newBuilder()
+            .setPortProvided("ProvidedPort").setPortRequired("RequiredPort"))
+        .addRequirements(iaasOclRequirement)
+        .addRequirements(iaasIdRequirement)
+        .addTasks(iaasTask).build();
 
+  }
 
   @Test
   public void applyBack() throws Exception {
-    // from iaas to rest
+    //from iaas to rest
+    Job result = jobConverter.applyBack(iaasJob);
 
-    Task result = taskConverter.applyBack(iaasTask);
-
-    assertThat(result, is(equalTo(restTask)));
-
+    assertThat(result, is(equalTo(restJob)));
   }
 
   @Test
   public void apply() throws Exception {
     //from rest to iaas
-    TaskEntities.Task result = taskConverter.apply(restTask);
+    JobEntities.Job result = jobConverter.apply(restJob);
 
-    assertThat(result, is(equalTo(iaasTask)));
+    assertThat(result, is(equalTo(iaasJob)));
   }
 
 }
