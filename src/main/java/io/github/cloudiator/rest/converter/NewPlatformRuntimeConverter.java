@@ -1,53 +1,49 @@
 package io.github.cloudiator.rest.converter;
 
-
-import io.github.cloudiator.rest.model.PlatformRuntime;
+import io.github.cloudiator.rest.model.NewPlatformRuntime;
 import org.cloudiator.messages.entities.PaasEntities;
 
-public class PlatformRuntimeConverter implements
-    TwoWayConverter<PlatformRuntime, PaasEntities.Runtime> {
+public class NewPlatformRuntimeConverter implements
+    TwoWayConverter<NewPlatformRuntime, PaasEntities.NewRuntime> {
 
   private final RuntimeLanguageConverter runtimeLanguageConverter = new RuntimeLanguageConverter();
   private final RuntimeTypeConverter runtimeTypeConverter = new RuntimeTypeConverter();
 
   @Override
-  public PlatformRuntime applyBack(PaasEntities.Runtime runtime) {
-    PlatformRuntime result = new PlatformRuntime()
-        .id(runtime.getId())
+  public NewPlatformRuntime applyBack(PaasEntities.NewRuntime runtime) {
+    NewPlatformRuntime result = new NewPlatformRuntime()
         .name(runtime.getName())
         .language(runtimeLanguageConverter.applyBack(runtime.getRuntimeLanguage()))
-        .languageVersion(runtime.getRuntimeLanguageVersion())
         .runtimeType(runtimeTypeConverter.applyBack(runtime.getRuntimeType()))
         .version(runtime.getRuntimeTypeVersion());
     return result;
   }
 
   @Override
-  public PaasEntities.Runtime apply(PlatformRuntime platformRuntime) {
-    PaasEntities.Runtime.Builder result = null;
-    result.setId(platformRuntime.getId())
-        .setRuntimeLanguage(runtimeLanguageConverter.apply(platformRuntime.getLanguage()))
+  public PaasEntities.NewRuntime apply(NewPlatformRuntime platformRuntime) {
+    PaasEntities.NewRuntime.Builder result = null;
+    result.setRuntimeLanguage(runtimeLanguageConverter.apply(platformRuntime.getLanguage()))
         .setRuntimeType(runtimeTypeConverter.apply(platformRuntime.getRuntimeType()))
-        .setRuntimeLanguageVersion(platformRuntime.getLanguageVersion())
+        .setRuntimeLanguageVersion(platformRuntime.getVersion())
         .setRuntimeTypeVersion(platformRuntime.getVersion())
         .setName(platformRuntime.getName())
-        .clearProviderId(); //obsolete
+        .clearProviderId();
 
     return result.build();
   }
 
   private class RuntimeTypeConverter implements
-      TwoWayConverter<PlatformRuntime.RuntimeTypeEnum, PaasEntities.RuntimeType> {
+      TwoWayConverter<NewPlatformRuntime.RuntimeTypeEnum, PaasEntities.RuntimeType> {
 
     @Override
-    public PlatformRuntime.RuntimeTypeEnum applyBack(PaasEntities.RuntimeType runtimeType) {
-      PlatformRuntime.RuntimeTypeEnum result = null;
+    public NewPlatformRuntime.RuntimeTypeEnum applyBack(PaasEntities.RuntimeType runtimeType) {
+      NewPlatformRuntime.RuntimeTypeEnum result = null;
       switch (runtimeType) {
         case SERVER:
-          result = PlatformRuntime.RuntimeTypeEnum.SERVER;
+          result = NewPlatformRuntime.RuntimeTypeEnum.SERVER;
           break;
         case STANDALONE:
-          result = PlatformRuntime.RuntimeTypeEnum.STANDALONE;
+          result = NewPlatformRuntime.RuntimeTypeEnum.STANDALONE;
           break;
         case UNRECOGNIZED:
         default:
@@ -57,7 +53,7 @@ public class PlatformRuntimeConverter implements
     }
 
     @Override
-    public PaasEntities.RuntimeType apply(PlatformRuntime.RuntimeTypeEnum runtimeTypeEnum) {
+    public PaasEntities.RuntimeType apply(NewPlatformRuntime.RuntimeTypeEnum runtimeTypeEnum) {
       PaasEntities.RuntimeType result = null;
       switch (runtimeTypeEnum) {
         case SERVER:
@@ -74,23 +70,23 @@ public class PlatformRuntimeConverter implements
   }
 
   private class RuntimeLanguageConverter implements
-      TwoWayConverter<PlatformRuntime.LanguageEnum, PaasEntities.RuntimeLanguage> {
+      TwoWayConverter<NewPlatformRuntime.LanguageEnum, PaasEntities.RuntimeLanguage> {
 
     @Override
-    public PlatformRuntime.LanguageEnum applyBack(PaasEntities.RuntimeLanguage runtimeLanguage) {
-      PlatformRuntime.LanguageEnum result = null;
+    public NewPlatformRuntime.LanguageEnum applyBack(PaasEntities.RuntimeLanguage runtimeLanguage) {
+      NewPlatformRuntime.LanguageEnum result = null;
       switch (runtimeLanguage) {
         case PHP:
-          result = PlatformRuntime.LanguageEnum.PHP;
+          result = NewPlatformRuntime.LanguageEnum.PHP;
           break;
         case JAVA:
-          result = PlatformRuntime.LanguageEnum.JAVA;
+          result = NewPlatformRuntime.LanguageEnum.JAVA;
           break;
         case RUBY:
-          result = PlatformRuntime.LanguageEnum.RUBY;
+          result = NewPlatformRuntime.LanguageEnum.RUBY;
           break;
         case PYTHON:
-          result = PlatformRuntime.LanguageEnum.PYTHON;
+          result = NewPlatformRuntime.LanguageEnum.PYTHON;
           break;
         case UNRECOGNIZED:
         default:
@@ -100,7 +96,7 @@ public class PlatformRuntimeConverter implements
     }
 
     @Override
-    public PaasEntities.RuntimeLanguage apply(PlatformRuntime.LanguageEnum languageEnum) {
+    public PaasEntities.RuntimeLanguage apply(NewPlatformRuntime.LanguageEnum languageEnum) {
       PaasEntities.RuntimeLanguage result = null;
       switch (languageEnum) {
         case PHP:

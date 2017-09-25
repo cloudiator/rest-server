@@ -1,6 +1,7 @@
 package io.github.cloudiator.rest.api;
 
 import io.github.cloudiator.rest.model.Error;
+import io.github.cloudiator.rest.model.NewPlatformRuntime;
 import io.github.cloudiator.rest.model.PlatformRuntime;
 
 import io.swagger.annotations.*;
@@ -25,7 +26,7 @@ public class PlatformRuntimeApiController implements PlatformRuntimeApi {
 
 
 
-    public ResponseEntity<PlatformRuntime> addPlatformRuntime(@ApiParam(value = "PlatformRuntime to be created " ,required=true )  @Valid @RequestBody PlatformRuntime platformRuntime) {
+    public ResponseEntity<PlatformRuntime> addPlatformRuntime(@ApiParam(value = "PlatformRuntime to be created " ,required=true )  @Valid @RequestBody NewPlatformRuntime platformRuntime) {
         // do some magic!
         return new ResponseEntity<PlatformRuntime>(HttpStatus.OK);
     }

@@ -2,58 +2,55 @@ package io.github.cloudiator.rest.converter;
 
 import io.github.cloudiator.rest.model.Api;
 import io.github.cloudiator.rest.model.CloudCredential;
-import io.github.cloudiator.rest.model.Platform;
+import io.github.cloudiator.rest.model.NewPlatform;
+import io.github.cloudiator.rest.model.NewPlatform.TypeEnum;
 import org.cloudiator.messages.entities.PaasEntities;
 
-public class PlatformConverter implements TwoWayConverter<Platform, PaasEntities.Platform> {
+public class NewPlatformConverter implements TwoWayConverter<NewPlatform, PaasEntities.Platform> {
 
   private final PlatformTypeConverter platformTypeConverter = new PlatformTypeConverter();
-  private final CloudCredentialConverter credentialConverter = new CloudCredentialConverter();
 
   @Override
-  public Platform applyBack(PaasEntities.Platform platform) {
-    Platform result = new Platform()
+  public NewPlatform applyBack(PaasEntities.Platform platform) {
+    NewPlatform result = new NewPlatform()
         .name(platform.getName())
-        .id(platform.getId())
         .type(platformTypeConverter.applyBack(platform.getPlatformType()))
         .api(new Api().providerName(platform.getProviderId()))
-        .endpoint(platform.getEndpoint())
-        .credential(credentialConverter.applyBack(platform.getCredential()));
+        .endpoint(platform.getEndpoint());
+    //Dummy, Credential is missing by IaasEntity
+    CloudCredential dummy = new CloudCredential();
+    dummy.setUser("dummyUser");
+    dummy.setSecret("dummySecret");
+    result.setCredential(dummy);
     return result;
   }
 
   @Override
-  public PaasEntities.Platform apply(Platform platform) {
+  public PaasEntities.Platform apply(NewPlatform platform) {
     PaasEntities.Platform.Builder result = PaasEntities.Platform.newBuilder();
-    result.setId(platform.getId())
-        .setName(platform.getName())
+    result.setName(platform.getName())
         .setProviderId(platform.getApi().getProviderName())
         .setPlatformType(platformTypeConverter.apply(platform.getType()))
-        .setCredential(credentialConverter.apply(platform.getCredential()));
-    if (result.getEndpoint() != null) {
-      result.setEndpoint(platform.getEndpoint());
-    } else {
-      result.clearEndpoint();
-    }
+        .setEndpoint(platform.getEndpoint());
 
     return result.build();
   }
 
   private class PlatformTypeConverter implements
-      TwoWayConverter<Platform.TypeEnum, PaasEntities.PlatformType> {
+      TwoWayConverter<TypeEnum, PaasEntities.PlatformType> {
 
     @Override
-    public Platform.TypeEnum applyBack(PaasEntities.PlatformType platformType) {
-      Platform.TypeEnum result;
+    public TypeEnum applyBack(PaasEntities.PlatformType platformType) {
+      TypeEnum result;
       switch (platformType) {
         case HEROKU:
-          result = Platform.TypeEnum.HEROKU;
+          result = TypeEnum.HEROKU;
           break;
         case OPENSHIFT:
-          result = Platform.TypeEnum.OPENSHIFT;
+          result = TypeEnum.OPENSHIFT;
           break;
         case CLOUDFOUNDRY:
-          result = Platform.TypeEnum.CLOUDFOUNDRY;
+          result = TypeEnum.CLOUDFOUNDRY;
           break;
         case UNRECOGNIZED:
         default:
@@ -63,7 +60,7 @@ public class PlatformConverter implements TwoWayConverter<Platform, PaasEntities
     }
 
     @Override
-    public PaasEntities.PlatformType apply(Platform.TypeEnum typeEnum) {
+    public PaasEntities.PlatformType apply(TypeEnum typeEnum) {
       PaasEntities.PlatformType result;
       switch (typeEnum) {
         case HEROKU:

@@ -18,7 +18,7 @@ public class NodeRequestConverter implements
   public NodeEntities.NodeRequest apply(NodeRequest nodeRequest) {
     return NodeEntities.NodeRequest.newBuilder().addAllRequirements(
         nodeRequest.getRequirements().stream()
-            .map(requirementConverter::applyBack).collect(
+            .map(requirementConverter::apply).collect(
             Collectors.toList())).build();
   }
 }

@@ -1,6 +1,7 @@
 package io.github.cloudiator.rest.api;
 
 import io.github.cloudiator.rest.model.Error;
+import io.github.cloudiator.rest.model.NewPlatformEnvironment;
 import io.github.cloudiator.rest.model.PlatformEnvironment;
 
 import io.swagger.annotations.*;
@@ -25,7 +26,7 @@ public class PlatformEnvironmentApiController implements PlatformEnvironmentApi 
 
 
 
-    public ResponseEntity<PlatformEnvironment> addPlatformEnvironment(@ApiParam(value = "PlatformEnvironment to be created " ,required=true )  @Valid @RequestBody PlatformEnvironment platformEnvironment) {
+    public ResponseEntity<PlatformEnvironment> addPlatformEnvironment(@ApiParam(value = "PlatformEnvironment to be created " ,required=true )  @Valid @RequestBody NewPlatformEnvironment platformEnvironment) {
         // do some magic!
         return new ResponseEntity<PlatformEnvironment>(HttpStatus.OK);
     }

@@ -6,6 +6,7 @@
 package io.github.cloudiator.rest.api;
 
 import io.github.cloudiator.rest.model.Error;
+import io.github.cloudiator.rest.model.NewPlatformHardware;
 import io.github.cloudiator.rest.model.PlatformHardware;
 
 import io.swagger.annotations.*;
@@ -40,7 +41,7 @@ public interface PlatformHardwareApi {
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.POST)
-    ResponseEntity<PlatformHardware> addPlatformHardware(@ApiParam(value = "PlatformHardware to be created " ,required=true )  @Valid @RequestBody PlatformHardware platformHardware);
+    ResponseEntity<PlatformHardware> addPlatformHardware(@ApiParam(value = "PlatformHardware to be created " ,required=true )  @Valid @RequestBody NewPlatformHardware platformHardware);
 
 
     @ApiOperation(value = "", notes = "Returns the PlatformHardware identified by the id parameter. ", response = PlatformHardware.class, tags={ "platform", })

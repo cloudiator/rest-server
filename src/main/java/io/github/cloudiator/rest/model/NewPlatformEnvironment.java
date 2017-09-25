@@ -3,7 +3,6 @@ package io.github.cloudiator.rest.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.github.cloudiator.rest.model.NewPlatformEnvironment;
 import io.github.cloudiator.rest.model.Platform;
 import io.github.cloudiator.rest.model.PlatformHardware;
 import io.github.cloudiator.rest.model.PlatformRuntime;
@@ -20,7 +19,7 @@ import javax.validation.constraints.*;
  */
 @ApiModel(description = "Repesents a PaaS environemnt to run an component ")
 
-public class PlatformEnvironment   {
+public class NewPlatformEnvironment   {
   @JsonProperty("name")
   private String name = null;
 
@@ -36,10 +35,7 @@ public class PlatformEnvironment   {
   @JsonProperty("platformService")
   private List<PlatformService> platformService = null;
 
-  @JsonProperty("id")
-  private String id = null;
-
-  public PlatformEnvironment name(String name) {
+  public NewPlatformEnvironment name(String name) {
     this.name = name;
     return this;
   }
@@ -60,7 +56,7 @@ public class PlatformEnvironment   {
     this.name = name;
   }
 
-  public PlatformEnvironment platform(Platform platform) {
+  public NewPlatformEnvironment platform(Platform platform) {
     this.platform = platform;
     return this;
   }
@@ -81,7 +77,7 @@ public class PlatformEnvironment   {
     this.platform = platform;
   }
 
-  public PlatformEnvironment platformHardware(PlatformHardware platformHardware) {
+  public NewPlatformEnvironment platformHardware(PlatformHardware platformHardware) {
     this.platformHardware = platformHardware;
     return this;
   }
@@ -103,7 +99,7 @@ public class PlatformEnvironment   {
     this.platformHardware = platformHardware;
   }
 
-  public PlatformEnvironment platformRuntime(PlatformRuntime platformRuntime) {
+  public NewPlatformEnvironment platformRuntime(PlatformRuntime platformRuntime) {
     this.platformRuntime = platformRuntime;
     return this;
   }
@@ -125,12 +121,12 @@ public class PlatformEnvironment   {
     this.platformRuntime = platformRuntime;
   }
 
-  public PlatformEnvironment platformService(List<PlatformService> platformService) {
+  public NewPlatformEnvironment platformService(List<PlatformService> platformService) {
     this.platformService = platformService;
     return this;
   }
 
-  public PlatformEnvironment addPlatformServiceItem(PlatformService platformServiceItem) {
+  public NewPlatformEnvironment addPlatformServiceItem(PlatformService platformServiceItem) {
     if (this.platformService == null) {
       this.platformService = new ArrayList<PlatformService>();
     }
@@ -154,26 +150,6 @@ public class PlatformEnvironment   {
     this.platformService = platformService;
   }
 
-  public PlatformEnvironment id(String id) {
-    this.id = id;
-    return this;
-  }
-
-   /**
-   * Unique identifier
-   * @return id
-  **/
-  @ApiModelProperty(value = "Unique identifier")
-
-
-  public String getId() {
-    return id;
-  }
-
-  public void setId(String id) {
-    this.id = id;
-  }
-
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -183,31 +159,29 @@ public class PlatformEnvironment   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    PlatformEnvironment platformEnvironment = (PlatformEnvironment) o;
-    return Objects.equals(this.name, platformEnvironment.name) &&
-        Objects.equals(this.platform, platformEnvironment.platform) &&
-        Objects.equals(this.platformHardware, platformEnvironment.platformHardware) &&
-        Objects.equals(this.platformRuntime, platformEnvironment.platformRuntime) &&
-        Objects.equals(this.platformService, platformEnvironment.platformService) &&
-        Objects.equals(this.id, platformEnvironment.id);
+    NewPlatformEnvironment newPlatformEnvironment = (NewPlatformEnvironment) o;
+    return Objects.equals(this.name, newPlatformEnvironment.name) &&
+        Objects.equals(this.platform, newPlatformEnvironment.platform) &&
+        Objects.equals(this.platformHardware, newPlatformEnvironment.platformHardware) &&
+        Objects.equals(this.platformRuntime, newPlatformEnvironment.platformRuntime) &&
+        Objects.equals(this.platformService, newPlatformEnvironment.platformService);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, platform, platformHardware, platformRuntime, platformService, id);
+    return Objects.hash(name, platform, platformHardware, platformRuntime, platformService);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class PlatformEnvironment {\n");
+    sb.append("class NewPlatformEnvironment {\n");
     
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    platform: ").append(toIndentedString(platform)).append("\n");
     sb.append("    platformHardware: ").append(toIndentedString(platformHardware)).append("\n");
     sb.append("    platformRuntime: ").append(toIndentedString(platformRuntime)).append("\n");
     sb.append("    platformService: ").append(toIndentedString(platformService)).append("\n");
-    sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("}");
     return sb.toString();
   }
