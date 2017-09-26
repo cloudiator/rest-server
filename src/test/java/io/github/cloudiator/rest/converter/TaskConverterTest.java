@@ -2,6 +2,7 @@ package io.github.cloudiator.rest.converter;
 
 import static org.junit.Assert.*;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.cloudiator.rest.model.DockerInterface;
 import io.github.cloudiator.rest.model.IdentifierRequirement;
 import io.github.cloudiator.rest.model.LanceInterface;
@@ -9,6 +10,7 @@ import io.github.cloudiator.rest.model.OclRequirement;
 import io.github.cloudiator.rest.model.PortProvided;
 import io.github.cloudiator.rest.model.PortRequired;
 import io.github.cloudiator.rest.model.Task;
+import java.io.IOException;
 import org.cloudiator.messages.entities.CommonEntities;
 import org.cloudiator.messages.entities.TaskEntities;
 
@@ -135,6 +137,14 @@ public class TaskConverterTest {
     // from iaas to rest
 
     Task result = taskConverter.applyBack(iaasTask);
+
+    ObjectMapper mapper = new ObjectMapper();
+    try {
+      String jsoninString = mapper.writeValueAsString(result);
+      System.out.println(jsoninString);
+    } catch (IOException e) {
+      e.printStackTrace();
+    }
 
     assertThat(result, is(equalTo(restTask)));
 
