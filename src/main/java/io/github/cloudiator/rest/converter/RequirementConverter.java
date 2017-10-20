@@ -18,7 +18,8 @@ public class RequirementConverter implements
               IdRequirement.newBuilder()
                   .setImageId(((IdentifierRequirement) requirement).getImageId())
                   .setLocationId(((IdentifierRequirement) requirement).getLocationId())
-                  .setHardwareId(((IdentifierRequirement) requirement).getHardwareId()).build()
+                  .setHardwareId(((IdentifierRequirement) requirement).getHardwareId())
+                  .build()
           ).build();
     } else if (requirement instanceof OclRequirement) {
       return CommonEntities.Requirement.newBuilder().setOclRequirement(
@@ -38,14 +39,14 @@ public class RequirementConverter implements
       case OCLREQUIREMENT:
         OclRequirement oclRequirement = new OclRequirement();
         oclRequirement.setConstraint(requirement.getOclRequirement().getConstraint());
-        oclRequirement.setType(requirement.getRequirementCase().toString());
+        oclRequirement.setType(oclRequirement.getClass().getSimpleName());
         return oclRequirement;
       case IDREQUIREMENT:
         IdentifierRequirement identifierRequirement = new IdentifierRequirement();
         identifierRequirement.setHardwareId(requirement.getIdRequirement().getHardwareId());
         identifierRequirement.setImageId(requirement.getIdRequirement().getImageId());
         identifierRequirement.setLocationId(requirement.getIdRequirement().getLocationId());
-        identifierRequirement.setType(requirement.getRequirementCase().toString());
+        identifierRequirement.setType(identifierRequirement.getClass().getSimpleName());
         return identifierRequirement;
       default:
         throw new AssertionError(

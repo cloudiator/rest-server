@@ -4,8 +4,10 @@ import static org.junit.Assert.*;
 
 import io.github.cloudiator.rest.model.Communication;
 import io.github.cloudiator.rest.model.DockerInterface;
+import io.github.cloudiator.rest.model.ExecutionEnvironment;
 import io.github.cloudiator.rest.model.IdentifierRequirement;
 import io.github.cloudiator.rest.model.Job;
+import io.github.cloudiator.rest.model.JobType;
 import io.github.cloudiator.rest.model.LanceInterface;
 import io.github.cloudiator.rest.model.OclRequirement;
 import io.github.cloudiator.rest.model.PortProvided;
@@ -15,6 +17,7 @@ import org.cloudiator.messages.entities.CommonEntities;
 import org.cloudiator.messages.entities.JobEntities;
 import org.cloudiator.messages.entities.TaskEntities;
 
+import org.cloudiator.messages.entities.TaskEntities.TaskType;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -53,6 +56,7 @@ public class JobConverterTest {
     //Requirements
     this.restOclRequirement = new OclRequirement()
         .constraint("OclRequirement");
+    this.restOclRequirement.setType(restOclRequirement.getClass().getSimpleName());
     this.iaasOclRequirement = CommonEntities.Requirement.newBuilder()
         .setOclRequirement(CommonEntities.OclRequirement.newBuilder()
             .setConstraint("OclRequirement").build()).build();
@@ -60,6 +64,7 @@ public class JobConverterTest {
         .hardwareId("HardwareId")
         .imageId("ImageId")
         .locationId("LocationId");
+    this.restIdRequirement.setType(restIdRequirement.getClass().getSimpleName());
     this.iaasIdRequirement = CommonEntities.Requirement.newBuilder()
         .setIdRequirement(CommonEntities.IdRequirement.newBuilder()
             .setHardwareId("HardwareId")
@@ -111,15 +116,18 @@ public class JobConverterTest {
     //Task
     this.restTask = new Task()
         .name("TestTask")
+        .type(JobType.BATCH)
+        .executionEnvironment(ExecutionEnvironment.SPARK)
         .addPortsItem(restProvidedPort)
         .addPortsItem(restRequiredPort)
         .addRequirementsItem(restIdRequirement)
         .addRequirementsItem(restOclRequirement)
         .addInterfacesItem(restDockerInterface)
         .addInterfacesItem(restLanceInterface);
-    //.type(TypeEnum.LONG_RUNNING) //not supported at iaas
     this.iaasTask = TaskEntities.Task.newBuilder()
         .setName("TestTask")
+        .setTaskType(TaskType.BATCH)
+        .setExecutionEnvironment(TaskEntities.ExecutionEnvironment.SPARK)
         .addPorts(iaasPortProvidedPort)
         .addPorts(iaasPortRequiredPort)
         .addRequirements(iaasIdRequirement)

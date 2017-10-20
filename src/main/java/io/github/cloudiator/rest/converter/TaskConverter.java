@@ -1,11 +1,14 @@
 package io.github.cloudiator.rest.converter;
 
+import io.github.cloudiator.rest.model.ExecutionEnvironment;
+import io.github.cloudiator.rest.model.JobType;
 import io.github.cloudiator.rest.model.Port;
 import io.github.cloudiator.rest.model.Requirement;
 import io.github.cloudiator.rest.model.Task;
 import io.github.cloudiator.rest.model.TaskInterface;
 import org.cloudiator.messages.entities.CommonEntities;
 import org.cloudiator.messages.entities.TaskEntities;
+import org.cloudiator.messages.entities.TaskEntities.TaskType;
 
 
 public class TaskConverter implements TwoWayConverter<Task, TaskEntities.Task> {
@@ -33,10 +36,34 @@ public class TaskConverter implements TwoWayConverter<Task, TaskEntities.Task> {
         result.addInterfacesItem(interfaceConverter.applyBack(tInterface));
       }
     }
-    /* not implemented in IaasEntity
-    result.setExecutionEnvironment();
-    result.setType();
-    */
+    switch (task.getExecutionEnvironment()) {
+      case LANCE:
+        result.setExecutionEnvironment(ExecutionEnvironment.LANCE);
+        break;
+      case SPARK:
+        result.setExecutionEnvironment(ExecutionEnvironment.SPARK);
+        break;
+      case NATIVE:
+        result.setExecutionEnvironment(ExecutionEnvironment.NATIVE);
+        break;
+      case CONTAINER:
+        result.setExecutionEnvironment(ExecutionEnvironment.CONTAINER);
+        break;
+      case UNRECOGNIZED:
+      default:
+        throw new AssertionError("ExecutionEnvironment unkown: " + task.getExecutionEnvironment());
+    }
+    switch (task.getTaskType()) {
+      case BATCH:
+        result.setType(JobType.BATCH);
+        break;
+      case LONG_RUNNING:
+        result.setType(JobType.SERVICE);
+        break;
+      case UNRECOGNIZED:
+      default:
+        throw new AssertionError("TaskType unrecognized: " + task.getTaskType());
+    }
 
     return result;
   }
@@ -66,7 +93,32 @@ public class TaskConverter implements TwoWayConverter<Task, TaskEntities.Task> {
     } else {
       result.clearInterfaces();
     }
-    // executionEnvironment and type are missing
+    switch (task.getType()) {
+      case BATCH:
+        result.setTaskType(TaskType.BATCH);
+        break;
+      case SERVICE:
+        result.setTaskType(TaskType.LONG_RUNNING);
+        break;
+      default:
+        throw new AssertionError("TaskType unkown: " + task.getType());
+    }
+    switch (task.getExecutionEnvironment()) {
+      case LANCE:
+        result.setExecutionEnvironment(TaskEntities.ExecutionEnvironment.LANCE);
+        break;
+      case SPARK:
+        result.setExecutionEnvironment(TaskEntities.ExecutionEnvironment.SPARK);
+        break;
+      case NATIVE:
+        result.setExecutionEnvironment(TaskEntities.ExecutionEnvironment.NATIVE);
+        break;
+      case CONTAINER:
+        result.setExecutionEnvironment(TaskEntities.ExecutionEnvironment.CONTAINER);
+        break;
+      default:
+        throw new AssertionError("ExecutionEnvironment unkown: "+task.getExecutionEnvironment());
+    }
 
     return result.build();
   }

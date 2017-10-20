@@ -3,8 +3,8 @@ package io.github.cloudiator.rest.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
 import io.github.cloudiator.rest.model.ExecutionEnvironment;
+import io.github.cloudiator.rest.model.JobType;
 import io.github.cloudiator.rest.model.Port;
 import io.github.cloudiator.rest.model.Requirement;
 import io.github.cloudiator.rest.model.TaskInterface;
@@ -36,39 +36,8 @@ public class Task   {
   @JsonProperty("requirements")
   private List<Requirement> requirements = null;
 
-  /**
-   * Gets or Sets type
-   */
-  public enum TypeEnum {
-    BATCH("BATCH"),
-    
-    LONG_RUNNING("LONG_RUNNING");
-
-    private String value;
-
-    TypeEnum(String value) {
-      this.value = value;
-    }
-
-    @Override
-    @JsonValue
-    public String toString() {
-      return String.valueOf(value);
-    }
-
-    @JsonCreator
-    public static TypeEnum fromValue(String text) {
-      for (TypeEnum b : TypeEnum.values()) {
-        if (String.valueOf(b.value).equals(text)) {
-          return b;
-        }
-      }
-      return null;
-    }
-  }
-
   @JsonProperty("type")
-  private TypeEnum type = null;
+  private JobType type = null;
 
   public Task name(String name) {
     this.name = name;
@@ -200,7 +169,7 @@ public class Task   {
     this.requirements = requirements;
   }
 
-  public Task type(TypeEnum type) {
+  public Task type(JobType type) {
     this.type = type;
     return this;
   }
@@ -212,12 +181,13 @@ public class Task   {
   @ApiModelProperty(required = true, value = "")
   @NotNull
 
+  @Valid
 
-  public TypeEnum getType() {
+  public JobType getType() {
     return type;
   }
 
-  public void setType(TypeEnum type) {
+  public void setType(JobType type) {
     this.type = type;
   }
 

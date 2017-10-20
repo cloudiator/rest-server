@@ -1,5 +1,6 @@
 package io.github.cloudiator.rest.model;
 
+import com.fasterxml.jackson.annotation.JsonTypeInfo.As;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
@@ -13,7 +14,7 @@ import javax.validation.constraints.*;
 /**
  * Requirement
  */
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type", visible = true )
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = As.EXISTING_PROPERTY, property = "type", visible = true )
 @JsonSubTypes({
   @JsonSubTypes.Type(value = OclRequirement.class, name = "OclRequirement"),
   @JsonSubTypes.Type(value = IdentifierRequirement.class, name = "IdentifierRequirement"),
