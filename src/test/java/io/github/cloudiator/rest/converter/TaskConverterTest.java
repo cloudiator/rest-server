@@ -8,7 +8,6 @@ import io.github.cloudiator.rest.model.DockerInterface;
 import io.github.cloudiator.rest.model.ExecutionEnvironment;
 import io.github.cloudiator.rest.model.IdentifierRequirement;
 import io.github.cloudiator.rest.model.JobType;
-
 import io.github.cloudiator.rest.model.LanceInterface;
 import io.github.cloudiator.rest.model.OclRequirement;
 import io.github.cloudiator.rest.model.PortProvided;
@@ -20,11 +19,6 @@ import org.cloudiator.messages.entities.CommonEntities;
 import org.cloudiator.messages.entities.TaskEntities;
 
 import org.cloudiator.messages.entities.TaskEntities.TaskType;
-
-import io.github.cloudiator.rest.model.Requirement;
-import io.github.cloudiator.rest.model.Task;
-import org.cloudiator.messages.entities.CommonEntities;
-import org.cloudiator.messages.entities.TaskEntities;
 
 
 import org.junit.Test;
