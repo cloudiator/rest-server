@@ -2,21 +2,31 @@ package io.github.cloudiator.rest.converter;
 
 import static org.junit.Assert.*;
 
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.cloudiator.rest.model.DockerInterface;
 import io.github.cloudiator.rest.model.ExecutionEnvironment;
 import io.github.cloudiator.rest.model.IdentifierRequirement;
 import io.github.cloudiator.rest.model.JobType;
+
 import io.github.cloudiator.rest.model.LanceInterface;
 import io.github.cloudiator.rest.model.OclRequirement;
 import io.github.cloudiator.rest.model.PortProvided;
 import io.github.cloudiator.rest.model.PortRequired;
+
 import io.github.cloudiator.rest.model.Task;
 import java.io.IOException;
 import org.cloudiator.messages.entities.CommonEntities;
 import org.cloudiator.messages.entities.TaskEntities;
 
 import org.cloudiator.messages.entities.TaskEntities.TaskType;
+
+import io.github.cloudiator.rest.model.Requirement;
+import io.github.cloudiator.rest.model.Task;
+import org.cloudiator.messages.entities.CommonEntities;
+import org.cloudiator.messages.entities.TaskEntities;
+
+
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -57,7 +67,6 @@ public class TaskConverterTest {
         .port(12345);
     this.restProvidedPort.setType(restProvidedPort.getClass().getSimpleName());
     this.restProvidedPort.setName("PortProvidedTest");
-
 
     this.iaasPortProvidedPort = TaskEntities.Port.newBuilder().setPortProvided(
         TaskEntities.PortProvided.newBuilder()
@@ -100,7 +109,9 @@ public class TaskConverterTest {
     //Requirements
     this.restOclRequirement = new OclRequirement()
         .constraint("oclRequirement");
+
     this.restOclRequirement.setType(restOclRequirement.getClass().getSimpleName());
+
     this.iaasReqOclRequirement = CommonEntities.Requirement.newBuilder()
         .setOclRequirement(
             CommonEntities.OclRequirement.newBuilder()
@@ -110,7 +121,9 @@ public class TaskConverterTest {
         .hardwareId("hardwareId")
         .imageId("imageId")
         .locationId("locationId");
+
     this.restIdentifierRequirement.setType(restIdentifierRequirement.getClass().getSimpleName());
+
     this.iaasReqIdRequirement = CommonEntities.Requirement.newBuilder()
         .setIdRequirement(
             CommonEntities.IdRequirement.newBuilder()
@@ -121,8 +134,10 @@ public class TaskConverterTest {
     //Task
     this.restTask = new Task()
         .name("TaskTest")
+
         .type(JobType.BATCH)
         .executionEnvironment(ExecutionEnvironment.LANCE)
+
         .addPortsItem(restProvidedPort)
         .addPortsItem(restRequiredPort)
         .addInterfacesItem(restDockerInterface)
@@ -165,11 +180,16 @@ public class TaskConverterTest {
   @Test
   public void apply() throws Exception {
     //from rest to iaas
+
     TaskEntities.Task result2 = taskConverter.apply(restTask);
     System.out.println(result2);
 
-
     assertThat(result2, is(equalTo(iaasTask)));
+
+    TaskEntities.Task result = taskConverter.apply(restTask);
+
+    assertThat(result, is(equalTo(iaasTask)));
+
   }
 
 }

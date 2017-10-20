@@ -19,8 +19,8 @@ import javax.validation.constraints.*;
 @ApiModel(description = "Represents a communication port of a task ")
 @JsonTypeInfo(use = Id.NAME, include = As.EXISTING_PROPERTY, property = "type", visible = true )
 @JsonSubTypes({
-  @Type(value = PortRequired.class, name = "PortRequired"),
-  @Type(value = PortProvided.class, name = "PortProvided"),
+  @JsonSubTypes.Type(value = PortRequired.class, name = "PortRequired"),
+  @JsonSubTypes.Type(value = PortProvided.class, name = "PortProvided"),
 })
 
 public class Port   {

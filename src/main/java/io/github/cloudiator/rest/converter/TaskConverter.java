@@ -1,7 +1,10 @@
 package io.github.cloudiator.rest.converter;
 
+
 import io.github.cloudiator.rest.model.ExecutionEnvironment;
 import io.github.cloudiator.rest.model.JobType;
+
+
 import io.github.cloudiator.rest.model.Port;
 import io.github.cloudiator.rest.model.Requirement;
 import io.github.cloudiator.rest.model.Task;
@@ -36,6 +39,7 @@ public class TaskConverter implements TwoWayConverter<Task, TaskEntities.Task> {
         result.addInterfacesItem(interfaceConverter.applyBack(tInterface));
       }
     }
+
     switch (task.getExecutionEnvironment()) {
       case LANCE:
         result.setExecutionEnvironment(ExecutionEnvironment.LANCE);
@@ -93,6 +97,7 @@ public class TaskConverter implements TwoWayConverter<Task, TaskEntities.Task> {
     } else {
       result.clearInterfaces();
     }
+
     switch (task.getType()) {
       case BATCH:
         result.setTaskType(TaskType.BATCH);
@@ -117,7 +122,7 @@ public class TaskConverter implements TwoWayConverter<Task, TaskEntities.Task> {
         result.setExecutionEnvironment(TaskEntities.ExecutionEnvironment.CONTAINER);
         break;
       default:
-        throw new AssertionError("ExecutionEnvironment unkown: "+task.getExecutionEnvironment());
+        throw new AssertionError("ExecutionEnvironment unkown: " + task.getExecutionEnvironment());
     }
 
     return result.build();
