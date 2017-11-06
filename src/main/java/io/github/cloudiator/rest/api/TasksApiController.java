@@ -1,5 +1,6 @@
 package io.github.cloudiator.rest.api;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.cloudiator.rest.UserService;
 import io.github.cloudiator.rest.converter.TaskConverter;
 import io.github.cloudiator.rest.model.Port;
@@ -39,17 +40,25 @@ import javax.validation.Valid;
 @Controller
 public class TasksApiController implements TasksApi {
 
+  private final ObjectMapper objectMapper;
+  private final TaskConverter taskConverter;
+
+  public TasksApiController(ObjectMapper objectMapper) {
+    this.objectMapper = objectMapper;
+    this.taskConverter = new TaskConverter();
+  }
+
   @Autowired
   private UserService userService;
 
   @Autowired
   private TaskService taskService;
 
-  private final TaskConverter taskConverter = new TaskConverter();
 
   @Override
   public ResponseEntity<Task> addTask(
-      @ApiParam(value = "Task to add", required = true) @Valid @RequestBody Task task) {
+      @ApiParam(value = "Task to add", required = true) @Valid @RequestBody Task task,
+      String accept) {
     //Validate und Verification
     Task newOne = new Task()
         .name(task.getName())
@@ -78,10 +87,15 @@ public class TasksApiController implements TasksApi {
 
     newOne = taskConverter.applyBack(response.getTask());
 
-    return new ResponseEntity<Task>(newOne, HttpStatus.OK);
+    if (accept != null && accept.contains("application/json")) {
+      return new ResponseEntity<Task>(newOne, HttpStatus.OK);
+    }
+
+    return new ResponseEntity<Task>(newOne, HttpStatus.ACCEPTED);
   }
 
-  public ResponseEntity<List<Task>> findTasks() {
+  @Override
+  public ResponseEntity<List<Task>> findTasks(String accept) {
 
     List<Task> taskList = new ArrayList<>();
     //final TaskConverter taskConverter = new TaskConverter();
@@ -99,6 +113,10 @@ public class TasksApiController implements TasksApi {
       throw new ApiException(ex.code(), ex.getMessage());
     }
 
-    return new ResponseEntity<List<Task>>(taskList, HttpStatus.OK);
+    if (accept != null && accept.contains("application/json")) {
+      return new ResponseEntity<List<Task>>(taskList, HttpStatus.OK);
+    }
+
+    return new ResponseEntity<List<Task>>(taskList, HttpStatus.ACCEPTED);
   }
 }

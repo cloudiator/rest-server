@@ -1,5 +1,6 @@
 package io.github.cloudiator.rest.api;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.cloudiator.rest.UserService;
 import io.github.cloudiator.rest.converter.HardwareConverter;
 import io.github.cloudiator.rest.model.Hardware;
@@ -33,6 +34,12 @@ import javax.validation.Valid;
 @Controller
 public class HardwareApiController implements HardwareApi {
 
+  private final ObjectMapper objectMapper;
+
+  public HardwareApiController(ObjectMapper objectMapper) {
+    this.objectMapper = objectMapper;
+  }
+
   @Autowired
   private UserService userService;
 
@@ -40,7 +47,8 @@ public class HardwareApiController implements HardwareApi {
   private HardwareService hardwareService;
 
 
-  public ResponseEntity<List<Hardware>> findHardware() {
+  @Override
+  public ResponseEntity<List<Hardware>> findHardware(String accept) {
     //Preparation
     System.out.println("------------------ find Hardware -------------------");
     HardwareQueryRequest hardwareQueryRequest = HardwareQueryRequest.newBuilder()
@@ -61,7 +69,10 @@ public class HardwareApiController implements HardwareApi {
     System.out.println("--------------------- " + hardwareList.size()
         + " item(s) found ---------------------------");
 
-    return new ResponseEntity<List<Hardware>>(hardwareList, HttpStatus.OK);
+    if (accept != null && accept.contains("application/json")) {
+      return new ResponseEntity<List<Hardware>>(hardwareList, HttpStatus.OK);
+    }
+    return new ResponseEntity<List<Hardware>>(hardwareList, HttpStatus.ACCEPTED);
   }
 
 }

@@ -7,6 +7,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import io.github.cloudiator.rest.model.NewPlatformRuntime;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
@@ -14,6 +15,7 @@ import javax.validation.constraints.*;
  * Repesents a PaaS environemnt to run an component 
  */
 @ApiModel(description = "Repesents a PaaS environemnt to run an component ")
+@Validated
 
 public class PlatformRuntime   {
   @JsonProperty("name")

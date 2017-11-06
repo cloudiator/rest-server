@@ -1,5 +1,6 @@
 package io.github.cloudiator.rest.api;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.cloudiator.rest.LRRMapService;
 import io.github.cloudiator.rest.UserService;
 import io.github.cloudiator.rest.model.Error;
@@ -28,28 +29,43 @@ import javax.validation.Valid;
 @Controller
 public class LongRunningRequestsApiController implements LongRunningRequestsApi {
 
-    @Autowired
-    private LRRMapService lrrMapService;
+  private final ObjectMapper objectMapper;
 
-    @Autowired
-    private UserService userService;
+  public LongRunningRequestsApiController(ObjectMapper objectMapper) {
+    this.objectMapper = objectMapper;
+  }
+
+  @Autowired
+  private LRRMapService lrrMapService;
+
+  @Autowired
+  private UserService userService;
 
 
-    public ResponseEntity<List<LongRunningRequest>> findAllLongRunningRequest() {
-        List<LongRunningRequest> result = lrrMapService.getAllLRR(userService.getUserId());
-        return new ResponseEntity<List<LongRunningRequest>>(result, HttpStatus.OK);
+  public ResponseEntity<List<LongRunningRequest>> findAllLongRunningRequest(String accept) {
+    List<LongRunningRequest> result = lrrMapService.getAllLRR(userService.getUserId());
+
+    if (accept != null && accept.contains("application/json")) {
+      return new ResponseEntity<List<LongRunningRequest>>(result, HttpStatus.OK);
     }
 
-    public ResponseEntity<LongRunningRequest> findLongRunningRequest(@ApiParam(value = "Unique identifier of the resource", required = true) @PathVariable("id") String id) {
+    return new ResponseEntity<List<LongRunningRequest>>(result, HttpStatus.OK);
+  }
 
-        LongRunningRequest result = null;
-        if (lrrMapService.getLRR(userService.getUserId(), id) != null) {
-            result = lrrMapService.getLRR(userService.getUserId(), id);
-        } else {
-            throw new ApiException(404, "LRR not found. ID: " + id);
-        }
+  public ResponseEntity<LongRunningRequest> findLongRunningRequest(
+      @ApiParam(value = "Unique identifier of the resource", required = true) @PathVariable("id") String id, String accept) {
 
-        return new ResponseEntity<LongRunningRequest>(result, HttpStatus.OK);
+    LongRunningRequest result = null;
+    if (lrrMapService.getLRR(userService.getUserId(), id) != null) {
+      result = lrrMapService.getLRR(userService.getUserId(), id);
+    } else {
+      throw new ApiException(404, "LRR not found. ID: " + id);
     }
+
+    if (accept != null && accept.contains("application/json")) {
+      return new ResponseEntity<LongRunningRequest>(result, HttpStatus.OK);
+    }
+    return new ResponseEntity<LongRunningRequest>(result, HttpStatus.OK);
+  }
 
 }

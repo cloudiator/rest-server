@@ -9,6 +9,7 @@ import io.github.cloudiator.rest.model.CloudCredential;
 import io.github.cloudiator.rest.model.CloudType;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
@@ -16,6 +17,7 @@ import javax.validation.constraints.*;
  * Represents a new cloud that is to be created 
  */
 @ApiModel(description = "Represents a new cloud that is to be created ")
+@Validated
 
 public class NewCloud   {
   @JsonProperty("endpoint")

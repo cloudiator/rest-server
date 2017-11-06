@@ -1,5 +1,6 @@
 package io.github.cloudiator.rest.api;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.cloudiator.rest.UserService;
 import io.github.cloudiator.rest.converter.ImageConverter;
 import io.github.cloudiator.rest.model.Image;
@@ -25,15 +26,23 @@ import org.springframework.web.bind.annotation.RequestBody;
 @Controller
 public class ImagesApiController implements ImagesApi {
 
+  private final ObjectMapper objectMapper;
+
+  public ImagesApiController(ObjectMapper objectMapper) {
+    this.objectMapper = objectMapper;
+  }
+
   @Autowired
   private UserService userService;
 
   @Autowired
   private ImageService imageService;
 
+  @Override
   public ResponseEntity<Image> editImage(
       @ApiParam(value = "Unique identifier of the resource", required = true) @PathVariable("id") String id,
-      @ApiParam(value = "Image to update ", required = true) @Valid @RequestBody Image image) {
+      @ApiParam(value = "Image to update ", required = true) @Valid @RequestBody Image image,
+      String accept) {
 
     //Preparation
     if (id.length() != 32) {
@@ -48,10 +57,15 @@ public class ImagesApiController implements ImagesApi {
     org.cloudiator.messages.Image.ImageUpdatedResponse updatedResponse = null;
     //to Kafka
     updatedResponse = null; //not yet implemented
+    if (accept != null && accept.contains("application/json")) {
+      return new ResponseEntity<Image>(HttpStatus.OK);
+    }
+
     return new ResponseEntity<Image>(HttpStatus.OK);
   }
 
-  public ResponseEntity<List<Image>> findImages() {
+  @Override
+  public ResponseEntity<List<Image>> findImages(String accept) {
     //preparation
     System.out.println("----------------- find Images -------------");
     ImageQueryRequest imageQueryRequest = ImageQueryRequest.newBuilder()
@@ -71,7 +85,11 @@ public class ImagesApiController implements ImagesApi {
     }
 
     System.out.println("imageList: \n " + imageList + "\n " + imageList.size() + " items listed.");
-    return new ResponseEntity<List<Image>>(imageList, HttpStatus.OK);
+
+    if (accept != null && accept.contains("application/json")) {
+      return new ResponseEntity<List<Image>>(imageList, HttpStatus.OK);
+    }
+    return new ResponseEntity<List<Image>>(imageList, HttpStatus.ACCEPTED);
   }
 
 }

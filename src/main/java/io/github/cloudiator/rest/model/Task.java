@@ -12,6 +12,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
@@ -19,21 +20,25 @@ import javax.validation.constraints.*;
  * Represents a task of a job. 
  */
 @ApiModel(description = "Represents a task of a job. ")
+@Validated
 
 public class Task   {
   @JsonProperty("name")
   private String name = null;
 
   @JsonProperty("ports")
+  @Valid
   private List<Port> ports = null;
 
   @JsonProperty("interfaces")
+  @Valid
   private List<TaskInterface> interfaces = null;
 
   @JsonProperty("executionEnvironment")
   private ExecutionEnvironment executionEnvironment = null;
 
   @JsonProperty("requirements")
+  @Valid
   private List<Requirement> requirements = null;
 
   @JsonProperty("type")

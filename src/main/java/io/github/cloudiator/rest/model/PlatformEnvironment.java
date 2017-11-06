@@ -12,6 +12,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
@@ -19,6 +20,7 @@ import javax.validation.constraints.*;
  * Repesents a PaaS environemnt to run an component 
  */
 @ApiModel(description = "Repesents a PaaS environemnt to run an component ")
+@Validated
 
 public class PlatformEnvironment   {
   @JsonProperty("name")
@@ -34,6 +36,7 @@ public class PlatformEnvironment   {
   private PlatformRuntime platformRuntime = null;
 
   @JsonProperty("platformService")
+  @Valid
   private List<PlatformService> platformService = null;
 
   @JsonProperty("id")

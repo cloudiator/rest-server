@@ -7,12 +7,14 @@ import io.github.cloudiator.rest.model.IpAddressType;
 import io.github.cloudiator.rest.model.IpVersion;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
  * IpAddress
  */
+@Validated
 
 public class IpAddress   {
   @JsonProperty("IpAddressType")

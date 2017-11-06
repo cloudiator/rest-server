@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import io.github.cloudiator.rest.model.Port;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
@@ -13,6 +14,7 @@ import javax.validation.constraints.*;
  * Represents a communication port that the task requires from other (downstream) tasks. 
  */
 @ApiModel(description = "Represents a communication port that the task requires from other (downstream) tasks. ")
+@Validated
 
 public class PortRequired extends Port  {
   @JsonProperty("updateAction")
@@ -53,7 +55,7 @@ public class PortRequired extends Port  {
   @ApiModelProperty(example = "true", value = "States if an instance of a downstream tasks needs to be already started (true), or if the task can start without a downstream task (false). ")
 
 
-  public Boolean getIsMandatory() {
+  public Boolean isIsMandatory() {
     return isMandatory;
   }
 

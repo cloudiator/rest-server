@@ -10,6 +10,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
@@ -17,18 +18,22 @@ import javax.validation.constraints.*;
  * Represents an job. An job is a logical group of tasks. 
  */
 @ApiModel(description = "Represents an job. An job is a logical group of tasks. ")
+@Validated
 
 public class Job   {
   @JsonProperty("name")
   private String name = null;
 
   @JsonProperty("tasks")
+  @Valid
   private List<Task> tasks = new ArrayList<Task>();
 
   @JsonProperty("communications")
+  @Valid
   private List<Communication> communications = new ArrayList<Communication>();
 
   @JsonProperty("requirements")
+  @Valid
   private List<Requirement> requirements = null;
 
   public Job name(String name) {

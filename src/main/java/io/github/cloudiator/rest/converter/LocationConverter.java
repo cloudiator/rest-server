@@ -37,7 +37,7 @@ public class LocationConverter implements TwoWayConverter<Location, IaasEntities
     builder.setId(location.getId());
     builder.setProviderId(location.getProviderId());
     builder.setLocationScope(locationScopeConverter.apply(location.getLocationScope()));
-    builder.setIsAssignable(location.getIsAssignable());
+    builder.setIsAssignable(location.isIsAssignable());
 
     if (location.getParent() != null) {
       builder.setParent(apply(location.getParent()));

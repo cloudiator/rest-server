@@ -7,17 +7,18 @@ import io.github.cloudiator.rest.model.Hardware;
 import io.github.cloudiator.rest.model.Image;
 import io.github.cloudiator.rest.model.IpAddress;
 import io.github.cloudiator.rest.model.Location;
-import io.github.cloudiator.rest.model.LoginCredential;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
  * VirtualMachine
  */
+@Validated
 
 public class VirtualMachine   {
   @JsonProperty("image")
@@ -33,10 +34,11 @@ public class VirtualMachine   {
   private String id = null;
 
   @JsonProperty("ipaddresses")
+  @Valid
   private List<IpAddress> ipaddresses = null;
 
   @JsonProperty("logincredential")
-  private LoginCredential logincredential = null;
+  private String logincredential = null;
 
   public VirtualMachine image(Image image) {
     this.image = image;
@@ -150,7 +152,7 @@ public class VirtualMachine   {
     this.ipaddresses = ipaddresses;
   }
 
-  public VirtualMachine logincredential(LoginCredential logincredential) {
+  public VirtualMachine logincredential(String logincredential) {
     this.logincredential = logincredential;
     return this;
   }
@@ -161,13 +163,12 @@ public class VirtualMachine   {
   **/
   @ApiModelProperty(value = "")
 
-  @Valid
 
-  public LoginCredential getLogincredential() {
+  public String getLogincredential() {
     return logincredential;
   }
 
-  public void setLogincredential(LoginCredential logincredential) {
+  public void setLogincredential(String logincredential) {
     this.logincredential = logincredential;
   }
 
