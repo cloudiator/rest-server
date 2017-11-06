@@ -36,7 +36,8 @@ public class JobsApiController implements JobsApi {
 
   @Override
   public ResponseEntity<Job> addJob(
-      @ApiParam(value = "Job to be created. ", required = true) @Valid @RequestBody Job job, String accept) {
+      @ApiParam(value = "Job to be created. ", required = true) @Valid @RequestBody Job job,
+      String accept) {
     // do some magic!
 
     if (accept != null && accept.contains("application/json")) {

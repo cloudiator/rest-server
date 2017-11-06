@@ -60,7 +60,7 @@ public class LocationsApiController implements LocationsApi {
     try {
       response = locationService.getLocations(request);
     } catch (ResponseException re) {
-      System.err.println("ResponseException: "+re.code()+", "+re.getMessage());
+      System.err.println("ResponseException: " + re.code() + ", " + re.getMessage());
       throw new ApiException(re.code(), re.getMessage());
 
     }

@@ -39,7 +39,8 @@ public class OclApiController implements OclApi {
 
   @Override
   public ResponseEntity<OclSolution> solveOCL(
-      @ApiParam(value = "OCL Problem to solve", required = true) @Valid @RequestBody OclProblem oclProblem, String accept) {
+      @ApiParam(value = "OCL Problem to solve", required = true) @Valid @RequestBody OclProblem oclProblem,
+      String accept) {
 
     try {
 

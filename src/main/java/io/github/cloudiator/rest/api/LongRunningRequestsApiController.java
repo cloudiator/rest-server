@@ -53,7 +53,8 @@ public class LongRunningRequestsApiController implements LongRunningRequestsApi 
   }
 
   public ResponseEntity<LongRunningRequest> findLongRunningRequest(
-      @ApiParam(value = "Unique identifier of the resource", required = true) @PathVariable("id") String id, String accept) {
+      @ApiParam(value = "Unique identifier of the resource", required = true) @PathVariable("id") String id,
+      String accept) {
 
     LongRunningRequest result = null;
     if (lrrMapService.getLRR(userService.getUserId(), id) != null) {

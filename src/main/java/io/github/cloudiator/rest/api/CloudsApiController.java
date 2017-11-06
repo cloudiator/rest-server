@@ -104,7 +104,6 @@ public class CloudsApiController implements CloudsApi {
     IaasEntities.Cloud er = cloudToCloudConverter.apply(feedback);
     feedback = cloudToCloudConverter.applyBack(er);
 
-
     System.out.println("--------- done ------------");
     System.out.println(feedback + " \n");
 
@@ -195,7 +194,7 @@ public class CloudsApiController implements CloudsApi {
       return new ResponseEntity<List<Cloud>>(cloudList, HttpStatus.OK);
     }
 
-    return new ResponseEntity<List<Cloud>>(cloudList, HttpStatus.ACCEPTED);
+    return new ResponseEntity<List<Cloud>>(cloudList, HttpStatus.OK);
   }
 
 }

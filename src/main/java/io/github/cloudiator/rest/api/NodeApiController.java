@@ -57,7 +57,8 @@ public class NodeApiController implements NodeApi {
   private NodeRequestConverter nodeRequestConverter = new NodeRequestConverter();
 
   public ResponseEntity<LongRunningRequest> addNode(
-      @ApiParam(value = "Node Request", required = true) @Valid @RequestBody NodeRequest nodeRequest, String accept) {
+      @ApiParam(value = "Node Request", required = true) @Valid @RequestBody NodeRequest nodeRequest,
+      String accept) {
 
     nodeService
         .createNodesAsync(NodeRequestMessage.newBuilder().setUserId(userService.getUserId())
