@@ -1,5 +1,6 @@
 package io.github.cloudiator.rest.api;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.cloudiator.rest.UserService;
 import io.github.cloudiator.rest.converter.LocationConverter;
 import io.github.cloudiator.rest.model.Location;
@@ -33,6 +34,12 @@ import javax.validation.Valid;
 @Controller
 public class LocationsApiController implements LocationsApi {
 
+  private final ObjectMapper objectMapper;
+
+  public LocationsApiController(ObjectMapper objectMapper) {
+    this.objectMapper = objectMapper;
+  }
+
   @Autowired
   private UserService userService;
 
@@ -40,7 +47,8 @@ public class LocationsApiController implements LocationsApi {
   private LocationService locationService;
 
 
-  public ResponseEntity<List<Location>> findLocations() {
+  @Override
+  public ResponseEntity<List<Location>> findLocations(String accept) {
     //Preparation
     System.out.println("--------------- find Location --------------------");
     LocationConverter locationConverter = new LocationConverter();
@@ -52,7 +60,7 @@ public class LocationsApiController implements LocationsApi {
     try {
       response = locationService.getLocations(request);
     } catch (ResponseException re) {
-      System.err.println("ResponseException: "+re.code()+", "+re.getMessage());
+      System.err.println("ResponseException: " + re.code() + ", " + re.getMessage());
       throw new ApiException(re.code(), re.getMessage());
 
     }
@@ -61,6 +69,10 @@ public class LocationsApiController implements LocationsApi {
       locationList.add(locationConverter.applyBack(location));
     }
     System.out.println("----------- found " + locationList.size() + " location(s) ------------");
+
+    if (accept != null && accept.contains("application/json")) {
+      return new ResponseEntity<List<Location>>(locationList, HttpStatus.OK);
+    }
     return new ResponseEntity<List<Location>>(locationList, HttpStatus.OK);
   }
 

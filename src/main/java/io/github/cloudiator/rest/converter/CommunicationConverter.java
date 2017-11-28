@@ -10,7 +10,7 @@ public class CommunicationConverter implements
   public Communication applyBack(JobEntities.Communication communication) {
     Communication comm = new Communication();
     comm.setPortProvided(communication.getPortProvided());
-    comm.setPortRequired(communication.getPortProvided());
+    comm.setPortRequired(communication.getPortRequired());
     return comm;
   }
 

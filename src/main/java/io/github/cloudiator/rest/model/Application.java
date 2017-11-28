@@ -12,11 +12,12 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * Represents an application. An application is a logical group of components. 
+ * Represents an application. An application is a logical group of components.
  */
 @ApiModel(description = "Represents an application. An application is a logical group of components. ")
 
-public class Application   {
+public class Application {
+
   @JsonProperty("name")
   private String name = null;
 
@@ -31,13 +32,13 @@ public class Application   {
     return this;
   }
 
-   /**
+  /**
    * Get name
+   *
    * @return name
-  **/
+   **/
   @ApiModelProperty(required = true, value = "")
   @NotNull
-
 
   public String getName() {
     return name;
@@ -57,13 +58,13 @@ public class Application   {
     return this;
   }
 
-   /**
-   * An array of components (referenced by names) that form this application. 
+  /**
+   * An array of components (referenced by names) that form this application.
+   *
    * @return components
-  **/
+   **/
   @ApiModelProperty(required = true, value = "An array of components (referenced by names) that form this application. ")
   @NotNull
-
 
   public List<String> getComponents() {
     return components;
@@ -83,10 +84,11 @@ public class Application   {
     return this;
   }
 
-   /**
+  /**
    * Get communications
+   *
    * @return communications
-  **/
+   **/
   @ApiModelProperty(required = true, value = "")
   @NotNull
 
@@ -124,7 +126,7 @@ public class Application   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class Application {\n");
-    
+
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    components: ").append(toIndentedString(components)).append("\n");
     sb.append("    communications: ").append(toIndentedString(communications)).append("\n");
@@ -133,8 +135,8 @@ public class Application   {
   }
 
   /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
+   * Convert the given object to string with each line indented by 4 spaces (except the first
+   * line).
    */
   private String toIndentedString(java.lang.Object o) {
     if (o == null) {

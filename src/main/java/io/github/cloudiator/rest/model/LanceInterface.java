@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import io.github.cloudiator.rest.model.TaskInterface;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
@@ -13,6 +14,7 @@ import javax.validation.constraints.*;
  * Represents a lance interface. 
  */
 @ApiModel(description = "Represents a lance interface. ")
+@Validated
 
 public class LanceInterface extends TaskInterface  {
   @JsonProperty("init")

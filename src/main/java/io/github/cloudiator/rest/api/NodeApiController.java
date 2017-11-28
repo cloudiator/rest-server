@@ -1,6 +1,7 @@
 package io.github.cloudiator.rest.api;
 
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.cloudiator.rest.LRRMapService;
 import io.github.cloudiator.rest.UserService;
 import io.github.cloudiator.rest.model.Error;
@@ -41,29 +42,39 @@ import org.springframework.web.bind.annotation.RequestBody;
 @Controller
 public class NodeApiController implements NodeApi {
 
+  private final ObjectMapper objectMapper;
 
-    @Autowired
-    private NodeService nodeService;
+  public NodeApiController(ObjectMapper objectMapper) {
+    this.objectMapper = objectMapper;
+  }
 
-    @Autowired
-    private UserService userService;
+  @Autowired
+  private NodeService nodeService;
 
-    private NodeRequestConverter nodeRequestConverter = new NodeRequestConverter();
+  @Autowired
+  private UserService userService;
 
-    public ResponseEntity<LongRunningRequest> addNode(
-            @ApiParam(value = "Node Request", required = true) @Valid @RequestBody NodeRequest nodeRequest) {
+  private NodeRequestConverter nodeRequestConverter = new NodeRequestConverter();
 
-        nodeService
-                .createNodesAsync(NodeRequestMessage.newBuilder().setUserId(userService.getUserId())
-                                .setNodeRequest(nodeRequestConverter.apply(nodeRequest)).build(),
-                        (content, error) -> {
-                            System.out.println("Error " + error);
-                            System.out.println("Content " + content);
-                        });
+  public ResponseEntity<LongRunningRequest> addNode(
+      @ApiParam(value = "Node Request", required = true) @Valid @RequestBody NodeRequest nodeRequest,
+      String accept) {
 
-        // do some magic!
-        return new ResponseEntity<LongRunningRequest>(HttpStatus.OK);
+    nodeService
+        .createNodesAsync(NodeRequestMessage.newBuilder().setUserId(userService.getUserId())
+                .setNodeRequest(nodeRequestConverter.apply(nodeRequest)).build(),
+            (content, error) -> {
+              System.out.println("Error " + error);
+              System.out.println("Content " + content);
+            });
+
+    // do some magic!
+
+    if (accept != null && accept.contains("application/json")) {
+      return new ResponseEntity<LongRunningRequest>(HttpStatus.OK);
     }
+    return new ResponseEntity<LongRunningRequest>(HttpStatus.OK);
+  }
 
 
 }

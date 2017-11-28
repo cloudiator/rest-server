@@ -9,6 +9,7 @@ import io.github.cloudiator.rest.model.CloudCredential;
 import io.github.cloudiator.rest.model.NewPlatform;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
@@ -16,6 +17,7 @@ import javax.validation.constraints.*;
  * Representation of a platform used by Cloudiator
  */
 @ApiModel(description = "Representation of a platform used by Cloudiator")
+@Validated
 
 public class Platform   {
   @JsonProperty("name")

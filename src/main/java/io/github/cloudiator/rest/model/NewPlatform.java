@@ -8,6 +8,7 @@ import io.github.cloudiator.rest.model.Api;
 import io.github.cloudiator.rest.model.CloudCredential;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
@@ -15,6 +16,7 @@ import javax.validation.constraints.*;
  * Repesents a new PaaS provider to be created 
  */
 @ApiModel(description = "Repesents a new PaaS provider to be created ")
+@Validated
 
 public class NewPlatform   {
   @JsonProperty("name")

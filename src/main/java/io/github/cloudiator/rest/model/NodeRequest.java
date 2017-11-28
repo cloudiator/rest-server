@@ -8,6 +8,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
@@ -15,9 +16,11 @@ import javax.validation.constraints.*;
  * Represents a request to create a new node fullfilling the given requirements 
  */
 @ApiModel(description = "Represents a request to create a new node fullfilling the given requirements ")
+@Validated
 
 public class NodeRequest   {
   @JsonProperty("requirements")
+  @Valid
   private List<Requirement> requirements = null;
 
   public NodeRequest requirements(List<Requirement> requirements) {

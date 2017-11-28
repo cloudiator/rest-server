@@ -32,49 +32,56 @@ import java.util.UUID;
 @Controller
 public class VmApiController implements VmApi {
 
-    @Autowired
-    private VirtualMachineService virtualMachineService;
+  @Autowired
+  private VirtualMachineService virtualMachineService;
 
-    @Autowired
-    private UserService userService;
+  @Autowired
+  private UserService userService;
 
-    @Autowired
-    private LRRMapService lrrMapService;
-
-
-    @ResponseStatus(value = HttpStatus.ACCEPTED)
-    public ResponseEntity<LongRunningRequest> addVM(
-            @ApiParam(value = "VirtualMachine Request", required = true) @Valid @RequestBody VirtualMachineRequest virtualMachineRequest) {
+  @Autowired
+  private LRRMapService lrrMapService;
 
 
-        final LongRunningRequest lrr = new LongRunningRequest();
-        lrr.setId(UUID.randomUUID().toString());
-        lrr.setTaskStatus(LRRStatus.RUNNING);
-        lrr.setTaskType(LRRType.VIRTUALMACHINEREQUEST);
-        lrr.setLrrData(virtualMachineRequest.toString());
+  @Override
+  @ResponseStatus(value = HttpStatus.ACCEPTED)
+  public ResponseEntity<LongRunningRequest> addVM(
+      @ApiParam(value = "VirtualMachine Request", required = true) @Valid @RequestBody VirtualMachineRequest virtualMachineRequest,
+      String accept) {
 
-        lrrMapService.addLRR(userService.getUserId(),lrr);
+    final LongRunningRequest lrr = new LongRunningRequest();
+    lrr.setId(UUID.randomUUID().toString());
+    lrr.setTaskStatus(LRRStatus.RUNNING);
+    lrr.setTaskType(LRRType.VIRTUALMACHINEREQUEST);
+    lrr.setLrrData(virtualMachineRequest.toString());
 
-        VirtualMachineRequestConverter virtualMachineRequestConverter = new VirtualMachineRequestConverter();
-        CreateVirtualMachineRequestMessage request = CreateVirtualMachineRequestMessage.newBuilder()
-                .setUserId(userService.getUserId())
-                .setVirtualMachineRequest(virtualMachineRequestConverter.apply(virtualMachineRequest))
-                .build();
+    lrrMapService.addLRR(userService.getUserId(), lrr);
 
-        virtualMachineService.createVirtualMachineAsync(request, new ResponseCallback<VirtualMachineCreatedResponse>() {
-            @Override
-            public void accept(@Nullable VirtualMachineCreatedResponse content, @Nullable General.Error error) {
-                if(error == null) {
-                    lrr.setTaskStatus(LRRStatus.COMPLETED);
-                    lrr.setReferenceId(content.getVirtualMachine().getId());
-                } else {
-                    lrr.setTaskStatus(LRRStatus.FAILED);
-                    lrr.setLrrDiagnostic(error.getMessage());
-                }
+    VirtualMachineRequestConverter virtualMachineRequestConverter = new VirtualMachineRequestConverter();
+    CreateVirtualMachineRequestMessage request = CreateVirtualMachineRequestMessage.newBuilder()
+        .setUserId(userService.getUserId())
+        .setVirtualMachineRequest(virtualMachineRequestConverter.apply(virtualMachineRequest))
+        .build();
+
+    virtualMachineService
+        .createVirtualMachineAsync(request, new ResponseCallback<VirtualMachineCreatedResponse>() {
+          @Override
+          public void accept(@Nullable VirtualMachineCreatedResponse content,
+              @Nullable General.Error error) {
+            if (error == null) {
+              lrr.setTaskStatus(LRRStatus.COMPLETED);
+              lrr.setReferenceId(content.getVirtualMachine().getId());
+            } else {
+              lrr.setTaskStatus(LRRStatus.FAILED);
+              lrr.setLrrDiagnostic(error.getMessage());
             }
+          }
         });
 
-        return new ResponseEntity<>(lrr, HttpStatus.ACCEPTED);
+    if (accept != null && accept.contains("application/json")) {
+      return new ResponseEntity<>(lrr, HttpStatus.ACCEPTED);
     }
+
+    return new ResponseEntity<>(lrr, HttpStatus.OK);
+  }
 
 }

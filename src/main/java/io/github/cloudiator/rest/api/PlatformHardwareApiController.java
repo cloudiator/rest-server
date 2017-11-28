@@ -17,27 +17,48 @@ import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
-
+import com.fasterxml.jackson.databind.ObjectMapper;
+import java.io.IOException;
 import javax.validation.constraints.*;
 import javax.validation.Valid;
 
 @Controller
 public class PlatformHardwareApiController implements PlatformHardwareApi {
+    private final ObjectMapper objectMapper;
 
+    public PlatformHardwareApiController(ObjectMapper objectMapper) {
+        this.objectMapper = objectMapper;
+    }
 
-
-    public ResponseEntity<PlatformHardware> addPlatformHardware(@ApiParam(value = "PlatformHardware to be created " ,required=true )  @Valid @RequestBody NewPlatformHardware platformHardware) {
+    public ResponseEntity<PlatformHardware> addPlatformHardware(@ApiParam(value = "PlatformHardware to be created " ,required=true )  @Valid @RequestBody NewPlatformHardware platformHardware,
+        @RequestHeader(value = "Accept", required = false) String accept) throws Exception {
         // do some magic!
+
+        if (accept != null && accept.contains("application/json")) {
+            return new ResponseEntity<PlatformHardware>(objectMapper.readValue("\"\"", PlatformHardware.class), HttpStatus.OK);
+        }
+
         return new ResponseEntity<PlatformHardware>(HttpStatus.OK);
     }
 
-    public ResponseEntity<PlatformHardware> findPlatformHardware(@ApiParam(value = "Unique identifier of the resource",required=true ) @PathVariable("id") String id) {
+    public ResponseEntity<PlatformHardware> findPlatformHardware(@ApiParam(value = "Unique identifier of the resource",required=true ) @PathVariable("id") String id,
+        @RequestHeader(value = "Accept", required = false) String accept) throws Exception {
         // do some magic!
+
+        if (accept != null && accept.contains("application/json")) {
+            return new ResponseEntity<PlatformHardware>(objectMapper.readValue("\"\"", PlatformHardware.class), HttpStatus.OK);
+        }
+
         return new ResponseEntity<PlatformHardware>(HttpStatus.OK);
     }
 
-    public ResponseEntity<List<PlatformHardware>> findPlatformHardwares() {
+    public ResponseEntity<List<PlatformHardware>> findPlatformHardwares(@RequestHeader(value = "Accept", required = false) String accept) throws Exception {
         // do some magic!
+
+        if (accept != null && accept.contains("application/json")) {
+            return new ResponseEntity<List<PlatformHardware>>(objectMapper.readValue("[ \"\", \"\" ]", List.class), HttpStatus.OK);
+        }
+
         return new ResponseEntity<List<PlatformHardware>>(HttpStatus.OK);
     }
 

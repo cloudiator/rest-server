@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import io.github.cloudiator.rest.model.Port;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
@@ -13,6 +14,7 @@ import javax.validation.constraints.*;
  * Represents a communication port that the tasks provides for other tasks or the end user. 
  */
 @ApiModel(description = "Represents a communication port that the tasks provides for other tasks or the end user. ")
+@Validated
 
 public class PortProvided extends Port  {
   @JsonProperty("port")

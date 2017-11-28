@@ -19,7 +19,7 @@ public class PortRequiredConverter implements
   @Override
   public TaskEntities.PortRequired apply(PortRequired portRequired) {
     TaskEntities.PortRequired.Builder result = TaskEntities.PortRequired.newBuilder();
-    result.setName(portRequired.getName()).setIsMandatory(portRequired.getIsMandatory())
+    result.setName(portRequired.getName()).setIsMandatory(portRequired.isIsMandatory())
         .setUpdateAction(portRequired.getUpdateAction());
     return result.build();
   }

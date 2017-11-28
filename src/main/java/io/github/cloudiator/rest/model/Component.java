@@ -14,17 +14,18 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * Represents a component of an application. 
+ * Represents a component of an application.
  */
 @ApiModel(description = "Represents a component of an application. ")
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type", visible = true )
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type", visible = true)
 @JsonSubTypes({
-  @JsonSubTypes.Type(value = DockerComponent.class, name = "DockerComponent"),
-  @JsonSubTypes.Type(value = LanceComponent.class, name = "LanceComponent"),
-  @JsonSubTypes.Type(value = PlatformComponent.class, name = "PlatformComponent"),
+    @JsonSubTypes.Type(value = DockerComponent.class, name = "DockerComponent"),
+    @JsonSubTypes.Type(value = LanceComponent.class, name = "LanceComponent"),
+    @JsonSubTypes.Type(value = PlatformComponent.class, name = "PlatformComponent"),
 })
 
-public class Component   {
+public class Component {
+
   @JsonProperty("type")
   private String type = null;
 
@@ -39,13 +40,13 @@ public class Component   {
     return this;
   }
 
-   /**
-   * Discriminator for polymorphism. 
+  /**
+   * Discriminator for polymorphism.
+   *
    * @return type
-  **/
+   **/
   @ApiModelProperty(required = true, value = "Discriminator for polymorphism. ")
   @NotNull
-
 
   public String getType() {
     return type;
@@ -60,13 +61,13 @@ public class Component   {
     return this;
   }
 
-   /**
+  /**
    * Human-readable name. Uniquely identifies a component.
+   *
    * @return name
-  **/
+   **/
   @ApiModelProperty(required = true, value = "Human-readable name. Uniquely identifies a component.")
   @NotNull
-
 
   public String getName() {
     return name;
@@ -89,10 +90,11 @@ public class Component   {
     return this;
   }
 
-   /**
+  /**
    * Get ports
+   *
    * @return ports
-  **/
+   **/
   @ApiModelProperty(value = "")
 
   @Valid
@@ -129,7 +131,7 @@ public class Component   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class Component {\n");
-    
+
     sb.append("    type: ").append(toIndentedString(type)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    ports: ").append(toIndentedString(ports)).append("\n");
@@ -138,8 +140,8 @@ public class Component   {
   }
 
   /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
+   * Convert the given object to string with each line indented by 4 spaces (except the first
+   * line).
    */
   private String toIndentedString(java.lang.Object o) {
     if (o == null) {

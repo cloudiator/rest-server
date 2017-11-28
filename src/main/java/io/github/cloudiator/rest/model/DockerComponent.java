@@ -12,11 +12,12 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * Represents a docker container 
+ * Represents a docker container
  */
 @ApiModel(description = "Represents a docker container ")
 
-public class DockerComponent extends Component  {
+public class DockerComponent extends Component {
+
   @JsonProperty("dockerImage")
   private String dockerImage = null;
 
@@ -25,12 +26,12 @@ public class DockerComponent extends Component  {
     return this;
   }
 
-   /**
-   * Name of the docker image 
+  /**
+   * Name of the docker image
+   *
    * @return dockerImage
-  **/
+   **/
   @ApiModelProperty(value = "Name of the docker image ")
-
 
   public String getDockerImage() {
     return dockerImage;
@@ -70,8 +71,8 @@ public class DockerComponent extends Component  {
   }
 
   /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
+   * Convert the given object to string with each line indented by 4 spaces (except the first
+   * line).
    */
   private String toIndentedString(java.lang.Object o) {
     if (o == null) {

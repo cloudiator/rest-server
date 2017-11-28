@@ -7,6 +7,7 @@ import io.github.cloudiator.rest.model.Location;
 import io.github.cloudiator.rest.model.OperatingSystem;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
@@ -14,6 +15,7 @@ import javax.validation.constraints.*;
  * Represents an image offer by a cloud 
  */
 @ApiModel(description = "Represents an image offer by a cloud ")
+@Validated
 
 public class Image   {
   @JsonProperty("id")
