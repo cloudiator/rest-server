@@ -4,6 +4,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import io.github.cloudiator.rest.model.GeoLocation;
 import io.github.cloudiator.rest.model.Location;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -67,6 +68,9 @@ public class Location   {
 
   @JsonProperty("isAssignable")
   private Boolean isAssignable = null;
+
+  @JsonProperty("geoLocation")
+  private GeoLocation geoLocation = null;
 
   @JsonProperty("parent")
   private Location parent = null;
@@ -176,6 +180,27 @@ public class Location   {
     this.isAssignable = isAssignable;
   }
 
+  public Location geoLocation(GeoLocation geoLocation) {
+    this.geoLocation = geoLocation;
+    return this;
+  }
+
+   /**
+   * Get geoLocation
+   * @return geoLocation
+  **/
+  @ApiModelProperty(value = "")
+
+  @Valid
+
+  public GeoLocation getGeoLocation() {
+    return geoLocation;
+  }
+
+  public void setGeoLocation(GeoLocation geoLocation) {
+    this.geoLocation = geoLocation;
+  }
+
   public Location parent(Location parent) {
     this.parent = parent;
     return this;
@@ -212,12 +237,13 @@ public class Location   {
         Objects.equals(this.providerId, location.providerId) &&
         Objects.equals(this.locationScope, location.locationScope) &&
         Objects.equals(this.isAssignable, location.isAssignable) &&
+        Objects.equals(this.geoLocation, location.geoLocation) &&
         Objects.equals(this.parent, location.parent);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, name, providerId, locationScope, isAssignable, parent);
+    return Objects.hash(id, name, providerId, locationScope, isAssignable, geoLocation, parent);
   }
 
   @Override
@@ -230,6 +256,7 @@ public class Location   {
     sb.append("    providerId: ").append(toIndentedString(providerId)).append("\n");
     sb.append("    locationScope: ").append(toIndentedString(locationScope)).append("\n");
     sb.append("    isAssignable: ").append(toIndentedString(isAssignable)).append("\n");
+    sb.append("    geoLocation: ").append(toIndentedString(geoLocation)).append("\n");
     sb.append("    parent: ").append(toIndentedString(parent)).append("\n");
     sb.append("}");
     return sb.toString();

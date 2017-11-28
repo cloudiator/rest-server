@@ -4,10 +4,10 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.github.cloudiator.rest.model.ExecutionEnvironment;
-import io.github.cloudiator.rest.model.JobType;
 import io.github.cloudiator.rest.model.Port;
 import io.github.cloudiator.rest.model.Requirement;
 import io.github.cloudiator.rest.model.TaskInterface;
+import io.github.cloudiator.rest.model.TaskType;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
@@ -42,7 +42,7 @@ public class Task   {
   private List<Requirement> requirements = null;
 
   @JsonProperty("type")
-  private JobType type = null;
+  private TaskType type = null;
 
   public Task name(String name) {
     this.name = name;
@@ -174,7 +174,7 @@ public class Task   {
     this.requirements = requirements;
   }
 
-  public Task type(JobType type) {
+  public Task type(TaskType type) {
     this.type = type;
     return this;
   }
@@ -188,11 +188,11 @@ public class Task   {
 
   @Valid
 
-  public JobType getType() {
+  public TaskType getType() {
     return type;
   }
 
-  public void setType(JobType type) {
+  public void setType(TaskType type) {
     this.type = type;
   }
 
