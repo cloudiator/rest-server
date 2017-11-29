@@ -2,8 +2,8 @@ package io.github.cloudiator;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import de.uniulm.omi.cloudiator.util.PropertiesLoader;
-import java.util.Properties;
+import de.uniulm.omi.cloudiator.util.configuration.Configuration;
+import org.cloudiator.messaging.kafka.KafkaContext;
 import org.cloudiator.messaging.kafka.KafkaMessagingModule;
 import org.cloudiator.messaging.services.CloudService;
 import org.cloudiator.messaging.services.HardwareService;
@@ -25,7 +25,9 @@ public class ServiceFactory {
 
   private static final Logger LOGGER = LoggerFactory.getLogger(ServiceFactory.class);
   private static final Injector INJECTOR = Guice
-      .createInjector(new KafkaMessagingModule(), new MessageServiceModule());
+      .createInjector(
+          new KafkaMessagingModule(new KafkaContext(Configuration.conf().getConfig("kafka"))),
+          new MessageServiceModule());
 
   public ServiceFactory() {
   }
