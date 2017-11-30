@@ -22,6 +22,12 @@ public class GeoLocation   {
   @JsonProperty("country")
   private String country = null;
 
+  @JsonProperty("latitude")
+  private Float latitude = null;
+
+  @JsonProperty("longitude")
+  private Float longitude = null;
+
   public GeoLocation city(String city) {
     this.city = city;
     return this;
@@ -62,6 +68,46 @@ public class GeoLocation   {
     this.country = country;
   }
 
+  public GeoLocation latitude(Float latitude) {
+    this.latitude = latitude;
+    return this;
+  }
+
+   /**
+   * Latitude of the location in decimal degrees
+   * @return latitude
+  **/
+  @ApiModelProperty(value = "Latitude of the location in decimal degrees")
+
+
+  public Float getLatitude() {
+    return latitude;
+  }
+
+  public void setLatitude(Float latitude) {
+    this.latitude = latitude;
+  }
+
+  public GeoLocation longitude(Float longitude) {
+    this.longitude = longitude;
+    return this;
+  }
+
+   /**
+   * Longitude of the location in decimal degrees
+   * @return longitude
+  **/
+  @ApiModelProperty(value = "Longitude of the location in decimal degrees")
+
+
+  public Float getLongitude() {
+    return longitude;
+  }
+
+  public void setLongitude(Float longitude) {
+    this.longitude = longitude;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -73,12 +119,14 @@ public class GeoLocation   {
     }
     GeoLocation geoLocation = (GeoLocation) o;
     return Objects.equals(this.city, geoLocation.city) &&
-        Objects.equals(this.country, geoLocation.country);
+        Objects.equals(this.country, geoLocation.country) &&
+        Objects.equals(this.latitude, geoLocation.latitude) &&
+        Objects.equals(this.longitude, geoLocation.longitude);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(city, country);
+    return Objects.hash(city, country, latitude, longitude);
   }
 
   @Override
@@ -88,6 +136,8 @@ public class GeoLocation   {
     
     sb.append("    city: ").append(toIndentedString(city)).append("\n");
     sb.append("    country: ").append(toIndentedString(country)).append("\n");
+    sb.append("    latitude: ").append(toIndentedString(latitude)).append("\n");
+    sb.append("    longitude: ").append(toIndentedString(longitude)).append("\n");
     sb.append("}");
     return sb.toString();
   }

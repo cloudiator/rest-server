@@ -7,7 +7,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.cloudiator.rest.model.DockerInterface;
 import io.github.cloudiator.rest.model.ExecutionEnvironment;
 import io.github.cloudiator.rest.model.IdentifierRequirement;
-import io.github.cloudiator.rest.model.JobType;
+import io.github.cloudiator.rest.model.TaskType;
 import io.github.cloudiator.rest.model.LanceInterface;
 import io.github.cloudiator.rest.model.OclRequirement;
 import io.github.cloudiator.rest.model.PortProvided;
@@ -18,7 +18,7 @@ import java.io.IOException;
 import org.cloudiator.messages.entities.CommonEntities;
 import org.cloudiator.messages.entities.TaskEntities;
 
-import org.cloudiator.messages.entities.TaskEntities.TaskType;
+
 
 
 import org.junit.Test;
@@ -129,7 +129,7 @@ public class TaskConverterTest {
     this.restTask = new Task()
         .name("TaskTest")
 
-        .type(JobType.BATCH)
+        .type(TaskType.BATCH)
         .executionEnvironment(ExecutionEnvironment.LANCE)
 
         .addPortsItem(restProvidedPort)
@@ -140,7 +140,7 @@ public class TaskConverterTest {
         .addRequirementsItem(restIdentifierRequirement);
     this.iaasTask = TaskEntities.Task.newBuilder()
         .setName("TaskTest")
-        .setTaskType(TaskType.BATCH)
+        .setTaskType(TaskEntities.TaskType.BATCH)
         .setExecutionEnvironment(TaskEntities.ExecutionEnvironment.LANCE)
         .addPorts(iaasPortProvidedPort)
         .addPorts(iaasPortRequiredPort)
