@@ -56,10 +56,10 @@ public class TaskConverter implements TwoWayConverter<Task, TaskEntities.Task> {
     }
     switch (task.getTaskType()) {
       case BATCH:
-        result.setType(TaskType.BATCH);
+        result.setTaskType(TaskType.BATCH);
         break;
       case SERVICE:
-        result.setType(TaskType.SERVICE);
+        result.setTaskType(TaskType.SERVICE);
         break;
       case UNRECOGNIZED:
       default:
@@ -95,7 +95,7 @@ public class TaskConverter implements TwoWayConverter<Task, TaskEntities.Task> {
       result.clearInterfaces();
     }
 
-    switch (task.getType()) {
+    switch (task.getTaskType()) {
       case BATCH:
         result.setTaskType(TaskEntities.TaskType.BATCH);
         break;
@@ -103,7 +103,7 @@ public class TaskConverter implements TwoWayConverter<Task, TaskEntities.Task> {
         result.setTaskType(TaskEntities.TaskType.SERVICE);
         break;
       default:
-        throw new AssertionError("TaskType unkown: " + task.getType());
+        throw new AssertionError("TaskType unkown: " + task.getTaskType());
     }
     switch (task.getExecutionEnvironment()) {
       case LANCE:

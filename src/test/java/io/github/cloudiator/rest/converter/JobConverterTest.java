@@ -116,7 +116,7 @@ public class JobConverterTest {
     //Task
     this.restTask = new Task()
         .name("TestTask")
-        .type(TaskType.BATCH)
+        .taskType(TaskType.BATCH)
         .executionEnvironment(ExecutionEnvironment.SPARK)
         .addPortsItem(restProvidedPort)
         .addPortsItem(restRequiredPort)

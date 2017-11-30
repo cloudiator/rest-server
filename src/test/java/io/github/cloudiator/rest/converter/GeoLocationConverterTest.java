@@ -22,8 +22,8 @@ public class GeoLocationConverterTest {
     this.restGeoLocation = new GeoLocation()
         .city("Ulm")
         .country("Germany")
-        .latitude(valueOf(40.741895).floatValue())
-        .longitude(valueOf(-73.989308).floatValue());
+        .latitude(40.741895)
+        .longitude(-73.989308);
     this.iaasGeoLocation = IaasEntities.GeoLocation.newBuilder()
         .setCity("Ulm")
         .setCountry("Germany")

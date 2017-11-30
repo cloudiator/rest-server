@@ -2,7 +2,6 @@ package io.github.cloudiator.rest.converter;
 
 
 
-import static java.lang.Double.valueOf;
 
 import io.github.cloudiator.rest.model.GeoLocation;
 import org.cloudiator.messages.entities.IaasEntities;
@@ -22,8 +21,8 @@ public class GeoLocationConverter implements TwoWayConverter<GeoLocation, IaasEn
     GeoLocation result = new GeoLocation()
         .city(geolocation.getCity())
         .country(geolocation.getCountry())
-        .latitude(valueOf(geolocation.getLatitude()).floatValue())
-        .longitude(valueOf(geolocation.getLongitude()).floatValue());
+        .latitude(geolocation.getLatitude())
+        .longitude(geolocation.getLongitude());
 
     return result;
   }
@@ -34,8 +33,8 @@ public class GeoLocationConverter implements TwoWayConverter<GeoLocation, IaasEn
 
     builder.setCity(geolocation.getCity())
         .setCountry(geolocation.getCountry())
-        .setLatitude(valueOf(geolocation.getLatitude()))
-        .setLongitude(valueOf(geolocation.getLongitude()));
+        .setLatitude(geolocation.getLatitude())
+        .setLongitude(geolocation.getLongitude());
 
 
     return builder.build();

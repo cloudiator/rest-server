@@ -32,6 +32,9 @@ public class NodeCandidate   {
   @JsonProperty("location")
   private Location location = null;
 
+  @JsonProperty("price")
+  private Double price = null;
+
   public NodeCandidate cloud(Cloud cloud) {
     this.cloud = cloud;
     return this;
@@ -116,6 +119,26 @@ public class NodeCandidate   {
     this.location = location;
   }
 
+  public NodeCandidate price(Double price) {
+    this.price = price;
+    return this;
+  }
+
+   /**
+   * Get price
+   * @return price
+  **/
+  @ApiModelProperty(value = "")
+
+
+  public Double getPrice() {
+    return price;
+  }
+
+  public void setPrice(Double price) {
+    this.price = price;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -129,12 +152,13 @@ public class NodeCandidate   {
     return Objects.equals(this.cloud, nodeCandidate.cloud) &&
         Objects.equals(this.image, nodeCandidate.image) &&
         Objects.equals(this.hardware, nodeCandidate.hardware) &&
-        Objects.equals(this.location, nodeCandidate.location);
+        Objects.equals(this.location, nodeCandidate.location) &&
+        Objects.equals(this.price, nodeCandidate.price);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(cloud, image, hardware, location);
+    return Objects.hash(cloud, image, hardware, location, price);
   }
 
   @Override
@@ -146,6 +170,7 @@ public class NodeCandidate   {
     sb.append("    image: ").append(toIndentedString(image)).append("\n");
     sb.append("    hardware: ").append(toIndentedString(hardware)).append("\n");
     sb.append("    location: ").append(toIndentedString(location)).append("\n");
+    sb.append("    price: ").append(toIndentedString(price)).append("\n");
     sb.append("}");
     return sb.toString();
   }

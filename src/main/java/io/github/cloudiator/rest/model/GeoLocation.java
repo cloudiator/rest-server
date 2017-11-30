@@ -23,10 +23,10 @@ public class GeoLocation   {
   private String country = null;
 
   @JsonProperty("latitude")
-  private Float latitude = null;
+  private Double latitude = null;
 
   @JsonProperty("longitude")
-  private Float longitude = null;
+  private Double longitude = null;
 
   public GeoLocation city(String city) {
     this.city = city;
@@ -68,7 +68,7 @@ public class GeoLocation   {
     this.country = country;
   }
 
-  public GeoLocation latitude(Float latitude) {
+  public GeoLocation latitude(Double latitude) {
     this.latitude = latitude;
     return this;
   }
@@ -80,15 +80,15 @@ public class GeoLocation   {
   @ApiModelProperty(value = "Latitude of the location in decimal degrees")
 
 
-  public Float getLatitude() {
+  public Double getLatitude() {
     return latitude;
   }
 
-  public void setLatitude(Float latitude) {
+  public void setLatitude(Double latitude) {
     this.latitude = latitude;
   }
 
-  public GeoLocation longitude(Float longitude) {
+  public GeoLocation longitude(Double longitude) {
     this.longitude = longitude;
     return this;
   }
@@ -100,11 +100,11 @@ public class GeoLocation   {
   @ApiModelProperty(value = "Longitude of the location in decimal degrees")
 
 
-  public Float getLongitude() {
+  public Double getLongitude() {
     return longitude;
   }
 
-  public void setLongitude(Float longitude) {
+  public void setLongitude(Double longitude) {
     this.longitude = longitude;
   }
 

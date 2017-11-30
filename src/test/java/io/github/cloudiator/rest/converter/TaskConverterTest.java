@@ -129,7 +129,7 @@ public class TaskConverterTest {
     this.restTask = new Task()
         .name("TaskTest")
 
-        .type(TaskType.BATCH)
+        .taskType(TaskType.BATCH)
         .executionEnvironment(ExecutionEnvironment.LANCE)
 
         .addPortsItem(restProvidedPort)

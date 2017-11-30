@@ -20,7 +20,8 @@ public class NodeCandidateConverter implements
         .cloud(cloudConverter.applyBack(nodeCandidate.getCloud()))
         .hardware(hardwareConverter.applyBack(nodeCandidate.getHardwareFlavor()))
         .image(imageConverter.applyBack(nodeCandidate.getImage()))
-        .location(locationConverter.applyBack(nodeCandidate.getLocation()));
+        .location(locationConverter.applyBack(nodeCandidate.getLocation()))
+        .price(nodeCandidate.getPrice());
 
     return result;
   }
@@ -33,7 +34,8 @@ public class NodeCandidateConverter implements
     builder.setCloud(cloudConverter.apply(nodeCandidate.getCloud()))
         .setHardwareFlavor(hardwareConverter.apply(nodeCandidate.getHardware()))
         .setImage(imageConverter.apply(nodeCandidate.getImage()))
-        .setLocation(locationConverter.apply(nodeCandidate.getLocation()));
+        .setLocation(locationConverter.apply(nodeCandidate.getLocation()))
+        .setPrice(nodeCandidate.getPrice());
 
     return builder.build();
   }

@@ -62,7 +62,7 @@ public class TasksApiController implements TasksApi {
     //Validate und Verification
     Task newOne = new Task()
         .name(task.getName())
-        .type(task.getType())
+        .taskType(task.getTaskType())
         .executionEnvironment(task.getExecutionEnvironment());
     for (Port port : task.getPorts()) {
       newOne.addPortsItem(port);
