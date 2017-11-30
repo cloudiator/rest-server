@@ -41,8 +41,8 @@ public class Task   {
   @Valid
   private List<Requirement> requirements = null;
 
-  @JsonProperty("type")
-  private TaskType type = null;
+  @JsonProperty("taskType")
+  private TaskType taskType = null;
 
   public Task name(String name) {
     this.name = name;
@@ -174,26 +174,26 @@ public class Task   {
     this.requirements = requirements;
   }
 
-  public Task type(TaskType type) {
-    this.type = type;
+  public Task taskType(TaskType taskType) {
+    this.taskType = taskType;
     return this;
   }
 
    /**
-   * Get type
-   * @return type
+   * Get taskType
+   * @return taskType
   **/
   @ApiModelProperty(required = true, value = "")
   @NotNull
 
   @Valid
 
-  public TaskType getType() {
-    return type;
+  public TaskType getTaskType() {
+    return taskType;
   }
 
-  public void setType(TaskType type) {
-    this.type = type;
+  public void setTaskType(TaskType taskType) {
+    this.taskType = taskType;
   }
 
 
@@ -211,12 +211,12 @@ public class Task   {
         Objects.equals(this.interfaces, task.interfaces) &&
         Objects.equals(this.executionEnvironment, task.executionEnvironment) &&
         Objects.equals(this.requirements, task.requirements) &&
-        Objects.equals(this.type, task.type);
+        Objects.equals(this.taskType, task.taskType);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, ports, interfaces, executionEnvironment, requirements, type);
+    return Objects.hash(name, ports, interfaces, executionEnvironment, requirements, taskType);
   }
 
   @Override
@@ -229,7 +229,7 @@ public class Task   {
     sb.append("    interfaces: ").append(toIndentedString(interfaces)).append("\n");
     sb.append("    executionEnvironment: ").append(toIndentedString(executionEnvironment)).append("\n");
     sb.append("    requirements: ").append(toIndentedString(requirements)).append("\n");
-    sb.append("    type: ").append(toIndentedString(type)).append("\n");
+    sb.append("    taskType: ").append(toIndentedString(taskType)).append("\n");
     sb.append("}");
     return sb.toString();
   }

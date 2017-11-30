@@ -2,16 +2,13 @@ package io.github.cloudiator.rest.converter;
 
 
 import io.github.cloudiator.rest.model.ExecutionEnvironment;
-import io.github.cloudiator.rest.model.JobType;
-
-
 import io.github.cloudiator.rest.model.Port;
 import io.github.cloudiator.rest.model.Requirement;
 import io.github.cloudiator.rest.model.Task;
 import io.github.cloudiator.rest.model.TaskInterface;
+import io.github.cloudiator.rest.model.TaskType;
 import org.cloudiator.messages.entities.CommonEntities;
 import org.cloudiator.messages.entities.TaskEntities;
-import org.cloudiator.messages.entities.TaskEntities.TaskType;
 
 
 public class TaskConverter implements TwoWayConverter<Task, TaskEntities.Task> {
@@ -59,10 +56,10 @@ public class TaskConverter implements TwoWayConverter<Task, TaskEntities.Task> {
     }
     switch (task.getTaskType()) {
       case BATCH:
-        result.setType(JobType.BATCH);
+        result.setTaskType(TaskType.BATCH);
         break;
-      case LONG_RUNNING:
-        result.setType(JobType.SERVICE);
+      case SERVICE:
+        result.setTaskType(TaskType.SERVICE);
         break;
       case UNRECOGNIZED:
       default:
@@ -98,15 +95,15 @@ public class TaskConverter implements TwoWayConverter<Task, TaskEntities.Task> {
       result.clearInterfaces();
     }
 
-    switch (task.getType()) {
+    switch (task.getTaskType()) {
       case BATCH:
-        result.setTaskType(TaskType.BATCH);
+        result.setTaskType(TaskEntities.TaskType.BATCH);
         break;
       case SERVICE:
-        result.setTaskType(TaskType.LONG_RUNNING);
+        result.setTaskType(TaskEntities.TaskType.SERVICE);
         break;
       default:
-        throw new AssertionError("TaskType unkown: " + task.getType());
+        throw new AssertionError("TaskType unkown: " + task.getTaskType());
     }
     switch (task.getExecutionEnvironment()) {
       case LANCE:
