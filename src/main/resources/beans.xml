@@ -21,6 +21,8 @@
 
   <bean id="imageService" factory-bean="serviceFactory" factory-method="createImageService"/>
 
+  <bean id="nodeCandidateService" factory-bean="serviceFactory" factory-method="createNodeCandidateService"/>
+
   <bean id="virtualMachineService" factory-bean="serviceFactory"
     factory-method="createVirtualMachineService"/>
 

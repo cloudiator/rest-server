@@ -1,41 +1,54 @@
 package io.github.cloudiator.rest.api;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import io.github.cloudiator.rest.UserService;
+import io.github.cloudiator.rest.converter.NodeCandidateConverter;
 import io.github.cloudiator.rest.model.NodeCandidate;
-
-import io.swagger.annotations.*;
-
+import java.util.List;
+import java.util.stream.Collectors;
+import org.cloudiator.messages.NodeCandidate.NodeCandidateRequestMessage;
+import org.cloudiator.messages.entities.IaasEntities;
+import org.cloudiator.messaging.ResponseException;
+import org.cloudiator.messaging.services.NodeCandidateService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.util.List;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import java.io.IOException;
-import javax.validation.constraints.*;
-import javax.validation.Valid;
 
 @Controller
 public class NodeCandidatesApiController implements NodeCandidatesApi {
-    private final ObjectMapper objectMapper;
 
-    public NodeCandidatesApiController(ObjectMapper objectMapper) {
-        this.objectMapper = objectMapper;
+  private final ObjectMapper objectMapper;
+  private static final NodeCandidateConverter NODE_CANDIDATE_CONVERTER = new NodeCandidateConverter();
+
+  @Autowired
+  private UserService userService;
+
+  @Autowired
+  private NodeCandidateService nodeCandidateService;
+
+  public NodeCandidatesApiController(ObjectMapper objectMapper) {
+    this.objectMapper = objectMapper;
+  }
+
+  public ResponseEntity<List<NodeCandidate>> findNodeCandidates(
+      @RequestHeader(value = "Accept", required = false) String accept) throws Exception {
+    // do some magic!
+    if (accept != null && accept.contains("application/json")) {
+
+      try {
+        final List<IaasEntities.NodeCandidate> candidatesList = nodeCandidateService.requestNodes(
+            NodeCandidateRequestMessage.newBuilder().setUserId(userService.getUserId()).build())
+            .getCandidatesList();
+        return new ResponseEntity<>(
+            candidatesList.stream().map(NODE_CANDIDATE_CONVERTER::applyBack).collect(
+                Collectors.toList()), HttpStatus.OK);
+      } catch (ResponseException e) {
+        return new ResponseEntity<>(HttpStatus.valueOf(e.code()));
+      }
     }
-
-    public ResponseEntity<List<NodeCandidate>> findNodeCandidates(@RequestHeader(value = "Accept", required = false) String accept) throws Exception {
-        // do some magic!
-
-        if (accept != null && accept.contains("application/json")) {
-            return new ResponseEntity<List<NodeCandidate>>(objectMapper.readValue("[ {  \"cloud\" : \"\",  \"image\" : {    \"providerId\" : \"1\",    \"name\" : \"Ubuntu 16.04 LTS AMD 64\",    \"location\" : {      \"parent\" : null,      \"isAssignable\" : true,      \"geoLocation\" : {        \"country\" : \"country\",        \"city\" : \"city\",        \"latitude\" : 0.8008281904610115,        \"longitude\" : 6.027456183070403      },      \"providerId\" : \"RegionOne\",      \"locationScope\" : \"ZONE\",      \"name\" : \"RegionOne\",      \"id\" : \"1a79a4d60de6718e8e5b326e338ae533/RegionOne\"    },    \"id\" : \"1a79a4d60de6718e8e5b326e338ae533/RegionOne/1\",    \"operatingSystem\" : {      \"operatingSystemFamily\" : { },      \"operatingSystemVersion\" : \"16.04 LTS\",      \"operatingSystemType\" : { },      \"operatingSystemArchitecture\" : { }    }  },  \"price\" : 1.4658129805029452,  \"location\" : {    \"parent\" : null,    \"isAssignable\" : true,    \"geoLocation\" : {      \"country\" : \"country\",      \"city\" : \"city\",      \"latitude\" : 0.8008281904610115,      \"longitude\" : 6.027456183070403    },    \"providerId\" : \"RegionOne\",    \"locationScope\" : \"ZONE\",    \"name\" : \"RegionOne\",    \"id\" : \"1a79a4d60de6718e8e5b326e338ae533/RegionOne\"  },  \"hardware\" : {    \"disk\" : 100.0,    \"cores\" : 4,    \"providerId\" : \"1\",    \"name\" : \"m1.medium\",    \"location\" : {      \"parent\" : null,      \"isAssignable\" : true,      \"geoLocation\" : {        \"country\" : \"country\",        \"city\" : \"city\",        \"latitude\" : 0.8008281904610115,        \"longitude\" : 6.027456183070403      },      \"providerId\" : \"RegionOne\",      \"locationScope\" : \"ZONE\",      \"name\" : \"RegionOne\",      \"id\" : \"1a79a4d60de6718e8e5b326e338ae533/RegionOne\"    },    \"id\" : \"1a79a4d60de6718e8e5b326e338ae533/RegionOne/1\",    \"ram\" : 2048  }}, {  \"cloud\" : \"\",  \"image\" : {    \"providerId\" : \"1\",    \"name\" : \"Ubuntu 16.04 LTS AMD 64\",    \"location\" : {      \"parent\" : null,      \"isAssignable\" : true,      \"geoLocation\" : {        \"country\" : \"country\",        \"city\" : \"city\",        \"latitude\" : 0.8008281904610115,        \"longitude\" : 6.027456183070403      },      \"providerId\" : \"RegionOne\",      \"locationScope\" : \"ZONE\",      \"name\" : \"RegionOne\",      \"id\" : \"1a79a4d60de6718e8e5b326e338ae533/RegionOne\"    },    \"id\" : \"1a79a4d60de6718e8e5b326e338ae533/RegionOne/1\",    \"operatingSystem\" : {      \"operatingSystemFamily\" : { },      \"operatingSystemVersion\" : \"16.04 LTS\",      \"operatingSystemType\" : { },      \"operatingSystemArchitecture\" : { }    }  },  \"price\" : 1.4658129805029452,  \"location\" : {    \"parent\" : null,    \"isAssignable\" : true,    \"geoLocation\" : {      \"country\" : \"country\",      \"city\" : \"city\",      \"latitude\" : 0.8008281904610115,      \"longitude\" : 6.027456183070403    },    \"providerId\" : \"RegionOne\",    \"locationScope\" : \"ZONE\",    \"name\" : \"RegionOne\",    \"id\" : \"1a79a4d60de6718e8e5b326e338ae533/RegionOne\"  },  \"hardware\" : {    \"disk\" : 100.0,    \"cores\" : 4,    \"providerId\" : \"1\",    \"name\" : \"m1.medium\",    \"location\" : {      \"parent\" : null,      \"isAssignable\" : true,      \"geoLocation\" : {        \"country\" : \"country\",        \"city\" : \"city\",        \"latitude\" : 0.8008281904610115,        \"longitude\" : 6.027456183070403      },      \"providerId\" : \"RegionOne\",      \"locationScope\" : \"ZONE\",      \"name\" : \"RegionOne\",      \"id\" : \"1a79a4d60de6718e8e5b326e338ae533/RegionOne\"    },    \"id\" : \"1a79a4d60de6718e8e5b326e338ae533/RegionOne/1\",    \"ram\" : 2048  }} ]", List.class), HttpStatus.OK);
-        }
-
-        return new ResponseEntity<List<NodeCandidate>>(HttpStatus.OK);
-    }
+    return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+  }
 
 }
