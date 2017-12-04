@@ -6,6 +6,7 @@
 package io.github.cloudiator.rest.api;
 
 import io.github.cloudiator.rest.model.NodeCandidate;
+import io.github.cloudiator.rest.model.NodeRequirements;
 
 import io.swagger.annotations.*;
 import org.springframework.http.ResponseEntity;
@@ -29,10 +30,11 @@ public interface NodeCandidatesApi {
 
     @ApiOperation(value = "", nickname = "findNodeCandidates", notes = "Returns possible node candidates. ", response = NodeCandidate.class, responseContainer = "List", tags={ "cloud", })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "All possible node candidates. ", response = NodeCandidate.class, responseContainer = "List") })
+        @ApiResponse(code = 202, message = "ACCEPTED", response = NodeCandidate.class, responseContainer = "List") })
     @RequestMapping(value = "/nodeCandidates",
         produces = { "application/json" }, 
-        method = RequestMethod.GET)
-    ResponseEntity<List<NodeCandidate>> findNodeCandidates( @RequestHeader(value = "Accept", required = false) String accept) throws Exception;
+        consumes = { "application/json" },
+        method = RequestMethod.POST)
+    ResponseEntity<List<NodeCandidate>> findNodeCandidates(@ApiParam(value = "Node Request"  )  @Valid @RequestBody NodeRequirements nodeRequirements, @RequestHeader(value = "Accept", required = false) String accept) throws Exception;
 
 }

@@ -7,7 +7,7 @@ package io.github.cloudiator.rest.api;
 
 import io.github.cloudiator.rest.model.Error;
 import io.github.cloudiator.rest.model.LongRunningRequest;
-import io.github.cloudiator.rest.model.NodeRequest;
+import io.github.cloudiator.rest.model.NodeRequirements;
 
 import io.swagger.annotations.*;
 import org.springframework.http.ResponseEntity;
@@ -42,6 +42,6 @@ public interface NodeApi {
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.POST)
-    ResponseEntity<LongRunningRequest> addNode(@ApiParam(value = "Node Request" ,required=true )  @Valid @RequestBody NodeRequest nodeRequest, @RequestHeader(value = "Accept", required = false) String accept) throws Exception;
+    ResponseEntity<LongRunningRequest> addNode(@ApiParam(value = "Node Request" ,required=true )  @Valid @RequestBody NodeRequirements nodeRequirements, @RequestHeader(value = "Accept", required = false) String accept) throws Exception;
 
 }

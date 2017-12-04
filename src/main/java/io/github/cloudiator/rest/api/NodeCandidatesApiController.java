@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.cloudiator.rest.UserService;
 import io.github.cloudiator.rest.converter.NodeCandidateConverter;
 import io.github.cloudiator.rest.model.NodeCandidate;
+import io.github.cloudiator.rest.model.NodeRequirements;
 import java.util.List;
 import java.util.stream.Collectors;
 import org.cloudiator.messages.NodeCandidate.NodeCandidateRequestMessage;
@@ -14,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestHeader;
 
 @Controller
 public class NodeCandidatesApiController implements NodeCandidatesApi {
@@ -32,9 +32,9 @@ public class NodeCandidatesApiController implements NodeCandidatesApi {
     this.objectMapper = objectMapper;
   }
 
-  public ResponseEntity<List<NodeCandidate>> findNodeCandidates(
-      @RequestHeader(value = "Accept", required = false) String accept) throws Exception {
-    // do some magic!
+  @Override
+  public ResponseEntity<List<NodeCandidate>> findNodeCandidates(NodeRequirements nodeRequirements,
+      String accept) throws Exception {
     if (accept != null && accept.contains("application/json")) {
 
       try {
@@ -50,5 +50,4 @@ public class NodeCandidatesApiController implements NodeCandidatesApi {
     }
     return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
   }
-
 }

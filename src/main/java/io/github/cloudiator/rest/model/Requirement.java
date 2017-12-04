@@ -18,6 +18,7 @@ import javax.validation.constraints.*;
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type", visible = true )
 @JsonSubTypes({
   @JsonSubTypes.Type(value = OclRequirement.class, name = "OclRequirement"),
+  @JsonSubTypes.Type(value = AttributeRequirement.class, name = "AttributeRequirement"),
   @JsonSubTypes.Type(value = IdentifierRequirement.class, name = "IdentifierRequirement"),
 })
 

@@ -18,17 +18,17 @@ import javax.validation.constraints.*;
 @ApiModel(description = "Represents a request to create a new node fullfilling the given requirements ")
 @Validated
 
-public class NodeRequest   {
+public class NodeRequirements   {
   @JsonProperty("requirements")
   @Valid
   private List<Requirement> requirements = null;
 
-  public NodeRequest requirements(List<Requirement> requirements) {
+  public NodeRequirements requirements(List<Requirement> requirements) {
     this.requirements = requirements;
     return this;
   }
 
-  public NodeRequest addRequirementsItem(Requirement requirementsItem) {
+  public NodeRequirements addRequirementsItem(Requirement requirementsItem) {
     if (this.requirements == null) {
       this.requirements = new ArrayList<Requirement>();
     }
@@ -61,8 +61,8 @@ public class NodeRequest   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    NodeRequest nodeRequest = (NodeRequest) o;
-    return Objects.equals(this.requirements, nodeRequest.requirements);
+    NodeRequirements nodeRequirements = (NodeRequirements) o;
+    return Objects.equals(this.requirements, nodeRequirements.requirements);
   }
 
   @Override
@@ -73,7 +73,7 @@ public class NodeRequest   {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class NodeRequest {\n");
+    sb.append("class NodeRequirements {\n");
     
     sb.append("    requirements: ").append(toIndentedString(requirements)).append("\n");
     sb.append("}");
