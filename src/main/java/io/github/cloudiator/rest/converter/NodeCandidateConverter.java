@@ -1,11 +1,11 @@
 package io.github.cloudiator.rest.converter;
 
 import de.uniulm.omi.cloudiator.util.TwoWayConverter;
-import org.cloudiator.messages.entities.IaasEntities;
 import io.github.cloudiator.rest.model.NodeCandidate;
+import org.cloudiator.messages.entities.MatchmakingEntities;
 
 public class NodeCandidateConverter implements
-    TwoWayConverter<NodeCandidate, IaasEntities.NodeCandidate> {
+    TwoWayConverter<NodeCandidate, MatchmakingEntities.NodeCandidate> {
 
   public final CloudToCloudConverter cloudConverter = new CloudToCloudConverter();
   public final ImageConverter imageConverter = new ImageConverter();
@@ -14,7 +14,7 @@ public class NodeCandidateConverter implements
 
 
   @Override
-  public NodeCandidate applyBack(IaasEntities.NodeCandidate nodeCandidate) {
+  public NodeCandidate applyBack(MatchmakingEntities.NodeCandidate nodeCandidate) {
 
     NodeCandidate result = new NodeCandidate()
         .cloud(cloudConverter.applyBack(nodeCandidate.getCloud()))
@@ -27,9 +27,10 @@ public class NodeCandidateConverter implements
   }
 
   @Override
-  public IaasEntities.NodeCandidate apply(NodeCandidate nodeCandidate) {
+  public MatchmakingEntities.NodeCandidate apply(NodeCandidate nodeCandidate) {
 
-    IaasEntities.NodeCandidate.Builder builder = IaasEntities.NodeCandidate.newBuilder();
+    MatchmakingEntities.NodeCandidate.Builder builder = MatchmakingEntities.NodeCandidate
+        .newBuilder();
 
     builder.setCloud(cloudConverter.apply(nodeCandidate.getCloud()))
         .setHardwareFlavor(hardwareConverter.apply(nodeCandidate.getHardware()))

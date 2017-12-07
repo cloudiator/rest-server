@@ -8,10 +8,10 @@ import io.github.cloudiator.rest.model.OclProblem;
 import io.github.cloudiator.rest.model.OclSolution;
 import io.swagger.annotations.ApiParam;
 import javax.validation.Valid;
-import org.cloudiator.messages.entities.Solution.OclSolutionRequest;
-import org.cloudiator.messages.entities.Solution.OclSolutionResponse;
+import org.cloudiator.messages.entities.Matchmaking.MatchmakingResponse;
+import org.cloudiator.messages.entities.Matchmaking.OclSolutionRequest;
 import org.cloudiator.messaging.ResponseException;
-import org.cloudiator.messaging.services.SolutionService;
+import org.cloudiator.messaging.services.MatchmakingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,7 +31,7 @@ public class OclApiController implements OclApi {
   private final OclSolutionConverter oclSolutionConverter = new OclSolutionConverter();
 
   @Autowired
-  private SolutionService solutionService;
+  private MatchmakingService matchmakingService;
 
   @Autowired
   private UserService userService;
@@ -48,15 +48,15 @@ public class OclApiController implements OclApi {
           .setProblem(oclProblemConverter.apply(oclProblem))
           .setUserId(userService.getUserId()).build();
 
-      OclSolutionResponse oclSolutionResponse = solutionService.solveOCLProblem(oclSolutionRequest
-      );
+      MatchmakingResponse matchmakingResponse = matchmakingService
+          .solveOCLProblem(oclSolutionRequest);
 
       if (accept != null && accept.contains("application/json")) {
         return new ResponseEntity<>(
-            oclSolutionConverter.apply(oclSolutionResponse.getSolution()), HttpStatus.OK);
+            oclSolutionConverter.apply(matchmakingResponse), HttpStatus.OK);
       }
       return new ResponseEntity<>(
-          oclSolutionConverter.apply(oclSolutionResponse.getSolution()), HttpStatus.OK);
+          oclSolutionConverter.apply(matchmakingResponse), HttpStatus.OK);
     } catch (ResponseException e) {
       throw new ApiException(e.code(), e.getMessage());
     }

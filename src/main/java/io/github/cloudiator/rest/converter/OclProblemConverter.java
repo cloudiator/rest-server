@@ -6,14 +6,14 @@ import java.util.List;
 import java.util.stream.Collectors;
 import javax.annotation.Nullable;
 import org.cloudiator.messages.entities.CommonEntities.OclRequirement;
-import org.cloudiator.messages.entities.SolutionEntities;
+import org.cloudiator.messages.entities.MatchmakingEntities;
 
 public class OclProblemConverter implements
-    OneWayConverter<OclProblem, SolutionEntities.OclProblem> {
+    OneWayConverter<OclProblem, MatchmakingEntities.OclProblem> {
 
   @Nullable
   @Override
-  public SolutionEntities.OclProblem apply(@Nullable OclProblem oclProblem) {
+  public MatchmakingEntities.OclProblem apply(@Nullable OclProblem oclProblem) {
 
     if (oclProblem == null) {
       return null;
@@ -24,7 +24,7 @@ public class OclProblemConverter implements
             .setConstraint(oclRequirement.getConstraint()).build()).collect(
             Collectors.toList());
 
-    return SolutionEntities.OclProblem.newBuilder()
+    return MatchmakingEntities.OclProblem.newBuilder()
         .addAllRequirements(requirements).build();
   }
 }

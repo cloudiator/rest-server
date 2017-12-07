@@ -7,10 +7,10 @@ import io.github.cloudiator.rest.model.NodeCandidate;
 import io.github.cloudiator.rest.model.NodeRequirements;
 import java.util.List;
 import java.util.stream.Collectors;
-import org.cloudiator.messages.NodeCandidate.NodeCandidateRequestMessage;
-import org.cloudiator.messages.entities.IaasEntities;
+import org.cloudiator.messages.entities.Matchmaking.NodeCandidateRequestMessage;
+import org.cloudiator.messages.entities.MatchmakingEntities;
 import org.cloudiator.messaging.ResponseException;
-import org.cloudiator.messaging.services.NodeCandidateService;
+import org.cloudiator.messaging.services.MatchmakingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +26,7 @@ public class NodeCandidatesApiController implements NodeCandidatesApi {
   private UserService userService;
 
   @Autowired
-  private NodeCandidateService nodeCandidateService;
+  private MatchmakingService matchmakingService;
 
   public NodeCandidatesApiController(ObjectMapper objectMapper) {
     this.objectMapper = objectMapper;
@@ -38,8 +38,9 @@ public class NodeCandidatesApiController implements NodeCandidatesApi {
     if (accept != null && accept.contains("application/json")) {
 
       try {
-        final List<IaasEntities.NodeCandidate> candidatesList = nodeCandidateService.requestNodes(
-            NodeCandidateRequestMessage.newBuilder().setUserId(userService.getUserId()).build())
+        final List<MatchmakingEntities.NodeCandidate> candidatesList = matchmakingService
+            .requestNodes(
+                NodeCandidateRequestMessage.newBuilder().setUserId(userService.getUserId()).build())
             .getCandidatesList();
         return new ResponseEntity<>(
             candidatesList.stream().map(NODE_CANDIDATE_CONVERTER::applyBack).collect(

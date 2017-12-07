@@ -4,24 +4,22 @@ import de.uniulm.omi.cloudiator.util.OneWayConverter;
 import io.github.cloudiator.rest.model.OclSolution;
 import java.util.stream.Collectors;
 import javax.annotation.Nullable;
-import org.cloudiator.messages.entities.SolutionEntities;
+import org.cloudiator.messages.entities.Matchmaking.MatchmakingResponse;
+
 
 public class OclSolutionConverter implements
-    OneWayConverter<SolutionEntities.OclSolution, OclSolution> {
+    OneWayConverter<MatchmakingResponse, OclSolution> {
 
   private final VirtualMachineRequestConverter virtualMachineRequestConverter = new VirtualMachineRequestConverter();
 
   @Nullable
   @Override
-  public OclSolution apply(@Nullable SolutionEntities.OclSolution oclSolutionMessage) {
-    if (oclSolutionMessage == null) {
-      return null;
-    }
-
+  public OclSolution apply(@Nullable MatchmakingResponse matchmakingResponse) {
     OclSolution oclSolution = new OclSolution();
     oclSolution.setNodes(
-        oclSolutionMessage.getNodesList().stream().map(virtualMachineRequestConverter::applyBack).collect(
-            Collectors.toList()));
+        matchmakingResponse.getNodesList().stream().map(virtualMachineRequestConverter::applyBack)
+            .collect(
+                Collectors.toList()));
 
     return oclSolution;
   }
