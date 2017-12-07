@@ -11,8 +11,8 @@ import static org.junit.Assert.*;
 public class ImageConverterTest {
 
     private final ImageConverter imageConverter = new ImageConverter();
-    private final Image restImage;
-    private final IaasEntities.Image iaasImage;
+    public final Image restImage;
+    public final IaasEntities.Image iaasImage;
     //Operatingsystem
     private final OperatingSystem restOperatingSystem;
     private final CommonEntities.OperatingSystem iaasOperatingSystem;

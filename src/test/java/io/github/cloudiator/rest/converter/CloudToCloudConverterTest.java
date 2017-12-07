@@ -11,8 +11,8 @@ import static org.hamcrest.Matchers.*;
 public class CloudToCloudConverterTest {
 
     private final CloudToCloudConverter cloudConverter = new CloudToCloudConverter();
-    private final Cloud restCloud;
-    private final IaasEntities.Cloud iaasCloud;
+    public final Cloud restCloud;
+    public final IaasEntities.Cloud iaasCloud;
     //Api
     private final Api restApi;
     private final IaasEntities.Api iaasApi;
