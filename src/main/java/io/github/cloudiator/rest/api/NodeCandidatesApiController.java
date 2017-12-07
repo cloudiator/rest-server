@@ -3,6 +3,7 @@ package io.github.cloudiator.rest.api;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.cloudiator.rest.UserService;
 import io.github.cloudiator.rest.converter.NodeCandidateConverter;
+import io.github.cloudiator.rest.converter.NodeRequirementsConverter;
 import io.github.cloudiator.rest.model.NodeCandidate;
 import io.github.cloudiator.rest.model.NodeRequirements;
 import java.util.List;
@@ -21,6 +22,7 @@ public class NodeCandidatesApiController implements NodeCandidatesApi {
 
   private final ObjectMapper objectMapper;
   private static final NodeCandidateConverter NODE_CANDIDATE_CONVERTER = new NodeCandidateConverter();
+  private static final NodeRequirementsConverter NODE_REQUIREMENTS_CONVERTER = new NodeRequirementsConverter();
 
   @Autowired
   private UserService userService;
@@ -40,8 +42,10 @@ public class NodeCandidatesApiController implements NodeCandidatesApi {
       try {
         final List<MatchmakingEntities.NodeCandidate> candidatesList = matchmakingService
             .requestNodes(
-                NodeCandidateRequestMessage.newBuilder().setUserId(userService.getUserId()).build())
+                NodeCandidateRequestMessage.newBuilder().setUserId(userService.getUserId())
+                    .setRequirements(NODE_REQUIREMENTS_CONVERTER.apply(nodeRequirements)).build())
             .getCandidatesList();
+
         return new ResponseEntity<>(
             candidatesList.stream().map(NODE_CANDIDATE_CONVERTER::applyBack).collect(
                 Collectors.toList()), HttpStatus.OK);
