@@ -10,10 +10,9 @@ import org.cloudiator.messaging.services.HardwareService;
 import org.cloudiator.messaging.services.ImageService;
 import org.cloudiator.messaging.services.JobService;
 import org.cloudiator.messaging.services.LocationService;
+import org.cloudiator.messaging.services.MatchmakingService;
 import org.cloudiator.messaging.services.MessageServiceModule;
-import org.cloudiator.messaging.services.NodeCandidateService;
 import org.cloudiator.messaging.services.NodeService;
-import org.cloudiator.messaging.services.SolutionService;
 import org.cloudiator.messaging.services.TaskService;
 import org.cloudiator.messaging.services.VirtualMachineService;
 import org.slf4j.Logger;
@@ -61,15 +60,11 @@ public class ServiceFactory {
     return INJECTOR.getInstance(TaskService.class);
   }
 
-  public SolutionService createSolutionService() {
-    return INJECTOR.getInstance(SolutionService.class);
+  public MatchmakingService createMatchmakingService() {
+    return INJECTOR.getInstance(MatchmakingService.class);
   }
 
   public NodeService createNodeService() {
     return INJECTOR.getInstance(NodeService.class);
-  }
-
-  public NodeCandidateService createNodeCandidateService() {
-    return INJECTOR.getInstance(NodeCandidateService.class);
   }
 }
