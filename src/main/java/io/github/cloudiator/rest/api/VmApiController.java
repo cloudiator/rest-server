@@ -93,7 +93,7 @@ public class VmApiController implements VmApi {
               });
 
       return new ResponseEntity<>(lrr, HttpStatus.ACCEPTED);
-      
+
     }
     return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
   }
