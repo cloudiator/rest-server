@@ -8,11 +8,14 @@ import io.github.cloudiator.rest.model.Hardware;
 import io.swagger.annotations.*;
 
 import java.util.ArrayList;
+import javax.servlet.http.HttpServletRequest;
 import org.cloudiator.messages.Hardware.HardwareQueryRequest;
 import org.cloudiator.messages.Hardware.HardwareQueryResponse;
 import org.cloudiator.messages.entities.IaasEntities;
 import org.cloudiator.messaging.ResponseException;
 import org.cloudiator.messaging.services.HardwareService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,10 +37,16 @@ import javax.validation.Valid;
 @Controller
 public class HardwareApiController implements HardwareApi {
 
+  private static final Logger log = LoggerFactory.getLogger(PlatformApiController.class);
+
   private final ObjectMapper objectMapper;
 
-  public HardwareApiController(ObjectMapper objectMapper) {
+  private final HttpServletRequest request;
+
+  @org.springframework.beans.factory.annotation.Autowired
+  public HardwareApiController(ObjectMapper objectMapper, HttpServletRequest request) {
     this.objectMapper = objectMapper;
+    this.request = request;
   }
 
   @Autowired
@@ -47,32 +56,37 @@ public class HardwareApiController implements HardwareApi {
   private HardwareService hardwareService;
 
 
-  @Override
-  public ResponseEntity<List<Hardware>> findHardware(String accept) {
-    //Preparation
-    System.out.println("------------------ find Hardware -------------------");
-    HardwareQueryRequest hardwareQueryRequest = HardwareQueryRequest.newBuilder()
-        .setUserId(userService.getUserId()).build();
-    HardwareConverter hardwareConverter = new HardwareConverter();
-    List<Hardware> hardwareList = new ArrayList<>();
-    HardwareQueryResponse response = null;
-    // to Kafka
-    try {
-      response = hardwareService.getHardware(hardwareQueryRequest);
-    } catch (ResponseException re) {
-      throw new ApiException(re.code(), re.getMessage());
-    }
-
-    for (IaasEntities.HardwareFlavor hardware : response.getHardwareFlavorsList()) {
-      hardwareList.add(hardwareConverter.applyBack(hardware));
-    }
-    System.out.println("--------------------- " + hardwareList.size()
-        + " item(s) found ---------------------------");
-
+  public ResponseEntity<List<Hardware>> findHardware() {
+    String accept = request.getHeader("Accept");
     if (accept != null && accept.contains("application/json")) {
-      return new ResponseEntity<List<Hardware>>(hardwareList, HttpStatus.OK);
+      try {
+        //Preparation
+        System.out.println("------------------ find Hardware -------------------");
+        HardwareQueryRequest hardwareQueryRequest = HardwareQueryRequest.newBuilder()
+            .setUserId(userService.getUserId()).build();
+        HardwareConverter hardwareConverter = new HardwareConverter();
+        List<Hardware> hardwareList = new ArrayList<>();
+        HardwareQueryResponse response = null;
+        // to Kafka
+
+        response = hardwareService.getHardware(hardwareQueryRequest);
+
+        for (IaasEntities.HardwareFlavor hardware : response.getHardwareFlavorsList()) {
+          hardwareList.add(hardwareConverter.applyBack(hardware));
+        }
+        System.out.println("--------------------- " + hardwareList.size()
+            + " item(s) found ---------------------------");
+
+        return new ResponseEntity<List<Hardware>>(hardwareList, HttpStatus.OK);
+      } catch (ResponseException re) {
+        throw new ApiException(re.code(), re.getMessage());
+      } catch (Exception e) {
+        log.error("Couldn't serialize response for content type application/json", e);
+        return new ResponseEntity<List<Hardware>>(HttpStatus.INTERNAL_SERVER_ERROR);
+      }
     }
-    return new ResponseEntity<List<Hardware>>(hardwareList, HttpStatus.ACCEPTED);
+
+    return new ResponseEntity<List<Hardware>>(HttpStatus.NOT_IMPLEMENTED);
   }
 
 }

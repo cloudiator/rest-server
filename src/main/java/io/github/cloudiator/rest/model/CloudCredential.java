@@ -34,7 +34,7 @@ public class CloudCredential   {
   @ApiModelProperty(example = "tenant:username", required = true, value = "Username for authentication at the cloud provider's API")
   @NotNull
 
- @Size(min=1)
+@Size(min=1) 
   public String getUser() {
     return user;
   }
@@ -55,7 +55,7 @@ public class CloudCredential   {
   @ApiModelProperty(example = "MySuperSecurePassword", required = true, value = "Secret (e.g. Password) for authentication at the cloud provider's API")
   @NotNull
 
- @Size(min=1)
+@Size(min=1) 
   public String getSecret() {
     return secret;
   }
