@@ -19,9 +19,11 @@ public class TaskInterfaceConverter implements
     switch (taskInterface.getTaskInterfaceCase()) {
       case LANCEINTERFACE:
         result = lanceInterfaceConverter.applyBack(taskInterface.getLanceInterface());
+        result.setType(taskInterface.getLanceInterface().getClass().getSimpleName());
         break;
       case DOCKERINTERFACE:
         result = dockerInterfaceConverter.applyBack(taskInterface.getDockerInterface());
+        result.setType(taskInterface.getDockerInterface().getClass().getSimpleName());
         break;
       case TASKINTERFACE_NOT_SET:
       default:

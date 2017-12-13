@@ -19,8 +19,6 @@ import org.cloudiator.messages.entities.CommonEntities;
 import org.cloudiator.messages.entities.TaskEntities;
 
 
-
-
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -79,6 +77,7 @@ public class TaskConverterTest {
     //Interfaces
     this.restDockerInterface = new DockerInterface()
         .dockerImage("DockerImage");
+    this.restDockerInterface.setType(restDockerInterface.getClass().getSimpleName());
     this.iaasTaskDockerInterface = TaskEntities.TaskInterface.newBuilder()
         .setDockerInterface(
             TaskEntities.DockerInterface.newBuilder()
@@ -89,6 +88,7 @@ public class TaskConverterTest {
         .startDetection("startDetection").preStart("preStart").start("start").postStart("postStart")
         .stopDetection("stopDetection").preStop("preStop").stop("stop").postStop("postStop")
         .shutdown("shutdown");
+    this.restLanceInterface.setType(restLanceInterface.getClass().getSimpleName());
     this.iaasTaskLanceInterface = TaskEntities.TaskInterface.newBuilder()
         .setLanceInterface(
             TaskEntities.LanceInterface.newBuilder()
