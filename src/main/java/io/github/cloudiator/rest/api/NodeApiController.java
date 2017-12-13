@@ -53,18 +53,20 @@ public class NodeApiController implements NodeApi {
     String accept = request.getHeader("Accept");
     if (accept != null && accept.contains("application/json")) {
 
+      nodeService
+          .createNodesAsync(NodeRequestMessage.newBuilder().setUserId(userService.getUserId())
+                  .setNodeRequest(nodeRequirementsConverter.apply(nodeRequirements)).build(),
+              (content, error) -> {
+                System.out.println("Error " + error);
+                System.out.println("Content " + content);
+              });
 
-        nodeService
-            .createNodesAsync(NodeRequestMessage.newBuilder().setUserId(userService.getUserId())
-                    .setNodeRequest(nodeRequirementsConverter.apply(nodeRequirements)).build(),
-                (content, error) -> {
-                  System.out.println("Error " + error);
-                  System.out.println("Content " + content);
-                });
+      // do some magic!
+      System.out.println(nodeRequirements);
 
-        // do some magic!
+      System.out.println(nodeRequirementsConverter.apply(nodeRequirements));
 
-        return new ResponseEntity<LongRunningRequest>(HttpStatus.OK);
+      return new ResponseEntity<LongRunningRequest>(HttpStatus.OK);
 
     }
     return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
