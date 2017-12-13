@@ -8,6 +8,7 @@ import io.github.cloudiator.rest.model.Image;
 import io.github.cloudiator.rest.model.Location;
 import io.github.cloudiator.rest.model.NodeCandidate;
 import org.cloudiator.messages.entities.IaasEntities;
+import org.cloudiator.messages.entities.MatchmakingEntities;
 import org.junit.Test;
 
 import static org.hamcrest.Matchers.*;
@@ -30,7 +31,7 @@ public class NodeCandidateConverterTest {
 
   //iaas NodeCandidate
 
-  private final IaasEntities.NodeCandidate iaasNodeCandidate;
+  private final MatchmakingEntities.NodeCandidate iaasNodeCandidate;
   private final IaasEntities.Cloud iaasCloud;
   private final IaasEntities.Image iaasImage;
   private final IaasEntities.HardwareFlavor iaasHardware;
@@ -54,7 +55,7 @@ public class NodeCandidateConverterTest {
     this.iaasImage = imageConverterTest.iaasImage;
     this.iaasHardware = hwConverterTest.iaasHardware;
     this.iaasLocationNoParent = locationConverterTest.iaasParentLocation;
-    this.iaasNodeCandidate = IaasEntities.NodeCandidate.newBuilder()
+    this.iaasNodeCandidate = MatchmakingEntities.NodeCandidate.newBuilder()
         .setCloud(iaasCloud)
         .setImage(iaasImage)
         .setHardwareFlavor(iaasHardware)
@@ -75,7 +76,7 @@ public class NodeCandidateConverterTest {
   @Test
   public void apply() throws Exception {
     //rest to iaas
-    IaasEntities.NodeCandidate actual = nodeCandidateConverter.apply(restNodeCandidate);
+    MatchmakingEntities.NodeCandidate actual = nodeCandidateConverter.apply(restNodeCandidate);
 
     assertThat(actual, is(equalTo(iaasNodeCandidate)));
   }
