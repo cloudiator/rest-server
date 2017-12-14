@@ -61,12 +61,11 @@ public class NodeApiController implements NodeApi {
                 System.out.println("Content " + content);
               });
 
-      // do some magic!
       System.out.println(nodeRequirements);
-
       System.out.println(nodeRequirementsConverter.apply(nodeRequirements));
 
       return new ResponseEntity<LongRunningRequest>(HttpStatus.OK);
+
 
     }
     return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
