@@ -1,12 +1,23 @@
 package io.github.cloudiator.rest.converter;
 
-import io.github.cloudiator.rest.model.*;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThat;
+
+import io.github.cloudiator.rest.model.Hardware;
+import io.github.cloudiator.rest.model.Image;
+import io.github.cloudiator.rest.model.IpAddress;
+import io.github.cloudiator.rest.model.IpAddressType;
+import io.github.cloudiator.rest.model.IpVersion;
+import io.github.cloudiator.rest.model.Location;
+import io.github.cloudiator.rest.model.OperatingSystem;
+import io.github.cloudiator.rest.model.OperatingSystemArchitecture;
+import io.github.cloudiator.rest.model.OperatingSystemFamily;
+import io.github.cloudiator.rest.model.OperatingSystemType;
+import io.github.cloudiator.rest.model.VirtualMachine;
 import org.cloudiator.messages.entities.CommonEntities;
 import org.cloudiator.messages.entities.IaasEntities;
 import org.junit.Test;
-
-import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.*;
 
 public class VirtualMachineConverterTest {
 
@@ -66,16 +77,16 @@ public class VirtualMachineConverterTest {
         .name("HardwareName")
         .id("32chars-long_testID_for_Hardware")
         .cores(4)
-        .disk((float) 100)
-        .ram((long) 2048)
+        .disk(100d)
+        .ram(2048L)
         .providerId("HardwareProvider")
         .location(restHardwareLocation);
     this.iaasHardware = IaasEntities.HardwareFlavor.newBuilder()
         .setId("32chars-long_testID_for_Hardware")
         .setName("HardwareName")
         .setCores(4)
-        .setDisk((float) 100)
-        .setRam((long) 2048)
+        .setDisk(100d)
+        .setRam(2048)
         .setProviderId("HardwareProvider")
         .setLocation(iaasHardwareLocation).build();
 

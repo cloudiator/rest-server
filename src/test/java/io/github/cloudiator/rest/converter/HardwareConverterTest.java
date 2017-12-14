@@ -1,14 +1,14 @@
 package io.github.cloudiator.rest.converter;
 
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThat;
+
 import io.github.cloudiator.rest.model.Hardware;
 import io.github.cloudiator.rest.model.Location;
 import org.cloudiator.messages.entities.CommonEntities;
 import org.cloudiator.messages.entities.IaasEntities;
-import org.cloudiator.messages.entities.PaasEntities;
 import org.junit.Test;
-
-import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.*;
 
 public class HardwareConverterTest {
 
@@ -35,7 +35,7 @@ public class HardwareConverterTest {
         .setIsAssignable(true)
         .clearParent().build();
     //Hardware
-    this.restHardware = new Hardware().cores(4).disk((float) 256).ram((long) 2048)
+    this.restHardware = new Hardware().cores(4).disk(256d).ram(2048L)
         .name("TestName").id("32chars-long_testID_for_UnitTest")
         .providerId("TestProviderId")
         .location(restLoacation);
