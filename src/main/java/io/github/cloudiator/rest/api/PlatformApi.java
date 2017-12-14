@@ -8,9 +8,9 @@ package io.github.cloudiator.rest.api;
 import io.github.cloudiator.rest.model.Error;
 import io.github.cloudiator.rest.model.NewPlatform;
 import io.github.cloudiator.rest.model.Platform;
-
 import io.swagger.annotations.*;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -19,12 +19,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
-import java.io.IOException;
 
-import java.util.List;
-import org.springframework.validation.annotation.Validated;
-import javax.validation.constraints.*;
 import javax.validation.Valid;
+import javax.validation.constraints.*;
+import java.util.List;
 
 @Api(value = "platform", description = "the platform API")
 public interface PlatformApi {
@@ -42,7 +40,7 @@ public interface PlatformApi {
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.POST)
-    ResponseEntity<Platform> addPlatform(@ApiParam(value = "Platform to add" ,required=true )  @Valid @RequestBody NewPlatform platform, @RequestHeader(value = "Accept", required = false) String accept) throws Exception;
+    ResponseEntity<Platform> addPlatform(@ApiParam(value = "Platform to add" ,required=true )  @Valid @RequestBody NewPlatform platform);
 
 
     @ApiOperation(value = "", nickname = "deletePlatform", notes = "Deletes the platform identified by the given id paramater. ", tags={ "platform", })
@@ -58,7 +56,7 @@ public interface PlatformApi {
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.DELETE)
-    ResponseEntity<Void> deletePlatform(@ApiParam(value = "Unique identifier of the resource",required=true ) @PathVariable("id") String id, @RequestHeader(value = "Accept", required = false) String accept) throws Exception;
+    ResponseEntity<Void> deletePlatform(@ApiParam(value = "Unique identifier of the resource",required=true) @PathVariable("id") String id);
 
 
     @ApiOperation(value = "", nickname = "findPlatform", notes = "Returns the platform identified by the given id parameter ", response = Platform.class, tags={ "platform", })
@@ -71,7 +69,7 @@ public interface PlatformApi {
     @RequestMapping(value = "/platform/{id}",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<Platform> findPlatform(@ApiParam(value = "Unique identifier of the resource",required=true ) @PathVariable("id") String id, @RequestHeader(value = "Accept", required = false) String accept) throws Exception;
+    ResponseEntity<Platform> findPlatform(@ApiParam(value = "Unique identifier of the resource",required=true) @PathVariable("id") String id);
 
 
     @ApiOperation(value = "", nickname = "findPlatforms", notes = "Returns all platform from the system that the user has access to ", response = Platform.class, responseContainer = "List", tags={ "platform", })
@@ -84,6 +82,6 @@ public interface PlatformApi {
     @RequestMapping(value = "/platform",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<List<Platform>> findPlatforms( @RequestHeader(value = "Accept", required = false) String accept) throws Exception;
+    ResponseEntity<List<Platform>> findPlatforms();
 
 }

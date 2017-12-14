@@ -6,10 +6,13 @@ import io.github.cloudiator.rest.converter.NodeCandidateConverter;
 import io.github.cloudiator.rest.converter.NodeRequirementsConverter;
 import io.github.cloudiator.rest.model.NodeCandidate;
 import io.github.cloudiator.rest.model.NodeRequirements;
+import javax.servlet.http.HttpServletRequest;
 import org.cloudiator.messages.entities.Matchmaking.NodeCandidateRequestMessage;
 import org.cloudiator.messages.entities.MatchmakingEntities;
 import org.cloudiator.messaging.ResponseException;
 import org.cloudiator.messaging.services.MatchmakingService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,47 +21,58 @@ import org.springframework.stereotype.Controller;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Controller public class NodeCandidatesApiController implements NodeCandidatesApi {
+@Controller
+public class NodeCandidatesApiController implements NodeCandidatesApi {
 
-    private final ObjectMapper objectMapper;
-    private static final NodeCandidateConverter NODE_CANDIDATE_CONVERTER =
-        new NodeCandidateConverter();
-    private static final NodeRequirementsConverter NODE_REQUIREMENTS_CONVERTER =
-        new NodeRequirementsConverter();
+  private static final Logger log = LoggerFactory.getLogger(PlatformApiController.class);
+  private final ObjectMapper objectMapper;
+  private final HttpServletRequest request;
 
-    @Autowired private UserService userService;
+  private static final NodeCandidateConverter NODE_CANDIDATE_CONVERTER =
+      new NodeCandidateConverter();
+  private static final NodeRequirementsConverter NODE_REQUIREMENTS_CONVERTER =
+      new NodeRequirementsConverter();
 
-    @Autowired private MatchmakingService matchmakingService;
+  @org.springframework.beans.factory.annotation.Autowired
+  public NodeCandidatesApiController(ObjectMapper objectMapper, HttpServletRequest request) {
+    this.objectMapper = objectMapper;
+    this.request = request;
+  }
 
-    public NodeCandidatesApiController(ObjectMapper objectMapper) {
-        this.objectMapper = objectMapper;
-    }
+  @Autowired
+  private UserService userService;
 
-    @Override
-    public ResponseEntity<List<NodeCandidate>> findNodeCandidates(NodeRequirements nodeRequirements,
-        String accept) throws Exception {
-        if (accept != null && accept.contains("application/json")) {
+  @Autowired
+  private MatchmakingService matchmakingService;
 
-            try {
 
-                final NodeCandidateRequestMessage.Builder builder =
-                    NodeCandidateRequestMessage.newBuilder().setUserId(userService.getUserId());
+  @Override
+  public ResponseEntity<List<NodeCandidate>> findNodeCandidates(NodeRequirements nodeRequirements) {
+    String accept = request.getHeader("Accept");
+    if (accept != null && accept.contains("application/json")) {
+      try {
 
-                if (nodeRequirements != null && nodeRequirements.getRequirements() != null
-                    && !nodeRequirements.getRequirements().isEmpty()) {
-                    builder.setRequirements(NODE_REQUIREMENTS_CONVERTER.apply(nodeRequirements));
-                }
+        final NodeCandidateRequestMessage.Builder builder =
+            NodeCandidateRequestMessage.newBuilder().setUserId(userService.getUserId());
 
-                final List<MatchmakingEntities.NodeCandidate> candidatesList =
-                    matchmakingService.requestNodes(builder.build()).getCandidatesList();
-
-                return new ResponseEntity<>(
-                    candidatesList.stream().map(NODE_CANDIDATE_CONVERTER::applyBack)
-                        .collect(Collectors.toList()), HttpStatus.OK);
-            } catch (ResponseException e) {
-                return new ResponseEntity<>(HttpStatus.valueOf(e.code()));
-            }
+        if (nodeRequirements != null && nodeRequirements.getRequirements() != null
+            && !nodeRequirements.getRequirements().isEmpty()) {
+          builder.setRequirements(NODE_REQUIREMENTS_CONVERTER.apply(nodeRequirements));
         }
-        return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
+
+        final List<MatchmakingEntities.NodeCandidate> candidatesList =
+            matchmakingService.requestNodes(builder.build()).getCandidatesList();
+
+        return new ResponseEntity<>(
+            candidatesList.stream().map(NODE_CANDIDATE_CONVERTER::applyBack)
+                .collect(Collectors.toList()), HttpStatus.OK);
+      } catch (ResponseException e) {
+        return new ResponseEntity<>(HttpStatus.valueOf(e.code()));
+      } catch (Exception e) {
+        log.error("Couldn't serialize response for content type application/json", e);
+        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+      }
     }
+    return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+  }
 }

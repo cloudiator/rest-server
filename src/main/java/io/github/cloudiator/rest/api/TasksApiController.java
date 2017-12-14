@@ -12,6 +12,7 @@ import io.github.cloudiator.rest.model.TaskInterface;
 import io.swagger.annotations.*;
 
 import java.util.ArrayList;
+import javax.servlet.http.HttpServletRequest;
 import org.cloudiator.messages.Task.CreateTaskRequest;
 import org.cloudiator.messages.Task.TaskCreatedResponse;
 import org.cloudiator.messages.Task.TaskQueryRequest;
@@ -19,6 +20,8 @@ import org.cloudiator.messages.Task.TaskQueryResponse;
 import org.cloudiator.messages.entities.TaskEntities;
 import org.cloudiator.messaging.ResponseException;
 import org.cloudiator.messaging.services.TaskService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -40,11 +43,16 @@ import javax.validation.Valid;
 @Controller
 public class TasksApiController implements TasksApi {
 
-  private final ObjectMapper objectMapper;
   private final TaskConverter taskConverter;
 
-  public TasksApiController(ObjectMapper objectMapper) {
+  private static final Logger log = LoggerFactory.getLogger(PlatformApiController.class);
+  private final ObjectMapper objectMapper;
+  private final HttpServletRequest request;
+
+  @org.springframework.beans.factory.annotation.Autowired
+  public TasksApiController(ObjectMapper objectMapper, HttpServletRequest request) {
     this.objectMapper = objectMapper;
+    this.request = request;
     this.taskConverter = new TaskConverter();
   }
 
@@ -55,68 +63,74 @@ public class TasksApiController implements TasksApi {
   private TaskService taskService;
 
 
-  @Override
   public ResponseEntity<Task> addTask(
-      @ApiParam(value = "Task to add", required = true) @Valid @RequestBody Task task,
-      String accept) {
-    //Validate und Verification
-    Task newOne = new Task()
-        .name(task.getName())
-        .taskType(task.getTaskType())
-        .executionEnvironment(task.getExecutionEnvironment());
-    for (Port port : task.getPorts()) {
-      newOne.addPortsItem(port);
-    }
-    for (TaskInterface taskinterface : task.getInterfaces()) {
-      newOne.addInterfacesItem(taskinterface);
-    }
-    for (Requirement requirement : task.getRequirements()) {
-      newOne.addRequirementsItem(requirement);
-    }
-
-    TaskCreatedResponse response = null;
-    try {
-      response = taskService
-          .createTask(
-              CreateTaskRequest.newBuilder().setUserId(userService.getUserId())
-                  .setTask(taskConverter.apply(newOne)).build());
-
-    } catch (ResponseException ex) {
-      throw new ApiException(ex.code(), ex.getMessage());
-    }
-
-    newOne = taskConverter.applyBack(response.getTask());
-
+      @ApiParam(value = "Task to add", required = true) @Valid @RequestBody Task task) {
+    String accept = request.getHeader("Accept");
     if (accept != null && accept.contains("application/json")) {
-      return new ResponseEntity<Task>(newOne, HttpStatus.OK);
-    }
+      try {
+        //Validate und Verification
+        Task newOne = new Task()
+            .name(task.getName())
+            .taskType(task.getTaskType())
+            .executionEnvironment(task.getExecutionEnvironment());
+        for (Port port : task.getPorts()) {
+          newOne.addPortsItem(port);
+        }
+        for (TaskInterface taskinterface : task.getInterfaces()) {
+          newOne.addInterfacesItem(taskinterface);
+        }
+        for (Requirement requirement : task.getRequirements()) {
+          newOne.addRequirementsItem(requirement);
+        }
 
-    return new ResponseEntity<Task>(newOne, HttpStatus.ACCEPTED);
-  }
+        TaskCreatedResponse response = null;
+        try {
+          response = taskService
+              .createTask(
+                  CreateTaskRequest.newBuilder().setUserId(userService.getUserId())
+                      .setTask(taskConverter.apply(newOne)).build());
 
-  @Override
-  public ResponseEntity<List<Task>> findTasks(String accept) {
+        } catch (ResponseException ex) {
+          throw new ApiException(ex.code(), ex.getMessage());
+        }
 
-    List<Task> taskList = new ArrayList<>();
-    //final TaskConverter taskConverter = new TaskConverter();
-    TaskQueryResponse response = null;
+        newOne = taskConverter.applyBack(response.getTask());
 
-    try {
-      response = taskService
-          .getTasks(TaskQueryRequest.newBuilder().setUserId(userService.getUserId()).build());
-
-      for (TaskEntities.Task task : response.getTaskList()) {
-        taskList.add(taskConverter.applyBack(task));
+        return new ResponseEntity<Task>(newOne, HttpStatus.OK);
+      } catch (Exception e) {
+        log.error("Couldn't serialize response for content type application/json", e);
+        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
       }
-
-    } catch (ResponseException ex) {
-      throw new ApiException(ex.code(), ex.getMessage());
     }
-
-    if (accept != null && accept.contains("application/json")) {
-      return new ResponseEntity<List<Task>>(taskList, HttpStatus.OK);
-    }
-
-    return new ResponseEntity<List<Task>>(taskList, HttpStatus.ACCEPTED);
+    return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
   }
+
+
+  public ResponseEntity<List<Task>> findTasks() {
+    String accept = request.getHeader("Accept");
+    if (accept != null && accept.contains("application/json")) {
+      try {
+
+        List<Task> taskList = new ArrayList<>();
+        //final TaskConverter taskConverter = new TaskConverter();
+        TaskQueryResponse response = null;
+
+        response = taskService
+            .getTasks(TaskQueryRequest.newBuilder().setUserId(userService.getUserId()).build());
+
+        for (TaskEntities.Task task : response.getTaskList()) {
+          taskList.add(taskConverter.applyBack(task));
+        }
+
+        return new ResponseEntity<List<Task>>(taskList, HttpStatus.OK);
+      } catch (ResponseException ex) {
+        throw new ApiException(ex.code(), ex.getMessage());
+      } catch (Exception e) {
+        log.error("Couldn't serialize response for content type application/json", e);
+        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+      }
+    }
+    return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+  }
+
 }

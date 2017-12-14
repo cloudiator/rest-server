@@ -8,9 +8,9 @@ package io.github.cloudiator.rest.api;
 import io.github.cloudiator.rest.model.Error;
 import io.github.cloudiator.rest.model.NewPlatformRuntime;
 import io.github.cloudiator.rest.model.PlatformRuntime;
-
 import io.swagger.annotations.*;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -19,12 +19,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
-import java.io.IOException;
 
-import java.util.List;
-import org.springframework.validation.annotation.Validated;
-import javax.validation.constraints.*;
 import javax.validation.Valid;
+import javax.validation.constraints.*;
+import java.util.List;
 
 @Api(value = "platformRuntime", description = "the platformRuntime API")
 public interface PlatformRuntimeApi {
@@ -42,7 +40,7 @@ public interface PlatformRuntimeApi {
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.POST)
-    ResponseEntity<PlatformRuntime> addPlatformRuntime(@ApiParam(value = "PlatformRuntime to be created " ,required=true )  @Valid @RequestBody NewPlatformRuntime platformRuntime, @RequestHeader(value = "Accept", required = false) String accept) throws Exception;
+    ResponseEntity<PlatformRuntime> addPlatformRuntime(@ApiParam(value = "PlatformRuntime to be created " ,required=true )  @Valid @RequestBody NewPlatformRuntime platformRuntime);
 
 
     @ApiOperation(value = "", nickname = "findPlatformRuntime", notes = "Returns the PlatformRuntime identified by the id parameter. ", response = PlatformRuntime.class, tags={ "platform", })
@@ -55,7 +53,7 @@ public interface PlatformRuntimeApi {
     @RequestMapping(value = "/platformRuntime/{id}",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<PlatformRuntime> findPlatformRuntime(@ApiParam(value = "Unique identifier of the resource",required=true ) @PathVariable("id") String id, @RequestHeader(value = "Accept", required = false) String accept) throws Exception;
+    ResponseEntity<PlatformRuntime> findPlatformRuntime(@ApiParam(value = "Unique identifier of the resource",required=true) @PathVariable("id") String id);
 
 
     @ApiOperation(value = "", nickname = "findPlatformRuntimes", notes = "Returns all platform runtime  visible to the user ", response = PlatformRuntime.class, responseContainer = "List", tags={ "platform", })
@@ -68,6 +66,6 @@ public interface PlatformRuntimeApi {
     @RequestMapping(value = "/platformRuntime",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<List<PlatformRuntime>> findPlatformRuntimes( @RequestHeader(value = "Accept", required = false) String accept) throws Exception;
+    ResponseEntity<List<PlatformRuntime>> findPlatformRuntimes();
 
 }
