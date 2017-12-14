@@ -33,7 +33,7 @@ public class Hardware   {
   private Long ram = null;
 
   @JsonProperty("disk")
-  private Float disk = null;
+  private Double disk = null;
 
   @JsonProperty("location")
   private Location location = null;
@@ -143,7 +143,7 @@ public class Hardware   {
     this.ram = ram;
   }
 
-  public Hardware disk(Float disk) {
+  public Hardware disk(Double disk) {
     this.disk = disk;
     return this;
   }
@@ -155,11 +155,11 @@ public class Hardware   {
   @ApiModelProperty(example = "100.0", value = "Amount of disk space")
 
 
-  public Float getDisk() {
+  public Double getDisk() {
     return disk;
   }
 
-  public void setDisk(Float disk) {
+  public void setDisk(Double disk) {
     this.disk = disk;
   }
 
