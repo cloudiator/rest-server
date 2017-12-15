@@ -6,7 +6,11 @@ import io.github.cloudiator.rest.converter.NodeCandidateConverter;
 import io.github.cloudiator.rest.converter.NodeRequirementsConverter;
 import io.github.cloudiator.rest.model.NodeCandidate;
 import io.github.cloudiator.rest.model.NodeRequirements;
+import io.swagger.annotations.ApiParam;
+import java.util.List;
+import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import org.cloudiator.messages.entities.Matchmaking.NodeCandidateRequestMessage;
 import org.cloudiator.messages.entities.MatchmakingEntities;
 import org.cloudiator.messaging.ResponseException;
@@ -17,9 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-
-import java.util.List;
-import java.util.stream.Collectors;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
 public class NodeCandidatesApiController implements NodeCandidatesApi {
@@ -47,7 +49,8 @@ public class NodeCandidatesApiController implements NodeCandidatesApi {
 
 
   @Override
-  public ResponseEntity<List<NodeCandidate>> findNodeCandidates(NodeRequirements nodeRequirements) {
+  public ResponseEntity<List<NodeCandidate>> findNodeCandidates(
+      @ApiParam(value = "Node Request ") @Valid @RequestBody NodeRequirements nodeRequirements) {
     String accept = request.getHeader("Accept");
     if (accept != null && accept.contains("application/json")) {
       try {
