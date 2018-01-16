@@ -1,7 +1,5 @@
 package io.github.cloudiator.rest.converter;
 
-import io.github.cloudiator.rest.model.Cloud;
-import io.github.cloudiator.rest.model.CloudType;
 import io.github.cloudiator.rest.model.Location;
 import org.cloudiator.messages.entities.CommonEntities;
 import org.cloudiator.messages.entities.IaasEntities;
@@ -11,7 +9,8 @@ import org.cloudiator.messages.entities.IaasEntities;
  */
 public class LocationConverter implements TwoWayConverter<Location, IaasEntities.Location> {
 
-  private final LocationScopeConverter locationScopeConverter = new LocationScopeConverter();
+  private static final LocationScopeConverter LOCATION_SCOPE_CONVERTER = new LocationScopeConverter();
+  private static final GeoLocationConverter GEO_LOCATION_CONVERTER = new GeoLocationConverter();
 
   @Override
   public Location applyBack(IaasEntities.Location location) {
@@ -22,11 +21,15 @@ public class LocationConverter implements TwoWayConverter<Location, IaasEntities
     result.setName(location.getName());
     result.setId(location.getId());
     result.setProviderId(location.getProviderId());
-    result.setLocationScope(locationScopeConverter.applyBack(location.getLocationScope()));
+    result.setLocationScope(LOCATION_SCOPE_CONVERTER.applyBack(location.getLocationScope()));
     result.setIsAssignable(location.getIsAssignable());
     if (location.hasParent()) {
       result.setParent(applyBack(location.getParent()));
     }
+    if (location.hasGeoLocation()) {
+      result.setGeoLocation(GEO_LOCATION_CONVERTER.applyBack(location.getGeoLocation()));
+    }
+
     return result;
   }
 
@@ -36,7 +39,7 @@ public class LocationConverter implements TwoWayConverter<Location, IaasEntities
     builder.setName(location.getName());
     builder.setId(location.getId());
     builder.setProviderId(location.getProviderId());
-    builder.setLocationScope(locationScopeConverter.apply(location.getLocationScope()));
+    builder.setLocationScope(LOCATION_SCOPE_CONVERTER.apply(location.getLocationScope()));
     builder.setIsAssignable(location.isIsAssignable());
 
     if (location.getParent() != null) {
@@ -45,11 +48,15 @@ public class LocationConverter implements TwoWayConverter<Location, IaasEntities
       builder.clearParent();
     }
 
+    if (location.getGeoLocation() != null) {
+      builder.setGeoLocation(GEO_LOCATION_CONVERTER.apply(location.getGeoLocation()));
+    }
+
     return builder.build();
   }
 
 
-  private class LocationScopeConverter implements
+  private static class LocationScopeConverter implements
       TwoWayConverter<Location.LocationScopeEnum, CommonEntities.LocationScope> {
 
     @Override

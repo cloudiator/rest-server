@@ -1,16 +1,14 @@
 package io.github.cloudiator.rest.converter;
 
 
-
-
 import io.github.cloudiator.rest.model.GeoLocation;
 import org.cloudiator.messages.entities.IaasEntities;
 
 /**
  * Created by volker on 29.05.17.
  */
-public class GeoLocationConverter implements TwoWayConverter<GeoLocation, IaasEntities.GeoLocation> {
-
+public class GeoLocationConverter implements
+    TwoWayConverter<GeoLocation, IaasEntities.GeoLocation> {
 
 
   @Override
@@ -31,11 +29,21 @@ public class GeoLocationConverter implements TwoWayConverter<GeoLocation, IaasEn
   public IaasEntities.GeoLocation apply(GeoLocation geolocation) {
     IaasEntities.GeoLocation.Builder builder = IaasEntities.GeoLocation.newBuilder();
 
-    builder.setCity(geolocation.getCity())
-        .setCountry(geolocation.getCountry())
-        .setLatitude(geolocation.getLatitude())
-        .setLongitude(geolocation.getLongitude());
+    if (geolocation.getCity() != null) {
+      builder.setCity(geolocation.getCity());
+    }
 
+    if (geolocation.getCountry() != null) {
+      builder.setCountry(geolocation.getCountry());
+    }
+
+    if (geolocation.getLatitude() != null) {
+      builder.setLatitude(geolocation.getLatitude());
+    }
+
+    if (geolocation.getLongitude() != null) {
+      builder.setLongitude(geolocation.getLongitude());
+    }
 
     return builder.build();
   }
