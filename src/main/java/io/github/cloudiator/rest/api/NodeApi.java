@@ -27,7 +27,9 @@ import java.util.List;
 @Api(value = "node", description = "the node API")
 public interface NodeApi {
 
-    @ApiOperation(value = "", nickname = "addNode", notes = "Create a new node request", response = LongRunningRequest.class, tags={ "node", })
+    @ApiOperation(value = "", nickname = "addNode", notes = "Create a new node request", response = LongRunningRequest.class, authorizations = {
+        @Authorization(value = "ApiKeyAuth")
+    }, tags={ "node", })
     @ApiResponses(value = { 
         @ApiResponse(code = 202, message = "ACCEPTED", response = LongRunningRequest.class),
         @ApiResponse(code = 400, message = "Bad Request", response = Error.class),

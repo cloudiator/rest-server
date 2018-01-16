@@ -26,7 +26,9 @@ import java.util.List;
 @Api(value = "jobs", description = "the jobs API")
 public interface JobsApi {
 
-    @ApiOperation(value = "", nickname = "addJob", notes = "Creates a new job", response = Job.class, tags={ "job", })
+    @ApiOperation(value = "", nickname = "addJob", notes = "Creates a new job", response = Job.class, authorizations = {
+        @Authorization(value = "ApiKeyAuth")
+    }, tags={ "job", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "OK ", response = Job.class),
         @ApiResponse(code = 400, message = "Bad Request", response = Error.class),
@@ -42,7 +44,9 @@ public interface JobsApi {
     ResponseEntity<Job> addJob(@ApiParam(value = "Job to be created. " ,required=true )  @Valid @RequestBody Job job);
 
 
-    @ApiOperation(value = "", nickname = "findJobs", notes = "Returns all jobs visible to the user ", response = Job.class, responseContainer = "List", tags={ "job", })
+    @ApiOperation(value = "", nickname = "findJobs", notes = "Returns all jobs visible to the user ", response = Job.class, responseContainer = "List", authorizations = {
+        @Authorization(value = "ApiKeyAuth")
+    }, tags={ "job", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "OK ", response = Job.class, responseContainer = "List"),
         @ApiResponse(code = 401, message = "Authorization for this action is missing", response = Error.class),

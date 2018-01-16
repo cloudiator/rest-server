@@ -27,7 +27,9 @@ import java.util.List;
 @Api(value = "platformHardware", description = "the platformHardware API")
 public interface PlatformHardwareApi {
 
-    @ApiOperation(value = "", nickname = "addPlatformHardware", notes = "Creates a new PlatformHardware ", response = PlatformHardware.class, tags={ "platform", })
+    @ApiOperation(value = "", nickname = "addPlatformHardware", notes = "Creates a new PlatformHardware ", response = PlatformHardware.class, authorizations = {
+        @Authorization(value = "ApiKeyAuth")
+    }, tags={ "platform", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "OK ", response = PlatformHardware.class),
         @ApiResponse(code = 400, message = "Bad Request", response = Error.class),
@@ -43,7 +45,9 @@ public interface PlatformHardwareApi {
     ResponseEntity<PlatformHardware> addPlatformHardware(@ApiParam(value = "PlatformHardware to be created " ,required=true )  @Valid @RequestBody NewPlatformHardware platformHardware);
 
 
-    @ApiOperation(value = "", nickname = "findPlatformHardware", notes = "Returns the PlatformHardware identified by the id parameter. ", response = PlatformHardware.class, tags={ "platform", })
+    @ApiOperation(value = "", nickname = "findPlatformHardware", notes = "Returns the PlatformHardware identified by the id parameter. ", response = PlatformHardware.class, authorizations = {
+        @Authorization(value = "ApiKeyAuth")
+    }, tags={ "platform", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "OK", response = PlatformHardware.class),
         @ApiResponse(code = 401, message = "Authorization for this action is missing", response = Error.class),
@@ -56,7 +60,9 @@ public interface PlatformHardwareApi {
     ResponseEntity<PlatformHardware> findPlatformHardware(@ApiParam(value = "Unique identifier of the resource",required=true) @PathVariable("id") String id);
 
 
-    @ApiOperation(value = "", nickname = "findPlatformHardwares", notes = "Returns all platform hardware visible to the user ", response = PlatformHardware.class, responseContainer = "List", tags={ "platform", })
+    @ApiOperation(value = "", nickname = "findPlatformHardwares", notes = "Returns all platform hardware visible to the user ", response = PlatformHardware.class, responseContainer = "List", authorizations = {
+        @Authorization(value = "ApiKeyAuth")
+    }, tags={ "platform", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "OK ", response = PlatformHardware.class, responseContainer = "List"),
         @ApiResponse(code = 401, message = "Authorization for this action is missing", response = Error.class),

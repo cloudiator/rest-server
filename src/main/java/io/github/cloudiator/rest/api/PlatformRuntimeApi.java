@@ -27,7 +27,9 @@ import java.util.List;
 @Api(value = "platformRuntime", description = "the platformRuntime API")
 public interface PlatformRuntimeApi {
 
-    @ApiOperation(value = "", nickname = "addPlatformRuntime", notes = "Creates a new PlatformRuntime ", response = PlatformRuntime.class, tags={ "platform", })
+    @ApiOperation(value = "", nickname = "addPlatformRuntime", notes = "Creates a new PlatformRuntime ", response = PlatformRuntime.class, authorizations = {
+        @Authorization(value = "ApiKeyAuth")
+    }, tags={ "platform", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "OK ", response = PlatformRuntime.class),
         @ApiResponse(code = 400, message = "Bad Request", response = Error.class),
@@ -43,7 +45,9 @@ public interface PlatformRuntimeApi {
     ResponseEntity<PlatformRuntime> addPlatformRuntime(@ApiParam(value = "PlatformRuntime to be created " ,required=true )  @Valid @RequestBody NewPlatformRuntime platformRuntime);
 
 
-    @ApiOperation(value = "", nickname = "findPlatformRuntime", notes = "Returns the PlatformRuntime identified by the id parameter. ", response = PlatformRuntime.class, tags={ "platform", })
+    @ApiOperation(value = "", nickname = "findPlatformRuntime", notes = "Returns the PlatformRuntime identified by the id parameter. ", response = PlatformRuntime.class, authorizations = {
+        @Authorization(value = "ApiKeyAuth")
+    }, tags={ "platform", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "OK", response = PlatformRuntime.class),
         @ApiResponse(code = 401, message = "Authorization for this action is missing", response = Error.class),
@@ -56,7 +60,9 @@ public interface PlatformRuntimeApi {
     ResponseEntity<PlatformRuntime> findPlatformRuntime(@ApiParam(value = "Unique identifier of the resource",required=true) @PathVariable("id") String id);
 
 
-    @ApiOperation(value = "", nickname = "findPlatformRuntimes", notes = "Returns all platform runtime  visible to the user ", response = PlatformRuntime.class, responseContainer = "List", tags={ "platform", })
+    @ApiOperation(value = "", nickname = "findPlatformRuntimes", notes = "Returns all platform runtime  visible to the user ", response = PlatformRuntime.class, responseContainer = "List", authorizations = {
+        @Authorization(value = "ApiKeyAuth")
+    }, tags={ "platform", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "OK ", response = PlatformRuntime.class, responseContainer = "List"),
         @ApiResponse(code = 401, message = "Authorization for this action is missing", response = Error.class),

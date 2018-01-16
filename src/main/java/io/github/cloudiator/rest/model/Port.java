@@ -12,9 +12,9 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * Represents a communication port of a task 
+ * polymorphic superclass, only subtypes are allowed. Represents a communication port of a task 
  */
-@ApiModel(description = "Represents a communication port of a task ")
+@ApiModel(description = "polymorphic superclass, only subtypes are allowed. Represents a communication port of a task ")
 @Validated
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type", visible = true )
 @JsonSubTypes({
@@ -35,10 +35,10 @@ public class Port   {
   }
 
    /**
-   * Discriminator for polymorphism. 
+   * Discriminator for polymorphism. Only subtypes are allowed. 
    * @return type
   **/
-  @ApiModelProperty(value = "Discriminator for polymorphism. ")
+  @ApiModelProperty(value = "Discriminator for polymorphism. Only subtypes are allowed. ")
 
 
   public String getType() {
@@ -58,7 +58,7 @@ public class Port   {
    * Uniquely identifies a port. Defines the name of the environment variables holding IP addresses of remote tasks. 
    * @return name
   **/
-  @ApiModelProperty(example = "LOADBALANCERREQWIKI", required = true, value = "Uniquely identifies a port. Defines the name of the environment variables holding IP addresses of remote tasks. ")
+  @ApiModelProperty(required = true, value = "Uniquely identifies a port. Defines the name of the environment variables holding IP addresses of remote tasks. ")
   @NotNull
 
 

@@ -26,13 +26,15 @@ import java.util.List;
 @Api(value = "nodeCandidates", description = "the nodeCandidates API")
 public interface NodeCandidatesApi {
 
-    @ApiOperation(value = "", nickname = "findNodeCandidates", notes = "Returns possible node candidates. ", response = NodeCandidate.class, responseContainer = "List", tags={ "cloud", })
+    @ApiOperation(value = "", nickname = "findNodeCandidates", notes = "Returns possible node candidates. ", response = NodeCandidate.class, responseContainer = "List", authorizations = {
+        @Authorization(value = "ApiKeyAuth")
+    }, tags={ "cloud", })
     @ApiResponses(value = { 
         @ApiResponse(code = 202, message = "ACCEPTED", response = NodeCandidate.class, responseContainer = "List") })
     @RequestMapping(value = "/nodeCandidates",
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.POST)
-    ResponseEntity<List<NodeCandidate>> findNodeCandidates(@ApiParam(value = "Node Request"  )  @Valid @RequestBody NodeRequirements nodeRequirements);
+    ResponseEntity<List<NodeCandidate>> findNodeCandidates(@ApiParam(value = "Node Request "  )  @Valid @RequestBody NodeRequirements nodeRequirements);
 
 }

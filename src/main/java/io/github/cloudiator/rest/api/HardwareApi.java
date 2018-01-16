@@ -26,7 +26,9 @@ import java.util.List;
 @Api(value = "hardware", description = "the hardware API")
 public interface HardwareApi {
 
-    @ApiOperation(value = "", nickname = "findHardware", notes = "Returns all hardware visible to the user ", response = Hardware.class, responseContainer = "List", tags={ "cloud", })
+    @ApiOperation(value = "", nickname = "findHardware", notes = "Returns all hardware visible to the user ", response = Hardware.class, responseContainer = "List", authorizations = {
+        @Authorization(value = "ApiKeyAuth")
+    }, tags={ "cloud", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "OK ", response = Hardware.class, responseContainer = "List"),
         @ApiResponse(code = 401, message = "Authorization for this action is missing", response = Error.class),

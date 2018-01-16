@@ -27,7 +27,9 @@ import java.util.List;
 @Api(value = "platform", description = "the platform API")
 public interface PlatformApi {
 
-    @ApiOperation(value = "", nickname = "addPlatform", notes = "Creates a new platform.", response = Platform.class, tags={ "platform", })
+    @ApiOperation(value = "", nickname = "addPlatform", notes = "Creates a new platform.", response = Platform.class, authorizations = {
+        @Authorization(value = "ApiKeyAuth")
+    }, tags={ "platform", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "OK", response = Platform.class),
         @ApiResponse(code = 400, message = "Bad Request", response = Error.class),
@@ -43,7 +45,9 @@ public interface PlatformApi {
     ResponseEntity<Platform> addPlatform(@ApiParam(value = "Platform to add" ,required=true )  @Valid @RequestBody NewPlatform platform);
 
 
-    @ApiOperation(value = "", nickname = "deletePlatform", notes = "Deletes the platform identified by the given id paramater. ", tags={ "platform", })
+    @ApiOperation(value = "", nickname = "deletePlatform", notes = "Deletes the platform identified by the given id paramater. ", authorizations = {
+        @Authorization(value = "ApiKeyAuth")
+    }, tags={ "platform", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "OK"),
         @ApiResponse(code = 400, message = "Bad Request", response = Error.class),
@@ -59,7 +63,9 @@ public interface PlatformApi {
     ResponseEntity<Void> deletePlatform(@ApiParam(value = "Unique identifier of the resource",required=true) @PathVariable("id") String id);
 
 
-    @ApiOperation(value = "", nickname = "findPlatform", notes = "Returns the platform identified by the given id parameter ", response = Platform.class, tags={ "platform", })
+    @ApiOperation(value = "", nickname = "findPlatform", notes = "Returns the platform identified by the given id parameter ", response = Platform.class, authorizations = {
+        @Authorization(value = "ApiKeyAuth")
+    }, tags={ "platform", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "The platform identified by the id ", response = Platform.class),
         @ApiResponse(code = 401, message = "Authorization for this action is missing", response = Error.class),
@@ -72,7 +78,9 @@ public interface PlatformApi {
     ResponseEntity<Platform> findPlatform(@ApiParam(value = "Unique identifier of the resource",required=true) @PathVariable("id") String id);
 
 
-    @ApiOperation(value = "", nickname = "findPlatforms", notes = "Returns all platform from the system that the user has access to ", response = Platform.class, responseContainer = "List", tags={ "platform", })
+    @ApiOperation(value = "", nickname = "findPlatforms", notes = "Returns all platform from the system that the user has access to ", response = Platform.class, responseContainer = "List", authorizations = {
+        @Authorization(value = "ApiKeyAuth")
+    }, tags={ "platform", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "All platforms ", response = Platform.class, responseContainer = "List"),
         @ApiResponse(code = 401, message = "Authorization for this action is missing", response = Error.class),

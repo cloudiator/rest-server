@@ -26,7 +26,9 @@ import java.util.List;
 @Api(value = "images", description = "the images API")
 public interface ImagesApi {
 
-    @ApiOperation(value = "", nickname = "editImage", notes = "Updates a specific image ", response = Image.class, tags={ "cloud", })
+    @ApiOperation(value = "", nickname = "editImage", notes = "Updates a specific image ", response = Image.class, authorizations = {
+        @Authorization(value = "ApiKeyAuth")
+    }, tags={ "cloud", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "OK ", response = Image.class),
         @ApiResponse(code = 400, message = "Bad Request", response = Error.class),
@@ -42,7 +44,9 @@ public interface ImagesApi {
     ResponseEntity<Image> editImage(@ApiParam(value = "Unique identifier of the resource",required=true) @PathVariable("id") String id,@ApiParam(value = "Image to update " ,required=true )  @Valid @RequestBody Image image);
 
 
-    @ApiOperation(value = "", nickname = "findImages", notes = "Returns all images visable to the user ", response = Image.class, responseContainer = "List", tags={ "cloud", })
+    @ApiOperation(value = "", nickname = "findImages", notes = "Returns all images visable to the user ", response = Image.class, responseContainer = "List", authorizations = {
+        @Authorization(value = "ApiKeyAuth")
+    }, tags={ "cloud", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "All images ", response = Image.class, responseContainer = "List"),
         @ApiResponse(code = 401, message = "Authorization for this action is missing", response = Error.class),

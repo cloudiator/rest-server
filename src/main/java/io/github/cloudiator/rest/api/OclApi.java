@@ -26,7 +26,9 @@ import java.util.List;
 @Api(value = "ocl", description = "the ocl API")
 public interface OclApi {
 
-    @ApiOperation(value = "", nickname = "solveOCL", notes = "Solves an Ocl Problem", response = OclSolution.class, tags={ "misc", })
+    @ApiOperation(value = "", nickname = "solveOCL", notes = "Solves an Ocl Problem", response = OclSolution.class, authorizations = {
+        @Authorization(value = "ApiKeyAuth")
+    }, tags={ "misc", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "OK", response = OclSolution.class) })
     @RequestMapping(value = "/ocl",

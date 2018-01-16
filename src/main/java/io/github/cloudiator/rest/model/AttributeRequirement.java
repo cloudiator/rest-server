@@ -12,8 +12,9 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * AttributeRequirement
+ * Subtype of Requirement 
  */
+@ApiModel(description = "Subtype of Requirement ")
 @Validated
 
 public class AttributeRequirement extends Requirement  {

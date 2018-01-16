@@ -11,9 +11,9 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * Represents a PaaS interface 
+ * Subtype of TaskInterface Represents a PaaS interface 
  */
-@ApiModel(description = "Represents a PaaS interface ")
+@ApiModel(description = "Subtype of TaskInterface Represents a PaaS interface ")
 @Validated
 
 public class PlatformInterface extends TaskInterface  {

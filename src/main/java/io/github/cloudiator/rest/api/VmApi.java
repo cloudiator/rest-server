@@ -27,7 +27,9 @@ import java.util.List;
 @Api(value = "vm", description = "the vm API")
 public interface VmApi {
 
-    @ApiOperation(value = "", nickname = "addVM", notes = "Creates a new virtual machine request", response = LongRunningRequest.class, tags={ "cloud", })
+    @ApiOperation(value = "", nickname = "addVM", notes = "Creates a new virtual machine request", response = LongRunningRequest.class, authorizations = {
+        @Authorization(value = "ApiKeyAuth")
+    }, tags={ "cloud", })
     @ApiResponses(value = { 
         @ApiResponse(code = 202, message = "ACCEPTED", response = LongRunningRequest.class),
         @ApiResponse(code = 400, message = "Bad Request", response = Error.class),

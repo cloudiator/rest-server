@@ -12,8 +12,9 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * Requirement
+ * polymorphic Superclass, only subtypes are allowed
  */
+@ApiModel(description = "polymorphic Superclass, only subtypes are allowed")
 @Validated
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type", visible = true )
 @JsonSubTypes({

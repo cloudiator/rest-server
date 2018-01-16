@@ -11,8 +11,9 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * DockerInterface
+ * Subtype of TaskInterface 
  */
+@ApiModel(description = "Subtype of TaskInterface ")
 @Validated
 
 public class DockerInterface extends TaskInterface  {

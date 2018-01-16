@@ -1,3 +1,5 @@
 kafka.bootstrapServers =
 kafka.groupId = restServer
 kafka.responseTimeout = 10000
+
+security.apiKey =

@@ -10,9 +10,9 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * Represents a geographical location
+ * Part of Location Represents a geographical location 
  */
-@ApiModel(description = "Represents a geographical location")
+@ApiModel(description = "Part of Location Represents a geographical location ")
 @Validated
 
 public class GeoLocation   {

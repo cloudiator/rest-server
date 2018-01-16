@@ -11,8 +11,9 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * OclRequirement
+ * Subytpe of Requirement 
  */
+@ApiModel(description = "Subytpe of Requirement ")
 @Validated
 
 public class OclRequirement extends Requirement  {

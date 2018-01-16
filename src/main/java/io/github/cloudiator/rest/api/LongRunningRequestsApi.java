@@ -26,7 +26,9 @@ import java.util.List;
 @Api(value = "longRunningRequests", description = "the longRunningRequests API")
 public interface LongRunningRequestsApi {
 
-    @ApiOperation(value = "", nickname = "findAllLongRunningRequest", notes = "Returns all running LLRs visible to the user ", response = LongRunningRequest.class, responseContainer = "List", tags={ "longRunningRequest", })
+    @ApiOperation(value = "", nickname = "findAllLongRunningRequest", notes = "Returns all running LLRs visible to the user ", response = LongRunningRequest.class, responseContainer = "List", authorizations = {
+        @Authorization(value = "ApiKeyAuth")
+    }, tags={ "longRunningRequest", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "OK", response = LongRunningRequest.class, responseContainer = "List"),
         @ApiResponse(code = 401, message = "Authorization for this action is missing", response = Error.class),
@@ -39,7 +41,9 @@ public interface LongRunningRequestsApi {
     ResponseEntity<List<LongRunningRequest>> findAllLongRunningRequest();
 
 
-    @ApiOperation(value = "", nickname = "findLongRunningRequest", notes = "Returns the LRR identified by the id parameter. ", response = LongRunningRequest.class, tags={ "longRunningRequest", })
+    @ApiOperation(value = "", nickname = "findLongRunningRequest", notes = "Returns the LRR identified by the id parameter. ", response = LongRunningRequest.class, authorizations = {
+        @Authorization(value = "ApiKeyAuth")
+    }, tags={ "longRunningRequest", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "OK", response = LongRunningRequest.class),
         @ApiResponse(code = 401, message = "Authorization for this action is missing", response = Error.class),

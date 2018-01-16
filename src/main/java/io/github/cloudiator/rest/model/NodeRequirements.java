@@ -13,9 +13,9 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * Represents a request to create a new node fullfilling the given requirements 
+ * Array of Requirements. Represents a request to create a new node fullfilling the given requirements 
  */
-@ApiModel(description = "Represents a request to create a new node fullfilling the given requirements ")
+@ApiModel(description = "Array of Requirements. Represents a request to create a new node fullfilling the given requirements ")
 @Validated
 
 public class NodeRequirements   {

@@ -11,9 +11,9 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * Represents a lance interface. 
+ * Part of a task. Subtype of TaskInterface. 
  */
-@ApiModel(description = "Represents a lance interface. ")
+@ApiModel(description = "Part of a task. Subtype of TaskInterface. ")
 @Validated
 
 public class LanceInterface extends TaskInterface  {

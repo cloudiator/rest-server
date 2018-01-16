@@ -10,8 +10,9 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * Error
+ * Basic errorClass 
  */
+@ApiModel(description = "Basic errorClass ")
 @Validated
 
 public class Error   {
@@ -30,7 +31,7 @@ public class Error   {
    * Get code
    * @return code
   **/
-  @ApiModelProperty(required = true, value = "")
+  @ApiModelProperty(example = "404", required = true, value = "")
   @NotNull
 
 
@@ -51,7 +52,7 @@ public class Error   {
    * Get message
    * @return message
   **/
-  @ApiModelProperty(required = true, value = "")
+  @ApiModelProperty(example = "Not found", required = true, value = "")
   @NotNull
 
 

@@ -27,7 +27,9 @@ import java.util.List;
 @Api(value = "clouds", description = "the clouds API")
 public interface CloudsApi {
 
-    @ApiOperation(value = "", nickname = "addCloud", notes = "Creates a new cloud.", response = Cloud.class, tags={ "cloud", })
+    @ApiOperation(value = "", nickname = "addCloud", notes = "Creates a new cloud.", response = Cloud.class, authorizations = {
+        @Authorization(value = "ApiKeyAuth")
+    }, tags={ "cloud", })
     @ApiResponses(value = { 
         @ApiResponse(code = 201, message = "Created", response = Cloud.class),
         @ApiResponse(code = 400, message = "Bad Request", response = Error.class),
@@ -43,7 +45,9 @@ public interface CloudsApi {
     ResponseEntity<Cloud> addCloud(@ApiParam(value = "Cloud to add" ,required=true )  @Valid @RequestBody NewCloud cloud);
 
 
-    @ApiOperation(value = "", nickname = "deleteCloud", notes = "Deletes the cloud identified by the given id paramater. ", tags={ "cloud", })
+    @ApiOperation(value = "", nickname = "deleteCloud", notes = "Deletes the cloud identified by the given id paramater. ", authorizations = {
+        @Authorization(value = "ApiKeyAuth")
+    }, tags={ "cloud", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "OK"),
         @ApiResponse(code = 400, message = "Bad Request", response = Error.class),
@@ -58,7 +62,9 @@ public interface CloudsApi {
     ResponseEntity<Void> deleteCloud(@ApiParam(value = "Unique identifier of the resource",required=true) @PathVariable("id") String id);
 
 
-    @ApiOperation(value = "", nickname = "findCloud", notes = "Returns the cloud identified by the given id parameter ", response = Cloud.class, tags={ "cloud", })
+    @ApiOperation(value = "", nickname = "findCloud", notes = "Returns the cloud identified by the given id parameter ", response = Cloud.class, authorizations = {
+        @Authorization(value = "ApiKeyAuth")
+    }, tags={ "cloud", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "The cloud identified by the id ", response = Cloud.class),
         @ApiResponse(code = 401, message = "Authorization for this action is missing", response = Error.class),
@@ -71,7 +77,9 @@ public interface CloudsApi {
     ResponseEntity<Cloud> findCloud(@ApiParam(value = "Unique identifier of the resource",required=true) @PathVariable("id") String id);
 
 
-    @ApiOperation(value = "", nickname = "findClouds", notes = "Returns all clouds from the system that the user has access to ", response = Cloud.class, responseContainer = "List", tags={ "cloud", })
+    @ApiOperation(value = "", nickname = "findClouds", notes = "Returns all clouds from the system that the user has access to ", response = Cloud.class, responseContainer = "List", authorizations = {
+        @Authorization(value = "ApiKeyAuth")
+    }, tags={ "cloud", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "All clouds ", response = Cloud.class, responseContainer = "List"),
         @ApiResponse(code = 401, message = "Authorization for this action is missing", response = Error.class),

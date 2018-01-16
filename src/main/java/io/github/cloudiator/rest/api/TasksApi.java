@@ -26,7 +26,9 @@ import java.util.List;
 @Api(value = "tasks", description = "the tasks API")
 public interface TasksApi {
 
-    @ApiOperation(value = "", nickname = "addTask", notes = "Creates a new task ", response = Task.class, tags={ "job", })
+    @ApiOperation(value = "", nickname = "addTask", notes = "Creates a new task ", response = Task.class, authorizations = {
+        @Authorization(value = "ApiKeyAuth")
+    }, tags={ "job", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "OK ", response = Task.class),
         @ApiResponse(code = 400, message = "Bad Request", response = Error.class),
@@ -42,7 +44,9 @@ public interface TasksApi {
     ResponseEntity<Task> addTask(@ApiParam(value = "Task to be created " ,required=true )  @Valid @RequestBody Task task);
 
 
-    @ApiOperation(value = "", nickname = "findTasks", notes = "Returns all tasks visible to the user ", response = Task.class, responseContainer = "List", tags={ "job", })
+    @ApiOperation(value = "", nickname = "findTasks", notes = "Returns all tasks visible to the user ", response = Task.class, responseContainer = "List", authorizations = {
+        @Authorization(value = "ApiKeyAuth")
+    }, tags={ "job", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "OK ", response = Task.class, responseContainer = "List"),
         @ApiResponse(code = 401, message = "Authorization for this action is missing", response = Error.class),

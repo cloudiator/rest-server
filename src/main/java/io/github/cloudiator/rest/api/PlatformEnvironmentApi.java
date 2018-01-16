@@ -27,7 +27,9 @@ import java.util.List;
 @Api(value = "platformEnvironment", description = "the platformEnvironment API")
 public interface PlatformEnvironmentApi {
 
-    @ApiOperation(value = "", nickname = "addPlatformEnvironment", notes = "Creates a new PlatformEnvironment ", response = PlatformEnvironment.class, tags={ "platform", })
+    @ApiOperation(value = "", nickname = "addPlatformEnvironment", notes = "Creates a new PlatformEnvironment ", response = PlatformEnvironment.class, authorizations = {
+        @Authorization(value = "ApiKeyAuth")
+    }, tags={ "platform", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "OK ", response = PlatformEnvironment.class),
         @ApiResponse(code = 400, message = "Bad Request", response = Error.class),
@@ -43,7 +45,9 @@ public interface PlatformEnvironmentApi {
     ResponseEntity<PlatformEnvironment> addPlatformEnvironment(@ApiParam(value = "PlatformEnvironment to be created " ,required=true )  @Valid @RequestBody NewPlatformEnvironment platformEnvironment);
 
 
-    @ApiOperation(value = "", nickname = "findPlatformEnvironment", notes = "Returns the PlatformEnvironment identified by the id parameter. ", response = PlatformEnvironment.class, tags={ "platform", })
+    @ApiOperation(value = "", nickname = "findPlatformEnvironment", notes = "Returns the PlatformEnvironment identified by the id parameter. ", response = PlatformEnvironment.class, authorizations = {
+        @Authorization(value = "ApiKeyAuth")
+    }, tags={ "platform", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "OK", response = PlatformEnvironment.class),
         @ApiResponse(code = 401, message = "Authorization for this action is missing", response = Error.class),
@@ -56,7 +60,9 @@ public interface PlatformEnvironmentApi {
     ResponseEntity<PlatformEnvironment> findPlatformEnvironment(@ApiParam(value = "Unique identifier of the resource",required=true) @PathVariable("id") String id);
 
 
-    @ApiOperation(value = "", nickname = "findPlatformEnvironments", notes = "Returns all platform environment  visible to the user ", response = PlatformEnvironment.class, responseContainer = "List", tags={ "platform", })
+    @ApiOperation(value = "", nickname = "findPlatformEnvironments", notes = "Returns all platform environment  visible to the user ", response = PlatformEnvironment.class, responseContainer = "List", authorizations = {
+        @Authorization(value = "ApiKeyAuth")
+    }, tags={ "platform", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "OK ", response = PlatformEnvironment.class, responseContainer = "List"),
         @ApiResponse(code = 401, message = "Authorization for this action is missing", response = Error.class),

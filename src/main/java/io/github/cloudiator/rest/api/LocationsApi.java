@@ -26,7 +26,9 @@ import java.util.List;
 @Api(value = "locations", description = "the locations API")
 public interface LocationsApi {
 
-    @ApiOperation(value = "", nickname = "findLocations", notes = "Returns all locations visible to the user ", response = Location.class, responseContainer = "List", tags={ "cloud", })
+    @ApiOperation(value = "", nickname = "findLocations", notes = "Returns all locations visible to the user ", response = Location.class, responseContainer = "List", authorizations = {
+        @Authorization(value = "ApiKeyAuth")
+    }, tags={ "cloud", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "OK ", response = Location.class, responseContainer = "List"),
         @ApiResponse(code = 401, message = "Authorization for this action is missing", response = Error.class),
