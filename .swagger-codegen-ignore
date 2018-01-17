@@ -41,7 +41,7 @@ src/main/java/io/github/cloudiator/rest/api/JobsApiController.java
 src/main/java/io/github/cloudiator/rest/api/LocationsApiController.java
 src/main/java/io/github/cloudiator/rest/api/LongRunningRequestsApiController.java
 src/main/java/io/github/cloudiator/rest/api/NodeApiController.java
-src/main/java/io/github/cloudiator/rest/api/OclApiController.java
+src/main/java/io/github/cloudiator/rest/api/MatchmakingApiController.java
 src/main/java/io/github/cloudiator/rest/api/TasksApiController.java
 src/main/java/io/github/cloudiator/rest/api/VmApiController.java
 src/main/java/io/github/cloudiator/rest/api/NodeCandidatesApiController.java

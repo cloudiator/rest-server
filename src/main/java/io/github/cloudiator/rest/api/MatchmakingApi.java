@@ -5,8 +5,8 @@
  */
 package io.github.cloudiator.rest.api;
 
-import io.github.cloudiator.rest.model.OclProblem;
-import io.github.cloudiator.rest.model.OclSolution;
+import io.github.cloudiator.rest.model.MatchmakingRequest;
+import io.github.cloudiator.rest.model.MatchmakingResponse;
 import io.swagger.annotations.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -23,18 +23,18 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 import java.util.List;
 
-@Api(value = "ocl", description = "the ocl API")
-public interface OclApi {
+@Api(value = "matchmaking", description = "the matchmaking API")
+public interface MatchmakingApi {
 
-    @ApiOperation(value = "", nickname = "solveOCL", notes = "Solves an Ocl Problem", response = OclSolution.class, authorizations = {
+    @ApiOperation(value = "", nickname = "solveMatchmaking", notes = "Solves a matchmaking problem", response = MatchmakingResponse.class, authorizations = {
         @Authorization(value = "ApiKeyAuth")
-    }, tags={ "misc", })
+    }, tags={ "matchmaking", })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "OK", response = OclSolution.class) })
-    @RequestMapping(value = "/ocl",
+        @ApiResponse(code = 200, message = "OK", response = MatchmakingResponse.class) })
+    @RequestMapping(value = "/matchmaking",
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.PUT)
-    ResponseEntity<OclSolution> solveOCL(@ApiParam(value = "OCL Problem to solve" ,required=true )  @Valid @RequestBody OclProblem oclProblem);
+    ResponseEntity<MatchmakingResponse> solveMatchmaking(@ApiParam(value = "The matchmaking request to solve" ,required=true )  @Valid @RequestBody MatchmakingRequest matchmakingRequest);
 
 }

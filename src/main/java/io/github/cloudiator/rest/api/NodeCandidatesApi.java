@@ -28,7 +28,7 @@ public interface NodeCandidatesApi {
 
     @ApiOperation(value = "", nickname = "findNodeCandidates", notes = "Returns possible node candidates. ", response = NodeCandidate.class, responseContainer = "List", authorizations = {
         @Authorization(value = "ApiKeyAuth")
-    }, tags={ "cloud", })
+    }, tags={ "matchmaking", })
     @ApiResponses(value = { 
         @ApiResponse(code = 202, message = "ACCEPTED", response = NodeCandidate.class, responseContainer = "List") })
     @RequestMapping(value = "/nodeCandidates",
