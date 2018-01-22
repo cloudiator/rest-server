@@ -26,7 +26,7 @@ public class ServiceFactory {
   private static final Logger LOGGER = LoggerFactory.getLogger(ServiceFactory.class);
   private static final Injector INJECTOR = Guice
       .createInjector(
-          new KafkaMessagingModule(new KafkaContext(Configuration.conf().getConfig("kafka"))),
+          new KafkaMessagingModule(new KafkaContext(Configuration.conf())),
           new MessageServiceModule());
 
   public ServiceFactory() {
