@@ -3,6 +3,7 @@ package io.github.cloudiator.rest.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import io.github.cloudiator.rest.model.Tenant;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.validation.annotation.Validated;
@@ -20,7 +21,7 @@ public class Login   {
   private String email = null;
 
   @JsonProperty("tenant")
-  private String tenant = null;
+  private Tenant tenant = null;
 
   @JsonProperty("password")
   private String password = null;
@@ -46,24 +47,25 @@ public class Login   {
     this.email = email;
   }
 
-  public Login tenant(String tenant) {
+  public Login tenant(Tenant tenant) {
     this.tenant = tenant;
     return this;
   }
 
    /**
-   * Tenant the user wants to authenticate
+   * Get tenant
    * @return tenant
   **/
-  @ApiModelProperty(example = "admin", required = true, value = "Tenant the user wants to authenticate")
+  @ApiModelProperty(required = true, value = "")
   @NotNull
 
+  @Valid
 
-  public String getTenant() {
+  public Tenant getTenant() {
     return tenant;
   }
 
-  public void setTenant(String tenant) {
+  public void setTenant(Tenant tenant) {
     this.tenant = tenant;
   }
 

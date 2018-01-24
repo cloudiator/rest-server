@@ -28,7 +28,7 @@ public class Token   {
    * The token
    * @return token
   **/
-  @ApiModelProperty(required = true, value = "The token")
+  @ApiModelProperty(example = "theToken", required = true, value = "The token")
   @NotNull
 
 
