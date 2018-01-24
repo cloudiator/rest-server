@@ -46,6 +46,10 @@ src/main/java/io/github/cloudiator/rest/api/TasksApiController.java
 src/main/java/io/github/cloudiator/rest/api/VmApiController.java
 src/main/java/io/github/cloudiator/rest/api/NodeCandidatesApiController.java
 
+src/main/java/io/github/cloudiator/rest/api/LoginApiController.java
+src/main/java/io/github/cloudiator/rest/api/TenantsApiController.java
+src/main/java/io/github/cloudiator/rest/api/UsersApiController.java
+
 
 
 # Ignore Exceptionhandling
