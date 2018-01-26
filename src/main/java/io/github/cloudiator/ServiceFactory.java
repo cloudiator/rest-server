@@ -14,6 +14,7 @@ import org.cloudiator.messaging.services.MatchmakingService;
 import org.cloudiator.messaging.services.MessageServiceModule;
 import org.cloudiator.messaging.services.NodeService;
 import org.cloudiator.messaging.services.TaskService;
+import org.cloudiator.messaging.services.UserService;
 import org.cloudiator.messaging.services.VirtualMachineService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -66,5 +67,9 @@ public class ServiceFactory {
 
   public NodeService createNodeService() {
     return INJECTOR.getInstance(NodeService.class);
+  }
+
+  public UserService createUserService(){
+    return INJECTOR.getInstance(UserService.class);
   }
 }

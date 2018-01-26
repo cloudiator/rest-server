@@ -1,7 +1,7 @@
 package io.github.cloudiator.rest.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.github.cloudiator.rest.UserService;
+import io.github.cloudiator.rest.UserServiceOld;
 import io.github.cloudiator.rest.converter.MatchmakingResponseConverter;
 import io.github.cloudiator.rest.converter.NodeRequirementsConverter;
 import io.github.cloudiator.rest.model.MatchmakingRequest;
@@ -33,7 +33,7 @@ public class MatchmakingApiController implements MatchmakingApi {
   private MatchmakingService matchmakingService;
 
   @Autowired
-  private UserService userService;
+  private UserServiceOld userService;
 
   private static final NodeRequirementsConverter NODE_REQUIREMENTS_CONVERTER = new NodeRequirementsConverter();
   private static final MatchmakingResponseConverter MATCHMAKING_RESPONSE_CONVERTER = new MatchmakingResponseConverter();

@@ -2,7 +2,7 @@ package io.github.cloudiator.rest.api;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.github.cloudiator.rest.UserService;
+import io.github.cloudiator.rest.UserServiceOld;
 import io.github.cloudiator.rest.model.LongRunningRequest;
 
 
@@ -44,7 +44,7 @@ public class NodeApiController implements NodeApi {
   private NodeService nodeService;
 
   @Autowired
-  private UserService userService;
+  private UserServiceOld userService;
 
   private NodeRequirementsConverter nodeRequirementsConverter = new NodeRequirementsConverter();
 

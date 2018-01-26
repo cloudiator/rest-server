@@ -3,23 +3,23 @@ package io.github.cloudiator.rest.converter;
 import io.github.cloudiator.rest.model.User;
 import org.cloudiator.messages.entities.UserEntities;
 
-public class UserToUserConverter implements
+public class UserConverter implements
     TwoWayConverter<User, UserEntities.User>{
 
   private final TenantToTenantConverter T2TConverter = new TenantToTenantConverter();
 
   @Override
-  public User applyBack(UserEntities.User user) {
+  public User applyBack(UserEntities.User kafkaUser) {
      User back = new User();
-     back.setEmail(user.getEmail());
-     back.setTenant(T2TConverter.applyBack(user.getTenant()));
+     back.setEmail(kafkaUser.getEmail());
+     back.setTenant(T2TConverter.applyBack(kafkaUser.getTenant()));
     return null;
   }
 
   @Override
-  public UserEntities.User apply(User user) {
+  public UserEntities.User apply(User restUser) {
     UserEntities.User.Builder result = UserEntities.User.newBuilder()
-        .setEmail(user.getEmail()).setTenant(T2TConverter.apply(user.getTenant()));
+        .setEmail(restUser.getEmail()).setTenant(T2TConverter.apply(restUser.getTenant()));
 
     return result.build();
   }

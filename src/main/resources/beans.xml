@@ -5,7 +5,8 @@
   xsi:schemaLocation="http://www.springframework.org/schema/beans
    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
-  <bean id="userService" class="io.github.cloudiator.rest.UserServiceImpl"/>
+  <bean id="userServiceold" class="io.github.cloudiator.rest.UserServiceImpl"/>
+  <bean id="userService" factory-bean="serviceFactory" factory-method="createUserService"/>
 
   <bean id="serviceFactory" class="io.github.cloudiator.ServiceFactory"/>
 

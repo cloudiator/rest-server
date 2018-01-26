@@ -2,8 +2,7 @@ package io.github.cloudiator.rest.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.cloudiator.rest.LRRMapService;
-import io.github.cloudiator.rest.UserService;
-import io.github.cloudiator.rest.model.Error;
+import io.github.cloudiator.rest.UserServiceOld;
 import io.github.cloudiator.rest.model.LongRunningRequest;
 
 import io.swagger.annotations.*;
@@ -46,7 +45,7 @@ public class LongRunningRequestsApiController implements LongRunningRequestsApi 
   private LRRMapService lrrMapService;
 
   @Autowired
-  private UserService userService;
+  private UserServiceOld userService;
 
 
   public ResponseEntity<List<LongRunningRequest>> findAllLongRunningRequest() {

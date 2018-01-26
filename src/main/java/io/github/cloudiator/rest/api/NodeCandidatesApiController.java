@@ -1,7 +1,7 @@
 package io.github.cloudiator.rest.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.github.cloudiator.rest.UserService;
+import io.github.cloudiator.rest.UserServiceOld;
 import io.github.cloudiator.rest.converter.NodeCandidateConverter;
 import io.github.cloudiator.rest.converter.NodeRequirementsConverter;
 import io.github.cloudiator.rest.model.NodeCandidate;
@@ -42,7 +42,7 @@ public class NodeCandidatesApiController implements NodeCandidatesApi {
   }
 
   @Autowired
-  private UserService userService;
+  private UserServiceOld userService;
 
   @Autowired
   private MatchmakingService matchmakingService;

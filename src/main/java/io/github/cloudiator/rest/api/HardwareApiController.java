@@ -1,7 +1,7 @@
 package io.github.cloudiator.rest.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.github.cloudiator.rest.UserService;
+import io.github.cloudiator.rest.UserServiceOld;
 import io.github.cloudiator.rest.converter.HardwareConverter;
 import io.github.cloudiator.rest.model.Hardware;
 
@@ -50,7 +50,7 @@ public class HardwareApiController implements HardwareApi {
   }
 
   @Autowired
-  private UserService userService;
+  private UserServiceOld userService;
 
   @Autowired
   private HardwareService hardwareService;

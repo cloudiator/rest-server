@@ -2,8 +2,7 @@ package io.github.cloudiator.rest.api;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.github.cloudiator.rest.UserService;
-import io.github.cloudiator.rest.UserServiceImpl;
+import io.github.cloudiator.rest.UserServiceOld;
 import io.github.cloudiator.rest.converter.CloudToCloudConverter;
 import io.github.cloudiator.rest.converter.NewCloudConverter;
 import io.github.cloudiator.rest.model.Cloud;
@@ -57,7 +56,7 @@ public class CloudsApiController implements CloudsApi {
   }
 
   @Autowired
-  private UserService userService;
+  private UserServiceOld userService;
 
   @Autowired
   private CloudService cloudService;
