@@ -13,7 +13,7 @@ public class UserConverter implements
      User back = new User();
      back.setEmail(kafkaUser.getEmail());
      back.setTenant(T2TConverter.applyBack(kafkaUser.getTenant()));
-    return null;
+    return back;
   }
 
   @Override
