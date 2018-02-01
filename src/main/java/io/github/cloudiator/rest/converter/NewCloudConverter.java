@@ -31,8 +31,6 @@ public class NewCloudConverter implements TwoWayConverter<NewCloud, IaasEntities
     IaasEntities.NewCloud.Builder builder = IaasEntities.NewCloud.newBuilder();
     if (cloud.getEndpoint() != null) {
       builder.setEndpoint(cloud.getEndpoint());
-    } else {
-      builder.clearEndpoint();
     }
     builder.setCloudType(cloudTypeConverter.apply(cloud.getCloudType()));
     builder.setApi(apiToApiConverter.apply(cloud.getApi()));
