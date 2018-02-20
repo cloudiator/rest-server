@@ -5,10 +5,12 @@ import io.github.cloudiator.rest.UserService;
 import io.github.cloudiator.rest.converter.JobConverter;
 import io.github.cloudiator.rest.model.Job;
 import io.swagger.annotations.ApiParam;
-import java.io.IOException;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import org.cloudiator.messages.Job.CreateJobRequest;
+import org.cloudiator.messages.Job.JobCreatedResponse;
+import org.cloudiator.messaging.ResponseException;
 import org.cloudiator.messaging.services.JobService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,12 +50,16 @@ public class JobsApiController implements JobsApi {
     String accept = request.getHeader("Accept");
     if (accept != null && accept.contains("application/json")) {
       try {
-        return new ResponseEntity<Job>(objectMapper.readValue("\"\"", Job.class),
-            HttpStatus.NOT_IMPLEMENTED);
 
-      } catch (IOException e) {
-        log.error("Couldn't serialize response for content type application/json", e);
-        return new ResponseEntity<Job>(HttpStatus.INTERNAL_SERVER_ERROR);
+        final CreateJobRequest createJobRequest = CreateJobRequest.newBuilder()
+            .setJob(jobConverter.apply(job)).setUserId(userService.getUserId()).build();
+
+        final JobCreatedResponse jobCreatedResponse = jobService.createJob(createJobRequest);
+        return new ResponseEntity<>(jobConverter.applyBack(jobCreatedResponse.getJob()),
+            HttpStatus.OK);
+
+      } catch (ResponseException e) {
+        return new ResponseEntity<>(HttpStatus.valueOf(e.code()));
       }
     }
     return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
