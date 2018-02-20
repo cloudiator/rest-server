@@ -28,7 +28,7 @@ public class Tenant   {
    * The tenant
    * @return tenant
   **/
-  @ApiModelProperty(required = true, value = "The tenant")
+  @ApiModelProperty(example = "admin", required = true, value = "The tenant")
   @NotNull
 
 

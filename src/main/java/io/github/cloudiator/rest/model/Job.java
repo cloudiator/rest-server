@@ -26,11 +26,11 @@ public class Job   {
 
   @JsonProperty("tasks")
   @Valid
-  private List<Task> tasks = new ArrayList<Task>();
+  private List<Task> tasks = null;
 
   @JsonProperty("communications")
   @Valid
-  private List<Communication> communications = new ArrayList<Communication>();
+  private List<Communication> communications = null;
 
   @JsonProperty("requirements")
   @Valid
@@ -63,6 +63,9 @@ public class Job   {
   }
 
   public Job addTasksItem(Task tasksItem) {
+    if (this.tasks == null) {
+      this.tasks = new ArrayList<Task>();
+    }
     this.tasks.add(tasksItem);
     return this;
   }
@@ -71,8 +74,7 @@ public class Job   {
    * An array of tasks that form this application. 
    * @return tasks
   **/
-  @ApiModelProperty(required = true, value = "An array of tasks that form this application. ")
-  @NotNull
+  @ApiModelProperty(value = "An array of tasks that form this application. ")
 
   @Valid
 
@@ -90,6 +92,9 @@ public class Job   {
   }
 
   public Job addCommunicationsItem(Communication communicationsItem) {
+    if (this.communications == null) {
+      this.communications = new ArrayList<Communication>();
+    }
     this.communications.add(communicationsItem);
     return this;
   }
@@ -98,8 +103,7 @@ public class Job   {
    * Get communications
    * @return communications
   **/
-  @ApiModelProperty(required = true, value = "")
-  @NotNull
+  @ApiModelProperty(value = "")
 
   @Valid
 
