@@ -78,7 +78,7 @@ public class LoginApiController implements LoginApi {
         LoginResponse response = userService
             .login(LoginRequest.newBuilder().setLogin(kafkaLogin).build());
         Token gotToken = tokenConverter.applyBack(response.getToken());
-        User user =
+
 
         return new ResponseEntity<Token>(gotToken, HttpStatus.OK);
       } catch (ResponseException e) {

@@ -43,7 +43,8 @@ public class ApiKeyAuthorizationFilter extends BasicAuthenticationFilter {
 
     String header = request.getHeader(HEADER);
 
-    if (header == null || !checkToken(header)) {
+    //|| !checkToken(header)
+    if (header == null) {
       chain.doFilter(request, response);
       return;
     }
@@ -56,6 +57,7 @@ public class ApiKeyAuthorizationFilter extends BasicAuthenticationFilter {
 
   private boolean checkToken(String token) {
     final String validToken = Configuration.conf().getString(SecurityConstants.TOKEN_CONFIG);
+
     if (validToken == null) {
       return false;
     }
@@ -74,7 +76,7 @@ public class ApiKeyAuthorizationFilter extends BasicAuthenticationFilter {
       }
 
       UserEntities.Token kafkaToken = UserEntities.Token.newBuilder().setToken(token)
-          .setGenerationTime(1).setExpireTime(5).build();
+          .setGenerationTime(1).setExpireTime(2).build();
       AuthRequest req = AuthRequest.newBuilder().setToken(kafkaToken).build();
       System.out.println(req + "\n");
       AuthResponse authResponse;
@@ -82,6 +84,7 @@ public class ApiKeyAuthorizationFilter extends BasicAuthenticationFilter {
       authResponse = userService.auth(req);
       System.out.println(authResponse + "\n");
       String user = authResponse.getUser().getEmail();
+      System.out.println("\n" + user + " \n");
 
       return new UsernamePasswordAuthenticationToken(user, null, new ArrayList<>());
     } catch (ResponseException ex) {
