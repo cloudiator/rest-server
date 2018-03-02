@@ -57,7 +57,7 @@ public class TenantsApiController implements TenantsApi {
       try {
 
         CreateTenantResponse response = userService.createTenant(CreateTenantRequest.newBuilder()
-            .setTenant(T2TConverter.apply(tenant)).build());
+            .setTenant(tenant.getTenant()).build());
 
         Tenant backTenant = T2TConverter.applyBack(response.getTenant());
 

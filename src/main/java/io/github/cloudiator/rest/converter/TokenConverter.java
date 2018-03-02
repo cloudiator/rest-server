@@ -7,7 +7,8 @@ public class TokenConverter implements TwoWayConverter<Token, UserEntities.Token
 
   @Override
   public Token applyBack(UserEntities.Token prototoken) {
-    Token result = new Token().token(prototoken.getToken());
+    Token result = new Token()
+        .token(prototoken.getToken());
     return result;
   }
 

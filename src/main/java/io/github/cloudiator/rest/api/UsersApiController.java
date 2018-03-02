@@ -7,6 +7,7 @@ import io.github.cloudiator.rest.model.User;
 import io.github.cloudiator.rest.model.UserNew;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.*;
+import java.util.Base64;
 import org.cloudiator.messages.entities.User.CreateUserRequest;
 import org.cloudiator.messages.entities.UserEntities;
 import org.cloudiator.messaging.ResponseException;
@@ -58,11 +59,18 @@ public class UsersApiController implements UsersApi {
     if (accept != null && accept.contains("application/json")) {
       try {
 
+        if(!apiUser.getPassword().matches(apiUser.getPasswordRepeat())){
+          throw new ApiException(400, "PasswordRepeat does not match. pw:"+apiUser.getPassword()+"re"+apiUser.getPasswordRepeat());
+        }
+
+        String encodedPW = Base64.getEncoder().encodeToString(apiUser.getPassword().getBytes());
+
+
         //MessageEntity
         UserEntities.UserNew userNewOut = UserEntities.UserNew.newBuilder()
             .setEmail(apiUser.getEmail())
-            .setPassword(apiUser.getPassword())
-            .setPasswordRepeat(apiUser.getPasswordRepeat())
+            .setPassword(encodedPW)
+            .setPasswordRepeat(encodedPW)
             .setTenant(T2TConverter.apply(apiUser.getTenant()))
             .build();
         User userCreated = null;

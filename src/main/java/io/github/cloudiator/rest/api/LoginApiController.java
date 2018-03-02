@@ -8,6 +8,7 @@ import io.github.cloudiator.rest.model.Token;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.cloudiator.rest.model.User;
 import io.swagger.annotations.*;
+import java.util.Base64;
 import org.cloudiator.messages.entities.User.LoginRequest;
 import org.cloudiator.messages.entities.User.LoginResponse;
 import org.cloudiator.messages.entities.UserEntities;
@@ -62,15 +63,22 @@ public class LoginApiController implements LoginApi {
     if (accept != null && accept.contains("application/json")) {
       try {
 
-        UserEntities.Login loginout = UserEntities.Login.newBuilder()
+        if((apilogin.getPassword()==null)||(apilogin.getPassword().isEmpty())){
+          throw new ApiException(400,"PasswordInputError");
+        }
+
+        String encodedPW = Base64.getEncoder().encodeToString(apilogin.getPassword().getBytes());
+
+        UserEntities.Login kafkaLogin = UserEntities.Login.newBuilder()
             .setEmail(apilogin.getEmail())
-            .setPassword(apilogin.getPassword())
+            .setPassword(encodedPW)
             .setTenant(T2TConverter.apply(apilogin.getTenant()))
             .build();
 
         LoginResponse response = userService
-            .login(LoginRequest.newBuilder().setLogin(loginout).build());
+            .login(LoginRequest.newBuilder().setLogin(kafkaLogin).build());
         Token gotToken = tokenConverter.applyBack(response.getToken());
+        User user =
 
         return new ResponseEntity<Token>(gotToken, HttpStatus.OK);
       } catch (ResponseException e) {
