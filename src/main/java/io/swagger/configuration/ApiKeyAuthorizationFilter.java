@@ -78,15 +78,17 @@ public class ApiKeyAuthorizationFilter extends BasicAuthenticationFilter {
       UserEntities.Token kafkaToken = UserEntities.Token.newBuilder().setToken(token)
           .setGenerationTime(1).setExpireTime(2).build();
       AuthRequest req = AuthRequest.newBuilder().setToken(kafkaToken).build();
-      System.out.println(req + "\n");
+      System.out.println("\n" + req + "\n");
       AuthResponse authResponse;
 
       authResponse = userService.auth(req);
-      System.out.println(authResponse + "\n");
+      //System.out.println(authResponse + "\n");
       String user = authResponse.getUser().getEmail();
-      System.out.println("\n" + user + " \n");
+      System.out.println("\n User: " + user + " \n");
+      String userTenant = authResponse.getUser().getTenant().getTenant();
+      System.out.println("and Tenant: " + userTenant + "\n");
 
-      return new UsernamePasswordAuthenticationToken(user, null, new ArrayList<>());
+      return new UsernamePasswordAuthenticationToken(user, userTenant, new ArrayList<>());
     } catch (ResponseException ex) {
       throw new ApiException(ex.code(), ex.getMessage() + " omg: " + token);
     }
