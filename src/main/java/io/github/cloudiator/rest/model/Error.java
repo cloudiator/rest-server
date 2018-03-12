@@ -5,12 +5,15 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * Error
+ * Basic errorClass 
  */
+@ApiModel(description = "Basic errorClass ")
+@Validated
 
 public class Error   {
   @JsonProperty("code")
@@ -28,7 +31,7 @@ public class Error   {
    * Get code
    * @return code
   **/
-  @ApiModelProperty(required = true, value = "")
+  @ApiModelProperty(example = "404", required = true, value = "")
   @NotNull
 
 
@@ -49,7 +52,7 @@ public class Error   {
    * Get message
    * @return message
   **/
-  @ApiModelProperty(required = true, value = "")
+  @ApiModelProperty(example = "Not found", required = true, value = "")
   @NotNull
 
 

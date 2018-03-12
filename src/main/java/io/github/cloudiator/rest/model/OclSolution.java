@@ -8,6 +8,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
@@ -15,9 +16,11 @@ import javax.validation.constraints.*;
  * Represents a solution to an ocl problem 
  */
 @ApiModel(description = "Represents a solution to an ocl problem ")
+@Validated
 
 public class OclSolution   {
   @JsonProperty("nodes")
+  @Valid
   private List<VirtualMachineRequest> nodes = null;
 
   public OclSolution nodes(List<VirtualMachineRequest> nodes) {

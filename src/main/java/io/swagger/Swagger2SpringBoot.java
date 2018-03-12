@@ -10,8 +10,8 @@ import org.springframework.context.annotation.ImportResource;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @SpringBootApplication
-@ImportResource("classpath:beans.xml")
 @EnableSwagger2
+@ImportResource("classpath:beans.xml")
 @ComponentScan(basePackages = { "io.swagger", "io.github.cloudiator.rest.api" })
 public class Swagger2SpringBoot implements CommandLineRunner {
 

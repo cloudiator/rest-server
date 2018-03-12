@@ -3,15 +3,16 @@ package io.github.cloudiator.rest.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
 import io.github.cloudiator.rest.model.ExecutionEnvironment;
 import io.github.cloudiator.rest.model.Port;
 import io.github.cloudiator.rest.model.Requirement;
 import io.github.cloudiator.rest.model.TaskInterface;
+import io.github.cloudiator.rest.model.TaskType;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
@@ -19,56 +20,29 @@ import javax.validation.constraints.*;
  * Represents a task of a job. 
  */
 @ApiModel(description = "Represents a task of a job. ")
+@Validated
 
 public class Task   {
   @JsonProperty("name")
   private String name = null;
 
   @JsonProperty("ports")
+  @Valid
   private List<Port> ports = null;
 
   @JsonProperty("interfaces")
+  @Valid
   private List<TaskInterface> interfaces = null;
 
   @JsonProperty("executionEnvironment")
   private ExecutionEnvironment executionEnvironment = null;
 
   @JsonProperty("requirements")
+  @Valid
   private List<Requirement> requirements = null;
 
-  /**
-   * Gets or Sets type
-   */
-  public enum TypeEnum {
-    BATCH("BATCH"),
-    
-    LONG_RUNNING("LONG_RUNNING");
-
-    private String value;
-
-    TypeEnum(String value) {
-      this.value = value;
-    }
-
-    @Override
-    @JsonValue
-    public String toString() {
-      return String.valueOf(value);
-    }
-
-    @JsonCreator
-    public static TypeEnum fromValue(String text) {
-      for (TypeEnum b : TypeEnum.values()) {
-        if (String.valueOf(b.value).equals(text)) {
-          return b;
-        }
-      }
-      return null;
-    }
-  }
-
-  @JsonProperty("type")
-  private TypeEnum type = null;
+  @JsonProperty("taskType")
+  private TaskType taskType = null;
 
   public Task name(String name) {
     this.name = name;
@@ -200,25 +174,26 @@ public class Task   {
     this.requirements = requirements;
   }
 
-  public Task type(TypeEnum type) {
-    this.type = type;
+  public Task taskType(TaskType taskType) {
+    this.taskType = taskType;
     return this;
   }
 
    /**
-   * Get type
-   * @return type
+   * Get taskType
+   * @return taskType
   **/
   @ApiModelProperty(required = true, value = "")
   @NotNull
 
+  @Valid
 
-  public TypeEnum getType() {
-    return type;
+  public TaskType getTaskType() {
+    return taskType;
   }
 
-  public void setType(TypeEnum type) {
-    this.type = type;
+  public void setTaskType(TaskType taskType) {
+    this.taskType = taskType;
   }
 
 
@@ -236,12 +211,12 @@ public class Task   {
         Objects.equals(this.interfaces, task.interfaces) &&
         Objects.equals(this.executionEnvironment, task.executionEnvironment) &&
         Objects.equals(this.requirements, task.requirements) &&
-        Objects.equals(this.type, task.type);
+        Objects.equals(this.taskType, task.taskType);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, ports, interfaces, executionEnvironment, requirements, type);
+    return Objects.hash(name, ports, interfaces, executionEnvironment, requirements, taskType);
   }
 
   @Override
@@ -254,7 +229,7 @@ public class Task   {
     sb.append("    interfaces: ").append(toIndentedString(interfaces)).append("\n");
     sb.append("    executionEnvironment: ").append(toIndentedString(executionEnvironment)).append("\n");
     sb.append("    requirements: ").append(toIndentedString(requirements)).append("\n");
-    sb.append("    type: ").append(toIndentedString(type)).append("\n");
+    sb.append("    taskType: ").append(toIndentedString(taskType)).append("\n");
     sb.append("}");
     return sb.toString();
   }

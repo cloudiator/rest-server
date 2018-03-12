@@ -6,12 +6,15 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import io.github.cloudiator.rest.model.Requirement;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * IdentifierRequirement
+ * Subtype of Requirement 
  */
+@ApiModel(description = "Subtype of Requirement ")
+@Validated
 
 public class IdentifierRequirement extends Requirement  {
   @JsonProperty("hardwareId")
@@ -32,7 +35,7 @@ public class IdentifierRequirement extends Requirement  {
    * Get hardwareId
    * @return hardwareId
   **/
-  @ApiModelProperty(example = "01101b2075b7046fff5eaa9beae14ccd:RegionOne/3", value = "")
+  @ApiModelProperty(value = "")
 
 
   public String getHardwareId() {
@@ -52,7 +55,7 @@ public class IdentifierRequirement extends Requirement  {
    * Get locationId
    * @return locationId
   **/
-  @ApiModelProperty(example = "01101b2075b7046fff5eaa9beae14ccd:RegionOne", value = "")
+  @ApiModelProperty(value = "")
 
 
   public String getLocationId() {
@@ -72,7 +75,7 @@ public class IdentifierRequirement extends Requirement  {
    * Get imageId
    * @return imageId
   **/
-  @ApiModelProperty(example = "01101b2075b7046fff5eaa9beae14ccd:RegionOne/72a4b00b-705f-4290-a4de-c79eddc03fe3", value = "")
+  @ApiModelProperty(value = "")
 
 
   public String getImageId() {

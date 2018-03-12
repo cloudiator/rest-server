@@ -8,6 +8,7 @@ import io.github.cloudiator.rest.model.OperatingSystemFamily;
 import io.github.cloudiator.rest.model.OperatingSystemType;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
@@ -15,6 +16,7 @@ import javax.validation.constraints.*;
  * Represents the operating system of an image 
  */
 @ApiModel(description = "Represents the operating system of an image ")
+@Validated
 
 public class OperatingSystem   {
   @JsonProperty("operatingSystemType")

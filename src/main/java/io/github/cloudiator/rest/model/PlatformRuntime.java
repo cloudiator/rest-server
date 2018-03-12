@@ -4,19 +4,22 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import io.github.cloudiator.rest.model.NewPlatformRuntime;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * Represents a runtime for a Platform component, e.g. Java, PHP, Tomcat
+ * Repesents a PaaS environemnt to run an component 
  */
-@ApiModel(description = "Represents a runtime for a Platform component, e.g. Java, PHP, Tomcat")
+@ApiModel(description = "Repesents a PaaS environemnt to run an component ")
+@Validated
 
 public class PlatformRuntime   {
-  @JsonProperty("id")
-  private String id = null;
+  @JsonProperty("name")
+  private String name = null;
 
   /**
    * the specific runtime language
@@ -56,6 +59,9 @@ public class PlatformRuntime   {
   @JsonProperty("language")
   private LanguageEnum language = null;
 
+  @JsonProperty("languageVersion")
+  private Double languageVersion = null;
+
   /**
    * specifies the runtime type
    */
@@ -93,25 +99,28 @@ public class PlatformRuntime   {
   @JsonProperty("version")
   private Double version = null;
 
-  public PlatformRuntime id(String id) {
-    this.id = id;
+  @JsonProperty("id")
+  private String id = null;
+
+  public PlatformRuntime name(String name) {
+    this.name = name;
     return this;
   }
 
    /**
-   * Unique identifier for the hardware
-   * @return id
+   * human readable name
+   * @return name
   **/
-  @ApiModelProperty(required = true, value = "Unique identifier for the hardware")
+  @ApiModelProperty(required = true, value = "human readable name")
   @NotNull
 
 
-  public String getId() {
-    return id;
+  public String getName() {
+    return name;
   }
 
-  public void setId(String id) {
-    this.id = id;
+  public void setName(String name) {
+    this.name = name;
   }
 
   public PlatformRuntime language(LanguageEnum language) {
@@ -133,6 +142,26 @@ public class PlatformRuntime   {
 
   public void setLanguage(LanguageEnum language) {
     this.language = language;
+  }
+
+  public PlatformRuntime languageVersion(Double languageVersion) {
+    this.languageVersion = languageVersion;
+    return this;
+  }
+
+   /**
+   * language version number
+   * @return languageVersion
+  **/
+  @ApiModelProperty(example = "11.0", value = "language version number")
+
+
+  public Double getLanguageVersion() {
+    return languageVersion;
+  }
+
+  public void setLanguageVersion(Double languageVersion) {
+    this.languageVersion = languageVersion;
   }
 
   public PlatformRuntime runtimeType(RuntimeTypeEnum runtimeType) {
@@ -165,7 +194,7 @@ public class PlatformRuntime   {
    * the version of the specified type
    * @return version
   **/
-  @ApiModelProperty(required = true, value = "the version of the specified type")
+  @ApiModelProperty(example = "2.0", required = true, value = "the version of the specified type")
   @NotNull
 
 
@@ -175,6 +204,26 @@ public class PlatformRuntime   {
 
   public void setVersion(Double version) {
     this.version = version;
+  }
+
+  public PlatformRuntime id(String id) {
+    this.id = id;
+    return this;
+  }
+
+   /**
+   * Unique identifier for the hardwareRuntime
+   * @return id
+  **/
+  @ApiModelProperty(example = "1a79a4d60de6718e8e5b326e33812345/example.p1", value = "Unique identifier for the hardwareRuntime")
+
+
+  public String getId() {
+    return id;
+  }
+
+  public void setId(String id) {
+    this.id = id;
   }
 
 
@@ -187,15 +236,17 @@ public class PlatformRuntime   {
       return false;
     }
     PlatformRuntime platformRuntime = (PlatformRuntime) o;
-    return Objects.equals(this.id, platformRuntime.id) &&
+    return Objects.equals(this.name, platformRuntime.name) &&
         Objects.equals(this.language, platformRuntime.language) &&
+        Objects.equals(this.languageVersion, platformRuntime.languageVersion) &&
         Objects.equals(this.runtimeType, platformRuntime.runtimeType) &&
-        Objects.equals(this.version, platformRuntime.version);
+        Objects.equals(this.version, platformRuntime.version) &&
+        Objects.equals(this.id, platformRuntime.id);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, language, runtimeType, version);
+    return Objects.hash(name, language, languageVersion, runtimeType, version, id);
   }
 
   @Override
@@ -203,10 +254,12 @@ public class PlatformRuntime   {
     StringBuilder sb = new StringBuilder();
     sb.append("class PlatformRuntime {\n");
     
-    sb.append("    id: ").append(toIndentedString(id)).append("\n");
+    sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    language: ").append(toIndentedString(language)).append("\n");
+    sb.append("    languageVersion: ").append(toIndentedString(languageVersion)).append("\n");
     sb.append("    runtimeType: ").append(toIndentedString(runtimeType)).append("\n");
     sb.append("    version: ").append(toIndentedString(version)).append("\n");
+    sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("}");
     return sb.toString();
   }

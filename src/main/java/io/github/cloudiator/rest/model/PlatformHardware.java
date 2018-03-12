@@ -3,20 +3,20 @@ package io.github.cloudiator.rest.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import io.github.cloudiator.rest.model.NewPlatformHardware;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * Represents a hardware configuration for a Platform (not all attributes might be supported for all PaaS providers) 
+ * Repesents a PaaS environemnt to run an component 
  */
-@ApiModel(description = "Represents a hardware configuration for a Platform (not all attributes might be supported for all PaaS providers) ")
+@ApiModel(description = "Repesents a PaaS environemnt to run an component ")
+@Validated
 
 public class PlatformHardware   {
-  @JsonProperty("id")
-  private String id = null;
-
   @JsonProperty("name")
   private String name = null;
 
@@ -29,26 +29,8 @@ public class PlatformHardware   {
   @JsonProperty("disk")
   private Float disk = null;
 
-  public PlatformHardware id(String id) {
-    this.id = id;
-    return this;
-  }
-
-   /**
-   * Unique identifier for the hardware
-   * @return id
-  **/
-  @ApiModelProperty(example = "1a79a4d60de6718e8e5b326e33812345/example.p1", required = true, value = "Unique identifier for the hardware")
-  @NotNull
-
-
-  public String getId() {
-    return id;
-  }
-
-  public void setId(String id) {
-    this.id = id;
-  }
+  @JsonProperty("id")
+  private String id = null;
 
   public PlatformHardware name(String name) {
     this.name = name;
@@ -134,6 +116,26 @@ public class PlatformHardware   {
     this.disk = disk;
   }
 
+  public PlatformHardware id(String id) {
+    this.id = id;
+    return this;
+  }
+
+   /**
+   * Unique identifier for the hardware
+   * @return id
+  **/
+  @ApiModelProperty(example = "1a79a4d60de6718e8e5b326e33812345/example.p1", value = "Unique identifier for the hardware")
+
+
+  public String getId() {
+    return id;
+  }
+
+  public void setId(String id) {
+    this.id = id;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -144,16 +146,16 @@ public class PlatformHardware   {
       return false;
     }
     PlatformHardware platformHardware = (PlatformHardware) o;
-    return Objects.equals(this.id, platformHardware.id) &&
-        Objects.equals(this.name, platformHardware.name) &&
+    return Objects.equals(this.name, platformHardware.name) &&
         Objects.equals(this.cores, platformHardware.cores) &&
         Objects.equals(this.ram, platformHardware.ram) &&
-        Objects.equals(this.disk, platformHardware.disk);
+        Objects.equals(this.disk, platformHardware.disk) &&
+        Objects.equals(this.id, platformHardware.id);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, name, cores, ram, disk);
+    return Objects.hash(name, cores, ram, disk, id);
   }
 
   @Override
@@ -161,11 +163,11 @@ public class PlatformHardware   {
     StringBuilder sb = new StringBuilder();
     sb.append("class PlatformHardware {\n");
     
-    sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    cores: ").append(toIndentedString(cores)).append("\n");
     sb.append("    ram: ").append(toIndentedString(ram)).append("\n");
     sb.append("    disk: ").append(toIndentedString(disk)).append("\n");
+    sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("}");
     return sb.toString();
   }

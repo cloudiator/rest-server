@@ -5,15 +5,20 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * geographical location of a node
+ * Part of Location Represents a geographical location
  */
-@ApiModel(description = "geographical location of a node")
+@ApiModel(description = "Part of Location Represents a geographical location ")
+@Validated
 
 public class GeoLocation   {
+  @JsonProperty("city")
+  private String city = null;
+
   @JsonProperty("country")
   private String country = null;
 
@@ -23,8 +28,25 @@ public class GeoLocation   {
   @JsonProperty("longitude")
   private Double longitude = null;
 
-  @JsonProperty("city")
-  private String city = null;
+  public GeoLocation city(String city) {
+    this.city = city;
+    return this;
+  }
+
+   /**
+   * City of the location
+   * @return city
+  **/
+  @ApiModelProperty(value = "City of the location")
+
+
+  public String getCity() {
+    return city;
+  }
+
+  public void setCity(String city) {
+    this.city = city;
+  }
 
   public GeoLocation country(String country) {
     this.country = country;
@@ -32,10 +54,10 @@ public class GeoLocation   {
   }
 
    /**
-   * Get country
+   * An ISO 3166-1 alpha-2 country code
    * @return country
   **/
-  @ApiModelProperty(value = "")
+  @ApiModelProperty(value = "An ISO 3166-1 alpha-2 country code")
 
 
   public String getCountry() {
@@ -52,10 +74,10 @@ public class GeoLocation   {
   }
 
    /**
-   * Get latitude
+   * Latitude of the location in decimal degrees
    * @return latitude
   **/
-  @ApiModelProperty(value = "")
+  @ApiModelProperty(value = "Latitude of the location in decimal degrees")
 
 
   public Double getLatitude() {
@@ -72,10 +94,10 @@ public class GeoLocation   {
   }
 
    /**
-   * Get longitude
+   * Longitude of the location in decimal degrees
    * @return longitude
   **/
-  @ApiModelProperty(value = "")
+  @ApiModelProperty(value = "Longitude of the location in decimal degrees")
 
 
   public Double getLongitude() {
@@ -84,26 +106,6 @@ public class GeoLocation   {
 
   public void setLongitude(Double longitude) {
     this.longitude = longitude;
-  }
-
-  public GeoLocation city(String city) {
-    this.city = city;
-    return this;
-  }
-
-   /**
-   * Get city
-   * @return city
-  **/
-  @ApiModelProperty(value = "")
-
-
-  public String getCity() {
-    return city;
-  }
-
-  public void setCity(String city) {
-    this.city = city;
   }
 
 
@@ -116,26 +118,26 @@ public class GeoLocation   {
       return false;
     }
     GeoLocation geoLocation = (GeoLocation) o;
-    return Objects.equals(this.country, geoLocation.country) &&
+    return Objects.equals(this.city, geoLocation.city) &&
+        Objects.equals(this.country, geoLocation.country) &&
         Objects.equals(this.latitude, geoLocation.latitude) &&
-        Objects.equals(this.longitude, geoLocation.longitude) &&
-        Objects.equals(this.city, geoLocation.city);
+        Objects.equals(this.longitude, geoLocation.longitude);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(country, latitude, longitude, city);
+    return Objects.hash(city, country, latitude, longitude);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class GeoLocation {\n");
-    
+
+    sb.append("    city: ").append(toIndentedString(city)).append("\n");
     sb.append("    country: ").append(toIndentedString(country)).append("\n");
     sb.append("    latitude: ").append(toIndentedString(latitude)).append("\n");
     sb.append("    longitude: ").append(toIndentedString(longitude)).append("\n");
-    sb.append("    city: ").append(toIndentedString(city)).append("\n");
     sb.append("}");
     return sb.toString();
   }
@@ -151,4 +153,3 @@ public class GeoLocation   {
     return o.toString().replace("\n", "\n    ");
   }
 }
-
