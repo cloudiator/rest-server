@@ -19,6 +19,15 @@ public class Token   {
   @JsonProperty("token")
   private String token = null;
 
+  @JsonProperty("owner")
+  private String owner = null;
+
+  @JsonProperty("issuedTime")
+  private Long issuedTime = null;
+
+  @JsonProperty("expireTime")
+  private Long expireTime = null;
+
   public Token token(String token) {
     this.token = token;
     return this;
@@ -40,6 +49,66 @@ public class Token   {
     this.token = token;
   }
 
+  public Token owner(String owner) {
+    this.owner = owner;
+    return this;
+  }
+
+   /**
+   * owner of the token
+   * @return owner
+  **/
+  @ApiModelProperty(example = "owner@home.office", value = "owner of the token")
+
+
+  public String getOwner() {
+    return owner;
+  }
+
+  public void setOwner(String owner) {
+    this.owner = owner;
+  }
+
+  public Token issuedTime(Long issuedTime) {
+    this.issuedTime = issuedTime;
+    return this;
+  }
+
+   /**
+   * SystemMillis Token was issued
+   * @return issuedTime
+  **/
+  @ApiModelProperty(example = "1273222647313", value = "SystemMillis Token was issued")
+
+
+  public Long getIssuedTime() {
+    return issuedTime;
+  }
+
+  public void setIssuedTime(Long issuedTime) {
+    this.issuedTime = issuedTime;
+  }
+
+  public Token expireTime(Long expireTime) {
+    this.expireTime = expireTime;
+    return this;
+  }
+
+   /**
+   * SystemMillis the Token expires
+   * @return expireTime
+  **/
+  @ApiModelProperty(example = "1273827447313", value = "SystemMillis the Token expires")
+
+
+  public Long getExpireTime() {
+    return expireTime;
+  }
+
+  public void setExpireTime(Long expireTime) {
+    this.expireTime = expireTime;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -50,12 +119,15 @@ public class Token   {
       return false;
     }
     Token token = (Token) o;
-    return Objects.equals(this.token, token.token);
+    return Objects.equals(this.token, token.token) &&
+        Objects.equals(this.owner, token.owner) &&
+        Objects.equals(this.issuedTime, token.issuedTime) &&
+        Objects.equals(this.expireTime, token.expireTime);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(token);
+    return Objects.hash(token, owner, issuedTime, expireTime);
   }
 
   @Override
@@ -64,6 +136,9 @@ public class Token   {
     sb.append("class Token {\n");
     
     sb.append("    token: ").append(toIndentedString(token)).append("\n");
+    sb.append("    owner: ").append(toIndentedString(owner)).append("\n");
+    sb.append("    issuedTime: ").append(toIndentedString(issuedTime)).append("\n");
+    sb.append("    expireTime: ").append(toIndentedString(expireTime)).append("\n");
     sb.append("}");
     return sb.toString();
   }

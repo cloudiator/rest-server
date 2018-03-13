@@ -1,7 +1,7 @@
 package io.github.cloudiator.rest.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.github.cloudiator.rest.UserService;
+import io.github.cloudiator.rest.UserServiceOld;
 import io.github.cloudiator.rest.converter.ImageConverter;
 import io.github.cloudiator.rest.model.Image;
 import io.swagger.annotations.ApiParam;
@@ -41,7 +41,7 @@ public class ImagesApiController implements ImagesApi {
   }
 
   @Autowired
-  private UserService userService;
+  private UserServiceOld userService;
 
   @Autowired
   private ImageService imageService;

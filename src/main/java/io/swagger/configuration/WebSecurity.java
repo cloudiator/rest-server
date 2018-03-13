@@ -1,5 +1,7 @@
 package io.swagger.configuration;
 
+import org.cloudiator.messaging.services.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -17,6 +19,13 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @EnableWebSecurity
 public class WebSecurity extends WebSecurityConfigurerAdapter {
 
+  private final UserService userService;
+
+  @Autowired
+  public WebSecurity(UserService userService) {
+    this.userService = userService;
+  }
+
 
   @Override
   protected void configure(HttpSecurity http) throws Exception {
@@ -26,8 +35,10 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
         .antMatchers("/swagger-ui.html").permitAll()
         .antMatchers("/swagger-resources/**").permitAll()
         .antMatchers("/api-docs/**").permitAll()
+        .antMatchers("/user/print**").permitAll()
+        .antMatchers("/login**").permitAll()
         .anyRequest().authenticated().and()
-        .addFilter(new ApiKeyAuthorizationFilter(authenticationManager()))
+        .addFilter(new ApiKeyAuthorizationFilter(authenticationManager(), userService))
         .sessionManagement()
         .sessionCreationPolicy(
             SessionCreationPolicy.STATELESS);

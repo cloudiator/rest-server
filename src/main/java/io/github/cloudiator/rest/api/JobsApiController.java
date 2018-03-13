@@ -1,7 +1,7 @@
 package io.github.cloudiator.rest.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.github.cloudiator.rest.UserService;
+import io.github.cloudiator.rest.UserServiceOld;
 import io.github.cloudiator.rest.converter.JobConverter;
 import io.github.cloudiator.rest.model.Job;
 import io.swagger.annotations.ApiParam;
@@ -34,7 +34,7 @@ public class JobsApiController implements JobsApi {
   }
 
   @Autowired
-  UserService userService;
+  UserServiceOld userService;
 
   @Autowired
   JobService jobService;
