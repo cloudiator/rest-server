@@ -41,17 +41,17 @@ public class JobConverter implements TwoWayConverter<Job, JobEntities.Job> {
   public JobEntities.Job apply(Job job) {
     JobEntities.Job.Builder result = JobEntities.Job.newBuilder()
         .setName(job.getName());
-    if (!job.getTasks().isEmpty()) {
+    if (job.getTasks() != null) {
       for (Task task : job.getTasks()) {
         result.addTasks(taskConverter.apply(task));
       }
     }
-    if (!job.getCommunications().isEmpty()) {
+    if (job.getCommunications() != null) {
       for (Communication commu : job.getCommunications()) {
         result.addCommunications(communicationConverter.apply(commu));
       }
     }
-    if (!job.getRequirements().isEmpty()) {
+    if (job.getRequirements() != null) {
       for (Requirement req : job.getRequirements()) {
         result.addRequirements(requirementConverter.apply(req));
       }

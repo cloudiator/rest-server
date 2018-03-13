@@ -69,6 +69,7 @@ public class LocationsApiController implements LocationsApi {
           // .setUserId(userService.getUserId())
           .setUserId(userInfo.currentUserTenant())
           .build();
+
       LocationQueryResponse response = null;
       //Communication Kafka
       try {
