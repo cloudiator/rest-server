@@ -1,6 +1,7 @@
 package io.github.cloudiator.rest.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.github.cloudiator.rest.UserInfo;
 import io.github.cloudiator.rest.UserServiceOld;
 import io.github.cloudiator.rest.converter.MatchmakingResponseConverter;
 import io.github.cloudiator.rest.converter.NodeRequirementsConverter;
@@ -12,6 +13,7 @@ import javax.validation.Valid;
 import org.cloudiator.messages.entities.Matchmaking;
 import org.cloudiator.messaging.ResponseException;
 import org.cloudiator.messaging.services.MatchmakingService;
+import org.cloudiator.messaging.services.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,12 +30,14 @@ public class MatchmakingApiController implements MatchmakingApi {
   private final ObjectMapper objectMapper;
 
   private final HttpServletRequest request;
+  private UserInfo userInfo;
 
   @Autowired
   private MatchmakingService matchmakingService;
 
   @Autowired
   private UserServiceOld userService;
+
 
   private static final NodeRequirementsConverter NODE_REQUIREMENTS_CONVERTER = new NodeRequirementsConverter();
   private static final MatchmakingResponseConverter MATCHMAKING_RESPONSE_CONVERTER = new MatchmakingResponseConverter();
@@ -50,12 +54,14 @@ public class MatchmakingApiController implements MatchmakingApi {
     String accept = request.getHeader("Accept");
     if (accept != null && accept.contains("application/json")) {
       try {
-
+        userInfo = new UserInfo(request);
         final Matchmaking.MatchmakingRequest request = Matchmaking.MatchmakingRequest
             .newBuilder()
             .setRequirements(
                 NODE_REQUIREMENTS_CONVERTER.apply(matchmakingRequest.getRequirements()))
-            .setUserId(userService.getUserId()).build();
+            //.setUserId(userService.getUserId())
+            .setUserId(userInfo.currentUserTenant())
+            .build();
 
         Matchmaking.MatchmakingResponse matchmakingResponse = matchmakingService
             .requestMatch(request);

@@ -2,6 +2,7 @@ package io.github.cloudiator.rest.api;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.github.cloudiator.rest.UserInfo;
 import io.github.cloudiator.rest.UserServiceOld;
 import io.github.cloudiator.rest.model.LongRunningRequest;
 
@@ -33,6 +34,7 @@ public class NodeApiController implements NodeApi {
   private static final Logger log = LoggerFactory.getLogger(PlatformApiController.class);
   private final ObjectMapper objectMapper;
   private final HttpServletRequest request;
+  private UserInfo userInfo;
 
   @org.springframework.beans.factory.annotation.Autowired
   public NodeApiController(ObjectMapper objectMapper, HttpServletRequest request) {
@@ -52,9 +54,12 @@ public class NodeApiController implements NodeApi {
       @ApiParam(value = "Node Request", required = true) @Valid @RequestBody NodeRequirements nodeRequirements) {
     String accept = request.getHeader("Accept");
     if (accept != null && accept.contains("application/json")) {
+      userInfo = new UserInfo(request);
 
       nodeService
-          .createNodesAsync(NodeRequestMessage.newBuilder().setUserId(userService.getUserId())
+          .createNodesAsync(NodeRequestMessage.newBuilder()
+                  //  .setUserId(userService.getUserId())
+                  .setUserId(userInfo.currentUserTenant())
                   .setNodeRequest(nodeRequirementsConverter.apply(nodeRequirements)).build(),
               (content, error) -> {
                 System.out.println("Error " + error);

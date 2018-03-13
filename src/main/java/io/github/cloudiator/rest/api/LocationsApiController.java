@@ -1,6 +1,7 @@
 package io.github.cloudiator.rest.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.github.cloudiator.rest.UserInfo;
 import io.github.cloudiator.rest.UserServiceOld;
 import io.github.cloudiator.rest.converter.LocationConverter;
 import io.github.cloudiator.rest.model.Location;
@@ -40,6 +41,7 @@ public class LocationsApiController implements LocationsApi {
   private static final Logger log = LoggerFactory.getLogger(PlatformApiController.class);
   private final ObjectMapper objectMapper;
   private final HttpServletRequest request;
+  private UserInfo userInfo;
 
   @org.springframework.beans.factory.annotation.Autowired
   public LocationsApiController(ObjectMapper objectMapper, HttpServletRequest request) {
@@ -57,13 +59,16 @@ public class LocationsApiController implements LocationsApi {
   public ResponseEntity<List<Location>> findLocations() {
     String accept = request.getHeader("Accept");
     if (accept != null && accept.contains("application/json")) {
+      userInfo = new UserInfo(request);
 
       //Preparation
       System.out.println("--------------- find Location --------------------");
       LocationConverter locationConverter = new LocationConverter();
       List<Location> locationList = new ArrayList<>();
       LocationQueryRequest request = LocationQueryRequest.newBuilder()
-          .setUserId(userService.getUserId()).build();
+          // .setUserId(userService.getUserId())
+          .setUserId(userInfo.currentUserTenant())
+          .build();
       LocationQueryResponse response = null;
       //Communication Kafka
       try {

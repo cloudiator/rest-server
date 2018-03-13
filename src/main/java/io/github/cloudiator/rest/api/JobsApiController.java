@@ -1,6 +1,7 @@
 package io.github.cloudiator.rest.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.github.cloudiator.rest.UserInfo;
 import io.github.cloudiator.rest.UserServiceOld;
 import io.github.cloudiator.rest.converter.JobConverter;
 import io.github.cloudiator.rest.model.Job;
@@ -24,6 +25,7 @@ public class JobsApiController implements JobsApi {
   private static final Logger log = LoggerFactory.getLogger(PlatformApiController.class);
   private final ObjectMapper objectMapper;
   private final HttpServletRequest request;
+  private UserInfo userInfo;
 
   @org.springframework.beans.factory.annotation.Autowired
   public JobsApiController(ObjectMapper objectMapper, HttpServletRequest request) {

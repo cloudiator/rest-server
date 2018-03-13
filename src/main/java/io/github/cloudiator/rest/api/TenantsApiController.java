@@ -1,5 +1,6 @@
 package io.github.cloudiator.rest.api;
 
+import io.github.cloudiator.rest.UserInfo;
 import io.github.cloudiator.rest.converter.TenantToTenantConverter;
 import io.github.cloudiator.rest.converter.UserConverter;
 import io.github.cloudiator.rest.model.Tenant;
@@ -35,6 +36,7 @@ public class TenantsApiController implements TenantsApi {
 
   private final ObjectMapper objectMapper;
   private final HttpServletRequest request;
+  private UserInfo userInfo;
 
   final TenantToTenantConverter T2TConverter;
   final UserConverter userConverter;
@@ -54,6 +56,7 @@ public class TenantsApiController implements TenantsApi {
       @ApiParam(value = "Tenant creation request ") @Valid @RequestBody Tenant tenant) {
     String accept = request.getHeader("Accept");
     if (accept != null && accept.contains("application/json")) {
+      userInfo = new UserInfo(request);
       try {
 
         CreateTenantResponse response = userService.createTenant(CreateTenantRequest.newBuilder()
