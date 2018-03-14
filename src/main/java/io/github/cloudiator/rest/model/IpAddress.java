@@ -23,6 +23,9 @@ public class IpAddress   {
   @JsonProperty("IpVersion")
   private IpVersion ipVersion = null;
 
+  @JsonProperty("value")
+  private String value = null;
+
   public IpAddress ipAddressType(IpAddressType ipAddressType) {
     this.ipAddressType = ipAddressType;
     return this;
@@ -67,6 +70,26 @@ public class IpAddress   {
     this.ipVersion = ipVersion;
   }
 
+  public IpAddress value(String value) {
+    this.value = value;
+    return this;
+  }
+
+   /**
+   * the ip address value
+   * @return value
+  **/
+  @ApiModelProperty(value = "the ip address value")
+
+
+  public String getValue() {
+    return value;
+  }
+
+  public void setValue(String value) {
+    this.value = value;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -78,12 +101,13 @@ public class IpAddress   {
     }
     IpAddress ipAddress = (IpAddress) o;
     return Objects.equals(this.ipAddressType, ipAddress.ipAddressType) &&
-        Objects.equals(this.ipVersion, ipAddress.ipVersion);
+        Objects.equals(this.ipVersion, ipAddress.ipVersion) &&
+        Objects.equals(this.value, ipAddress.value);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(ipAddressType, ipVersion);
+    return Objects.hash(ipAddressType, ipVersion, value);
   }
 
   @Override
@@ -93,6 +117,7 @@ public class IpAddress   {
     
     sb.append("    ipAddressType: ").append(toIndentedString(ipAddressType)).append("\n");
     sb.append("    ipVersion: ").append(toIndentedString(ipVersion)).append("\n");
+    sb.append("    value: ").append(toIndentedString(value)).append("\n");
     sb.append("}");
     return sb.toString();
   }
