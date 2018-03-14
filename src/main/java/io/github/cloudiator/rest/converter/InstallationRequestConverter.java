@@ -1,6 +1,7 @@
 package io.github.cloudiator.rest.converter;
 
 import io.github.cloudiator.rest.model.InstallationRequest;
+import io.github.cloudiator.rest.model.Tool;
 import org.cloudiator.messages.InstallationEntities;
 
 /**
@@ -29,10 +30,8 @@ public class InstallationRequestConverter implements
     //setting node
     builder.setNode(nodeConverter.apply(installationRequest.getNode()));
 
-    //setting tools
-    for (int i = 0; i < installationRequest.getTools().size(); i++) {
-
-      builder.setTool(i, toolConverter.apply(installationRequest.getTools().get(i)));
+    for(Tool tool : installationRequest.getTools()){
+      builder.addTool(toolConverter.apply(tool));
     }
 
     return builder.build();
