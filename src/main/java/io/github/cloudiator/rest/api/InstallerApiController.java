@@ -37,11 +37,6 @@ public class InstallerApiController implements InstallerApi {
 
     LOGGER.debug("installing something maybe...");
 
-    try {
-      Thread.sleep(100000);
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    }
 
     installationRequestService.createInstallationRequestAsync(Installation.InstallationRequest.newBuilder()
         .setUserId(userService.getUserId())
