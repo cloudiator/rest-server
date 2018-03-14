@@ -11,6 +11,7 @@ public class NodeConverter implements TwoWayConverter<Node, NodeEntities.Node> {
   private final IpAddressConverter ipAddressConverter = new IpAddressConverter();
   private final NodeTypeConverter nodeTypeConverter = new NodeTypeConverter();
   private final NodePropertiesConverter nodePropertiesConverter = new NodePropertiesConverter();
+  private final LoginCredentialConverter loginCredentialConverter = new LoginCredentialConverter();
 
   @Override
   public Node applyBack(NodeEntities.Node node) {
@@ -22,18 +23,17 @@ public class NodeConverter implements TwoWayConverter<Node, NodeEntities.Node> {
     //from REST to protobuf
     NodeEntities.Node.Builder builder = NodeEntities.Node.newBuilder();
 
-    //nodeId
-    builder.setId(node.getNodeId());
+    builder
+        .setId(node.getNodeId())
+        .setNodeType(nodeTypeConverter.apply(node.getNodeType()))
+        .setNodeProperties(nodePropertiesConverter.apply(node.getNodeProperties()))
+        .setLoginCredential(loginCredentialConverter.apply(node.getLoginCredential()));
+
+
     //ipAddresses
     for(int i=0; i < node.getIpAddresses().size(); i++){
       builder.setIpAddresses(i,ipAddressConverter.apply(node.getIpAddresses().get(i)));
     }
-    //nodeType
-    builder.setNodeType(nodeTypeConverter.apply(node.getNodeType()));
-
-    //nodePropeties
-    builder.setNodeProperties(nodePropertiesConverter.apply(node.getNodeProperties()));
-
 
     return builder.build();
   }
