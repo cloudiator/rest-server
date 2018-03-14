@@ -1,5 +1,6 @@
 package io.github.cloudiator.rest.converter;
 
+import io.github.cloudiator.rest.model.IpAddress;
 import io.github.cloudiator.rest.model.Node;
 import org.cloudiator.messages.NodeEntities;
 
@@ -29,11 +30,10 @@ public class NodeConverter implements TwoWayConverter<Node, NodeEntities.Node> {
         .setNodeProperties(nodePropertiesConverter.apply(node.getNodeProperties()))
         .setLoginCredential(loginCredentialConverter.apply(node.getLoginCredential()));
 
-
-    //ipAddresses
-    for(int i=0; i < node.getIpAddresses().size(); i++){
-      builder.setIpAddresses(i,ipAddressConverter.apply(node.getIpAddresses().get(i)));
+    for (IpAddress ipAddress : node.getIpAddresses()){
+      builder.addIpAddresses(ipAddressConverter.apply(ipAddress));
     }
+
 
     return builder.build();
   }
