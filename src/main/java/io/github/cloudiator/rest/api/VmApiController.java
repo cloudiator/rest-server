@@ -2,7 +2,7 @@ package io.github.cloudiator.rest.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.cloudiator.rest.LRRMapService;
-import io.github.cloudiator.rest.UserService;
+import io.github.cloudiator.rest.UserServiceOld;
 import io.github.cloudiator.rest.converter.VirtualMachineRequestConverter;
 import io.github.cloudiator.rest.model.*;
 import io.swagger.annotations.ApiParam;
@@ -50,7 +50,7 @@ public class VmApiController implements VmApi {
   private VirtualMachineService virtualMachineService;
 
   @Autowired
-  private UserService userService;
+  private UserServiceOld userService;
 
   @Autowired
   private LRRMapService lrrMapService;

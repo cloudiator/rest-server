@@ -1,7 +1,8 @@
 package io.github.cloudiator.rest.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.github.cloudiator.rest.UserService;
+import io.github.cloudiator.rest.UserInfo;
+import io.github.cloudiator.rest.UserServiceOld;
 import io.github.cloudiator.rest.converter.TaskConverter;
 import io.github.cloudiator.rest.model.Port;
 import io.github.cloudiator.rest.model.PortProvided;
@@ -48,6 +49,7 @@ public class TasksApiController implements TasksApi {
   private static final Logger log = LoggerFactory.getLogger(PlatformApiController.class);
   private final ObjectMapper objectMapper;
   private final HttpServletRequest request;
+  private UserInfo userInfo;
 
   @org.springframework.beans.factory.annotation.Autowired
   public TasksApiController(ObjectMapper objectMapper, HttpServletRequest request) {
@@ -57,7 +59,7 @@ public class TasksApiController implements TasksApi {
   }
 
   @Autowired
-  private UserService userService;
+  private UserServiceOld userService;
 
   @Autowired
   private TaskService taskService;
@@ -67,6 +69,7 @@ public class TasksApiController implements TasksApi {
       @ApiParam(value = "Task to add", required = true) @Valid @RequestBody Task task) {
     String accept = request.getHeader("Accept");
     if (accept != null && accept.contains("application/json")) {
+      userInfo = new UserInfo(request);
       try {
         //Validate und Verification
         Task newOne = new Task()
@@ -87,7 +90,9 @@ public class TasksApiController implements TasksApi {
         try {
           response = taskService
               .createTask(
-                  CreateTaskRequest.newBuilder().setUserId(userService.getUserId())
+                  CreateTaskRequest.newBuilder()
+                      //.setUserId(userService.getUserId())
+                      .setUserId(userInfo.currentUserTenant())
                       .setTask(taskConverter.apply(newOne)).build());
 
         } catch (ResponseException ex) {
@@ -109,6 +114,7 @@ public class TasksApiController implements TasksApi {
   public ResponseEntity<List<Task>> findTasks() {
     String accept = request.getHeader("Accept");
     if (accept != null && accept.contains("application/json")) {
+      userInfo = new UserInfo(request);
       try {
 
         List<Task> taskList = new ArrayList<>();
@@ -116,7 +122,10 @@ public class TasksApiController implements TasksApi {
         TaskQueryResponse response = null;
 
         response = taskService
-            .getTasks(TaskQueryRequest.newBuilder().setUserId(userService.getUserId()).build());
+            .getTasks(TaskQueryRequest.newBuilder()
+                //.setUserId(userService.getUserId())
+                .setUserId(userInfo.currentUserTenant())
+                .build());
 
         for (TaskEntities.Task task : response.getTaskList()) {
           taskList.add(taskConverter.applyBack(task));

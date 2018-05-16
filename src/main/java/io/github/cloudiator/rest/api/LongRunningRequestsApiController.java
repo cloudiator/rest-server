@@ -2,8 +2,8 @@ package io.github.cloudiator.rest.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.cloudiator.rest.LRRMapService;
-import io.github.cloudiator.rest.UserService;
-import io.github.cloudiator.rest.model.Error;
+import io.github.cloudiator.rest.UserInfo;
+import io.github.cloudiator.rest.UserServiceOld;
 import io.github.cloudiator.rest.model.LongRunningRequest;
 
 import io.swagger.annotations.*;
@@ -35,6 +35,7 @@ public class LongRunningRequestsApiController implements LongRunningRequestsApi 
   private static final Logger log = LoggerFactory.getLogger(PlatformApiController.class);
   private final ObjectMapper objectMapper;
   private final HttpServletRequest request;
+  private UserInfo userInfo;
 
   @org.springframework.beans.factory.annotation.Autowired
   public LongRunningRequestsApiController(ObjectMapper objectMapper, HttpServletRequest request) {
@@ -46,14 +47,16 @@ public class LongRunningRequestsApiController implements LongRunningRequestsApi 
   private LRRMapService lrrMapService;
 
   @Autowired
-  private UserService userService;
+  private UserServiceOld userService;
 
 
   public ResponseEntity<List<LongRunningRequest>> findAllLongRunningRequest() {
     String accept = request.getHeader("Accept");
     if (accept != null && accept.contains("application/json")) {
+      userInfo = new UserInfo(request);
       try {
-        List<LongRunningRequest> result = lrrMapService.getAllLRR(userService.getUserId());
+        // List<LongRunningRequest> result = lrrMapService.getAllLRR(userService.getUserId());
+        List<LongRunningRequest> result = lrrMapService.getAllLRR(userInfo.currentUserTenant());
 
         return new ResponseEntity<List<LongRunningRequest>>(result, HttpStatus.OK);
       } catch (Exception e) {
@@ -68,16 +71,16 @@ public class LongRunningRequestsApiController implements LongRunningRequestsApi 
       @ApiParam(value = "Unique identifier of the resource", required = true) @PathVariable("id") String id) {
     String accept = request.getHeader("Accept");
     if (accept != null && accept.contains("application/json")) {
+      userInfo = new UserInfo(request);
 
+      LongRunningRequest result = null;
+      if (lrrMapService.getLRR(userInfo.currentUserTenant(), id) != null) {
+        result = lrrMapService.getLRR(userInfo.currentUserTenant()/*userService.getUserId()*/, id);
+      } else {
+        throw new ApiException(404, "LRR not found. ID: " + id);
+      }
 
-        LongRunningRequest result = null;
-        if (lrrMapService.getLRR(userService.getUserId(), id) != null) {
-          result = lrrMapService.getLRR(userService.getUserId(), id);
-        } else {
-          throw new ApiException(404, "LRR not found. ID: " + id);
-        }
-
-        return new ResponseEntity<LongRunningRequest>(result, HttpStatus.OK);
+      return new ResponseEntity<LongRunningRequest>(result, HttpStatus.OK);
 
     }
     return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);

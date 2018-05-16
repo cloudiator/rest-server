@@ -2,8 +2,8 @@ package io.github.cloudiator.rest.api;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.github.cloudiator.rest.UserService;
-import io.github.cloudiator.rest.UserServiceImpl;
+import io.github.cloudiator.rest.UserInfo;
+import io.github.cloudiator.rest.UserServiceOld;
 import io.github.cloudiator.rest.converter.CloudToCloudConverter;
 import io.github.cloudiator.rest.converter.NewCloudConverter;
 import io.github.cloudiator.rest.model.Cloud;
@@ -21,14 +21,20 @@ import javax.validation.ValidationException;
 
 import org.cloudiator.messages.Cloud.CloudDeletedResponse;
 import org.cloudiator.messages.entities.IaasEntities;
+import org.cloudiator.messages.entities.User.AuthRequest;
+import org.cloudiator.messages.entities.User.AuthResponse;
 import org.cloudiator.messaging.ResponseException;
 import org.cloudiator.messaging.services.CloudService;
 import org.cloudiator.messaging.services.CloudServiceImpl;
+import org.cloudiator.messaging.services.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -44,6 +50,7 @@ public class CloudsApiController implements CloudsApi {
   private static final Logger log = LoggerFactory.getLogger(PlatformApiController.class);
   private final ObjectMapper objectMapper;
   private final HttpServletRequest request;
+  private UserInfo userInfo;
 
   final NewCloudConverter newCloudConverter;
   final CloudToCloudConverter cloudToCloudConverter;
@@ -56,11 +63,10 @@ public class CloudsApiController implements CloudsApi {
     this.cloudToCloudConverter = new CloudToCloudConverter();
   }
 
-  @Autowired
-  private UserService userService;
 
   @Autowired
   private CloudService cloudService;
+
 
   @ResponseStatus(value = HttpStatus.CREATED)
   public ResponseEntity<Cloud> addCloud(
@@ -68,6 +74,7 @@ public class CloudsApiController implements CloudsApi {
     String accept = request.getHeader("Accept");
     if (accept != null && accept.contains("application/json")) {
       try {
+        userInfo = new UserInfo(request);
         //validate input
         System.out.println("------------------ addCloud --------------------");
         System.out.println("input: \n" + newCloud);
@@ -79,11 +86,21 @@ public class CloudsApiController implements CloudsApi {
         generated.setCredential(newCloud.getCredential());
         generated.setCloudConfiguration(newCloud.getCloudConfiguration());
 
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentUserName;
+        String currentUserTenant;
+        if ((authentication instanceof UsernamePasswordAuthenticationToken)) {
+          throw new ApiException(403, "Authentication Error");
+        }
+        currentUserName = new String(authentication.getName());
+        currentUserTenant = new String(authentication.getCredentials().toString());
+        System.out.println("\n User " + currentUserName + "\n Tenant: " + currentUserTenant + "\n");
+
         IaasEntities.NewCloud iaasCloud = newCloudConverter.apply(generated);
         org.cloudiator.messages.Cloud.CreateCloudRequest.Builder builder = org.cloudiator.messages.Cloud.CreateCloudRequest
             .newBuilder();
         builder.setCloud(iaasCloud);
-        builder.setUserId(userService.getUserId());
+        builder.setUserId(userInfo.currentUserTenant());
         org.cloudiator.messages.Cloud.CloudCreatedResponse response = null;
 
         Cloud feedback = new Cloud();
@@ -123,12 +140,13 @@ public class CloudsApiController implements CloudsApi {
     String accept = request.getHeader("Accept");
     if (accept != null && accept.contains("application/json")) {
       try {
+        userInfo = new UserInfo(request);
         // inputvalidation+preparation
         if (id.length() != 32) {
           throw new ApiException(400, "ID not valid. Length must be 32");
         }
         org.cloudiator.messages.Cloud.DeleteCloudRequest deleteCloudRequest = org.cloudiator.messages.Cloud.DeleteCloudRequest
-            .newBuilder().setUserId(userService.getUserId()).setCloudId(id).build();
+            .newBuilder().setUserId(userInfo.currentUserTenant()).setCloudId(id).build();
         org.cloudiator.messages.Cloud.CloudDeletedResponse cloudDeletedResponse = null;
 
         // to Kafka
@@ -151,18 +169,17 @@ public class CloudsApiController implements CloudsApi {
     String accept = request.getHeader("Accept");
     if (accept != null && accept.contains("application/json")) {
 
+      //ID Validation
+      if (id.length() != 32) {
+        throw new ApiException(400, "ID not valid. Length must be 32");
+      }
+      //Preparation
+      org.cloudiator.messages.Cloud.UpdateCloudRequest.Builder updateCloudRequest = org.cloudiator.messages.Cloud.UpdateCloudRequest
+          .newBuilder().setUserId(userInfo.currentUserTenant()); // implementation not finished
 
-        //ID Validation
-        if (id.length() != 32) {
-          throw new ApiException(400, "ID not valid. Length must be 32");
-        }
-        //Preparation
-        org.cloudiator.messages.Cloud.UpdateCloudRequest.Builder updateCloudRequest = org.cloudiator.messages.Cloud.UpdateCloudRequest
-            .newBuilder().setUserId(userService.getUserId()); // implementation not finished
+      //to Kafka
 
-        //to Kafka
-
-        return new ResponseEntity<Cloud>(HttpStatus.OK);
+      return new ResponseEntity<Cloud>(HttpStatus.OK);
 
     }
 
@@ -175,9 +192,26 @@ public class CloudsApiController implements CloudsApi {
     if (accept != null && accept.contains("application/json")) {
       try {
         System.out.println("------------------ find Clouds ----------------");
+        userInfo = new UserInfo(request);
+
+        /*
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentUserName;
+        String currentUserTenant;
+        if (!(authentication instanceof UsernamePasswordAuthenticationToken)) {
+          throw new ApiException(403, "Authentication Error");
+        }
+        currentUserName = new String(authentication.getName());
+        currentUserTenant = new String(authentication.getCredentials().toString());
+        System.out.println("\n CurrentUser " + currentUserName + "\n CurrentTenant: " + currentUserTenant + "\n");
+        */
+        System.out.println(
+            "\n UserInfo.name " + userInfo.currentUserame() + "\n UserInfo.Tenant: " + userInfo
+                .currentUserTenant() + "\n");
+
         //prepare
         org.cloudiator.messages.Cloud.CloudQueryRequest cloudQueryRequest = org.cloudiator.messages.Cloud.CloudQueryRequest
-            .newBuilder().setUserId(userService.getUserId()).build();
+            .newBuilder().setUserId(userInfo.currentUserTenant()).build();
         List<Cloud> cloudList = new ArrayList<Cloud>();
         CloudToCloudConverter cloudToCloudConverter = new CloudToCloudConverter();
         org.cloudiator.messages.Cloud.CloudQueryResponse cloudQueryResponse = null;

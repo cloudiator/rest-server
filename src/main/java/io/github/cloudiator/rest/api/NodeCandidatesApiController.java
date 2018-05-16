@@ -1,7 +1,8 @@
 package io.github.cloudiator.rest.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.github.cloudiator.rest.UserService;
+import io.github.cloudiator.rest.UserInfo;
+import io.github.cloudiator.rest.UserServiceOld;
 import io.github.cloudiator.rest.converter.NodeCandidateConverter;
 import io.github.cloudiator.rest.converter.NodeRequirementsConverter;
 import io.github.cloudiator.rest.model.NodeCandidate;
@@ -29,6 +30,7 @@ public class NodeCandidatesApiController implements NodeCandidatesApi {
   private static final Logger log = LoggerFactory.getLogger(PlatformApiController.class);
   private final ObjectMapper objectMapper;
   private final HttpServletRequest request;
+  private UserInfo userInfo;
 
   private static final NodeCandidateConverter NODE_CANDIDATE_CONVERTER =
       new NodeCandidateConverter();
@@ -42,7 +44,7 @@ public class NodeCandidatesApiController implements NodeCandidatesApi {
   }
 
   @Autowired
-  private UserService userService;
+  private UserServiceOld userService;
 
   @Autowired
   private MatchmakingService matchmakingService;
@@ -53,10 +55,13 @@ public class NodeCandidatesApiController implements NodeCandidatesApi {
       @ApiParam(value = "Node Request ") @Valid @RequestBody NodeRequirements nodeRequirements) {
     String accept = request.getHeader("Accept");
     if (accept != null && accept.contains("application/json")) {
+      userInfo = new UserInfo(request);
       try {
 
         final NodeCandidateRequestMessage.Builder builder =
-            NodeCandidateRequestMessage.newBuilder().setUserId(userService.getUserId());
+            NodeCandidateRequestMessage.newBuilder()
+                //.setUserId(userService.getUserId())
+                .setUserId(userInfo.currentUserTenant());
 
         if (nodeRequirements != null && nodeRequirements.getRequirements() != null
             && !nodeRequirements.getRequirements().isEmpty()) {
