@@ -35,7 +35,6 @@ public class LongRunningRequestsApiController implements LongRunningRequestsApi 
   private static final Logger log = LoggerFactory.getLogger(PlatformApiController.class);
   private final ObjectMapper objectMapper;
   private final HttpServletRequest request;
-  private UserInfo userInfo;
 
   @org.springframework.beans.factory.annotation.Autowired
   public LongRunningRequestsApiController(ObjectMapper objectMapper, HttpServletRequest request) {
@@ -53,10 +52,9 @@ public class LongRunningRequestsApiController implements LongRunningRequestsApi 
   public ResponseEntity<List<LongRunningRequest>> findAllLongRunningRequest() {
     String accept = request.getHeader("Accept");
     if (accept != null && accept.contains("application/json")) {
-      userInfo = new UserInfo(request);
       try {
         // List<LongRunningRequest> result = lrrMapService.getAllLRR(userService.getUserId());
-        List<LongRunningRequest> result = lrrMapService.getAllLRR(userInfo.currentUserTenant());
+        List<LongRunningRequest> result = lrrMapService.getAllLRR(UserInfo.of(request).tenant());
 
         return new ResponseEntity<List<LongRunningRequest>>(result, HttpStatus.OK);
       } catch (Exception e) {
@@ -71,11 +69,10 @@ public class LongRunningRequestsApiController implements LongRunningRequestsApi 
       @ApiParam(value = "Unique identifier of the resource", required = true) @PathVariable("id") String id) {
     String accept = request.getHeader("Accept");
     if (accept != null && accept.contains("application/json")) {
-      userInfo = new UserInfo(request);
 
       LongRunningRequest result = null;
-      if (lrrMapService.getLRR(userInfo.currentUserTenant(), id) != null) {
-        result = lrrMapService.getLRR(userInfo.currentUserTenant()/*userService.getUserId()*/, id);
+      if (lrrMapService.getLRR(UserInfo.of(request).tenant(), id) != null) {
+        result = lrrMapService.getLRR(UserInfo.of(request).tenant()/*userService.getUserId()*/, id);
       } else {
         throw new ApiException(404, "LRR not found. ID: " + id);
       }

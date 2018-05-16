@@ -43,7 +43,6 @@ public class HardwareApiController implements HardwareApi {
   private final ObjectMapper objectMapper;
 
   private final HttpServletRequest request;
-  private UserInfo userInfo;
 
   @org.springframework.beans.factory.annotation.Autowired
   public HardwareApiController(ObjectMapper objectMapper, HttpServletRequest request) {
@@ -62,12 +61,11 @@ public class HardwareApiController implements HardwareApi {
     String accept = request.getHeader("Accept");
     if (accept != null && accept.contains("application/json")) {
       try {
-        userInfo = new UserInfo(request);
         //Preparation
         System.out.println("------------------ find Hardware -------------------");
         HardwareQueryRequest hardwareQueryRequest = HardwareQueryRequest.newBuilder()
             //.setUserId(userService.getUserId())
-            .setUserId(userInfo.currentUserTenant())
+            .setUserId(UserInfo.of(request).tenant())
             .build();
         HardwareConverter hardwareConverter = new HardwareConverter();
         List<Hardware> hardwareList = new ArrayList<>();

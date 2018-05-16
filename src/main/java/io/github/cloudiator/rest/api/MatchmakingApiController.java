@@ -30,7 +30,6 @@ public class MatchmakingApiController implements MatchmakingApi {
   private final ObjectMapper objectMapper;
 
   private final HttpServletRequest request;
-  private UserInfo userInfo;
 
   @Autowired
   private MatchmakingService matchmakingService;
@@ -54,17 +53,16 @@ public class MatchmakingApiController implements MatchmakingApi {
     String accept = request.getHeader("Accept");
     if (accept != null && accept.contains("application/json")) {
       try {
-        userInfo = new UserInfo(request);
-        final Matchmaking.MatchmakingRequest request = Matchmaking.MatchmakingRequest
+        final Matchmaking.MatchmakingRequest matchmakingMessage = Matchmaking.MatchmakingRequest
             .newBuilder()
             .setRequirements(
                 NODE_REQUIREMENTS_CONVERTER.apply(matchmakingRequest.getRequirements()))
             //.setUserId(userService.getUserId())
-            .setUserId(userInfo.currentUserTenant())
+            .setUserId(UserInfo.of(request).tenant())
             .build();
 
         Matchmaking.MatchmakingResponse matchmakingResponse = matchmakingService
-            .requestMatch(request);
+            .requestMatch(matchmakingMessage);
 
         return new ResponseEntity<>(
             MATCHMAKING_RESPONSE_CONVERTER.apply(matchmakingResponse), HttpStatus.OK);

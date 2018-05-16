@@ -2,21 +2,21 @@ package io.github.cloudiator.rest.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.cloudiator.rest.LRRMapService;
-import io.github.cloudiator.rest.UserServiceOld;
+import io.github.cloudiator.rest.UserInfo;
 import io.github.cloudiator.rest.converter.VirtualMachineRequestConverter;
-import io.github.cloudiator.rest.model.*;
+import io.github.cloudiator.rest.model.LRRStatus;
+import io.github.cloudiator.rest.model.LRRType;
+import io.github.cloudiator.rest.model.LongRunningRequest;
+import io.github.cloudiator.rest.model.VirtualMachineRequest;
 import io.swagger.annotations.ApiParam;
-
+import java.util.UUID;
 import javax.annotation.Nullable;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-
 import org.cloudiator.messages.General;
-import org.cloudiator.messages.Vm;
 import org.cloudiator.messages.Vm.CreateVirtualMachineRequestMessage;
 import org.cloudiator.messages.Vm.VirtualMachineCreatedResponse;
 import org.cloudiator.messaging.ResponseCallback;
-import org.cloudiator.messaging.ResponseException;
 import org.cloudiator.messaging.services.VirtualMachineService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,10 +26,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
-
-import java.math.BigInteger;
-import java.security.SecureRandom;
-import java.util.UUID;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2017-05-29T12:00:45.563+02:00")
 
@@ -50,9 +46,6 @@ public class VmApiController implements VmApi {
   private VirtualMachineService virtualMachineService;
 
   @Autowired
-  private UserServiceOld userService;
-
-  @Autowired
   private LRRMapService lrrMapService;
 
 
@@ -68,16 +61,17 @@ public class VmApiController implements VmApi {
       lrr.setTaskType(LRRType.VIRTUALMACHINEREQUEST);
       lrr.setLrrData(virtualMachineRequest.toString());
 
-      lrrMapService.addLRR(userService.getUserId(), lrr);
+      lrrMapService.addLRR(UserInfo.of(request).tenant(), lrr);
 
       VirtualMachineRequestConverter virtualMachineRequestConverter = new VirtualMachineRequestConverter();
-      CreateVirtualMachineRequestMessage request = CreateVirtualMachineRequestMessage.newBuilder()
-          .setUserId(userService.getUserId())
+      CreateVirtualMachineRequestMessage createVirtualMachineRequestMessage = CreateVirtualMachineRequestMessage
+          .newBuilder()
+          .setUserId(UserInfo.of(request).tenant())
           .setVirtualMachineRequest(virtualMachineRequestConverter.apply(virtualMachineRequest))
           .build();
 
       virtualMachineService
-          .createVirtualMachineAsync(request,
+          .createVirtualMachineAsync(createVirtualMachineRequestMessage,
               new ResponseCallback<VirtualMachineCreatedResponse>() {
                 @Override
                 public void accept(@Nullable VirtualMachineCreatedResponse content,

@@ -41,7 +41,6 @@ public class LocationsApiController implements LocationsApi {
   private static final Logger log = LoggerFactory.getLogger(PlatformApiController.class);
   private final ObjectMapper objectMapper;
   private final HttpServletRequest request;
-  private UserInfo userInfo;
 
   @org.springframework.beans.factory.annotation.Autowired
   public LocationsApiController(ObjectMapper objectMapper, HttpServletRequest request) {
@@ -50,30 +49,26 @@ public class LocationsApiController implements LocationsApi {
   }
 
   @Autowired
-  private UserServiceOld userService;
-
-  @Autowired
   private LocationService locationService;
 
 
   public ResponseEntity<List<Location>> findLocations() {
     String accept = request.getHeader("Accept");
     if (accept != null && accept.contains("application/json")) {
-      userInfo = new UserInfo(request);
 
       //Preparation
       System.out.println("--------------- find Location --------------------");
       LocationConverter locationConverter = new LocationConverter();
       List<Location> locationList = new ArrayList<>();
-      LocationQueryRequest request = LocationQueryRequest.newBuilder()
+      LocationQueryRequest locationQueryRequest = LocationQueryRequest.newBuilder()
           // .setUserId(userService.getUserId())
-          .setUserId(userInfo.currentUserTenant())
+          .setUserId(UserInfo.of(request).tenant())
           .build();
 
       LocationQueryResponse response = null;
       //Communication Kafka
       try {
-        response = locationService.getLocations(request);
+        response = locationService.getLocations(locationQueryRequest);
       } catch (ResponseException re) {
         System.err.println("ResponseException: " + re.code() + ", " + re.getMessage());
         throw new ApiException(re.code(), re.getMessage());

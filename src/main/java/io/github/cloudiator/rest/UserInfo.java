@@ -1,43 +1,36 @@
 package io.github.cloudiator.rest;
 
-import io.github.cloudiator.rest.api.ApiException;
+import javax.annotation.Nullable;
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.stereotype.Controller;
 
-@Controller
 public class UserInfo {
 
-  Authentication authentication;
-  HttpServletRequest request;
+  private final Authentication authentication;
 
-  public UserInfo(HttpServletRequest request) {
-    this.authentication = SecurityContextHolder.getContext().getAuthentication();
-    this.request = request;
+  public static UserInfo of(HttpServletRequest request) {
+
+    Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    if (!(auth instanceof UsernamePasswordAuthenticationToken)) {
+      throw new IllegalStateException(
+          "Did expect auth to be of type UsernamePasswordAuthenticationToken.");
+    }
+    return new UserInfo(auth);
   }
 
-  public String currentUserame() {
-    /*
-    if (!(authentication instanceof UsernamePasswordAuthenticationToken)) {
-     throw new ApiException (403, "Authentication Error");
-    }
-    */
-    return request.getUserPrincipal().getName();
-
-    //return authentication.getName();
+  private UserInfo(Authentication authentication) {
+    this.authentication = authentication;
   }
 
-  public String currentUserTenant() {
-    /*
-    if (!(authentication instanceof UsernamePasswordAuthenticationToken)) {
-      throw new ApiException(403, "Authentication Error");
-    }
-    */
-    System.out.println("\n Authentication: " + authentication + "\n");
+  @Nullable
+  public String username() {
+    return this.authentication.getName();
+  }
 
-    return authentication.getCredentials().toString();
+  public String tenant() {
+    return this.authentication.getCredentials().toString();
   }
 
 }
