@@ -74,6 +74,7 @@ public class CloudsApiController implements CloudsApi {
     String accept = request.getHeader("Accept");
     if (accept != null && accept.contains("application/json")) {
       try {
+        userInfo = new UserInfo(request);
         //validate input
         System.out.println("------------------ addCloud --------------------");
         System.out.println("input: \n" + newCloud);
@@ -139,6 +140,7 @@ public class CloudsApiController implements CloudsApi {
     String accept = request.getHeader("Accept");
     if (accept != null && accept.contains("application/json")) {
       try {
+        userInfo = new UserInfo(request);
         // inputvalidation+preparation
         if (id.length() != 32) {
           throw new ApiException(400, "ID not valid. Length must be 32");

@@ -35,7 +35,7 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
         .antMatchers("/swagger-ui.html").permitAll()
         .antMatchers("/swagger-resources/**").permitAll()
         .antMatchers("/api-docs/**").permitAll()
-        .antMatchers("/user/print**").permitAll()
+        //.antMatchers("/user/print**").permitAll()
         .antMatchers("/login**").permitAll()
         .anyRequest().authenticated().and()
         .addFilter(new ApiKeyAuthorizationFilter(authenticationManager(), userService))
