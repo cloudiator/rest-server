@@ -71,11 +71,13 @@ public class ServiceFactory {
   }
 
 
-  public InstallationRequestService createInstallationRequestService(){
+  public InstallationRequestService createInstallationRequestService() {
     return INJECTOR.getInstance(InstallationRequestService.class);
-
-  public UserService createUserService(){
-    return INJECTOR.getInstance(UserService.class);
-
   }
+
+  public UserService createUserService() {
+    return INJECTOR.getInstance(UserService.class);
+  }
+
+
 }
