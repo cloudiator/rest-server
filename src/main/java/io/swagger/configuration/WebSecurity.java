@@ -14,7 +14,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 /**
  * Enables web security
  *
- * @see <a href="https://auth0.com/blog/implementing-jwt-authentication-on-spring-boot" />
+ * @see <a href="https://auth0.com/blog/implementing-jwt-authentication-on-spring-boot">https://auth0.com/blog/implementing-jwt-authentication-on-spring-boot</a>
  */
 @EnableWebSecurity
 public class WebSecurity extends WebSecurityConfigurerAdapter {
