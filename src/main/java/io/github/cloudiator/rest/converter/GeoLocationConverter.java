@@ -31,18 +31,26 @@ public class GeoLocationConverter implements
 
     if (geolocation.getCity() != null) {
       builder.setCity(geolocation.getCity());
+    }else{
+      builder.clearCity();
     }
 
     if (geolocation.getCountry() != null) {
       builder.setCountry(geolocation.getCountry());
+    }else{
+      builder.clearCountry();
     }
 
     if (geolocation.getLatitude() != null) {
       builder.setLatitude(geolocation.getLatitude());
+    }else{
+      builder.clearLatitude();
     }
 
     if (geolocation.getLongitude() != null) {
       builder.setLongitude(geolocation.getLongitude());
+    }else{
+      builder.clearLongitude();
     }
 
     return builder.build();

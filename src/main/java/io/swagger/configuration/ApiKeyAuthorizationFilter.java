@@ -25,6 +25,9 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
+import org.springframework.web.filter.GenericFilterBean;
+import org.springframework.web.util.UrlPathHelper;
+
 
 public class ApiKeyAuthorizationFilter extends BasicAuthenticationFilter {
 
@@ -42,27 +45,25 @@ public class ApiKeyAuthorizationFilter extends BasicAuthenticationFilter {
       FilterChain chain) throws IOException, ServletException {
 
     String header = request.getHeader(HEADER);
+    HttpServletResponse httpResponse = (HttpServletResponse) response;
 
-    //|| !checkToken(header)
+    //X-API-KEY header not set
     if (header == null) {
       chain.doFilter(request, response);
       return;
     }
+    //getToken
+    UsernamePasswordAuthenticationToken thisone = getToken(request);
 
-    SecurityContextHolder.getContext().setAuthentication(getToken(request));
-    chain.doFilter(request, response);
+    //checkToken
+    if (!(thisone.getPrincipal().toString().isEmpty()) && !(thisone.getPrincipal().toString()
+        .matches("notauser"))) {
 
-  }
-
-
-  private boolean checkToken(String token) {
-    final String validToken = Configuration.conf().getString(SecurityConstants.TOKEN_CONFIG);
-
-    if (validToken == null) {
-      return false;
+      SecurityContextHolder.getContext().setAuthentication(thisone);
     }
 
-    return validToken.equals(token);
+    chain.doFilter(request, response);
+
   }
 
   private UsernamePasswordAuthenticationToken getToken(HttpServletRequest httpServletRequest) {
@@ -71,38 +72,23 @@ public class ApiKeyAuthorizationFilter extends BasicAuthenticationFilter {
     System.out.println(token + "\n");
 
     try {
-      if (token == null) {
-        throw new ApiException(500, "tokerError");
-      }
 
       UserEntities.Token kafkaToken = UserEntities.Token.newBuilder().setToken(token)
           .setGenerationTime(1).setExpireTime(2).build();
+
       AuthRequest req = AuthRequest.newBuilder().setToken(kafkaToken).build();
-      AuthResponse authResponse;
-      authResponse = userService.auth(req);
-      //System.out.println(authResponse + "\n");
+      AuthResponse authResponse = userService.auth(req);
+
       String user = authResponse.getUser().getEmail();
       String userTenant = authResponse.getUser().getTenant().getTenant();
 
       return new UsernamePasswordAuthenticationToken(user, userTenant, new ArrayList<>());
     } catch (ResponseException ex) {
+
       throw new ApiException(ex.code(), ex.getMessage() + token);
     }
 
   }
- /*
-  private boolean checkToken(String token) {
-    final String validToken = Configuration.conf().getString(SecurityConstants.TOKEN_CONFIG);
-    if (validToken == null) {
-      return false;
-    }
-    return validToken.equals(token);
-  }
 
-
-  private UsernamePasswordAuthenticationToken getToken(HttpServletRequest httpServletRequest) {
-    return new UsernamePasswordAuthenticationToken("dummy_user_id", null, new ArrayList<>());
-  }
-*/
 
 }
