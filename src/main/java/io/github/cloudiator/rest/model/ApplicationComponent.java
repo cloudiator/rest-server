@@ -12,7 +12,8 @@ import javax.validation.constraints.*;
  * ApplicationComponent
  */
 
-public class ApplicationComponent   {
+public class ApplicationComponent {
+
   @JsonProperty("test")
   private String test = null;
 
@@ -21,12 +22,12 @@ public class ApplicationComponent   {
     return this;
   }
 
-   /**
+  /**
    * Get test
+   *
    * @return test
-  **/
+   **/
   @ApiModelProperty(value = "")
-
 
   public String getTest() {
     return test;
@@ -58,15 +59,15 @@ public class ApplicationComponent   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class ApplicationComponent {\n");
-    
+
     sb.append("    test: ").append(toIndentedString(test)).append("\n");
     sb.append("}");
     return sb.toString();
   }
 
   /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
+   * Convert the given object to string with each line indented by 4 spaces (except the first
+   * line).
    */
   private String toIndentedString(java.lang.Object o) {
     if (o == null) {

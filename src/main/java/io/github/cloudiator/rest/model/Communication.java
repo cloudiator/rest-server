@@ -5,13 +5,15 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * Represents a communication requirement between two tasks by mapping a required port of a task to a provided port of another task. 
+ * Part of a job Represents a communication requirement between two tasks by mapping a required port of a task to a provided port of another task. 
  */
-@ApiModel(description = "Represents a communication requirement between two tasks by mapping a required port of a task to a provided port of another task. ")
+@ApiModel(description = "Part of a job Represents a communication requirement between two tasks by mapping a required port of a task to a provided port of another task. ")
+@Validated
 
 public class Communication   {
   @JsonProperty("portRequired")

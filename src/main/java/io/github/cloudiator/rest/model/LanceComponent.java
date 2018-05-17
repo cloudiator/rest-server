@@ -12,11 +12,12 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * Represents a lance component. 
+ * Represents a lance component.
  */
 @ApiModel(description = "Represents a lance component. ")
 
-public class LanceComponent extends Component  {
+public class LanceComponent extends Component {
+
   @JsonProperty("init")
   private String init = null;
 
@@ -61,12 +62,12 @@ public class LanceComponent extends Component  {
     return this;
   }
 
-   /**
-   * Initialization action. 
+  /**
+   * Initialization action.
+   *
    * @return init
-  **/
+   **/
   @ApiModelProperty(value = "Initialization action. ")
-
 
   public String getInit() {
     return init;
@@ -81,12 +82,12 @@ public class LanceComponent extends Component  {
     return this;
   }
 
-   /**
-   * Executed before installation action. Can be e.g. used for downloading binaries. 
+  /**
+   * Executed before installation action. Can be e.g. used for downloading binaries.
+   *
    * @return preInstall
-  **/
+   **/
   @ApiModelProperty(value = "Executed before installation action. Can be e.g. used for downloading binaries. ")
-
 
   public String getPreInstall() {
     return preInstall;
@@ -101,12 +102,12 @@ public class LanceComponent extends Component  {
     return this;
   }
 
-   /**
-   * Used for installing the application. 
+  /**
+   * Used for installing the application.
+   *
    * @return install
-  **/
+   **/
   @ApiModelProperty(value = "Used for installing the application. ")
-
 
   public String getInstall() {
     return install;
@@ -121,12 +122,13 @@ public class LanceComponent extends Component  {
     return this;
   }
 
-   /**
-   * Used for configuration of the application component. First action where Lance environment variables are set. 
+  /**
+   * Used for configuration of the application component. First action where Lance environment
+   * variables are set.
+   *
    * @return postInstall
-  **/
+   **/
   @ApiModelProperty(value = "Used for configuration of the application component. First action where Lance environment variables are set. ")
-
 
   public String getPostInstall() {
     return postInstall;
@@ -141,12 +143,12 @@ public class LanceComponent extends Component  {
     return this;
   }
 
-   /**
-   * Called before starting the application. Can be e.g. used for configuration an environment. 
+  /**
+   * Called before starting the application. Can be e.g. used for configuration an environment.
+   *
    * @return preStart
-  **/
+   **/
   @ApiModelProperty(value = "Called before starting the application. Can be e.g. used for configuration an environment. ")
-
 
   public String getPreStart() {
     return preStart;
@@ -161,12 +163,12 @@ public class LanceComponent extends Component  {
     return this;
   }
 
-   /**
-   * Starts the component. Needs to return for PlainContainer and not return for Docker. 
+  /**
+   * Starts the component. Needs to return for PlainContainer and not return for Docker.
+   *
    * @return start
-  **/
+   **/
   @ApiModelProperty(value = "Starts the component. Needs to return for PlainContainer and not return for Docker. ")
-
 
   public String getStart() {
     return start;
@@ -181,12 +183,13 @@ public class LanceComponent extends Component  {
     return this;
   }
 
-   /**
-   * Detects the start of the application. Required if the application does not start instantianous. 
+  /**
+   * Detects the start of the application. Required if the application does not start
+   * instantianous.
+   *
    * @return startDetection
-  **/
+   **/
   @ApiModelProperty(value = "Detects the start of the application. Required if the application does not start instantianous. ")
-
 
   public String getStartDetection() {
     return startDetection;
@@ -201,12 +204,13 @@ public class LanceComponent extends Component  {
     return this;
   }
 
-   /**
-   * Checks if the application has stopped. Is periodically checked to detect a crash of the application. 
+  /**
+   * Checks if the application has stopped. Is periodically checked to detect a crash of the
+   * application.
+   *
    * @return stopDetection
-  **/
+   **/
   @ApiModelProperty(value = "Checks if the application has stopped. Is periodically checked to detect a crash of the application. ")
-
 
   public String getStopDetection() {
     return stopDetection;
@@ -221,12 +225,12 @@ public class LanceComponent extends Component  {
     return this;
   }
 
-   /**
-   * Executed after the application has successfully started. 
+  /**
+   * Executed after the application has successfully started.
+   *
    * @return postStart
-  **/
+   **/
   @ApiModelProperty(value = "Executed after the application has successfully started. ")
-
 
   public String getPostStart() {
     return postStart;
@@ -241,12 +245,12 @@ public class LanceComponent extends Component  {
     return this;
   }
 
-   /**
-   * Called before the application is stopped. 
+  /**
+   * Called before the application is stopped.
+   *
    * @return preStop
-  **/
+   **/
   @ApiModelProperty(value = "Called before the application is stopped. ")
-
 
   public String getPreStop() {
     return preStop;
@@ -261,12 +265,12 @@ public class LanceComponent extends Component  {
     return this;
   }
 
-   /**
-   * Stops the application. 
+  /**
+   * Stops the application.
+   *
    * @return stop
-  **/
+   **/
   @ApiModelProperty(value = "Stops the application. ")
-
 
   public String getStop() {
     return stop;
@@ -281,12 +285,12 @@ public class LanceComponent extends Component  {
     return this;
   }
 
-   /**
-   * Executed after the application is successfully stopped. 
+  /**
+   * Executed after the application is successfully stopped.
+   *
    * @return postStop
-  **/
+   **/
   @ApiModelProperty(value = "Executed after the application is successfully stopped. ")
-
 
   public String getPostStop() {
     return postStop;
@@ -301,12 +305,12 @@ public class LanceComponent extends Component  {
     return this;
   }
 
-   /**
-   * Executed before the container is shutdown. Can be used to backup state. 
+  /**
+   * Executed before the container is shutdown. Can be used to backup state.
+   *
    * @return shutdown
-  **/
+   **/
   @ApiModelProperty(value = "Executed before the container is shutdown. Can be used to backup state. ")
-
 
   public String getShutdown() {
     return shutdown;
@@ -344,7 +348,8 @@ public class LanceComponent extends Component  {
 
   @Override
   public int hashCode() {
-    return Objects.hash(init, preInstall, install, postInstall, preStart, start, startDetection, stopDetection, postStart, preStop, stop, postStop, shutdown, super.hashCode());
+    return Objects.hash(init, preInstall, install, postInstall, preStart, start, startDetection,
+        stopDetection, postStart, preStop, stop, postStop, shutdown, super.hashCode());
   }
 
   @Override
@@ -370,8 +375,8 @@ public class LanceComponent extends Component  {
   }
 
   /**
-   * Convert the given object to string with each line indented by 4 spaces
-   * (except the first line).
+   * Convert the given object to string with each line indented by 4 spaces (except the first
+   * line).
    */
   private String toIndentedString(java.lang.Object o) {
     if (o == null) {

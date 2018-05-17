@@ -3,39 +3,44 @@ package io.github.cloudiator.rest.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import io.github.cloudiator.rest.model.Hardware;
+import io.github.cloudiator.rest.model.Image;
 import io.github.cloudiator.rest.model.IpAddress;
-import io.github.cloudiator.rest.model.LoginCredential;
+import io.github.cloudiator.rest.model.Location;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
  * VirtualMachine
  */
+@Validated
 
 public class VirtualMachine   {
   @JsonProperty("image")
-  private String image = null;
+  private Image image = null;
 
   @JsonProperty("hardware")
-  private String hardware = null;
+  private Hardware hardware = null;
 
   @JsonProperty("location")
-  private String location = null;
+  private Location location = null;
 
   @JsonProperty("id")
   private String id = null;
 
   @JsonProperty("ipaddresses")
+  @Valid
   private List<IpAddress> ipaddresses = null;
 
   @JsonProperty("logincredential")
-  private LoginCredential logincredential = null;
+  private String logincredential = null;
 
-  public VirtualMachine image(String image) {
+  public VirtualMachine image(Image image) {
     this.image = image;
     return this;
   }
@@ -44,18 +49,19 @@ public class VirtualMachine   {
    * Get image
    * @return image
   **/
-  @ApiModelProperty(example = "01101b2075b7046fff5eaa9beae14ccd:RegionOne/72a4b00b-705f-4290-a4de-c79eddc03fe3", value = "")
+  @ApiModelProperty(value = "")
 
+  @Valid
 
-  public String getImage() {
+  public Image getImage() {
     return image;
   }
 
-  public void setImage(String image) {
+  public void setImage(Image image) {
     this.image = image;
   }
 
-  public VirtualMachine hardware(String hardware) {
+  public VirtualMachine hardware(Hardware hardware) {
     this.hardware = hardware;
     return this;
   }
@@ -64,18 +70,19 @@ public class VirtualMachine   {
    * Get hardware
    * @return hardware
   **/
-  @ApiModelProperty(example = "01101b2075b7046fff5eaa9beae14ccd:RegionOne/3", value = "")
+  @ApiModelProperty(value = "")
 
+  @Valid
 
-  public String getHardware() {
+  public Hardware getHardware() {
     return hardware;
   }
 
-  public void setHardware(String hardware) {
+  public void setHardware(Hardware hardware) {
     this.hardware = hardware;
   }
 
-  public VirtualMachine location(String location) {
+  public VirtualMachine location(Location location) {
     this.location = location;
     return this;
   }
@@ -84,14 +91,15 @@ public class VirtualMachine   {
    * Get location
    * @return location
   **/
-  @ApiModelProperty(example = "01101b2075b7046fff5eaa9beae14ccd:RegionOne", value = "")
+  @ApiModelProperty(value = "")
 
+  @Valid
 
-  public String getLocation() {
+  public Location getLocation() {
     return location;
   }
 
-  public void setLocation(String location) {
+  public void setLocation(Location location) {
     this.location = location;
   }
 
@@ -144,7 +152,7 @@ public class VirtualMachine   {
     this.ipaddresses = ipaddresses;
   }
 
-  public VirtualMachine logincredential(LoginCredential logincredential) {
+  public VirtualMachine logincredential(String logincredential) {
     this.logincredential = logincredential;
     return this;
   }
@@ -155,13 +163,12 @@ public class VirtualMachine   {
   **/
   @ApiModelProperty(value = "")
 
-  @Valid
 
-  public LoginCredential getLogincredential() {
+  public String getLogincredential() {
     return logincredential;
   }
 
-  public void setLogincredential(LoginCredential logincredential) {
+  public void setLogincredential(String logincredential) {
     this.logincredential = logincredential;
   }
 

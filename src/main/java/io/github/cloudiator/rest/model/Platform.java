@@ -9,6 +9,7 @@ import io.github.cloudiator.rest.model.CloudCredential;
 import io.github.cloudiator.rest.model.NewPlatform;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
@@ -16,11 +17,9 @@ import javax.validation.constraints.*;
  * Representation of a platform used by Cloudiator
  */
 @ApiModel(description = "Representation of a platform used by Cloudiator")
+@Validated
 
 public class Platform   {
-  @JsonProperty("id")
-  private String id = null;
-
   @JsonProperty("name")
   private String name = null;
 
@@ -66,26 +65,11 @@ public class Platform   {
   @JsonProperty("credential")
   private CloudCredential credential = null;
 
-  public Platform id(String id) {
-    this.id = id;
-    return this;
-  }
+  @JsonProperty("endpoint")
+  private String endpoint = null;
 
-   /**
-   * Unique identifier for the platform
-   * @return id
-  **/
-  @ApiModelProperty(required = true, value = "Unique identifier for the platform")
-  @NotNull
-
-
-  public String getId() {
-    return id;
-  }
-
-  public void setId(String id) {
-    this.id = id;
-  }
+  @JsonProperty("id")
+  private String id = null;
 
   public Platform name(String name) {
     this.name = name;
@@ -172,6 +156,46 @@ public class Platform   {
     this.credential = credential;
   }
 
+  public Platform endpoint(String endpoint) {
+    this.endpoint = endpoint;
+    return this;
+  }
+
+   /**
+   * URI where the api of this platform provider can be accessed.
+   * @return endpoint
+  **/
+  @ApiModelProperty(example = "https://endpoint.example.com", value = "URI where the api of this platform provider can be accessed.")
+
+
+  public String getEndpoint() {
+    return endpoint;
+  }
+
+  public void setEndpoint(String endpoint) {
+    this.endpoint = endpoint;
+  }
+
+  public Platform id(String id) {
+    this.id = id;
+    return this;
+  }
+
+   /**
+   * Unique identifier for the platform
+   * @return id
+  **/
+  @ApiModelProperty(value = "Unique identifier for the platform")
+
+
+  public String getId() {
+    return id;
+  }
+
+  public void setId(String id) {
+    this.id = id;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -182,16 +206,17 @@ public class Platform   {
       return false;
     }
     Platform platform = (Platform) o;
-    return Objects.equals(this.id, platform.id) &&
-        Objects.equals(this.name, platform.name) &&
+    return Objects.equals(this.name, platform.name) &&
         Objects.equals(this.type, platform.type) &&
         Objects.equals(this.api, platform.api) &&
-        Objects.equals(this.credential, platform.credential);
+        Objects.equals(this.credential, platform.credential) &&
+        Objects.equals(this.endpoint, platform.endpoint) &&
+        Objects.equals(this.id, platform.id);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, name, type, api, credential);
+    return Objects.hash(name, type, api, credential, endpoint, id);
   }
 
   @Override
@@ -199,11 +224,12 @@ public class Platform   {
     StringBuilder sb = new StringBuilder();
     sb.append("class Platform {\n");
     
-    sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    type: ").append(toIndentedString(type)).append("\n");
     sb.append("    api: ").append(toIndentedString(api)).append("\n");
     sb.append("    credential: ").append(toIndentedString(credential)).append("\n");
+    sb.append("    endpoint: ").append(toIndentedString(endpoint)).append("\n");
+    sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("}");
     return sb.toString();
   }

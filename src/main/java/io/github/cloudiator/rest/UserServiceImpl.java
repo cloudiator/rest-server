@@ -3,7 +3,7 @@ package io.github.cloudiator.rest;
 /**
  * Created by volker on 29.05.17.
  */
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl implements UserServiceOld {
 
   private final static String DUMMY_USER = "dummy_user_id";
 

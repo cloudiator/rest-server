@@ -7,15 +7,19 @@ import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * Requirement
+ * polymorphic Superclass, only subtypes are allowed
  */
+@ApiModel(description = "polymorphic Superclass, only subtypes are allowed")
+@Validated
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type", visible = true )
 @JsonSubTypes({
   @JsonSubTypes.Type(value = OclRequirement.class, name = "OclRequirement"),
+  @JsonSubTypes.Type(value = AttributeRequirement.class, name = "AttributeRequirement"),
   @JsonSubTypes.Type(value = IdentifierRequirement.class, name = "IdentifierRequirement"),
 })
 

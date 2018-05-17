@@ -6,12 +6,15 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import io.github.cloudiator.rest.model.TaskInterface;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * DockerInterface
+ * Subtype of TaskInterface 
  */
+@ApiModel(description = "Subtype of TaskInterface ")
+@Validated
 
 public class DockerInterface extends TaskInterface  {
   @JsonProperty("dockerImage")

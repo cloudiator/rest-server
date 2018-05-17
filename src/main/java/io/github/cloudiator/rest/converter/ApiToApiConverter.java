@@ -7,7 +7,7 @@ import org.cloudiator.messages.entities.IaasEntities;
 /**
  * Created by volker on 29.05.17.
  */
-public class ApiToApiConverter implements TwoWayConverter<Api,IaasEntities.Api>{
+public class ApiToApiConverter implements TwoWayConverter<Api, IaasEntities.Api> {
 
   @Override
   public Api applyBack(IaasEntities.Api api) {

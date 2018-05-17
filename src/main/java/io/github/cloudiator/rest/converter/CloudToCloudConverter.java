@@ -18,7 +18,12 @@ public class CloudToCloudConverter implements TwoWayConverter<Cloud, IaasEntitie
   public Cloud applyBack(IaasEntities.Cloud cloud) {
     Cloud result = new Cloud();
     result.setId(cloud.getId());
-    result.setEndpoint(cloud.getEndpoint());
+
+    if (cloud.getEndpoint().equals("")) {
+      result.setEndpoint(null);
+    } else {
+      result.setEndpoint(cloud.getEndpoint());
+    }
     result.setCloudType(cloudTypeConverter.applyBack(cloud.getCloudType()));
     result.setApi(apiToApiConverter.applyBack(cloud.getApi()));
     result.setCloudConfiguration(cloudConfigurationConverter.applyBack(cloud.getConfiguration()));

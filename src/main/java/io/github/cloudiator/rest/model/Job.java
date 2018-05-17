@@ -10,6 +10,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
@@ -17,18 +18,22 @@ import javax.validation.constraints.*;
  * Represents an job. An job is a logical group of tasks. 
  */
 @ApiModel(description = "Represents an job. An job is a logical group of tasks. ")
+@Validated
 
 public class Job   {
   @JsonProperty("name")
   private String name = null;
 
   @JsonProperty("tasks")
-  private List<Task> tasks = new ArrayList<Task>();
+  @Valid
+  private List<Task> tasks = null;
 
   @JsonProperty("communications")
-  private List<Communication> communications = new ArrayList<Communication>();
+  @Valid
+  private List<Communication> communications = null;
 
   @JsonProperty("requirements")
+  @Valid
   private List<Requirement> requirements = null;
 
   public Job name(String name) {
@@ -58,6 +63,9 @@ public class Job   {
   }
 
   public Job addTasksItem(Task tasksItem) {
+    if (this.tasks == null) {
+      this.tasks = new ArrayList<Task>();
+    }
     this.tasks.add(tasksItem);
     return this;
   }
@@ -66,8 +74,7 @@ public class Job   {
    * An array of tasks that form this application. 
    * @return tasks
   **/
-  @ApiModelProperty(required = true, value = "An array of tasks that form this application. ")
-  @NotNull
+  @ApiModelProperty(value = "An array of tasks that form this application. ")
 
   @Valid
 
@@ -85,6 +92,9 @@ public class Job   {
   }
 
   public Job addCommunicationsItem(Communication communicationsItem) {
+    if (this.communications == null) {
+      this.communications = new ArrayList<Communication>();
+    }
     this.communications.add(communicationsItem);
     return this;
   }
@@ -93,8 +103,7 @@ public class Job   {
    * Get communications
    * @return communications
   **/
-  @ApiModelProperty(required = true, value = "")
-  @NotNull
+  @ApiModelProperty(value = "")
 
   @Valid
 

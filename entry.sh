@@ -2,29 +2,45 @@
 
 set -x
 
-echo ${KAFKA_BOOTSTRAP_SERVERS_IP:?"KAFKA_BOOTSTRAP_SERVERS_IP has to be set"}
-echo ${KAFKA_GROUP_ID:?"KAFKA_GROUP_ID has to be set"}
-echo ${MESSAGING_TIMEOUT:?"MESSAGING_TIMEOUT has to be set"}
-echo ${APPLICATION_DOCS_PATH:?"APPLICATION_DOCS_PATH has to be set"}
-echo ${APPLICATION_PORT:?"APPLICATION_PORT has to be set"}
+DEFAULT_KAFKA_GROUP_ID="restServer"
+DEFAULT_KAFKA_RESPONSE_TIMEOUT=50000
 
-# Extract kafta config
-jar xf rest-server-0.3.0-SNAPSHOT.jar BOOT-INF/classes/kafka.properties.template
+env_required() {
+  echo "EnvironmentVariable $1 is required."
+  exit 1
+}
 
-# Substitute
-cat BOOT-INF/classes/kafka.properties.template | envsubst > BOOT-INF/classes/kafka.properties
-cat BOOT-INF/classes/messaging.properties.template | envsubst > BOOT-INF/classes/messaging.properties
-cat BOOT-INF/classes/application.properties.template | envsubst > BOOT-INF/classes/application.properties
-cat BOOT-INF/classes/kafka.properties
-cat BOOT-INF/classes/application.properties
-cat BOOT-INF/classes/messaging.properties
+env_set_default() {
+  echo "EnvironmentVariable $1 is not set. Defaulting to $2."
+}
 
-# Write config back
-#jar uf rest-server-0.3.0-SNAPSHOT.jar BOOT-INF/classes/kafka.properties
+validateMandatory() {
 
-# Cleanup
-#rm -rf BOOT-INF
+  if [ -z "$KAFKA_BOOTSTRAP_SERVERS" ]; then
+	  env_required "KAFKA_BOOTSTRAP_SERVERS"
+  fi
+
+  if [ -z "$SECURITY_API_KEY" ]; then
+	  env_required "SECURITY_API_KEY"
+  fi
+
+}
+
+setDefaults() {
+
+  if [ -z "$KAFKA_GROUP_ID" ]; then
+    export KAFKA_GROUP_ID=${DEFAULT_KAFKA_GROUP_ID}
+	  env_set_default "KAFKA_GROUP_ID" "$DEFAULT_KAFKA_GROUP_ID"
+  fi
+
+  if [ -z "$KAFKA_RESPONSE_TIMEOUT" ]; then
+    export KAFKA_RESPONSE_TIMEOUT=${DEFAULT_KAFKA_RESPONSE_TIMEOUT}
+	  env_set_default "KAFKA_RESPONSE_TIMEOUT" "$DEFAULT_KAFKA_RESPONSE_TIMEOUT"
+  fi
+}
+
+validateMandatory
+setDefaults
 
 # Run the service
-java -Dspring.config.location=file://BOOT-INF/classes/application.properties -Dkafka.config.file=BOOT-INF/classes/kafka.properties -Dmessaging.config.file=BOOT-INF/classes/messaging.properties -jar rest-server-0.3.0-SNAPSHOT.jar 
-
+java -Dsecurity.apiKey=${SECURITY_API_KEY} -Dkafka.groupId=${KAFKA_GROUP_ID} -Dkafka.responseTimeout=${KAFKA_RESPONSE_TIMEOUT} -Dkafka.bootstrapServers=${KAFKA_BOOTSTRAP_SERVERS} -jar rest-server-0.3.0-SNAPSHOT.jar

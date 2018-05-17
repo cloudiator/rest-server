@@ -1,7 +1,9 @@
 package io.github.cloudiator.rest.converter;
 
 import io.github.cloudiator.rest.model.VirtualMachineRequest;
+
 import javax.annotation.Nullable;
+
 import org.cloudiator.messages.entities.IaasEntities;
 
 
@@ -15,11 +17,27 @@ public class VirtualMachineRequestConverter implements
   @Override
   public IaasEntities.VirtualMachineRequest apply(
       @Nullable VirtualMachineRequest virtualMachineRequest) {
-    return IaasEntities.VirtualMachineRequest.newBuilder()
-        .setHardware(virtualMachineRequest.getHardware())
-        .setLocation(virtualMachineRequest.getLocation())
-        .setImage(virtualMachineRequest.getImage())
-        .build();
+
+    IaasEntities.VirtualMachineRequest.Builder builder = IaasEntities.VirtualMachineRequest
+        .newBuilder();
+
+    if (virtualMachineRequest.getHardware() != null) {
+      builder.setHardware(virtualMachineRequest.getHardware());
+    } else {
+      builder.clearHardware();
+    }
+    if (virtualMachineRequest.getLocation() != null) {
+      builder.setLocation(virtualMachineRequest.getLocation());
+    } else {
+      builder.clearLocation();
+    }
+    if (virtualMachineRequest.getImage() != null) {
+      builder.setImage(virtualMachineRequest.getImage());
+    } else {
+      builder.clearImage();
+    }
+
+    return builder.build();
   }
 
   @Override
@@ -30,4 +48,5 @@ public class VirtualMachineRequestConverter implements
     result.setLocation(virtualMachineRequest.getLocation());
     return result;
   }
+
 }

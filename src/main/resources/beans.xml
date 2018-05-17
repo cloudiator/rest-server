@@ -5,13 +5,13 @@
   xsi:schemaLocation="http://www.springframework.org/schema/beans
    http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
 
-  <bean id="userService" class="io.github.cloudiator.rest.UserServiceImpl"/>
+  <bean id="userServiceold" class="io.github.cloudiator.rest.UserServiceImpl"/>
+
+  <bean id="userService" factory-bean="serviceFactory" factory-method="createUserService"/>
 
   <bean id="serviceFactory" class="io.github.cloudiator.ServiceFactory"/>
 
   <bean id="nodeService" factory-bean="serviceFactory" factory-method="createNodeService"/>
-
-  <bean id="solutionService" factory-bean="serviceFactory" factory-method="createSolutionService"/>
 
   <bean id="cloudService" factory-bean="serviceFactory" factory-method="createCloudService"/>
 
@@ -20,6 +20,9 @@
   <bean id="locationService" factory-bean="serviceFactory" factory-method="createLocationService"/>
 
   <bean id="imageService" factory-bean="serviceFactory" factory-method="createImageService"/>
+
+  <bean id="matchmakingService" factory-bean="serviceFactory"
+    factory-method="createMatchmakingService"/>
 
   <bean id="virtualMachineService" factory-bean="serviceFactory"
     factory-method="createVirtualMachineService"/>

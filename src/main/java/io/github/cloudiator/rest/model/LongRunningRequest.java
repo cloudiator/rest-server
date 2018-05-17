@@ -7,6 +7,7 @@ import io.github.cloudiator.rest.model.LRRStatus;
 import io.github.cloudiator.rest.model.LRRType;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
@@ -14,6 +15,7 @@ import javax.validation.constraints.*;
  * Represents a long-running request (LRR) within the system 
  */
 @ApiModel(description = "Represents a long-running request (LRR) within the system ")
+@Validated
 
 public class LongRunningRequest   {
   @JsonProperty("id")

@@ -1,30 +1,27 @@
 package io.github.cloudiator.rest.api;
 
 
-import io.github.cloudiator.rest.UserService;
-import io.github.cloudiator.rest.UserServiceImpl;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import io.github.cloudiator.rest.UserInfo;
 import io.github.cloudiator.rest.converter.CloudToCloudConverter;
 import io.github.cloudiator.rest.converter.NewCloudConverter;
 import io.github.cloudiator.rest.model.Cloud;
 import io.github.cloudiator.rest.model.NewCloud;
 import io.swagger.annotations.ApiParam;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import javax.validation.ValidationException;
-
-import org.cloudiator.messages.Cloud.CloudDeletedResponse;
 import org.cloudiator.messages.entities.IaasEntities;
 import org.cloudiator.messaging.ResponseException;
 import org.cloudiator.messaging.services.CloudService;
-import org.cloudiator.messaging.services.CloudServiceImpl;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -34,117 +31,145 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @Controller
 public class CloudsApiController implements CloudsApi {
 
+  private static final Logger log = LoggerFactory.getLogger(PlatformApiController.class);
+  private final ObjectMapper objectMapper;
+  private final HttpServletRequest request;
 
-    @Autowired
-    private UserService userService;
+  final NewCloudConverter newCloudConverter;
+  final CloudToCloudConverter cloudToCloudConverter;
 
-    @Autowired
-    private CloudService cloudService;
+  @org.springframework.beans.factory.annotation.Autowired
+  public CloudsApiController(ObjectMapper objectMapper, HttpServletRequest request) {
+    this.objectMapper = objectMapper;
+    this.request = request;
+    this.newCloudConverter = new NewCloudConverter();
+    this.cloudToCloudConverter = new CloudToCloudConverter();
+  }
 
-    @ResponseStatus(value = HttpStatus.CREATED)
-    public ResponseEntity<Cloud> addCloud(
-            @ApiParam(value = "Cloud to add", required = true) @Valid @RequestBody NewCloud cloud) {
 
-        //validate input
-        System.out.println("------------------ addCloud --------------------");
-        System.out.println("input: \n" + cloud);
+  @Autowired
+  private CloudService cloudService;
+
+
+  @ResponseStatus(value = HttpStatus.CREATED)
+  public ResponseEntity<Cloud> addCloud(
+      @ApiParam(value = "Cloud to add", required = true) @Valid @RequestBody NewCloud newCloud) {
+    String accept = request.getHeader("Accept");
+    if (accept != null && accept.contains("application/json")) {
+      try {
+
         //preparation
         NewCloud generated = new NewCloud();
-        generated.setCloudType(cloud.getCloudType());
-        generated.setEndpoint(cloud.getEndpoint());
-        generated.setApi(cloud.getApi());
-        generated.setCredential(cloud.getCredential());
-        generated.setCloudConfiguration(cloud.getCloudConfiguration());
+        generated.setCloudType(newCloud.getCloudType());
+        generated.setEndpoint(newCloud.getEndpoint());
+        generated.setApi(newCloud.getApi());
+        generated.setCredential(newCloud.getCredential());
+        generated.setCloudConfiguration(newCloud.getCloudConfiguration());
 
-        final NewCloudConverter newCloudConverter = new NewCloudConverter();
-        final CloudToCloudConverter cloudToCloudConverter = new CloudToCloudConverter();
-        IaasEntities.NewCloud newCloud = newCloudConverter.apply(generated);
+        IaasEntities.NewCloud iaasCloud = newCloudConverter.apply(generated);
         org.cloudiator.messages.Cloud.CreateCloudRequest.Builder builder = org.cloudiator.messages.Cloud.CreateCloudRequest
-                .newBuilder();
-        builder.setCloud(newCloud);
-        builder.setUserId(userService.getUserId());
+            .newBuilder();
+        builder.setCloud(iaasCloud);
+        builder.setUserId(UserInfo.of(request).tenant());
         org.cloudiator.messages.Cloud.CloudCreatedResponse response = null;
 
         Cloud feedback = new Cloud();
-        //to kafka
-        System.out.println("--------- to kafka -------------");
-
-        try {
-            response = cloudService
-                    .createCloud(builder.build());
-            System.out.println("response: \n" + response);
-        } catch (ResponseException re) {
-            throw new ApiException(re.code(), re.getMessage());
-        }
+        response = cloudService
+            .createCloud(builder.build());
+        System.out.println("response: \n" + response);
 
         feedback = cloudToCloudConverter.applyBack(response.getCloud());
 
-        System.out.println("--------- done ------------");
         return new ResponseEntity<Cloud>(feedback, HttpStatus.CREATED);
-    }
 
-    public ResponseEntity<Void> deleteCloud(
-            @ApiParam(value = "Unique identifier of the resource", required = true) @PathVariable("id") String id) {
+      } catch (ResponseException e) {
+        throw new ApiException(e.code(), e.getMessage());
+      } catch (Exception ex) {
+        log.error("Couldn't serialize response for content type application/json", ex);
+        return new ResponseEntity<Cloud>(HttpStatus.INTERNAL_SERVER_ERROR);
+      }
+    }
+    return new ResponseEntity<Cloud>(HttpStatus.NOT_IMPLEMENTED);
+  }
+
+  public ResponseEntity<Void> deleteCloud(
+      @ApiParam(value = "Unique identifier of the resource", required = true) @PathVariable("id") String id) {
+    String accept = request.getHeader("Accept");
+    if (accept != null && accept.contains("application/json")) {
+      try {
         // inputvalidation+preparation
         if (id.length() != 32) {
-            throw new ApiException(400, "ID not valid. Length must be 32");
+          throw new ApiException(400, "ID not valid. Length must be 32");
         }
         org.cloudiator.messages.Cloud.DeleteCloudRequest deleteCloudRequest = org.cloudiator.messages.Cloud.DeleteCloudRequest
-                .newBuilder().setUserId(userService.getUserId()).setCloudId(id).build();
+            .newBuilder().setUserId(UserInfo.of(request).tenant()).setCloudId(id).build();
         org.cloudiator.messages.Cloud.CloudDeletedResponse cloudDeletedResponse = null;
-        System.out.println("----------- delete Cloud ----------- \n request: " + deleteCloudRequest);
 
         // to Kafka
+        cloudDeletedResponse = cloudService.deleteCloud(deleteCloudRequest);
 
-        try {
-            cloudDeletedResponse = cloudService.deleteCloud(deleteCloudRequest);
-        } catch (ResponseException re) {
-            throw new ApiException(re.code(), re.getMessage());
-        }
         System.out.println("----------------- response -----------\n" + cloudDeletedResponse);
-
         System.out.println("------ done ---------");
-        return new ResponseEntity<Void>(HttpStatus.OK);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+      } catch (ResponseException re) {
+        throw new ApiException(re.code(), re.getMessage());
+      }
     }
 
-    public ResponseEntity<Cloud> findCloud(
-            @ApiParam(value = "Unique identifier of the resource", required = true) @PathVariable("id") String id) {
+    return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+  }
 
-        //ID Validation
-        if (id.length() != 32) {
-            throw new ApiException(400, "ID not valid. Length must be 32");
-        }
-        //Preparation
-        org.cloudiator.messages.Cloud.UpdateCloudRequest.Builder updateCloudRequest = org.cloudiator.messages.Cloud.UpdateCloudRequest
-                .newBuilder().setUserId(userService.getUserId()); // implementation not finished
+  public ResponseEntity<Cloud> findCloud(
+      @ApiParam(value = "Unique identifier of the resource", required = true) @PathVariable("id") String id) {
+    String accept = request.getHeader("Accept");
+    if (accept != null && accept.contains("application/json")) {
 
-        //to Kafka
+      //ID Validation
+      if (id.length() != 32) {
+        throw new ApiException(400, "ID not valid. Length must be 32");
+      }
+      //Preparation
+      org.cloudiator.messages.Cloud.UpdateCloudRequest.Builder updateCloudRequest = org.cloudiator.messages.Cloud.UpdateCloudRequest
+          .newBuilder().setUserId(UserInfo.of(request).tenant()); // implementation not finished
 
-        return new ResponseEntity<Cloud>(HttpStatus.OK);
+      //to Kafka
+
+      return new ResponseEntity<Cloud>(HttpStatus.OK);
+
     }
 
-    public ResponseEntity<List<Cloud>> findClouds() {
-        System.out.println("------------------ find Clouds ----------------");
+    return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+  }
+
+
+  public ResponseEntity<List<Cloud>> findClouds() {
+    String accept = request.getHeader("Accept");
+    if (accept != null && accept.contains("application/json")) {
+      try {
+
         //prepare
         org.cloudiator.messages.Cloud.CloudQueryRequest cloudQueryRequest = org.cloudiator.messages.Cloud.CloudQueryRequest
-                .newBuilder().setUserId(userService.getUserId()).build();
+            .newBuilder().setUserId(UserInfo.of(request).tenant()).build();
         List<Cloud> cloudList = new ArrayList<Cloud>();
         CloudToCloudConverter cloudToCloudConverter = new CloudToCloudConverter();
         org.cloudiator.messages.Cloud.CloudQueryResponse cloudQueryResponse = null;
 
-        //kafka
-        System.out.println("----------- to kafka ------------");
-        try {
-            cloudQueryResponse = cloudService.getClouds(cloudQueryRequest);
-            cloudList = cloudQueryResponse.getCloudsList().stream().map(cloudToCloudConverter::applyBack)
-                    .collect(Collectors.toList());
-        } catch (ResponseException re) {
-            throw new ApiException(re.code(), re.getMessage());
-        }
+        cloudQueryResponse = cloudService.getClouds(cloudQueryRequest);
+        cloudList = cloudQueryResponse.getCloudsList().stream()
+            .map(cloudToCloudConverter::applyBack)
+            .collect(Collectors.toList());
 
-        System.out.println(cloudList + " \n ------------   done  --------------- \n " + cloudList.size()
-                + " Cloud(s) listed.");
         return new ResponseEntity<List<Cloud>>(cloudList, HttpStatus.OK);
+      } catch (ResponseException re) {
+        throw new ApiException(re.code(), re.getMessage());
+      } catch (Exception e) {
+        log.error("Couldn't serialize response for content type application/json", e);
+        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+      }
     }
+
+    return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+  }
 
 }
