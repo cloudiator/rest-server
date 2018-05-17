@@ -1,6 +1,5 @@
 package io.github.cloudiator.rest.api;
 
-import io.github.cloudiator.rest.UserService;
 import io.github.cloudiator.rest.converter.InstallationRequestConverter;
 import io.github.cloudiator.rest.model.InstallationRequest;
 import io.swagger.annotations.ApiParam;
@@ -21,8 +20,6 @@ public class InstallerApiController implements InstallerApi {
   @Autowired
   private InstallationRequestService installationRequestService;
 
-  @Autowired
-  private UserService userService;
 
   private InstallationRequestConverter installationRequestConverter = new InstallationRequestConverter();
 
@@ -36,10 +33,10 @@ public class InstallerApiController implements InstallerApi {
     //TODO: get installationRequest service
 
     LOGGER.debug("installing something maybe...");
-
+    System.out.println("installing something maybe...");
 
     installationRequestService.createInstallationRequestAsync(Installation.InstallationRequest.newBuilder()
-        .setUserId(userService.getUserId())
+        .setUserId("dummyuser")
         .setInstallation(installationRequestConverter.apply(installationRequest)).build(),
         (content, error) -> {
           System.out.println("Error " + error);
@@ -47,7 +44,7 @@ public class InstallerApiController implements InstallerApi {
         });
 
 
-
+    LOGGER.debug("installing something maybe...");
 
     return new ResponseEntity<>(HttpStatus.OK);
   }

@@ -10,8 +10,22 @@ public class ToolConverter implements TwoWayConverter<Tool, InstallationEntities
 
   @Override
   public Tool applyBack(InstallationEntities.Tool tool) {
-    //TODO: implement
-    return null;
+
+    switch (tool.getNumber()){
+      case 0:
+        return Tool.VISOR;
+      case 1:
+        return Tool.AXE;
+      case 2:
+        return Tool.LANCE;
+      case 3:
+        return Tool.KAIROSDB;
+      case 4:
+        return Tool.DOCKER;
+      default:
+        throw new AssertionError("Unrecognized toolType " + tool);
+    }
+
   }
 
   @Override

@@ -19,10 +19,20 @@ public class LoginCredentialConverter implements TwoWayConverter<LoginCredential
 
     IaasEntities.LoginCredential.Builder builder = IaasEntities.LoginCredential.newBuilder();
 
+
     builder
-        .setUsername(loginCredential.getUsername())
-        .setPassword(loginCredential.getPassword())
-        .setPrivateKey(loginCredential.getPrivateKey());
+        .setUsername(loginCredential.getUsername());
+
+    if(loginCredential.getPassword() == null || loginCredential.getPassword().isEmpty()
+        && loginCredential.getPrivateKey() != null && !loginCredential.getPrivateKey().isEmpty()){
+      builder.setPrivateKey(loginCredential.getPrivateKey());
+    }else if(loginCredential.getPassword() != null || !loginCredential.getPassword().isEmpty()
+        && loginCredential.getPrivateKey() == null && loginCredential.getPrivateKey().isEmpty()){
+      builder.setPassword(loginCredential.getPassword());
+    }else {
+      throw new IllegalStateException("PrivateKey and Password are set! Only one credential should be set!");
+    }
+
     return builder.build();
   }
 }
