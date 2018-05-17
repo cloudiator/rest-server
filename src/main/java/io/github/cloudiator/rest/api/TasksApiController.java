@@ -5,15 +5,14 @@ import io.github.cloudiator.rest.UserInfo;
 import io.github.cloudiator.rest.UserServiceOld;
 import io.github.cloudiator.rest.converter.TaskConverter;
 import io.github.cloudiator.rest.model.Port;
-import io.github.cloudiator.rest.model.PortProvided;
 import io.github.cloudiator.rest.model.Requirement;
 import io.github.cloudiator.rest.model.Task;
-
 import io.github.cloudiator.rest.model.TaskInterface;
-import io.swagger.annotations.*;
-
+import io.swagger.annotations.ApiParam;
 import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import org.cloudiator.messages.Task.CreateTaskRequest;
 import org.cloudiator.messages.Task.TaskCreatedResponse;
 import org.cloudiator.messages.Task.TaskQueryRequest;
@@ -27,17 +26,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.util.List;
-
-import javax.validation.constraints.*;
-import javax.validation.Valid;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2017-05-29T12:00:45.563+02:00")
 
@@ -49,7 +38,6 @@ public class TasksApiController implements TasksApi {
   private static final Logger log = LoggerFactory.getLogger(PlatformApiController.class);
   private final ObjectMapper objectMapper;
   private final HttpServletRequest request;
-  private UserInfo userInfo;
 
   @org.springframework.beans.factory.annotation.Autowired
   public TasksApiController(ObjectMapper objectMapper, HttpServletRequest request) {
@@ -69,7 +57,6 @@ public class TasksApiController implements TasksApi {
       @ApiParam(value = "Task to add", required = true) @Valid @RequestBody Task task) {
     String accept = request.getHeader("Accept");
     if (accept != null && accept.contains("application/json")) {
-      userInfo = new UserInfo(request);
       try {
         //Validate und Verification
         Task newOne = new Task()
@@ -92,7 +79,7 @@ public class TasksApiController implements TasksApi {
               .createTask(
                   CreateTaskRequest.newBuilder()
                       //.setUserId(userService.getUserId())
-                      .setUserId(userInfo.currentUserTenant())
+                      .setUserId(UserInfo.of(request).tenant())
                       .setTask(taskConverter.apply(newOne)).build());
 
         } catch (ResponseException ex) {
@@ -114,7 +101,6 @@ public class TasksApiController implements TasksApi {
   public ResponseEntity<List<Task>> findTasks() {
     String accept = request.getHeader("Accept");
     if (accept != null && accept.contains("application/json")) {
-      userInfo = new UserInfo(request);
       try {
 
         List<Task> taskList = new ArrayList<>();
@@ -124,7 +110,7 @@ public class TasksApiController implements TasksApi {
         response = taskService
             .getTasks(TaskQueryRequest.newBuilder()
                 //.setUserId(userService.getUserId())
-                .setUserId(userInfo.currentUserTenant())
+                .setUserId(UserInfo.of(request).tenant())
                 .build());
 
         for (TaskEntities.Task task : response.getTaskList()) {

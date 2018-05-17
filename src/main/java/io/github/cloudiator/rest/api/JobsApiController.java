@@ -27,16 +27,12 @@ public class JobsApiController implements JobsApi {
   private static final Logger log = LoggerFactory.getLogger(PlatformApiController.class);
   private final ObjectMapper objectMapper;
   private final HttpServletRequest request;
-  private UserInfo userInfo;
 
   @org.springframework.beans.factory.annotation.Autowired
   public JobsApiController(ObjectMapper objectMapper, HttpServletRequest request) {
     this.objectMapper = objectMapper;
     this.request = request;
   }
-
-  @Autowired
-  UserServiceOld userService;
 
   @Autowired
   JobService jobService;
@@ -54,7 +50,7 @@ public class JobsApiController implements JobsApi {
       try {
 
         final CreateJobRequest createJobRequest = CreateJobRequest.newBuilder()
-            .setJob(jobConverter.apply(job)).setUserId(userService.getUserId()).build();
+            .setJob(jobConverter.apply(job)).setUserId(UserInfo.of(request).tenant()).build();
 
         final JobCreatedResponse jobCreatedResponse = jobService.createJob(createJobRequest);
         return new ResponseEntity<>(jobConverter.applyBack(jobCreatedResponse.getJob()),
