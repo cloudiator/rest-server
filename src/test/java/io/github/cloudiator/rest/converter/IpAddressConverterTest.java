@@ -19,10 +19,10 @@ public class IpAddressConverterTest {
     public IpAddressConverterTest() {
         this.restIpAddress = new IpAddress()
                 .ipAddressType(IpAddressType.PRIVATE_IP)
-                .ipVersion(IpVersion.V4);
+                .ipVersion(IpVersion.V4).value("192.168.178.2");
         this.iaasIpAddress = IaasEntities.IpAddress.newBuilder()
                 .setType(IaasEntities.IpAddressType.PRIVATE_IP)
-                .setVersion(IaasEntities.IpVersion.V4).build();
+                .setVersion(IaasEntities.IpVersion.V4).setIp("192.168.178.2").build();
     }
 
     @Test

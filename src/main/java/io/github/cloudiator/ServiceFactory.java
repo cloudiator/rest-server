@@ -8,6 +8,7 @@ import org.cloudiator.messaging.kafka.KafkaMessagingModule;
 import org.cloudiator.messaging.services.CloudService;
 import org.cloudiator.messaging.services.HardwareService;
 import org.cloudiator.messaging.services.ImageService;
+import org.cloudiator.messaging.services.InstallationRequestService;
 import org.cloudiator.messaging.services.JobService;
 import org.cloudiator.messaging.services.LocationService;
 import org.cloudiator.messaging.services.MatchmakingService;
@@ -69,7 +70,14 @@ public class ServiceFactory {
     return INJECTOR.getInstance(NodeService.class);
   }
 
-  public UserService createUserService(){
+
+  public InstallationRequestService createInstallationRequestService() {
+    return INJECTOR.getInstance(InstallationRequestService.class);
+  }
+
+  public UserService createUserService() {
     return INJECTOR.getInstance(UserService.class);
   }
+
+
 }

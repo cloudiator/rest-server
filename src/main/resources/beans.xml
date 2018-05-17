@@ -35,6 +35,9 @@
 
   <bean id="lRRMapService" class="io.github.cloudiator.rest.LRRMapService"/>
 
+  <bean id="installationRequestService" factory-bean="serviceFactory"
+    factory-method="createInstallationRequestService"/>
+
 
 </beans>
 
