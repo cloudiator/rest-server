@@ -24,7 +24,7 @@ public class Tenant   {
     return this;
   }
 
-   /**
+  /**
    * The tenant
    * @return tenant
   **/

@@ -27,7 +27,7 @@ public class Error   {
     return this;
   }
 
-   /**
+  /**
    * Get code
    * @return code
   **/
@@ -48,7 +48,7 @@ public class Error   {
     return this;
   }
 
-   /**
+  /**
    * Get message
    * @return message
   **/

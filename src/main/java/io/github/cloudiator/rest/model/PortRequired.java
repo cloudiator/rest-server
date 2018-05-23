@@ -28,7 +28,7 @@ public class PortRequired extends Port  {
     return this;
   }
 
-   /**
+  /**
    * A script that is executed if a new instance of a downstream task is available. 
    * @return updateAction
   **/
@@ -48,7 +48,7 @@ public class PortRequired extends Port  {
     return this;
   }
 
-   /**
+  /**
    * States if an instance of a downstream tasks needs to be already started (true), or if the task can start without a downstream task (false). 
    * @return isMandatory
   **/

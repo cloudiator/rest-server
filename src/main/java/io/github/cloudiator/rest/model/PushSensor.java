@@ -24,7 +24,7 @@ public class PushSensor extends Sensor  {
     return this;
   }
 
-   /**
+  /**
    * (optional) port for starting the push sensor
    * @return port
   **/

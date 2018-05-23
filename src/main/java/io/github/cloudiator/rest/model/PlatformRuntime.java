@@ -107,7 +107,7 @@ public class PlatformRuntime   {
     return this;
   }
 
-   /**
+  /**
    * human readable name
    * @return name
   **/
@@ -128,7 +128,7 @@ public class PlatformRuntime   {
     return this;
   }
 
-   /**
+  /**
    * the specific runtime language
    * @return language
   **/
@@ -149,7 +149,7 @@ public class PlatformRuntime   {
     return this;
   }
 
-   /**
+  /**
    * language version number
    * @return languageVersion
   **/
@@ -169,7 +169,7 @@ public class PlatformRuntime   {
     return this;
   }
 
-   /**
+  /**
    * specifies the runtime type
    * @return runtimeType
   **/
@@ -190,7 +190,7 @@ public class PlatformRuntime   {
     return this;
   }
 
-   /**
+  /**
    * the version of the specified type
    * @return version
   **/
@@ -211,7 +211,7 @@ public class PlatformRuntime   {
     return this;
   }
 
-   /**
+  /**
    * Unique identifier for the hardwareRuntime
    * @return id
   **/

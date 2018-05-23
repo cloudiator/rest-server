@@ -36,7 +36,7 @@ public class SensorConfiguration   {
     return this;
   }
 
-   /**
+  /**
    * Array of configuration properties
    * @return properties
   **/

@@ -31,7 +31,7 @@ public class IpAddress   {
     return this;
   }
 
-   /**
+  /**
    * Get ipAddressType
    * @return ipAddressType
   **/
@@ -53,7 +53,7 @@ public class IpAddress   {
     return this;
   }
 
-   /**
+  /**
    * Get ipVersion
    * @return ipVersion
   **/
@@ -75,7 +75,7 @@ public class IpAddress   {
     return this;
   }
 
-   /**
+  /**
    * the ip address value
    * @return value
   **/

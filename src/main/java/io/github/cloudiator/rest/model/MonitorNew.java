@@ -35,7 +35,7 @@ public class MonitorNew   {
     return this;
   }
 
-   /**
+  /**
    * Get target
    * @return target
   **/
@@ -56,7 +56,7 @@ public class MonitorNew   {
     return this;
   }
 
-   /**
+  /**
    * Get sensor
    * @return sensor
   **/
@@ -85,7 +85,7 @@ public class MonitorNew   {
     return this;
   }
 
-   /**
+  /**
    * Get tags
    * @return tags
   **/

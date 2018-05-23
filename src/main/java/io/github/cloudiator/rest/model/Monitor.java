@@ -39,7 +39,7 @@ public class Monitor   {
     return this;
   }
 
-   /**
+  /**
    * Get target
    * @return target
   **/
@@ -60,7 +60,7 @@ public class Monitor   {
     return this;
   }
 
-   /**
+  /**
    * Get sensor
    * @return sensor
   **/
@@ -89,7 +89,7 @@ public class Monitor   {
     return this;
   }
 
-   /**
+  /**
    * Get tags
    * @return tags
   **/
@@ -110,7 +110,7 @@ public class Monitor   {
     return this;
   }
 
-   /**
+  /**
    * Get id
    * @return id
   **/

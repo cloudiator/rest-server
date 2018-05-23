@@ -40,7 +40,7 @@ public class NewCloud   {
     return this;
   }
 
-   /**
+  /**
    * URI where the api of this cloud provider can be accessed.
    * @return endpoint
   **/
@@ -60,7 +60,7 @@ public class NewCloud   {
     return this;
   }
 
-   /**
+  /**
    * Get cloudType
    * @return cloudType
   **/
@@ -82,7 +82,7 @@ public class NewCloud   {
     return this;
   }
 
-   /**
+  /**
    * Get api
    * @return api
   **/
@@ -104,7 +104,7 @@ public class NewCloud   {
     return this;
   }
 
-   /**
+  /**
    * Get credential
    * @return credential
   **/
@@ -126,7 +126,7 @@ public class NewCloud   {
     return this;
   }
 
-   /**
+  /**
    * Get cloudConfiguration
    * @return cloudConfiguration
   **/

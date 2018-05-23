@@ -77,7 +77,7 @@ public class Node   {
     return this;
   }
 
-   /**
+  /**
    * Get nodeId
    * @return nodeId
   **/
@@ -97,7 +97,7 @@ public class Node   {
     return this;
   }
 
-   /**
+  /**
    * Get loginCredential
    * @return loginCredential
   **/
@@ -118,7 +118,7 @@ public class Node   {
     return this;
   }
 
-   /**
+  /**
    * Get nodeType
    * @return nodeType
   **/
@@ -146,7 +146,7 @@ public class Node   {
     return this;
   }
 
-   /**
+  /**
    * Get ipAddresses
    * @return ipAddresses
   **/
@@ -167,7 +167,7 @@ public class Node   {
     return this;
   }
 
-   /**
+  /**
    * Get nodeProperties
    * @return nodeProperties
   **/

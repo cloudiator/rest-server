@@ -43,7 +43,7 @@ public class Hardware   {
     return this;
   }
 
-   /**
+  /**
    * Unique identifier for the hardware
    * @return id
   **/
@@ -64,7 +64,7 @@ public class Hardware   {
     return this;
   }
 
-   /**
+  /**
    * Human-readable name for the hardware
    * @return name
   **/
@@ -85,7 +85,7 @@ public class Hardware   {
     return this;
   }
 
-   /**
+  /**
    * Original id issued by the provider
    * @return providerId
   **/
@@ -106,7 +106,7 @@ public class Hardware   {
     return this;
   }
 
-   /**
+  /**
    * Number of cores
    * @return cores
   **/
@@ -127,7 +127,7 @@ public class Hardware   {
     return this;
   }
 
-   /**
+  /**
    * Amount of RAM (in MB)
    * @return ram
   **/
@@ -148,7 +148,7 @@ public class Hardware   {
     return this;
   }
 
-   /**
+  /**
    * Amount of disk space (in GB)
    * @return disk
   **/
@@ -168,7 +168,7 @@ public class Hardware   {
     return this;
   }
 
-   /**
+  /**
    * Get location
    * @return location
   **/

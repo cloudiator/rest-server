@@ -25,7 +25,7 @@ public class MatchmakingRequest   {
     return this;
   }
 
-   /**
+  /**
    * Get requirements
    * @return requirements
   **/

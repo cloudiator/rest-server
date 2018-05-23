@@ -38,7 +38,7 @@ public class NodeProperties   {
     return this;
   }
 
-   /**
+  /**
    * Get numberOfCores
    * @return numberOfCores
   **/
@@ -58,7 +58,7 @@ public class NodeProperties   {
     return this;
   }
 
-   /**
+  /**
    * Get memory
    * @return memory
   **/
@@ -78,7 +78,7 @@ public class NodeProperties   {
     return this;
   }
 
-   /**
+  /**
    * Get disk
    * @return disk
   **/
@@ -98,7 +98,7 @@ public class NodeProperties   {
     return this;
   }
 
-   /**
+  /**
    * Get operatingSystem
    * @return operatingSystem
   **/
@@ -119,7 +119,7 @@ public class NodeProperties   {
     return this;
   }
 
-   /**
+  /**
    * Get geoLocation
    * @return geoLocation
   **/

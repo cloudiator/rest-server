@@ -30,7 +30,7 @@ public class LoginCredential   {
     return this;
   }
 
-   /**
+  /**
    * The username for login
    * @return username
   **/
@@ -50,7 +50,7 @@ public class LoginCredential   {
     return this;
   }
 
-   /**
+  /**
    * The password for login
    * @return password
   **/
@@ -70,7 +70,7 @@ public class LoginCredential   {
     return this;
   }
 
-   /**
+  /**
    * The private key for login
    * @return privateKey
   **/

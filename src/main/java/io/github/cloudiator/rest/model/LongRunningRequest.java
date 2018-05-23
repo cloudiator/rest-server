@@ -41,7 +41,7 @@ public class LongRunningRequest   {
     return this;
   }
 
-   /**
+  /**
    * Unique identifier for the LRR
    * @return id
   **/
@@ -61,7 +61,7 @@ public class LongRunningRequest   {
     return this;
   }
 
-   /**
+  /**
    * Get taskType
    * @return taskType
   **/
@@ -82,7 +82,7 @@ public class LongRunningRequest   {
     return this;
   }
 
-   /**
+  /**
    * Get taskStatus
    * @return taskStatus
   **/
@@ -103,7 +103,7 @@ public class LongRunningRequest   {
     return this;
   }
 
-   /**
+  /**
    * Get lrrData
    * @return lrrData
   **/
@@ -123,7 +123,7 @@ public class LongRunningRequest   {
     return this;
   }
 
-   /**
+  /**
    * Get lrrDiagnostic
    * @return lrrDiagnostic
   **/
@@ -143,7 +143,7 @@ public class LongRunningRequest   {
     return this;
   }
 
-   /**
+  /**
    * Get referenceId
    * @return referenceId
   **/

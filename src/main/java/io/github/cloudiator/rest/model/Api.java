@@ -24,7 +24,7 @@ public class Api   {
     return this;
   }
 
-   /**
+  /**
    * Name of the API provider, maps to a driver
    * @return providerName
   **/

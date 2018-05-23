@@ -27,7 +27,7 @@ public class Property   {
     return this;
   }
 
-   /**
+  /**
    * Key of the property
    * @return key
   **/
@@ -48,7 +48,7 @@ public class Property   {
     return this;
   }
 
-   /**
+  /**
    * Value of the property
    * @return value
   **/

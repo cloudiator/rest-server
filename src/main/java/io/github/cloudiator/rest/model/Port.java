@@ -34,7 +34,7 @@ public class Port   {
     return this;
   }
 
-   /**
+  /**
    * Discriminator for polymorphism. Only subtypes are allowed. 
    * @return type
   **/
@@ -54,7 +54,7 @@ public class Port   {
     return this;
   }
 
-   /**
+  /**
    * Uniquely identifies a port. Defines the name of the environment variables holding IP addresses of remote tasks. 
    * @return name
   **/

@@ -46,7 +46,7 @@ public class VirtualMachine   {
     return this;
   }
 
-   /**
+  /**
    * Get image
    * @return image
   **/
@@ -67,7 +67,7 @@ public class VirtualMachine   {
     return this;
   }
 
-   /**
+  /**
    * Get hardware
    * @return hardware
   **/
@@ -88,7 +88,7 @@ public class VirtualMachine   {
     return this;
   }
 
-   /**
+  /**
    * Get location
    * @return location
   **/
@@ -109,7 +109,7 @@ public class VirtualMachine   {
     return this;
   }
 
-   /**
+  /**
    * Get id
    * @return id
   **/
@@ -137,7 +137,7 @@ public class VirtualMachine   {
     return this;
   }
 
-   /**
+  /**
    * Get ipaddresses
    * @return ipaddresses
   **/
@@ -158,7 +158,7 @@ public class VirtualMachine   {
     return this;
   }
 
-   /**
+  /**
    * Get logincredential
    * @return logincredential
   **/

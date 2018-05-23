@@ -69,7 +69,7 @@ public class Interval   {
     return this;
   }
 
-   /**
+  /**
    * The unit of the interval
    * @return unit
   **/
@@ -89,7 +89,7 @@ public class Interval   {
     return this;
   }
 
-   /**
+  /**
    * The period of the interval
    * @return period
   **/

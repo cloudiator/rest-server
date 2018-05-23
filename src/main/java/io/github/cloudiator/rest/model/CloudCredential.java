@@ -27,7 +27,7 @@ public class CloudCredential   {
     return this;
   }
 
-   /**
+  /**
    * Username for authentication at the cloud provider's API
    * @return user
   **/
@@ -48,7 +48,7 @@ public class CloudCredential   {
     return this;
   }
 
-   /**
+  /**
    * Secret (e.g. Password) for authentication at the cloud provider's API
    * @return secret
   **/

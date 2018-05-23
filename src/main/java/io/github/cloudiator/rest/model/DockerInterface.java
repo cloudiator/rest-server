@@ -25,7 +25,7 @@ public class DockerInterface extends TaskInterface  {
     return this;
   }
 
-   /**
+  /**
    * Name of the docker image 
    * @return dockerImage
   **/

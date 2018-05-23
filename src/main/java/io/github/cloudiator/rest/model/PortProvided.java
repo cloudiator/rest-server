@@ -25,7 +25,7 @@ public class PortProvided extends Port  {
     return this;
   }
 
-   /**
+  /**
    * Get port
    * @return port
   **/

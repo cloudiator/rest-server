@@ -34,7 +34,7 @@ public class Sensor   {
     return this;
   }
 
-   /**
+  /**
    * Discriminator used for sensor polymorphism
    * @return type
   **/
@@ -54,7 +54,7 @@ public class Sensor   {
     return this;
   }
 
-   /**
+  /**
    * Name of the collected metric
    * @return metric
   **/

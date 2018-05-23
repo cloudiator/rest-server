@@ -32,7 +32,7 @@ public class PullSensor extends Sensor  {
     return this;
   }
 
-   /**
+  /**
    * ClassName of the sensor
    * @return className
   **/
@@ -52,7 +52,7 @@ public class PullSensor extends Sensor  {
     return this;
   }
 
-   /**
+  /**
    * Configuration of the sensor
    * @return _configuration
   **/
@@ -73,7 +73,7 @@ public class PullSensor extends Sensor  {
     return this;
   }
 
-   /**
+  /**
    * The interval at which the sensor is executed
    * @return interval
   **/

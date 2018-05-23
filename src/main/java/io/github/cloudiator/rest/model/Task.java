@@ -49,7 +49,7 @@ public class Task   {
     return this;
   }
 
-   /**
+  /**
    * Human-readable name. Uniquely identifies a task.
    * @return name
   **/
@@ -78,7 +78,7 @@ public class Task   {
     return this;
   }
 
-   /**
+  /**
    * Get ports
    * @return ports
   **/
@@ -107,7 +107,7 @@ public class Task   {
     return this;
   }
 
-   /**
+  /**
    * Interfaces of this task
    * @return interfaces
   **/
@@ -128,7 +128,7 @@ public class Task   {
     return this;
   }
 
-   /**
+  /**
    * Get executionEnvironment
    * @return executionEnvironment
   **/
@@ -158,7 +158,7 @@ public class Task   {
     return this;
   }
 
-   /**
+  /**
    * Get requirements
    * @return requirements
   **/
@@ -179,7 +179,7 @@ public class Task   {
     return this;
   }
 
-   /**
+  /**
    * Get taskType
    * @return taskType
   **/

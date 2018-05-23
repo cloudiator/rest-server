@@ -36,7 +36,7 @@ public class MatchmakingResponse   {
     return this;
   }
 
-   /**
+  /**
    * Get nodes
    * @return nodes
   **/

@@ -27,7 +27,7 @@ public class MonitoringTag   {
     return this;
   }
 
-   /**
+  /**
    * Key of the tag
    * @return key
   **/
@@ -47,7 +47,7 @@ public class MonitoringTag   {
     return this;
   }
 
-   /**
+  /**
    * Value of the tag
    * @return value
   **/

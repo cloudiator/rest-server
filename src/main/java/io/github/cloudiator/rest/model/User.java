@@ -28,7 +28,7 @@ public class User   {
     return this;
   }
 
-   /**
+  /**
    * EMail address of the user
    * @return email
   **/
@@ -48,7 +48,7 @@ public class User   {
     return this;
   }
 
-   /**
+  /**
    * Get tenant
    * @return tenant
   **/

@@ -41,7 +41,7 @@ public class Job   {
     return this;
   }
 
-   /**
+  /**
    * Get name
    * @return name
   **/
@@ -70,7 +70,7 @@ public class Job   {
     return this;
   }
 
-   /**
+  /**
    * An array of tasks that form this application. 
    * @return tasks
   **/
@@ -99,7 +99,7 @@ public class Job   {
     return this;
   }
 
-   /**
+  /**
    * Get communications
    * @return communications
   **/
@@ -128,7 +128,7 @@ public class Job   {
     return this;
   }
 
-   /**
+  /**
    * Get requirements
    * @return requirements
   **/

@@ -62,7 +62,7 @@ public class MonitoringTarget   {
     return this;
   }
 
-   /**
+  /**
    * target to be monitored
    * @return type
   **/
@@ -83,7 +83,7 @@ public class MonitoringTarget   {
     return this;
   }
 
-   /**
+  /**
    * (optional) identifier of a specific instance of the above type
    * @return identifier
   **/
