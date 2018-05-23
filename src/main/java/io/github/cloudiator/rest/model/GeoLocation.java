@@ -10,7 +10,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * Part of Location Represents a geographical location
+ * Part of Location Represents a geographical location 
  */
 @ApiModel(description = "Part of Location Represents a geographical location ")
 @Validated
@@ -133,7 +133,7 @@ public class GeoLocation   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class GeoLocation {\n");
-
+    
     sb.append("    city: ").append(toIndentedString(city)).append("\n");
     sb.append("    country: ").append(toIndentedString(country)).append("\n");
     sb.append("    latitude: ").append(toIndentedString(latitude)).append("\n");
@@ -153,3 +153,4 @@ public class GeoLocation   {
     return o.toString().replace("\n", "\n    ");
   }
 }
+

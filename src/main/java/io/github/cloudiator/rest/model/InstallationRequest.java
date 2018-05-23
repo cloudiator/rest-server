@@ -9,17 +9,20 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * Represents an Cloudiator tools installation request 
+ * todo
  */
-@ApiModel(description = "Represents an Cloudiator tools installation request ")
+@ApiModel(description = "todo")
+@Validated
 
 public class InstallationRequest   {
   @JsonProperty("tools")
-  private List<Tool> tools = new ArrayList<Tool>();
+  @Valid
+  private List<Tool> tools = null;
 
   @JsonProperty("node")
   private Node node = null;
@@ -30,16 +33,18 @@ public class InstallationRequest   {
   }
 
   public InstallationRequest addToolsItem(Tool toolsItem) {
+    if (this.tools == null) {
+      this.tools = new ArrayList<Tool>();
+    }
     this.tools.add(toolsItem);
     return this;
   }
 
    /**
-   * Unique identifier for this image
+   * Get tools
    * @return tools
   **/
-  @ApiModelProperty(required = true, value = "Unique identifier for this image")
-  @NotNull
+  @ApiModelProperty(value = "")
 
   @Valid
 
@@ -60,8 +65,7 @@ public class InstallationRequest   {
    * Get node
    * @return node
   **/
-  @ApiModelProperty(required = true, value = "")
-  @NotNull
+  @ApiModelProperty(value = "")
 
   @Valid
 

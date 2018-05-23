@@ -7,6 +7,7 @@ import io.github.cloudiator.rest.model.Hardware;
 import io.github.cloudiator.rest.model.Image;
 import io.github.cloudiator.rest.model.IpAddress;
 import io.github.cloudiator.rest.model.Location;
+import io.github.cloudiator.rest.model.LoginCredential;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
@@ -38,7 +39,7 @@ public class VirtualMachine   {
   private List<IpAddress> ipaddresses = null;
 
   @JsonProperty("logincredential")
-  private String logincredential = null;
+  private LoginCredential logincredential = null;
 
   public VirtualMachine image(Image image) {
     this.image = image;
@@ -152,7 +153,7 @@ public class VirtualMachine   {
     this.ipaddresses = ipaddresses;
   }
 
-  public VirtualMachine logincredential(String logincredential) {
+  public VirtualMachine logincredential(LoginCredential logincredential) {
     this.logincredential = logincredential;
     return this;
   }
@@ -163,12 +164,13 @@ public class VirtualMachine   {
   **/
   @ApiModelProperty(value = "")
 
+  @Valid
 
-  public String getLogincredential() {
+  public LoginCredential getLogincredential() {
     return logincredential;
   }
 
-  public void setLogincredential(String logincredential) {
+  public void setLogincredential(LoginCredential logincredential) {
     this.logincredential = logincredential;
   }
 
