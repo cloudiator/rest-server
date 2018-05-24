@@ -1,22 +1,18 @@
 package io.github.cloudiator.rest.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.github.cloudiator.rest.LRRMapService;
 import io.github.cloudiator.rest.UserInfo;
 import io.github.cloudiator.rest.converter.VirtualMachineRequestConverter;
-import io.github.cloudiator.rest.model.LRRStatus;
-import io.github.cloudiator.rest.model.LRRType;
-import io.github.cloudiator.rest.model.LongRunningRequest;
+import io.github.cloudiator.rest.model.Queue;
 import io.github.cloudiator.rest.model.VirtualMachineRequest;
+import io.github.cloudiator.rest.queue.QueueService;
+import io.github.cloudiator.rest.queue.QueueService.QueueItem;
 import io.swagger.annotations.ApiParam;
-import java.util.UUID;
-import javax.annotation.Nullable;
+import java.util.function.Function;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import org.cloudiator.messages.General;
 import org.cloudiator.messages.Vm.CreateVirtualMachineRequestMessage;
 import org.cloudiator.messages.Vm.VirtualMachineCreatedResponse;
-import org.cloudiator.messaging.ResponseCallback;
 import org.cloudiator.messaging.services.VirtualMachineService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,22 +42,24 @@ public class VmApiController implements VmApi {
   private VirtualMachineService virtualMachineService;
 
   @Autowired
-  private LRRMapService lrrMapService;
+  private QueueService queueService;
 
 
   @ResponseStatus(value = HttpStatus.ACCEPTED)
-  public ResponseEntity<LongRunningRequest> addVM(
+  public ResponseEntity<Queue> addVM(
       @ApiParam(value = "VirtualMachine Request", required = true) @Valid @RequestBody VirtualMachineRequest virtualMachineRequest) {
     String accept = request.getHeader("Accept");
     if (accept != null && accept.contains("application/json")) {
 
-      final LongRunningRequest lrr = new LongRunningRequest();
-      lrr.setId(UUID.randomUUID().toString());
-      lrr.setTaskStatus(LRRStatus.RUNNING);
-      lrr.setTaskType(LRRType.VIRTUALMACHINEREQUEST);
-      lrr.setLrrData(virtualMachineRequest.toString());
+      final String tenant = UserInfo.of(request).tenant();
 
-      lrrMapService.addLRR(UserInfo.of(request).tenant(), lrr);
+      final QueueItem<VirtualMachineCreatedResponse> queueItem = queueService
+          .queueCallback(tenant, new Function<VirtualMachineCreatedResponse, String>() {
+            @Override
+            public String apply(VirtualMachineCreatedResponse virtualMachineCreatedResponse) {
+              return "vm/" + virtualMachineCreatedResponse.getVirtualMachine().getId();
+            }
+          });
 
       VirtualMachineRequestConverter virtualMachineRequestConverter = new VirtualMachineRequestConverter();
       CreateVirtualMachineRequestMessage createVirtualMachineRequestMessage = CreateVirtualMachineRequestMessage
@@ -71,22 +69,9 @@ public class VmApiController implements VmApi {
           .build();
 
       virtualMachineService
-          .createVirtualMachineAsync(createVirtualMachineRequestMessage,
-              new ResponseCallback<VirtualMachineCreatedResponse>() {
-                @Override
-                public void accept(@Nullable VirtualMachineCreatedResponse content,
-                    @Nullable General.Error error) {
-                  if (error == null) {
-                    lrr.setTaskStatus(LRRStatus.COMPLETED);
-                    lrr.setReferenceId(content.getVirtualMachine().getId());
-                  } else {
-                    lrr.setTaskStatus(LRRStatus.FAILED);
-                    lrr.setLrrDiagnostic(error.getMessage());
-                  }
-                }
-              });
+          .createVirtualMachineAsync(createVirtualMachineRequestMessage, queueItem.getCallback());
 
-      return new ResponseEntity<>(lrr, HttpStatus.ACCEPTED);
+      return new ResponseEntity<>(queueItem.getQueue(), HttpStatus.ACCEPTED);
 
     }
     return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);

@@ -3,14 +3,16 @@ package io.github.cloudiator.rest.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.cloudiator.rest.UserInfo;
-import io.github.cloudiator.rest.UserServiceOld;
 import io.github.cloudiator.rest.converter.NodeRequirementsConverter;
-import io.github.cloudiator.rest.model.LongRunningRequest;
 import io.github.cloudiator.rest.model.NodeRequirements;
+import io.github.cloudiator.rest.model.Queue;
+import io.github.cloudiator.rest.queue.QueueService;
+import io.github.cloudiator.rest.queue.QueueService.QueueItem;
 import io.swagger.annotations.ApiParam;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import org.cloudiator.messages.Node.NodeRequestMessage;
+import org.cloudiator.messages.Node.NodeRequestResponse;
 import org.cloudiator.messaging.services.NodeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,29 +40,27 @@ public class NodeApiController implements NodeApi {
   private NodeService nodeService;
 
   @Autowired
-  private UserServiceOld userService;
+  private QueueService queueService;
 
   private NodeRequirementsConverter nodeRequirementsConverter = new NodeRequirementsConverter();
 
-  public ResponseEntity<LongRunningRequest> addNode(
+  public ResponseEntity<Queue> addNode(
       @ApiParam(value = "Node Request", required = true) @Valid @RequestBody NodeRequirements nodeRequirements) {
     String accept = request.getHeader("Accept");
     if (accept != null && accept.contains("application/json")) {
 
-      nodeService
-          .createNodesAsync(NodeRequestMessage.newBuilder()
-                  //  .setUserId(userService.getUserId())
-                  .setUserId(UserInfo.of(request).tenant())
-                  .setNodeRequest(nodeRequirementsConverter.apply(nodeRequirements)).build(),
-              (content, error) -> {
-                System.out.println("Error " + error);
-                System.out.println("Content " + content);
-              });
+      final String tenant = UserInfo.of(request).tenant();
+      final QueueItem<NodeRequestResponse> queueItem = queueService
+          .queueCallback(tenant,
+              nodeRequestResponse -> "nodeGroup/" + nodeRequestResponse.getNodeGroup().getId());
 
-      System.out.println(nodeRequirements);
-      System.out.println(nodeRequirementsConverter.apply(nodeRequirements));
+      final NodeRequestMessage nodeRequestMessage = NodeRequestMessage.newBuilder()
+          .setUserId(tenant)
+          .setNodeRequest(nodeRequirementsConverter.apply(nodeRequirements)).build();
 
-      return new ResponseEntity<LongRunningRequest>(HttpStatus.OK);
+      nodeService.createNodesAsync(nodeRequestMessage, queueItem.getCallback());
+
+      return new ResponseEntity<Queue>(queueItem.getQueue(), HttpStatus.OK);
 
 
     }

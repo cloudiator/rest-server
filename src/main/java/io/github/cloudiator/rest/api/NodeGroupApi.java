@@ -6,8 +6,7 @@
 package io.github.cloudiator.rest.api;
 
 import io.github.cloudiator.rest.model.Error;
-import io.github.cloudiator.rest.model.Queue;
-import io.github.cloudiator.rest.model.VirtualMachineRequest;
+import io.github.cloudiator.rest.model.NodeGroup;
 import io.swagger.annotations.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -24,24 +23,24 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 import java.util.List;
 
-@Api(value = "vm", description = "the vm API")
-public interface VmApi {
+@Api(value = "nodeGroup", description = "the nodeGroup API")
+public interface NodeGroupApi {
 
-    @ApiOperation(value = "", nickname = "addVM", notes = "Creates a new virtual machine request", response = Queue.class, authorizations = {
+    @ApiOperation(value = "", nickname = "getNodeGroup", notes = "Retrieves a node group, which groups multiple nodes that were create during one request", response = NodeGroup.class, authorizations = {
         @Authorization(value = "ApiKeyAuth")
-    }, tags={ "cloud", })
+    }, tags={ "node", })
     @ApiResponses(value = { 
-        @ApiResponse(code = 202, message = "ACCEPTED", response = Queue.class),
+        @ApiResponse(code = 200, message = "OK ", response = NodeGroup.class),
         @ApiResponse(code = 400, message = "Bad Request", response = Error.class),
         @ApiResponse(code = 401, message = "Authorization for this action is missing", response = Error.class),
         @ApiResponse(code = 403, message = "Forbidden action", response = Error.class),
         @ApiResponse(code = 404, message = "Item not found", response = Error.class),
         @ApiResponse(code = 500, message = "An unexpected Error occured", response = Error.class),
         @ApiResponse(code = 504, message = "Server temporary not available", response = Error.class) })
-    @RequestMapping(value = "/vm",
+    @RequestMapping(value = "/nodeGroup/{id}",
         produces = { "application/json" }, 
         consumes = { "application/json" },
-        method = RequestMethod.POST)
-    ResponseEntity<Queue> addVM(@ApiParam(value = "VirtualMachine Request" ,required=true )  @Valid @RequestBody VirtualMachineRequest virtualMachineRequest);
+        method = RequestMethod.GET)
+    ResponseEntity<NodeGroup> getNodeGroup(@ApiParam(value = "Unique identifier of the resource",required=true) @PathVariable("id") String id);
 
 }

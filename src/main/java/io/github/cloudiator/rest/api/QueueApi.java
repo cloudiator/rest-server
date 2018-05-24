@@ -6,7 +6,7 @@
 package io.github.cloudiator.rest.api;
 
 import io.github.cloudiator.rest.model.Error;
-import io.github.cloudiator.rest.model.LongRunningRequest;
+import io.github.cloudiator.rest.model.Queue;
 import io.swagger.annotations.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -23,36 +23,36 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 import java.util.List;
 
-@Api(value = "longRunningRequests", description = "the longRunningRequests API")
-public interface LongRunningRequestsApi {
+@Api(value = "queue", description = "the queue API")
+public interface QueueApi {
 
-    @ApiOperation(value = "", nickname = "findAllLongRunningRequest", notes = "Returns all running LLRs visible to the user ", response = LongRunningRequest.class, responseContainer = "List", authorizations = {
+    @ApiOperation(value = "", nickname = "findQueuedTask", notes = "Returns the queued task with the given id. ", response = Queue.class, authorizations = {
         @Authorization(value = "ApiKeyAuth")
-    }, tags={ "longRunningRequest", })
+    }, tags={ "queue", })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "OK", response = LongRunningRequest.class, responseContainer = "List"),
+        @ApiResponse(code = 200, message = "OK", response = Queue.class),
         @ApiResponse(code = 401, message = "Authorization for this action is missing", response = Error.class),
         @ApiResponse(code = 403, message = "Forbidden action", response = Error.class),
         @ApiResponse(code = 500, message = "An unexpected Error occured", response = Error.class),
         @ApiResponse(code = 504, message = "Server temporary not available", response = Error.class) })
-    @RequestMapping(value = "/longRunningRequests",
+    @RequestMapping(value = "/queue/{id}",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<List<LongRunningRequest>> findAllLongRunningRequest();
+    ResponseEntity<Queue> findQueuedTask(@ApiParam(value = "Unique identifier of the resource",required=true) @PathVariable("id") String id);
 
 
-    @ApiOperation(value = "", nickname = "findLongRunningRequest", notes = "Returns the LRR identified by the id parameter. ", response = LongRunningRequest.class, authorizations = {
+    @ApiOperation(value = "", nickname = "getQueuedTasks", notes = "Returns all running queued tasks visible to the user ", response = Queue.class, responseContainer = "List", authorizations = {
         @Authorization(value = "ApiKeyAuth")
-    }, tags={ "longRunningRequest", })
+    }, tags={ "queue", })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "OK", response = LongRunningRequest.class),
+        @ApiResponse(code = 200, message = "OK", response = Queue.class, responseContainer = "List"),
         @ApiResponse(code = 401, message = "Authorization for this action is missing", response = Error.class),
         @ApiResponse(code = 403, message = "Forbidden action", response = Error.class),
         @ApiResponse(code = 500, message = "An unexpected Error occured", response = Error.class),
         @ApiResponse(code = 504, message = "Server temporary not available", response = Error.class) })
-    @RequestMapping(value = "/longRunningRequests/{id}",
+    @RequestMapping(value = "/queue",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<LongRunningRequest> findLongRunningRequest(@ApiParam(value = "Unique identifier of the resource",required=true) @PathVariable("id") String id);
+    ResponseEntity<List<Queue>> getQueuedTasks();
 
 }

@@ -6,8 +6,8 @@
 package io.github.cloudiator.rest.api;
 
 import io.github.cloudiator.rest.model.Error;
-import io.github.cloudiator.rest.model.LongRunningRequest;
 import io.github.cloudiator.rest.model.NodeRequirements;
+import io.github.cloudiator.rest.model.Queue;
 import io.swagger.annotations.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -27,11 +27,11 @@ import java.util.List;
 @Api(value = "node", description = "the node API")
 public interface NodeApi {
 
-    @ApiOperation(value = "", nickname = "addNode", notes = "Create a new node request", response = LongRunningRequest.class, authorizations = {
+    @ApiOperation(value = "", nickname = "addNode", notes = "Create a new node request", response = Queue.class, authorizations = {
         @Authorization(value = "ApiKeyAuth")
     }, tags={ "node", })
     @ApiResponses(value = { 
-        @ApiResponse(code = 202, message = "ACCEPTED", response = LongRunningRequest.class),
+        @ApiResponse(code = 202, message = "ACCEPTED", response = Queue.class),
         @ApiResponse(code = 400, message = "Bad Request", response = Error.class),
         @ApiResponse(code = 401, message = "Authorization for this action is missing", response = Error.class),
         @ApiResponse(code = 403, message = "Forbidden action", response = Error.class),
@@ -42,6 +42,6 @@ public interface NodeApi {
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.POST)
-    ResponseEntity<LongRunningRequest> addNode(@ApiParam(value = "Node Request" ,required=true )  @Valid @RequestBody NodeRequirements nodeRequirements);
+    ResponseEntity<Queue> addNode(@ApiParam(value = "Node Request" ,required=true )  @Valid @RequestBody NodeRequirements nodeRequirements);
 
 }

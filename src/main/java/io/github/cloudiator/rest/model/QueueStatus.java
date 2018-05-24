@@ -10,9 +10,9 @@ import javax.validation.constraints.*;
 import com.fasterxml.jackson.annotation.JsonCreator;
 
 /**
- * The status of the running LRR
+ * Status of the running task 
  */
-public enum LRRStatus {
+public enum QueueStatus {
   
   SCHEDULED("SCHEDULED"),
   
@@ -24,7 +24,7 @@ public enum LRRStatus {
 
   private String value;
 
-  LRRStatus(String value) {
+  QueueStatus(String value) {
     this.value = value;
   }
 
@@ -35,8 +35,8 @@ public enum LRRStatus {
   }
 
   @JsonCreator
-  public static LRRStatus fromValue(String text) {
-    for (LRRStatus b : LRRStatus.values()) {
+  public static QueueStatus fromValue(String text) {
+    for (QueueStatus b : QueueStatus.values()) {
       if (String.valueOf(b.value).equals(text)) {
         return b;
       }
