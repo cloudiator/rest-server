@@ -6,6 +6,7 @@
 package io.github.cloudiator.rest.api;
 
 import io.github.cloudiator.rest.model.Error;
+import io.github.cloudiator.rest.model.Node;
 import io.github.cloudiator.rest.model.NodeRequirements;
 import io.github.cloudiator.rest.model.Queue;
 import io.swagger.annotations.*;
@@ -43,5 +44,28 @@ public interface NodeApi {
         consumes = { "application/json" },
         method = RequestMethod.POST)
     ResponseEntity<Queue> addNode(@ApiParam(value = "Node Request" ,required=true )  @Valid @RequestBody NodeRequirements nodeRequirements);
+
+
+    @ApiOperation(value = "", nickname = "findNodes", notes = "Retrieve all nodes the current user has access to", response = Node.class, responseContainer = "List", authorizations = {
+        @Authorization(value = "ApiKeyAuth")
+    }, tags={ "node", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "OK", response = Node.class, responseContainer = "List") })
+    @RequestMapping(value = "/node",
+        produces = { "application/json" }, 
+        method = RequestMethod.GET)
+    ResponseEntity<List<Node>> findNodes();
+
+
+    @ApiOperation(value = "", nickname = "getNode", notes = "Retrieves the node with the given id.", response = Node.class, authorizations = {
+        @Authorization(value = "ApiKeyAuth")
+    }, tags={ "node", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "OK ", response = Node.class) })
+    @RequestMapping(value = "/node/{id}",
+        produces = { "application/json" }, 
+        consumes = { "application/json" },
+        method = RequestMethod.GET)
+    ResponseEntity<Node> getNode(@ApiParam(value = "Unique identifier of the resource",required=true) @PathVariable("id") String id);
 
 }

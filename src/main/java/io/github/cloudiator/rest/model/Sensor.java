@@ -26,9 +26,6 @@ public class Sensor   {
   @JsonProperty("type")
   private String type = null;
 
-  @JsonProperty("metric")
-  private String metric = null;
-
   public Sensor type(String type) {
     this.type = type;
     return this;
@@ -49,26 +46,6 @@ public class Sensor   {
     this.type = type;
   }
 
-  public Sensor metric(String metric) {
-    this.metric = metric;
-    return this;
-  }
-
-  /**
-   * Name of the collected metric
-   * @return metric
-  **/
-  @ApiModelProperty(value = "Name of the collected metric")
-
-
-  public String getMetric() {
-    return metric;
-  }
-
-  public void setMetric(String metric) {
-    this.metric = metric;
-  }
-
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -79,13 +56,12 @@ public class Sensor   {
       return false;
     }
     Sensor sensor = (Sensor) o;
-    return Objects.equals(this.type, sensor.type) &&
-        Objects.equals(this.metric, sensor.metric);
+    return Objects.equals(this.type, sensor.type);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(type, metric);
+    return Objects.hash(type);
   }
 
   @Override
@@ -94,7 +70,6 @@ public class Sensor   {
     sb.append("class Sensor {\n");
     
     sb.append("    type: ").append(toIndentedString(type)).append("\n");
-    sb.append("    metric: ").append(toIndentedString(metric)).append("\n");
     sb.append("}");
     return sb.toString();
   }

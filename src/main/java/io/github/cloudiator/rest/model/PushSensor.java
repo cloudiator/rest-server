@@ -25,10 +25,10 @@ public class PushSensor extends Sensor  {
   }
 
   /**
-   * (optional) port for starting the push sensor
+   * (optional) port recommendation for starting the push sensor. API does not guarantee that this port will be used. 
    * @return port
   **/
-  @ApiModelProperty(value = "(optional) port for starting the push sensor")
+  @ApiModelProperty(value = "(optional) port recommendation for starting the push sensor. API does not guarantee that this port will be used. ")
 
 
   public Integer getPort() {

@@ -3,6 +3,7 @@ package io.github.cloudiator.rest.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import io.github.cloudiator.rest.model.DataSink;
 import io.github.cloudiator.rest.model.MonitorNew;
 import io.github.cloudiator.rest.model.MonitoringTag;
 import io.github.cloudiator.rest.model.MonitoringTarget;
@@ -21,11 +22,18 @@ import javax.validation.constraints.*;
 @Validated
 
 public class Monitor   {
-  @JsonProperty("target")
-  private MonitoringTarget target = null;
+  @JsonProperty("metric")
+  private String metric = null;
+
+  @JsonProperty("targets")
+  @Valid
+  private List<MonitoringTarget> targets = null;
 
   @JsonProperty("sensor")
   private Sensor sensor = null;
+
+  @JsonProperty("sinks")
+  private DataSink sinks = null;
 
   @JsonProperty("tags")
   @Valid
@@ -34,25 +42,53 @@ public class Monitor   {
   @JsonProperty("id")
   private String id = null;
 
-  public Monitor target(MonitoringTarget target) {
-    this.target = target;
+  public Monitor metric(String metric) {
+    this.metric = metric;
     return this;
   }
 
   /**
-   * Get target
-   * @return target
+   * Name of the collected metric
+   * @return metric
+  **/
+  @ApiModelProperty(value = "Name of the collected metric")
+
+
+  public String getMetric() {
+    return metric;
+  }
+
+  public void setMetric(String metric) {
+    this.metric = metric;
+  }
+
+  public Monitor targets(List<MonitoringTarget> targets) {
+    this.targets = targets;
+    return this;
+  }
+
+  public Monitor addTargetsItem(MonitoringTarget targetsItem) {
+    if (this.targets == null) {
+      this.targets = new ArrayList<MonitoringTarget>();
+    }
+    this.targets.add(targetsItem);
+    return this;
+  }
+
+  /**
+   * Get targets
+   * @return targets
   **/
   @ApiModelProperty(value = "")
 
   @Valid
 
-  public MonitoringTarget getTarget() {
-    return target;
+  public List<MonitoringTarget> getTargets() {
+    return targets;
   }
 
-  public void setTarget(MonitoringTarget target) {
-    this.target = target;
+  public void setTargets(List<MonitoringTarget> targets) {
+    this.targets = targets;
   }
 
   public Monitor sensor(Sensor sensor) {
@@ -74,6 +110,27 @@ public class Monitor   {
 
   public void setSensor(Sensor sensor) {
     this.sensor = sensor;
+  }
+
+  public Monitor sinks(DataSink sinks) {
+    this.sinks = sinks;
+    return this;
+  }
+
+  /**
+   * Get sinks
+   * @return sinks
+  **/
+  @ApiModelProperty(value = "")
+
+  @Valid
+
+  public DataSink getSinks() {
+    return sinks;
+  }
+
+  public void setSinks(DataSink sinks) {
+    this.sinks = sinks;
   }
 
   public Monitor tags(List<MonitoringTag> tags) {
@@ -135,15 +192,17 @@ public class Monitor   {
       return false;
     }
     Monitor monitor = (Monitor) o;
-    return Objects.equals(this.target, monitor.target) &&
+    return Objects.equals(this.metric, monitor.metric) &&
+        Objects.equals(this.targets, monitor.targets) &&
         Objects.equals(this.sensor, monitor.sensor) &&
+        Objects.equals(this.sinks, monitor.sinks) &&
         Objects.equals(this.tags, monitor.tags) &&
         Objects.equals(this.id, monitor.id);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(target, sensor, tags, id);
+    return Objects.hash(metric, targets, sensor, sinks, tags, id);
   }
 
   @Override
@@ -151,8 +210,10 @@ public class Monitor   {
     StringBuilder sb = new StringBuilder();
     sb.append("class Monitor {\n");
     
-    sb.append("    target: ").append(toIndentedString(target)).append("\n");
+    sb.append("    metric: ").append(toIndentedString(metric)).append("\n");
+    sb.append("    targets: ").append(toIndentedString(targets)).append("\n");
     sb.append("    sensor: ").append(toIndentedString(sensor)).append("\n");
+    sb.append("    sinks: ").append(toIndentedString(sinks)).append("\n");
     sb.append("    tags: ").append(toIndentedString(tags)).append("\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("}");
