@@ -33,18 +33,16 @@ public class LoginCredentialConverter implements
 
     IaasEntities.LoginCredential.Builder builder = IaasEntities.LoginCredential.newBuilder();
 
-    builder
-        .setUsername(loginCredential.getUsername());
+    if (loginCredential.getUsername() != null) {
+      builder.setUsername(loginCredential.getUsername());
+    }
 
-    if (loginCredential.getPassword() == null || loginCredential.getPassword().isEmpty()
-        && loginCredential.getPrivateKey() != null && !loginCredential.getPrivateKey().isEmpty()) {
-      builder.setPrivateKey(loginCredential.getPrivateKey());
-    } else if (loginCredential.getPassword() != null || !loginCredential.getPassword().isEmpty()
-        && loginCredential.getPrivateKey() == null && loginCredential.getPrivateKey().isEmpty()) {
+    if (loginCredential.getPassword() != null) {
       builder.setPassword(loginCredential.getPassword());
-    } else {
-      throw new IllegalStateException(
-          "PrivateKey and Password are set! Only one credential should be set!");
+    }
+
+    if (loginCredential.getPrivateKey() != null) {
+      builder.setPrivateKey(loginCredential.getPrivateKey());
     }
 
     return builder.build();
