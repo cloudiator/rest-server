@@ -113,6 +113,7 @@ public class QueueService {
       try {
         final String s = queueItem.getCallback().get();
         queue.setLocation(s);
+        queue.setStatus(QueueStatus.COMPLETED);
       } catch (InterruptedException e) {
         throw new IllegalStateException(e);
       } catch (ExecutionException e) {
