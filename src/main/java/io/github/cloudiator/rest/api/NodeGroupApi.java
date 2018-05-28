@@ -50,7 +50,6 @@ public interface NodeGroupApi {
         @ApiResponse(code = 504, message = "Server temporary not available", response = Error.class) })
     @RequestMapping(value = "/nodeGroup/{id}",
         produces = { "application/json" }, 
-        consumes = { "application/json" },
         method = RequestMethod.GET)
     ResponseEntity<NodeGroup> getNodeGroup(@ApiParam(value = "Unique identifier of the resource",required=true) @PathVariable("id") String id);
 

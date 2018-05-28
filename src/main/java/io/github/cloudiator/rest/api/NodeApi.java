@@ -64,7 +64,6 @@ public interface NodeApi {
         @ApiResponse(code = 200, message = "OK ", response = Node.class) })
     @RequestMapping(value = "/node/{id}",
         produces = { "application/json" }, 
-        consumes = { "application/json" },
         method = RequestMethod.GET)
     ResponseEntity<Node> getNode(@ApiParam(value = "Unique identifier of the resource",required=true) @PathVariable("id") String id);
 
