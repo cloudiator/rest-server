@@ -38,6 +38,8 @@ public class HardwareApiController implements HardwareApi {
 
   private final HttpServletRequest request;
 
+  private final HardwareConverter hardwareConverter = new HardwareConverter();
+
   @org.springframework.beans.factory.annotation.Autowired
   public HardwareApiController(ObjectMapper objectMapper, HttpServletRequest request) {
     this.objectMapper = objectMapper;
@@ -74,7 +76,6 @@ public class HardwareApiController implements HardwareApi {
           builder.setCloudId(cloudId);
         }
 
-        HardwareConverter hardwareConverter = new HardwareConverter();
         List<Hardware> hardwareList = new ArrayList<>();
         HardwareQueryResponse response = null;
         // to Kafka
@@ -102,8 +103,34 @@ public class HardwareApiController implements HardwareApi {
   @Override
   public ResponseEntity<Hardware> getHardware(
       @ApiParam(value = "Unique identifier of the resource", required = true) @PathVariable("id") String id) {
+    String accept = request.getHeader("Accept");
+    if (accept != null && accept.contains("application/json")) {
 
+      final String tenant = UserInfo.of(request).tenant();
+
+      try {
+        final HardwareQueryResponse hardware = hardwareService
+            .getHardware(
+                HardwareQueryRequest.newBuilder().setUserId(tenant).setHardwareId(id).build());
+
+        if (hardware.getHardwareFlavorsCount() > 1) {
+          throw new ApiException(500, "Retrieved multiple images for id " + id);
+        }
+
+        if (hardware.getHardwareFlavorsCount() == 0) {
+          return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        return new ResponseEntity<>(hardwareConverter.applyBack(hardware.getHardwareFlavors(0)),
+            HttpStatus.OK);
+
+      } catch (ResponseException e) {
+        throw new ApiException(e.code(), e.getMessage());
+      }
+    }
     return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
   }
-
 }
+
+
+
