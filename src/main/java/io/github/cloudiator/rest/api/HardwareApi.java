@@ -56,7 +56,7 @@ public interface HardwareApi {
     @RequestMapping(value = "/hardware",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<List<Hardware>> findHardware();
+    ResponseEntity<List<Hardware>> findHardware(@ApiParam(value = "(Optional) Unique identifier to filter a specific cloud") @Valid @RequestParam(value = "cloudId", required = false) String cloudId);
 
 
     @ApiOperation(value = "", nickname = "getHardware", notes = "Retrieves the hardware with the given id. ", response = Hardware.class, authorizations = {

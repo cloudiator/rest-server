@@ -1,6 +1,7 @@
 package io.github.cloudiator.rest.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.base.Strings;
 import io.github.cloudiator.rest.UserInfo;
 import io.github.cloudiator.rest.UserServiceOld;
 import io.github.cloudiator.rest.converter.HardwareConverter;
@@ -11,6 +12,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import org.cloudiator.messages.Hardware.HardwareQueryRequest;
+import org.cloudiator.messages.Hardware.HardwareQueryRequest.Builder;
 import org.cloudiator.messages.Hardware.HardwareQueryResponse;
 import org.cloudiator.messages.entities.IaasEntities;
 import org.cloudiator.messaging.ResponseException;
@@ -23,6 +25,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2017-05-29T12:00:45.563+02:00")
 
@@ -57,22 +60,26 @@ public class HardwareApiController implements HardwareApi {
 
   }
 
-  public ResponseEntity<List<Hardware>> findHardware() {
+  public ResponseEntity<List<Hardware>> findHardware(
+      @ApiParam(value = "(Optional) Unique identifier to filter a specific cloud") @Valid @RequestParam(value = "cloudId", required = false) String cloudId) {
     String accept = request.getHeader("Accept");
     if (accept != null && accept.contains("application/json")) {
       try {
         //Preparation
         System.out.println("------------------ find Hardware -------------------");
-        HardwareQueryRequest hardwareQueryRequest = HardwareQueryRequest.newBuilder()
-            //.setUserId(userService.getUserId())
-            .setUserId(UserInfo.of(request).tenant())
-            .build();
+        final Builder builder = HardwareQueryRequest.newBuilder()
+            .setUserId(UserInfo.of(request).tenant());
+
+        if (!Strings.isNullOrEmpty(cloudId)) {
+          builder.setCloudId(cloudId);
+        }
+
         HardwareConverter hardwareConverter = new HardwareConverter();
         List<Hardware> hardwareList = new ArrayList<>();
         HardwareQueryResponse response = null;
         // to Kafka
 
-        response = hardwareService.getHardware(hardwareQueryRequest);
+        response = hardwareService.getHardware(builder.build());
 
         for (IaasEntities.HardwareFlavor hardware : response.getHardwareFlavorsList()) {
           hardwareList.add(hardwareConverter.applyBack(hardware));
@@ -95,7 +102,7 @@ public class HardwareApiController implements HardwareApi {
   @Override
   public ResponseEntity<Hardware> getHardware(
       @ApiParam(value = "Unique identifier of the resource", required = true) @PathVariable("id") String id) {
-    
+
     return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
   }
 

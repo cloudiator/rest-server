@@ -56,7 +56,7 @@ public interface LocationsApi {
     @RequestMapping(value = "/locations",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<List<Location>> findLocations();
+    ResponseEntity<List<Location>> findLocations(@ApiParam(value = "(Optional) Unique identifier to filter a specific cloud") @Valid @RequestParam(value = "cloudId", required = false) String cloudId);
 
 
     @ApiOperation(value = "", nickname = "getLocation", notes = "Retrieves the location with the given id. ", response = Location.class, authorizations = {
