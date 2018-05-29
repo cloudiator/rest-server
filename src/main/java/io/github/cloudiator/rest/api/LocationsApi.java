@@ -26,6 +26,24 @@ import java.util.List;
 @Api(value = "locations", description = "the locations API")
 public interface LocationsApi {
 
+    @ApiOperation(value = "", nickname = "editLocation", notes = "Updates a specific location ", response = Location.class, authorizations = {
+        @Authorization(value = "ApiKeyAuth")
+    }, tags={ "cloud", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "OK ", response = Location.class),
+        @ApiResponse(code = 400, message = "Bad Request", response = Error.class),
+        @ApiResponse(code = 401, message = "Authorization for this action is missing", response = Error.class),
+        @ApiResponse(code = 403, message = "Forbidden action", response = Error.class),
+        @ApiResponse(code = 404, message = "Item not found", response = Error.class),
+        @ApiResponse(code = 500, message = "An unexpected Error occured", response = Error.class),
+        @ApiResponse(code = 504, message = "Server temporary not available", response = Error.class) })
+    @RequestMapping(value = "/locations/{id}",
+        produces = { "application/json" }, 
+        consumes = { "application/json" },
+        method = RequestMethod.PUT)
+    ResponseEntity<Location> editLocation(@ApiParam(value = "Unique identifier of the resource",required=true) @PathVariable("id") String id,@ApiParam(value = "Location to update " ,required=true )  @Valid @RequestBody Location location);
+
+
     @ApiOperation(value = "", nickname = "findLocations", notes = "Returns all locations visible to the user ", response = Location.class, responseContainer = "List", authorizations = {
         @Authorization(value = "ApiKeyAuth")
     }, tags={ "cloud", })
@@ -39,5 +57,17 @@ public interface LocationsApi {
         produces = { "application/json" }, 
         method = RequestMethod.GET)
     ResponseEntity<List<Location>> findLocations();
+
+
+    @ApiOperation(value = "", nickname = "getLocation", notes = "Retrieves the location with the given id. ", response = Location.class, authorizations = {
+        @Authorization(value = "ApiKeyAuth")
+    }, tags={ "cloud", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "OK ", response = Location.class) })
+    @RequestMapping(value = "/locations/{id}",
+        produces = { "application/json" }, 
+        consumes = { "application/json" },
+        method = RequestMethod.GET)
+    ResponseEntity<Location> getLocation(@ApiParam(value = "Unique identifier of the resource",required=true) @PathVariable("id") String id);
 
 }

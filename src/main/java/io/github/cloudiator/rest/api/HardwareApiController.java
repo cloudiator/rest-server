@@ -5,11 +5,11 @@ import io.github.cloudiator.rest.UserInfo;
 import io.github.cloudiator.rest.UserServiceOld;
 import io.github.cloudiator.rest.converter.HardwareConverter;
 import io.github.cloudiator.rest.model.Hardware;
-
-import io.swagger.annotations.*;
-
+import io.swagger.annotations.ApiParam;
 import java.util.ArrayList;
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import org.cloudiator.messages.Hardware.HardwareQueryRequest;
 import org.cloudiator.messages.Hardware.HardwareQueryResponse;
 import org.cloudiator.messages.entities.IaasEntities;
@@ -23,15 +23,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.multipart.MultipartFile;
-
-import java.util.List;
-
-import javax.validation.constraints.*;
-import javax.validation.Valid;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.languages.SpringCodegen", date = "2017-05-29T12:00:45.563+02:00")
 
@@ -56,6 +47,15 @@ public class HardwareApiController implements HardwareApi {
   @Autowired
   private HardwareService hardwareService;
 
+
+  @Override
+  public ResponseEntity<Hardware> editHardware(
+      @ApiParam(value = "Unique identifier of the resource", required = true) @PathVariable("id") String id,
+      @ApiParam(value = "Hardware to update ", required = true) @Valid @RequestBody Hardware hardware) {
+
+    return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+
+  }
 
   public ResponseEntity<List<Hardware>> findHardware() {
     String accept = request.getHeader("Accept");
@@ -90,6 +90,13 @@ public class HardwareApiController implements HardwareApi {
     }
 
     return new ResponseEntity<List<Hardware>>(HttpStatus.NOT_IMPLEMENTED);
+  }
+
+  @Override
+  public ResponseEntity<Hardware> getHardware(
+      @ApiParam(value = "Unique identifier of the resource", required = true) @PathVariable("id") String id) {
+    
+    return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
   }
 
 }

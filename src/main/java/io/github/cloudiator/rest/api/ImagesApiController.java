@@ -101,4 +101,10 @@ public class ImagesApiController implements ImagesApi {
     return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
   }
 
+  @Override
+  public ResponseEntity<Image> getImage(
+      @ApiParam(value = "Unique identifier of the resource", required = true) @PathVariable("id") String id) {
+    return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+  }
+
 }
