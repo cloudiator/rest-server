@@ -24,6 +24,7 @@ import org.cloudiator.messaging.services.NodeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -69,7 +70,10 @@ public class NodeApiController implements NodeApi {
 
       nodeService.createNodesAsync(nodeRequestMessage, queueItem.getCallback());
 
-      return new ResponseEntity<Queue>(queueItem.getQueue(), HttpStatus.OK);
+      final HttpHeaders httpHeaders = new HttpHeaders();
+      httpHeaders.add(HttpHeaders.LOCATION, queueItem.getQueue().getLocation());
+
+      return new ResponseEntity<Queue>(queueItem.getQueue(), httpHeaders, HttpStatus.OK);
 
 
     }
