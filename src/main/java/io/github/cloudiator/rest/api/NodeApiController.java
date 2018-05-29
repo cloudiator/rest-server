@@ -71,7 +71,7 @@ public class NodeApiController implements NodeApi {
       nodeService.createNodesAsync(nodeRequestMessage, queueItem.getCallback());
 
       final HttpHeaders httpHeaders = new HttpHeaders();
-      httpHeaders.add(HttpHeaders.LOCATION, queueItem.getQueue().getLocation());
+      httpHeaders.add(HttpHeaders.LOCATION, queueItem.getQueueLocation());
 
       return new ResponseEntity<Queue>(queueItem.getQueue(), httpHeaders, HttpStatus.OK);
 

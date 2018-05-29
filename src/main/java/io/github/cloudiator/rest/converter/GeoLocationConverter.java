@@ -24,7 +24,7 @@ public class GeoLocationConverter implements
     }
 
     if (!Strings.isNullOrEmpty(geolocation.getCountry())) {
-      result.city(geolocation.getCountry());
+      result.country(geolocation.getCountry());
     }
 
     if (geolocation.getLatitude() != 0) {

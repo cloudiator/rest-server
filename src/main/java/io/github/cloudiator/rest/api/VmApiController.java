@@ -73,7 +73,7 @@ public class VmApiController implements VmApi {
           .createVirtualMachineAsync(createVirtualMachineRequestMessage, queueItem.getCallback());
 
       final HttpHeaders httpHeaders = new HttpHeaders();
-      httpHeaders.add(HttpHeaders.LOCATION, queueItem.getQueue().getLocation());
+      httpHeaders.add(HttpHeaders.LOCATION, queueItem.getQueueLocation());
 
       return new ResponseEntity<>(queueItem.getQueue(), httpHeaders, HttpStatus.ACCEPTED);
 
