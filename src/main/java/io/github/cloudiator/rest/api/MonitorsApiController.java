@@ -70,4 +70,18 @@ public class MonitorsApiController implements MonitorsApi {
         return new ResponseEntity<List<Monitor>>(HttpStatus.NOT_IMPLEMENTED);
     }
 
+    public ResponseEntity<List<Monitor>> getMonitor(@ApiParam(value = "Unique identifier of the resource",required=true) @PathVariable("id") String id) {
+        String accept = request.getHeader("Accept");
+        if (accept != null && accept.contains("application/json")) {
+            try {
+                return new ResponseEntity<List<Monitor>>(objectMapper.readValue("[ \"\", \"\" ]", List.class), HttpStatus.NOT_IMPLEMENTED);
+            } catch (IOException e) {
+                log.error("Couldn't serialize response for content type application/json", e);
+                return new ResponseEntity<List<Monitor>>(HttpStatus.INTERNAL_SERVER_ERROR);
+            }
+        }
+
+        return new ResponseEntity<List<Monitor>>(HttpStatus.NOT_IMPLEMENTED);
+    }
+
 }

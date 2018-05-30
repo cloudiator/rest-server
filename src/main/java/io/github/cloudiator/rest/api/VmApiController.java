@@ -17,6 +17,7 @@ import org.cloudiator.messaging.services.VirtualMachineService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -71,7 +72,10 @@ public class VmApiController implements VmApi {
       virtualMachineService
           .createVirtualMachineAsync(createVirtualMachineRequestMessage, queueItem.getCallback());
 
-      return new ResponseEntity<>(queueItem.getQueue(), HttpStatus.ACCEPTED);
+      final HttpHeaders httpHeaders = new HttpHeaders();
+      httpHeaders.add(HttpHeaders.LOCATION, queueItem.getQueueLocation());
+
+      return new ResponseEntity<>(queueItem.getQueue(), httpHeaders, HttpStatus.ACCEPTED);
 
     }
     return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);

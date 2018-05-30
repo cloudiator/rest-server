@@ -59,4 +59,15 @@ public interface MonitorsApi {
         method = RequestMethod.GET)
     ResponseEntity<List<Monitor>> findMonitors();
 
+
+    @ApiOperation(value = "", nickname = "getMonitor", notes = "Retrieves the monitor with the given id parameter ", response = Monitor.class, responseContainer = "List", authorizations = {
+        @Authorization(value = "ApiKeyAuth")
+    }, tags={ "monitoring", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "OK", response = Monitor.class, responseContainer = "List") })
+    @RequestMapping(value = "/monitors/{id}",
+        produces = { "application/json" }, 
+        method = RequestMethod.GET)
+    ResponseEntity<List<Monitor>> getMonitor(@ApiParam(value = "Unique identifier of the resource",required=true) @PathVariable("id") String id);
+
 }

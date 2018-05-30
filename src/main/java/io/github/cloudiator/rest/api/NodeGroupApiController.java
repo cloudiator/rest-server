@@ -1,54 +1,101 @@
 package io.github.cloudiator.rest.api;
 
-import io.github.cloudiator.rest.model.Error;
-import io.github.cloudiator.rest.model.NodeGroup;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.swagger.annotations.*;
+import io.github.cloudiator.rest.UserInfo;
+import io.github.cloudiator.rest.converter.NodeConverter;
+import io.github.cloudiator.rest.converter.NodeGroupConverter;
+import io.github.cloudiator.rest.model.NodeGroup;
+import io.swagger.annotations.ApiParam;
+import java.util.List;
+import java.util.stream.Collectors;
+import javax.servlet.http.HttpServletRequest;
+import org.cloudiator.messages.Node.NodeGroupQueryMessage;
+import org.cloudiator.messages.Node.NodeGroupQueryResponse;
+import org.cloudiator.messaging.ResponseException;
+import org.cloudiator.messaging.services.NodeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.multipart.MultipartFile;
-
-import javax.validation.constraints.*;
-import javax.validation.Valid;
-import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
-import java.util.List;
 
 @Controller
 public class NodeGroupApiController implements NodeGroupApi {
 
-    private static final Logger log = LoggerFactory.getLogger(NodeGroupApiController.class);
+  private static final Logger log = LoggerFactory.getLogger(NodeGroupApiController.class);
 
-    private final ObjectMapper objectMapper;
+  private final ObjectMapper objectMapper;
 
-    private final HttpServletRequest request;
+  private final HttpServletRequest request;
 
-    @org.springframework.beans.factory.annotation.Autowired
-    public NodeGroupApiController(ObjectMapper objectMapper, HttpServletRequest request) {
-        this.objectMapper = objectMapper;
-        this.request = request;
+  @Autowired
+  private NodeService nodeService;
+
+  private final NodeConverter nodeConverter = new NodeConverter();
+  private final NodeGroupConverter nodeGroupConverter = new NodeGroupConverter();
+
+  @org.springframework.beans.factory.annotation.Autowired
+  public NodeGroupApiController(ObjectMapper objectMapper, HttpServletRequest request) {
+    this.objectMapper = objectMapper;
+    this.request = request;
+  }
+
+  @Override
+  public ResponseEntity<List<NodeGroup>> findNodeGroups() {
+    String accept = request.getHeader("Accept");
+    if (accept != null && accept.contains("application/json")) {
+
+      final String tenant = UserInfo.of(request).tenant();
+
+      try {
+        final NodeGroupQueryResponse nodeQueryResponse = nodeService
+            .queryNodeGroups(NodeGroupQueryMessage.newBuilder().setUserId(tenant).build());
+
+        return new ResponseEntity<>(
+            nodeQueryResponse.getNodeGroupsList().stream().map(nodeGroupConverter::applyBack)
+                .collect(
+                    Collectors.toList()), HttpStatus.OK);
+
+
+      } catch (ResponseException e) {
+        throw new ApiException(e.code(), e.getMessage());
+      }
+
     }
+    return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+  }
 
-    public ResponseEntity<NodeGroup> getNodeGroup(@ApiParam(value = "Unique identifier of the resource",required=true) @PathVariable("id") String id) {
-        String accept = request.getHeader("Accept");
-        if (accept != null && accept.contains("application/json")) {
-            try {
-                return new ResponseEntity<NodeGroup>(objectMapper.readValue("{  \"nodes\" : [ {    \"loginCredential\" : {      \"privateKey\" : \"privateKey\",      \"password\" : \"password\",      \"username\" : \"username\"    },    \"ipAddresses\" : [ {      \"IpAddressType\" : { },      \"IpVersion\" : { },      \"value\" : \"value\"    }, {      \"IpAddressType\" : { },      \"IpVersion\" : { },      \"value\" : \"value\"    } ],    \"nodeType\" : \"UNKNOWN_TYPE\",    \"nodeId\" : \"nodeId\",    \"nodeProperties\" : {      \"disk\" : 1.4658129,      \"memory\" : 6,      \"geoLocation\" : {        \"city\" : \"Ulm\",        \"country\" : \"DE\",        \"latitude\" : 48.4010822,        \"longitude\" : 9.9876076      },      \"numberOfCores\" : 0,      \"operatingSystem\" : {        \"operatingSystemFamily\" : { },        \"operatingSystemVersion\" : \"16.04 LTS\",        \"operatingSystemType\" : { },        \"operatingSystemArchitecture\" : { }      }    }  }, {    \"loginCredential\" : {      \"privateKey\" : \"privateKey\",      \"password\" : \"password\",      \"username\" : \"username\"    },    \"ipAddresses\" : [ {      \"IpAddressType\" : { },      \"IpVersion\" : { },      \"value\" : \"value\"    }, {      \"IpAddressType\" : { },      \"IpVersion\" : { },      \"value\" : \"value\"    } ],    \"nodeType\" : \"UNKNOWN_TYPE\",    \"nodeId\" : \"nodeId\",    \"nodeProperties\" : {      \"disk\" : 1.4658129,      \"memory\" : 6,      \"geoLocation\" : {        \"city\" : \"Ulm\",        \"country\" : \"DE\",        \"latitude\" : 48.4010822,        \"longitude\" : 9.9876076      },      \"numberOfCores\" : 0,      \"operatingSystem\" : {        \"operatingSystemFamily\" : { },        \"operatingSystemVersion\" : \"16.04 LTS\",        \"operatingSystemType\" : { },        \"operatingSystemArchitecture\" : { }      }    }  } ],  \"id\" : \"id\"}", NodeGroup.class), HttpStatus.NOT_IMPLEMENTED);
-            } catch (IOException e) {
-                log.error("Couldn't serialize response for content type application/json", e);
-                return new ResponseEntity<NodeGroup>(HttpStatus.INTERNAL_SERVER_ERROR);
-            }
+  public ResponseEntity<NodeGroup> getNodeGroup(
+      @ApiParam(value = "Unique identifier of the resource", required = true) @PathVariable("id") String id) {
+    String accept = request.getHeader("Accept");
+    if (accept != null && accept.contains("application/json")) {
+
+      final String tenant = UserInfo.of(request).tenant();
+
+      try {
+        final NodeGroupQueryResponse nodeGroupQueryResponse = nodeService.queryNodeGroups(
+            NodeGroupQueryMessage.newBuilder().setUserId(tenant).setNodeGroupId(id).build());
+
+        if (nodeGroupQueryResponse.getNodeGroupsCount() == 0) {
+          return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        } else if (nodeGroupQueryResponse.getNodeGroupsCount() > 1) {
+          return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
-        return new ResponseEntity<NodeGroup>(HttpStatus.NOT_IMPLEMENTED);
+        return new ResponseEntity<>(
+            nodeGroupConverter.applyBack(nodeGroupQueryResponse.getNodeGroups(0)), HttpStatus.OK);
+
+
+      } catch (ResponseException e) {
+        throw new ApiException(e.code(), e.getMessage());
+      }
+
+
     }
+
+    return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+  }
 
 }

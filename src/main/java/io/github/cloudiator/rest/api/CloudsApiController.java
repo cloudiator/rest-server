@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import org.cloudiator.messages.Cloud.CloudDeletedResponse;
 import org.cloudiator.messages.entities.IaasEntities;
 import org.cloudiator.messaging.ResponseException;
 import org.cloudiator.messaging.services.CloudService;
@@ -103,10 +104,10 @@ public class CloudsApiController implements CloudsApi {
         }
         org.cloudiator.messages.Cloud.DeleteCloudRequest deleteCloudRequest = org.cloudiator.messages.Cloud.DeleteCloudRequest
             .newBuilder().setUserId(UserInfo.of(request).tenant()).setCloudId(id).build();
-        org.cloudiator.messages.Cloud.CloudDeletedResponse cloudDeletedResponse = null;
 
         // to Kafka
-        cloudDeletedResponse = cloudService.deleteCloud(deleteCloudRequest);
+        final CloudDeletedResponse cloudDeletedResponse = cloudService
+            .deleteCloud(deleteCloudRequest);
 
         System.out.println("----------------- response -----------\n" + cloudDeletedResponse);
         System.out.println("------ done ---------");

@@ -43,12 +43,14 @@ public class QueueService {
     private final QueueCallback<T> queueCallback;
     private final Queue queue;
     private final String userId;
+    private final String queueLocation;
 
 
     public QueueItem(String userId, QueueCallback<T> queueCallback, Queue queue) {
       this.queueCallback = queueCallback;
       this.queue = queue;
       this.userId = userId;
+      this.queueLocation = "queue/" + queue.getId();
     }
 
     public QueueCallback<T> getCallback() {
@@ -61,6 +63,10 @@ public class QueueService {
 
     public String getUserId() {
       return userId;
+    }
+
+    public String getQueueLocation() {
+      return queueLocation;
     }
   }
 
@@ -113,6 +119,7 @@ public class QueueService {
       try {
         final String s = queueItem.getCallback().get();
         queue.setLocation(s);
+        queue.setStatus(QueueStatus.COMPLETED);
       } catch (InterruptedException e) {
         throw new IllegalStateException(e);
       } catch (ExecutionException e) {

@@ -4,6 +4,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import io.github.cloudiator.rest.model.DataSinkConfiguration;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.validation.annotation.Validated;
@@ -11,24 +12,19 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * MonitoringTarget
+ * Data Sink where the monitoring data will be reported to. 
  */
+@ApiModel(description = "Data Sink where the monitoring data will be reported to. ")
 @Validated
 
-public class MonitoringTarget   {
+public class DataSink   {
   /**
-   * target to be monitored
+   * Gets or Sets type
    */
   public enum TypeEnum {
-    JOB("JOB"),
+    KAIROS_DB("KAIROS_DB"),
     
-    TASK("TASK"),
-    
-    PROCESS("PROCESS"),
-    
-    CLOUD("CLOUD"),
-    
-    NODE("NODE");
+    INFLUX("INFLUX");
 
     private String value;
 
@@ -56,20 +52,19 @@ public class MonitoringTarget   {
   @JsonProperty("type")
   private TypeEnum type = null;
 
-  @JsonProperty("identifier")
-  private String identifier = null;
+  @JsonProperty("configuration")
+  private DataSinkConfiguration _configuration = null;
 
-  public MonitoringTarget type(TypeEnum type) {
+  public DataSink type(TypeEnum type) {
     this.type = type;
     return this;
   }
 
   /**
-   * target to be monitored
+   * Get type
    * @return type
   **/
-  @ApiModelProperty(required = true, value = "target to be monitored")
-  @NotNull
+  @ApiModelProperty(value = "")
 
 
   public TypeEnum getType() {
@@ -80,24 +75,25 @@ public class MonitoringTarget   {
     this.type = type;
   }
 
-  public MonitoringTarget identifier(String identifier) {
-    this.identifier = identifier;
+  public DataSink _configuration(DataSinkConfiguration _configuration) {
+    this._configuration = _configuration;
     return this;
   }
 
   /**
-   * identifier of a specific instance of the above type
-   * @return identifier
+   * Get _configuration
+   * @return _configuration
   **/
-  @ApiModelProperty(value = "identifier of a specific instance of the above type")
+  @ApiModelProperty(value = "")
 
+  @Valid
 
-  public String getIdentifier() {
-    return identifier;
+  public DataSinkConfiguration getConfiguration() {
+    return _configuration;
   }
 
-  public void setIdentifier(String identifier) {
-    this.identifier = identifier;
+  public void setConfiguration(DataSinkConfiguration _configuration) {
+    this._configuration = _configuration;
   }
 
 
@@ -109,23 +105,23 @@ public class MonitoringTarget   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    MonitoringTarget monitoringTarget = (MonitoringTarget) o;
-    return Objects.equals(this.type, monitoringTarget.type) &&
-        Objects.equals(this.identifier, monitoringTarget.identifier);
+    DataSink dataSink = (DataSink) o;
+    return Objects.equals(this.type, dataSink.type) &&
+        Objects.equals(this._configuration, dataSink._configuration);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(type, identifier);
+    return Objects.hash(type, _configuration);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class MonitoringTarget {\n");
+    sb.append("class DataSink {\n");
     
     sb.append("    type: ").append(toIndentedString(type)).append("\n");
-    sb.append("    identifier: ").append(toIndentedString(identifier)).append("\n");
+    sb.append("    _configuration: ").append(toIndentedString(_configuration)).append("\n");
     sb.append("}");
     return sb.toString();
   }

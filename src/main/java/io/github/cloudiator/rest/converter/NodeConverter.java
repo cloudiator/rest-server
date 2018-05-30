@@ -16,7 +16,17 @@ public class NodeConverter implements TwoWayConverter<Node, NodeEntities.Node> {
 
   @Override
   public Node applyBack(NodeEntities.Node node) {
-    return null;
+
+    Node rest = new Node();
+    rest.setNodeId(node.getId());
+    rest.setNodeType(nodeTypeConverter.applyBack(node.getNodeType()));
+    rest.setLoginCredential(loginCredentialConverter.applyBack(node.getLoginCredential()));
+    rest.setNodeProperties(nodePropertiesConverter.applyBack(node.getNodeProperties()));
+
+    node.getIpAddressesList().stream().map(ipAddressConverter::applyBack).forEach(
+        rest::addIpAddressesItem);
+
+    return rest;
   }
 
   @Override
@@ -30,10 +40,9 @@ public class NodeConverter implements TwoWayConverter<Node, NodeEntities.Node> {
         .setNodeProperties(nodePropertiesConverter.apply(node.getNodeProperties()))
         .setLoginCredential(loginCredentialConverter.apply(node.getLoginCredential()));
 
-    for (IpAddress ipAddress : node.getIpAddresses()){
+    for (IpAddress ipAddress : node.getIpAddresses()) {
       builder.addIpAddresses(ipAddressConverter.apply(ipAddress));
     }
-
 
     return builder.build();
   }

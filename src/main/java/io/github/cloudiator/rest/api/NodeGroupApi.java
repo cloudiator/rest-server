@@ -26,6 +26,17 @@ import java.util.List;
 @Api(value = "nodeGroup", description = "the nodeGroup API")
 public interface NodeGroupApi {
 
+    @ApiOperation(value = "", nickname = "findNodeGroups", notes = "Returns all node groups for the current user", response = NodeGroup.class, responseContainer = "List", authorizations = {
+        @Authorization(value = "ApiKeyAuth")
+    }, tags={ "node", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "OK ", response = NodeGroup.class, responseContainer = "List") })
+    @RequestMapping(value = "/nodeGroup",
+        produces = { "application/json" }, 
+        method = RequestMethod.GET)
+    ResponseEntity<List<NodeGroup>> findNodeGroups();
+
+
     @ApiOperation(value = "", nickname = "getNodeGroup", notes = "Retrieves a node group, which groups multiple nodes that were create during one request", response = NodeGroup.class, authorizations = {
         @Authorization(value = "ApiKeyAuth")
     }, tags={ "node", })
@@ -39,7 +50,6 @@ public interface NodeGroupApi {
         @ApiResponse(code = 504, message = "Server temporary not available", response = Error.class) })
     @RequestMapping(value = "/nodeGroup/{id}",
         produces = { "application/json" }, 
-        consumes = { "application/json" },
         method = RequestMethod.GET)
     ResponseEntity<NodeGroup> getNodeGroup(@ApiParam(value = "Unique identifier of the resource",required=true) @PathVariable("id") String id);
 

@@ -79,5 +79,4 @@ public class ServiceFactory {
     return INJECTOR.getInstance(UserService.class);
   }
 
-
 }

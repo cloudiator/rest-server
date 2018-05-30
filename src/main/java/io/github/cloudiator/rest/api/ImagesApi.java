@@ -56,6 +56,18 @@ public interface ImagesApi {
     @RequestMapping(value = "/images",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<List<Image>> findImages();
+    ResponseEntity<List<Image>> findImages(@ApiParam(value = "(Optional) Unique identifier to filter a specific cloud") @Valid @RequestParam(value = "cloudId", required = false) String cloudId);
+
+
+    @ApiOperation(value = "", nickname = "getImage", notes = "Retrieves the image with the given id. ", response = Image.class, authorizations = {
+        @Authorization(value = "ApiKeyAuth")
+    }, tags={ "cloud", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "OK ", response = Image.class) })
+    @RequestMapping(value = "/images/{id}",
+        produces = { "application/json" }, 
+        consumes = { "application/json" },
+        method = RequestMethod.GET)
+    ResponseEntity<Image> getImage(@ApiParam(value = "Unique identifier of the resource",required=true) @PathVariable("id") String id);
 
 }
