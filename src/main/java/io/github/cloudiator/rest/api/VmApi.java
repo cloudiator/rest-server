@@ -7,6 +7,7 @@ package io.github.cloudiator.rest.api;
 
 import io.github.cloudiator.rest.model.Error;
 import io.github.cloudiator.rest.model.Queue;
+import io.github.cloudiator.rest.model.VirtualMachine;
 import io.github.cloudiator.rest.model.VirtualMachineRequest;
 import io.swagger.annotations.*;
 import org.springframework.http.ResponseEntity;
@@ -43,5 +44,29 @@ public interface VmApi {
         consumes = { "application/json" },
         method = RequestMethod.POST)
     ResponseEntity<Queue> addVM(@ApiParam(value = "VirtualMachine Request" ,required=true )  @Valid @RequestBody VirtualMachineRequest virtualMachineRequest);
+
+
+    @ApiOperation(value = "", nickname = "findVMs", notes = "Finds all virtual machines the user has access to", response = VirtualMachine.class, responseContainer = "List", authorizations = {
+        @Authorization(value = "ApiKeyAuth")
+    }, tags={ "cloud", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "OK", response = VirtualMachine.class, responseContainer = "List") })
+    @RequestMapping(value = "/vm",
+        produces = { "application/json" }, 
+        consumes = { "application/json" },
+        method = RequestMethod.GET)
+    ResponseEntity<List<VirtualMachine>> findVMs(@ApiParam(value = "(Optional) Unique identifier to filter a specific cloud") @Valid @RequestParam(value = "cloudId", required = false) String cloudId);
+
+
+    @ApiOperation(value = "", nickname = "getVM", notes = "Finds the virtual machine identified by the given id parameter", response = VirtualMachine.class, authorizations = {
+        @Authorization(value = "ApiKeyAuth")
+    }, tags={ "cloud", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "OK", response = VirtualMachine.class) })
+    @RequestMapping(value = "/vm/{id}",
+        produces = { "application/json" }, 
+        consumes = { "application/json" },
+        method = RequestMethod.GET)
+    ResponseEntity<VirtualMachine> getVM(@ApiParam(value = "Unique identifier of the resource",required=true) @PathVariable("id") String id);
 
 }
