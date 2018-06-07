@@ -1,6 +1,9 @@
 package io.github.cloudiator.rest.converter;
 
+import io.github.cloudiator.rest.model.DataSink;
 import io.github.cloudiator.rest.model.Monitor;
+import io.github.cloudiator.rest.model.MonitoringTag;
+import io.github.cloudiator.rest.model.MonitoringTarget;
 import org.cloudiator.messages.entities.MonitorEntities;
 
 /**
@@ -18,20 +21,59 @@ public class MonitorConverter implements TwoWayConverter<Monitor, MonitorEntitie
     Monitor restmonitor = new Monitor()
         .metric(kafkamonitor.getMetric())
         .sensor(sensorConverter.applyBack(kafkamonitor.getSensor()));
-
+    //Targets
     if (!kafkamonitor.getTargetList().isEmpty()) {
-      for (MonitorEntities.MonitoringTarget monTag : kafkamonitor.getTargetList()) {
-        restmonitor.addTargetsItem(monitorTargetConverter.applyBack(monTag));
+      for (MonitorEntities.MonitoringTarget monTarg : kafkamonitor.getTargetList()) {
+        restmonitor.addTargetsItem(monitorTargetConverter.applyBack(monTarg));
       }
     }
-   
-    return null;
+    //Sinks
+    if (!kafkamonitor.getDatasinkList().isEmpty()) {
+      for (MonitorEntities.Sink sink : kafkamonitor.getDatasinkList()) {
+        restmonitor.addSinksItem(sinkConverter.applyBack(sink));
+      }
+    }
+    //Tags
+    if (!kafkamonitor.getTagsList().isEmpty()) {
+      for (MonitorEntities.MonitoringTag tag : kafkamonitor.getTagsList()) {
+        restmonitor.addTagsItem(monitorTagConverter.applyBack(tag));
+      }
+    }
+
+    return restmonitor;
   }
 
   @Override
   public MonitorEntities.Monitor apply(Monitor restmonitor) {
     //from REST to protobuf
+    MonitorEntities.Monitor.Builder builder = MonitorEntities.Monitor.newBuilder()
+        .setMetric(restmonitor.getMetric())
+        .setSensor(sensorConverter.apply(restmonitor.getSensor()));
+    //Targets
+    if (!restmonitor.getTargets().isEmpty()) {
+      for (MonitoringTarget monTarg : restmonitor.getTargets()) {
+        builder.addTarget(monitorTargetConverter.apply(monTarg));
+      }
+    } else {
+      builder.clearTarget();
+    }
+    //Sinks
+    if (!restmonitor.getSinks().isEmpty()) {
+      for (DataSink sink : restmonitor.getSinks()) {
+        builder.addDatasink(sinkConverter.apply(sink));
+      }
+    } else {
+      builder.clearDatasink();
+    }
+    //Tags
+    if (!restmonitor.getTags().isEmpty()) {
+      for (MonitoringTag tag : restmonitor.getTags()) {
+        builder.addTags(monitorTagConverter.apply(tag));
+      }
+    } else {
+      builder.clearTags();
+    }
 
-    return null;
+    return builder.build();
   }
 }
