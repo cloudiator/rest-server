@@ -7,6 +7,8 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import io.github.cloudiator.rest.model.DataSinkConfiguration;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import java.util.ArrayList;
+import java.util.List;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -53,7 +55,8 @@ public class DataSink   {
   private TypeEnum type = null;
 
   @JsonProperty("configuration")
-  private DataSinkConfiguration _configuration = null;
+  @Valid
+  private List<DataSinkConfiguration> _configuration = null;
 
   public DataSink type(TypeEnum type) {
     this.type = type;
@@ -75,8 +78,16 @@ public class DataSink   {
     this.type = type;
   }
 
-  public DataSink _configuration(DataSinkConfiguration _configuration) {
+  public DataSink _configuration(List<DataSinkConfiguration> _configuration) {
     this._configuration = _configuration;
+    return this;
+  }
+
+  public DataSink addConfigurationItem(DataSinkConfiguration _configurationItem) {
+    if (this._configuration == null) {
+      this._configuration = new ArrayList<DataSinkConfiguration>();
+    }
+    this._configuration.add(_configurationItem);
     return this;
   }
 
@@ -88,11 +99,11 @@ public class DataSink   {
 
   @Valid
 
-  public DataSinkConfiguration getConfiguration() {
+  public List<DataSinkConfiguration> getConfiguration() {
     return _configuration;
   }
 
-  public void setConfiguration(DataSinkConfiguration _configuration) {
+  public void setConfiguration(List<DataSinkConfiguration> _configuration) {
     this._configuration = _configuration;
   }
 
