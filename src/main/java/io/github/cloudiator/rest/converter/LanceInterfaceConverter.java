@@ -1,5 +1,6 @@
 package io.github.cloudiator.rest.converter;
 
+import com.google.common.base.Strings;
 import io.github.cloudiator.rest.model.LanceInterface;
 import org.cloudiator.messages.entities.TaskEntities;
 
@@ -8,24 +9,84 @@ public class LanceInterfaceConverter implements
 
   @Override
   public LanceInterface applyBack(TaskEntities.LanceInterface lanceInterface) {
-    LanceInterface result = new LanceInterface()
-        .init(lanceInterface.getInit())
-        .preInstall(lanceInterface.getPreInstall())
-        .install(lanceInterface.getInstall())
-        .postInstall(lanceInterface.getPostInstall())
-        .startDetection(lanceInterface.getStartDetection())
-        .preStart(lanceInterface.getPreStart())
-        .postStart(lanceInterface.getPostStart())
-        .stopDetection(lanceInterface.getStopDetection())
-        .preStop(lanceInterface.getPreStop())
-        .stop(lanceInterface.getStop())
-        .postStop(lanceInterface.getPostStop())
-        .shutdown(lanceInterface.getShutdown());
+    LanceInterface result = new LanceInterface();
 
-    if (!lanceInterface.getStart().isEmpty()) {
-      result.setStart(lanceInterface.getStart());
+    if (Strings.isNullOrEmpty(lanceInterface.getStart())) {
+      result.init(null);
     } else {
-      throw new AssertionError("LanceInterface.Start had to be set. ");
+      result.init(lanceInterface.getInit());
+    }
+
+    if (Strings.isNullOrEmpty(lanceInterface.getPreInstall())) {
+      result.preInstall(null);
+    } else {
+      result.preInstall(lanceInterface.getPreInstall());
+    }
+
+    if (Strings.isNullOrEmpty(lanceInterface.getInstall())) {
+      result.install(null);
+    } else {
+      result.install(lanceInterface.getInstall());
+    }
+
+    if (Strings.isNullOrEmpty(lanceInterface.getPostInstall())) {
+      result.postInstall(null);
+    } else {
+      result.postInstall(lanceInterface.getPostInstall());
+    }
+
+    if (Strings.isNullOrEmpty(lanceInterface.getStartDetection())) {
+      result.startDetection(null);
+    } else {
+      result.startDetection(lanceInterface.getStartDetection());
+    }
+
+    if (Strings.isNullOrEmpty(lanceInterface.getPreStart())) {
+      result.preStart(null);
+    } else {
+      result.preStart(lanceInterface.getPreStart());
+    }
+
+    if (Strings.isNullOrEmpty(lanceInterface.getPostStart())) {
+      result.postStart(null);
+    } else {
+      result.postStart(lanceInterface.getPostStart());
+    }
+
+    if (Strings.isNullOrEmpty(lanceInterface.getStopDetection())) {
+      result.stopDetection(null);
+    } else {
+      result.stopDetection(lanceInterface.getStopDetection());
+    }
+
+    if (Strings.isNullOrEmpty(lanceInterface.getPreStop())) {
+      result.preStop(null);
+    } else {
+      result.preStop(lanceInterface.getPreStop());
+    }
+
+    if (Strings.isNullOrEmpty(lanceInterface.getStop())) {
+      result.stop(null);
+    } else {
+      result.stop(lanceInterface.getStop());
+    }
+
+    if (Strings.isNullOrEmpty(lanceInterface.getPostStop())) {
+      result.postStop(null);
+    } else {
+      result.postStop(lanceInterface.getPostStop());
+    }
+
+    if (Strings.isNullOrEmpty(lanceInterface.getShutdown())) {
+      result.shutdown(null);
+    } else {
+      result.shutdown(lanceInterface.getShutdown());
+    }
+
+    if (Strings.isNullOrEmpty(lanceInterface.getStart())) {
+      result.setStart(null);
+    } else {
+      result.start(lanceInterface.getStart());
     }
 
     return result;
