@@ -11,7 +11,7 @@ public class LanceInterfaceConverter implements
   public LanceInterface applyBack(TaskEntities.LanceInterface lanceInterface) {
     LanceInterface result = new LanceInterface();
 
-    if (Strings.isNullOrEmpty(lanceInterface.getStart())) {
+    if (Strings.isNullOrEmpty(lanceInterface.getInit())) {
       result.init(null);
     } else {
       result.init(lanceInterface.getInit());
