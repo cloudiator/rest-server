@@ -67,6 +67,7 @@ public class RequirementConverter implements
         attributeRequirement.setRequirementOperator(RequirementOperator
             .valueOf(requirement.getAttributeRequirement().getRequirementOperator().name()));
         attributeRequirement.setValue(requirement.getAttributeRequirement().getValue());
+        attributeRequirement.setType(attributeRequirement.getClass().getSimpleName());
         return attributeRequirement;
       default:
         throw new AssertionError(
