@@ -61,7 +61,7 @@ public class LanceInterface extends TaskInterface  {
     return this;
   }
 
-   /**
+  /**
    * Initialization action. 
    * @return init
   **/
@@ -81,7 +81,7 @@ public class LanceInterface extends TaskInterface  {
     return this;
   }
 
-   /**
+  /**
    * Executed before installation action. Can be e.g. used for downloading binaries. 
    * @return preInstall
   **/
@@ -101,7 +101,7 @@ public class LanceInterface extends TaskInterface  {
     return this;
   }
 
-   /**
+  /**
    * Used for installing the application. 
    * @return install
   **/
@@ -121,7 +121,7 @@ public class LanceInterface extends TaskInterface  {
     return this;
   }
 
-   /**
+  /**
    * Used for configuration of the application component. First action where Lance environment variables are set. 
    * @return postInstall
   **/
@@ -141,7 +141,7 @@ public class LanceInterface extends TaskInterface  {
     return this;
   }
 
-   /**
+  /**
    * Called before starting the application. Can be e.g. used for configuration an environment. 
    * @return preStart
   **/
@@ -161,7 +161,7 @@ public class LanceInterface extends TaskInterface  {
     return this;
   }
 
-   /**
+  /**
    * Starts the component. Needs to return for PlainContainer and not return for Docker. 
    * @return start
   **/
@@ -181,7 +181,7 @@ public class LanceInterface extends TaskInterface  {
     return this;
   }
 
-   /**
+  /**
    * Detects the start of the application. Required if the application does not start instantianous. 
    * @return startDetection
   **/
@@ -201,7 +201,7 @@ public class LanceInterface extends TaskInterface  {
     return this;
   }
 
-   /**
+  /**
    * Checks if the application has stopped. Is periodically checked to detect a crash of the application. 
    * @return stopDetection
   **/
@@ -221,7 +221,7 @@ public class LanceInterface extends TaskInterface  {
     return this;
   }
 
-   /**
+  /**
    * Executed after the application has successfully started. 
    * @return postStart
   **/
@@ -241,7 +241,7 @@ public class LanceInterface extends TaskInterface  {
     return this;
   }
 
-   /**
+  /**
    * Called before the application is stopped. 
    * @return preStop
   **/
@@ -261,7 +261,7 @@ public class LanceInterface extends TaskInterface  {
     return this;
   }
 
-   /**
+  /**
    * Stops the application. 
    * @return stop
   **/
@@ -281,7 +281,7 @@ public class LanceInterface extends TaskInterface  {
     return this;
   }
 
-   /**
+  /**
    * Executed after the application is successfully stopped. 
    * @return postStop
   **/
@@ -301,7 +301,7 @@ public class LanceInterface extends TaskInterface  {
     return this;
   }
 
-   /**
+  /**
    * Executed before the container is shutdown. Can be used to backup state. 
    * @return shutdown
   **/

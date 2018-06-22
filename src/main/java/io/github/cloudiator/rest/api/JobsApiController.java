@@ -2,15 +2,17 @@ package io.github.cloudiator.rest.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.cloudiator.rest.UserInfo;
-import io.github.cloudiator.rest.UserServiceOld;
 import io.github.cloudiator.rest.converter.JobConverter;
 import io.github.cloudiator.rest.model.Job;
 import io.swagger.annotations.ApiParam;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import org.cloudiator.messages.Job.CreateJobRequest;
 import org.cloudiator.messages.Job.JobCreatedResponse;
+import org.cloudiator.messages.Job.JobQueryRequest;
+import org.cloudiator.messages.Job.JobQueryResponse;
 import org.cloudiator.messaging.ResponseException;
 import org.cloudiator.messaging.services.JobService;
 import org.slf4j.Logger;
@@ -67,13 +69,21 @@ public class JobsApiController implements JobsApi {
   public ResponseEntity<List<Job>> findJobs() {
     String accept = request.getHeader("Accept");
     if (accept != null && accept.contains("application/json")) {
-      try {
-        return new ResponseEntity<List<Job>>(HttpStatus.NOT_IMPLEMENTED);
 
-      } catch (Exception e) {
-        log.error("Couldn't serialize response for content type application/json", e);
-        return new ResponseEntity<List<Job>>(HttpStatus.INTERNAL_SERVER_ERROR);
+      final String tenant = UserInfo.of(request).tenant();
+
+      try {
+        JobQueryResponse jobQueryResponse = jobService
+            .getJobs(JobQueryRequest.newBuilder().setUserId(tenant).build());
+
+        return new ResponseEntity<>(
+            jobQueryResponse.getJobsList().stream().map(jobConverter::applyBack)
+                .collect(Collectors.toList()), HttpStatus.OK);
+
+      } catch (ResponseException e) {
+        throw new ApiException(e.code(), e.getMessage());
       }
+
     }
     return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 

@@ -43,7 +43,7 @@ public class NewPlatformEnvironment   {
     return this;
   }
 
-   /**
+  /**
    * Human-readable name
    * @return name
   **/
@@ -64,7 +64,7 @@ public class NewPlatformEnvironment   {
     return this;
   }
 
-   /**
+  /**
    * Get platform
    * @return platform
   **/
@@ -85,7 +85,7 @@ public class NewPlatformEnvironment   {
     return this;
   }
 
-   /**
+  /**
    * Get platformHardware
    * @return platformHardware
   **/
@@ -107,7 +107,7 @@ public class NewPlatformEnvironment   {
     return this;
   }
 
-   /**
+  /**
    * Get platformRuntime
    * @return platformRuntime
   **/
@@ -137,7 +137,7 @@ public class NewPlatformEnvironment   {
     return this;
   }
 
-   /**
+  /**
    * Get platformService
    * @return platformService
   **/

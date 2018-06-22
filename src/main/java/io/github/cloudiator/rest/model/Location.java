@@ -80,7 +80,7 @@ public class Location   {
     return this;
   }
 
-   /**
+  /**
    * Unique identifier
    * @return id
   **/
@@ -101,7 +101,7 @@ public class Location   {
     return this;
   }
 
-   /**
+  /**
    * Human-readable name
    * @return name
   **/
@@ -122,7 +122,7 @@ public class Location   {
     return this;
   }
 
-   /**
+  /**
    * Original id issued by the provider
    * @return providerId
   **/
@@ -143,7 +143,7 @@ public class Location   {
     return this;
   }
 
-   /**
+  /**
    * Scope of the location
    * @return locationScope
   **/
@@ -164,7 +164,7 @@ public class Location   {
     return this;
   }
 
-   /**
+  /**
    * True of the location can be used to start virtual machines, false if not
    * @return isAssignable
   **/
@@ -185,7 +185,7 @@ public class Location   {
     return this;
   }
 
-   /**
+  /**
    * Get geoLocation
    * @return geoLocation
   **/
@@ -206,7 +206,7 @@ public class Location   {
     return this;
   }
 
-   /**
+  /**
    * Get parent
    * @return parent
   **/

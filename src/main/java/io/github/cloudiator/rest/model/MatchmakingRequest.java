@@ -4,6 +4,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.github.cloudiator.rest.model.NodeRequirements;
+import io.github.cloudiator.rest.model.Optimization;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.validation.annotation.Validated;
@@ -20,12 +21,15 @@ public class MatchmakingRequest   {
   @JsonProperty("requirements")
   private NodeRequirements requirements = null;
 
+  @JsonProperty("optimization")
+  private Optimization optimization = null;
+
   public MatchmakingRequest requirements(NodeRequirements requirements) {
     this.requirements = requirements;
     return this;
   }
 
-   /**
+  /**
    * Get requirements
    * @return requirements
   **/
@@ -41,6 +45,27 @@ public class MatchmakingRequest   {
     this.requirements = requirements;
   }
 
+  public MatchmakingRequest optimization(Optimization optimization) {
+    this.optimization = optimization;
+    return this;
+  }
+
+  /**
+   * Get optimization
+   * @return optimization
+  **/
+  @ApiModelProperty(value = "")
+
+  @Valid
+
+  public Optimization getOptimization() {
+    return optimization;
+  }
+
+  public void setOptimization(Optimization optimization) {
+    this.optimization = optimization;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -51,12 +76,13 @@ public class MatchmakingRequest   {
       return false;
     }
     MatchmakingRequest matchmakingRequest = (MatchmakingRequest) o;
-    return Objects.equals(this.requirements, matchmakingRequest.requirements);
+    return Objects.equals(this.requirements, matchmakingRequest.requirements) &&
+        Objects.equals(this.optimization, matchmakingRequest.optimization);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(requirements);
+    return Objects.hash(requirements, optimization);
   }
 
   @Override
@@ -65,6 +91,7 @@ public class MatchmakingRequest   {
     sb.append("class MatchmakingRequest {\n");
     
     sb.append("    requirements: ").append(toIndentedString(requirements)).append("\n");
+    sb.append("    optimization: ").append(toIndentedString(optimization)).append("\n");
     sb.append("}");
     return sb.toString();
   }

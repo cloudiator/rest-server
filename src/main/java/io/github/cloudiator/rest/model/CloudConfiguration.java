@@ -31,7 +31,7 @@ public class CloudConfiguration   {
     return this;
   }
 
-   /**
+  /**
    * A prefix all Cloudiator managed entities will belong to.
    * @return nodeGroup
   **/
@@ -59,7 +59,7 @@ public class CloudConfiguration   {
     return this;
   }
 
-   /**
+  /**
    * Array of configuration properties.
    * @return properties
   **/

@@ -103,7 +103,7 @@ public class NewPlatformRuntime   {
     return this;
   }
 
-   /**
+  /**
    * human readable name
    * @return name
   **/
@@ -124,7 +124,7 @@ public class NewPlatformRuntime   {
     return this;
   }
 
-   /**
+  /**
    * the specific runtime language
    * @return language
   **/
@@ -145,7 +145,7 @@ public class NewPlatformRuntime   {
     return this;
   }
 
-   /**
+  /**
    * language version number
    * @return languageVersion
   **/
@@ -165,7 +165,7 @@ public class NewPlatformRuntime   {
     return this;
   }
 
-   /**
+  /**
    * specifies the runtime type
    * @return runtimeType
   **/
@@ -186,7 +186,7 @@ public class NewPlatformRuntime   {
     return this;
   }
 
-   /**
+  /**
    * the version of the specified type
    * @return version
   **/

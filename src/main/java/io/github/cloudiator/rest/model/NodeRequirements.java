@@ -36,7 +36,7 @@ public class NodeRequirements   {
     return this;
   }
 
-   /**
+  /**
    * Get requirements
    * @return requirements
   **/

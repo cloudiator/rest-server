@@ -35,7 +35,7 @@ public class AttributeRequirement extends Requirement  {
     return this;
   }
 
-   /**
+  /**
    * Get requirementClass
    * @return requirementClass
   **/
@@ -55,7 +55,7 @@ public class AttributeRequirement extends Requirement  {
     return this;
   }
 
-   /**
+  /**
    * Get requirementAttribute
    * @return requirementAttribute
   **/
@@ -75,7 +75,7 @@ public class AttributeRequirement extends Requirement  {
     return this;
   }
 
-   /**
+  /**
    * Get requirementOperator
    * @return requirementOperator
   **/
@@ -96,7 +96,7 @@ public class AttributeRequirement extends Requirement  {
     return this;
   }
 
-   /**
+  /**
    * Get value
    * @return value
   **/

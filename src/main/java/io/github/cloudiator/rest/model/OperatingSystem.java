@@ -36,7 +36,7 @@ public class OperatingSystem   {
     return this;
   }
 
-   /**
+  /**
    * Get operatingSystemType
    * @return operatingSystemType
   **/
@@ -57,7 +57,7 @@ public class OperatingSystem   {
     return this;
   }
 
-   /**
+  /**
    * Get operatingSystemFamily
    * @return operatingSystemFamily
   **/
@@ -78,7 +78,7 @@ public class OperatingSystem   {
     return this;
   }
 
-   /**
+  /**
    * Get operatingSystemArchitecture
    * @return operatingSystemArchitecture
   **/
@@ -99,7 +99,7 @@ public class OperatingSystem   {
     return this;
   }
 
-   /**
+  /**
    * Version of the OS
    * @return operatingSystemVersion
   **/

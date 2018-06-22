@@ -43,7 +43,7 @@ public class Hardware   {
     return this;
   }
 
-   /**
+  /**
    * Unique identifier for the hardware
    * @return id
   **/
@@ -64,7 +64,7 @@ public class Hardware   {
     return this;
   }
 
-   /**
+  /**
    * Human-readable name for the hardware
    * @return name
   **/
@@ -85,7 +85,7 @@ public class Hardware   {
     return this;
   }
 
-   /**
+  /**
    * Original id issued by the provider
    * @return providerId
   **/
@@ -106,7 +106,7 @@ public class Hardware   {
     return this;
   }
 
-   /**
+  /**
    * Number of cores
    * @return cores
   **/
@@ -127,11 +127,11 @@ public class Hardware   {
     return this;
   }
 
-   /**
-   * Amount of RAM
+  /**
+   * Amount of RAM (in MB)
    * @return ram
   **/
-  @ApiModelProperty(example = "2048", required = true, value = "Amount of RAM")
+  @ApiModelProperty(example = "2048", required = true, value = "Amount of RAM (in MB)")
   @NotNull
 
 
@@ -148,11 +148,11 @@ public class Hardware   {
     return this;
   }
 
-   /**
-   * Amount of disk space
+  /**
+   * Amount of disk space (in GB)
    * @return disk
   **/
-  @ApiModelProperty(example = "100.0", value = "Amount of disk space")
+  @ApiModelProperty(example = "100.0", value = "Amount of disk space (in GB)")
 
 
   public Double getDisk() {
@@ -168,7 +168,7 @@ public class Hardware   {
     return this;
   }
 
-   /**
+  /**
    * Get location
    * @return location
   **/

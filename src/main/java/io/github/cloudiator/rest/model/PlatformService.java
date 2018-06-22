@@ -27,7 +27,7 @@ public class PlatformService   {
     return this;
   }
 
-   /**
+  /**
    * Unique identifier
    * @return id
   **/
@@ -48,7 +48,7 @@ public class PlatformService   {
     return this;
   }
 
-   /**
+  /**
    * Human-readable name
    * @return name
   **/

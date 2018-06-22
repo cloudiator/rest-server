@@ -16,25 +16,27 @@ public class TaskConverter implements TwoWayConverter<Task, TaskEntities.Task> {
   private final PortConverter portConverter = new PortConverter();
   private final RequirementConverter requirementConverter = new RequirementConverter();
   private final TaskInterfaceConverter interfaceConverter = new TaskInterfaceConverter();
+  private final OptimizationConverter optimizationConverter = OptimizationConverter.INSTANCE;
 
   @Override
   public Task applyBack(TaskEntities.Task task) {
     Task result = new Task()
         .name(task.getName());
-    if (!task.getPortsList().isEmpty()) {
-      for (TaskEntities.Port port : task.getPortsList()) {
-        result.addPortsItem(portConverter.applyBack(port));
-      }
+
+    for (TaskEntities.Port port : task.getPortsList()) {
+      result.addPortsItem(portConverter.applyBack(port));
     }
-    if (!task.getRequirementsList().isEmpty()) {
-      for (CommonEntities.Requirement req : task.getRequirementsList()) {
-        result.addRequirementsItem(requirementConverter.applyBack(req));
-      }
+
+    for (CommonEntities.Requirement req : task.getRequirementsList()) {
+      result.addRequirementsItem(requirementConverter.applyBack(req));
     }
-    if (!task.getInterfacesList().isEmpty()) {
-      for (TaskEntities.TaskInterface tInterface : task.getInterfacesList()) {
-        result.addInterfacesItem(interfaceConverter.applyBack(tInterface));
-      }
+
+    if (task.hasOptimization()) {
+      result.setOptimization(optimizationConverter.applyBack(task.getOptimization()));
+    }
+
+    for (TaskEntities.TaskInterface tInterface : task.getInterfacesList()) {
+      result.addInterfacesItem(interfaceConverter.applyBack(tInterface));
     }
 
     switch (task.getExecutionEnvironment()) {
@@ -73,26 +75,21 @@ public class TaskConverter implements TwoWayConverter<Task, TaskEntities.Task> {
   public TaskEntities.Task apply(Task task) {
     TaskEntities.Task.Builder result = TaskEntities.Task.newBuilder()
         .setName(task.getName());
-    if (!task.getPorts().isEmpty()) {
-      for (Port port : task.getPorts()) {
-        result.addPorts(portConverter.apply(port));
-      }
-    } else {
-      result.clearPorts();
+
+    for (Port port : task.getPorts()) {
+      result.addPorts(portConverter.apply(port));
     }
-    if (!task.getRequirements().isEmpty()) {
-      for (Requirement req : task.getRequirements()) {
-        result.addRequirements(requirementConverter.apply(req));
-      }
-    } else {
-      result.clearRequirements();
+
+    for (Requirement req : task.getRequirements()) {
+      result.addRequirements(requirementConverter.apply(req));
     }
-    if (!task.getInterfaces().isEmpty()) {
-      for (TaskInterface tInterface : task.getInterfaces()) {
-        result.addInterfaces(interfaceConverter.apply(tInterface));
-      }
-    } else {
-      result.clearInterfaces();
+
+    if (task.getOptimization() != null) {
+      result.setOptimization(optimizationConverter.apply(task.getOptimization()));
+    }
+
+    for (TaskInterface tInterface : task.getInterfaces()) {
+      result.addInterfaces(interfaceConverter.apply(tInterface));
     }
 
     switch (task.getTaskType()) {
@@ -103,7 +100,7 @@ public class TaskConverter implements TwoWayConverter<Task, TaskEntities.Task> {
         result.setTaskType(TaskEntities.TaskType.SERVICE);
         break;
       default:
-        throw new AssertionError("TaskType unkown: " + task.getTaskType());
+        throw new AssertionError("TaskType unknown: " + task.getTaskType());
     }
     switch (task.getExecutionEnvironment()) {
       case LANCE:
@@ -119,7 +116,7 @@ public class TaskConverter implements TwoWayConverter<Task, TaskEntities.Task> {
         result.setExecutionEnvironment(TaskEntities.ExecutionEnvironment.CONTAINER);
         break;
       default:
-        throw new AssertionError("ExecutionEnvironment unkown: " + task.getExecutionEnvironment());
+        throw new AssertionError("ExecutionEnvironment unknown: " + task.getExecutionEnvironment());
     }
 
     return result.build();

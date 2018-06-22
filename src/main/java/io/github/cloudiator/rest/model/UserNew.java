@@ -34,7 +34,7 @@ public class UserNew   {
     return this;
   }
 
-   /**
+  /**
    * EMail address of the user
    * @return email
   **/
@@ -55,7 +55,7 @@ public class UserNew   {
     return this;
   }
 
-   /**
+  /**
    * Password of the user
    * @return password
   **/
@@ -76,7 +76,7 @@ public class UserNew   {
     return this;
   }
 
-   /**
+  /**
    * Repetition of the user's password
    * @return passwordRepeat
   **/
@@ -97,7 +97,7 @@ public class UserNew   {
     return this;
   }
 
-   /**
+  /**
    * Get tenant
    * @return tenant
   **/

@@ -38,7 +38,7 @@ public class Image   {
     return this;
   }
 
-   /**
+  /**
    * Unique identifier for this image
    * @return id
   **/
@@ -59,7 +59,7 @@ public class Image   {
     return this;
   }
 
-   /**
+  /**
    * Human-readable name
    * @return name
   **/
@@ -80,7 +80,7 @@ public class Image   {
     return this;
   }
 
-   /**
+  /**
    * Original id issued by provider
    * @return providerId
   **/
@@ -101,7 +101,7 @@ public class Image   {
     return this;
   }
 
-   /**
+  /**
    * Get operatingSystem
    * @return operatingSystem
   **/
@@ -123,7 +123,7 @@ public class Image   {
     return this;
   }
 
-   /**
+  /**
    * Get location
    * @return location
   **/

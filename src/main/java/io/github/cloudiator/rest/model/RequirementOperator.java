@@ -22,7 +22,11 @@ public enum RequirementOperator {
   
   GT("GT"),
   
-  LT("LT");
+  LT("LT"),
+  
+  NEQ("NEQ"),
+  
+  IN("IN");
 
   private String value;
 

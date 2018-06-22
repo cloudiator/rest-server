@@ -19,6 +19,7 @@ public class IpAddressConverter implements TwoWayConverter<IpAddress, IaasEntiti
     IpAddress ip = new IpAddress();
     ip.setIpAddressType(ipAddressTypeConverter.applyBack(ipAddress.getType()));
     ip.setIpVersion(ipAddressVersionConverter.applyBack(ipAddress.getVersion()));
+    ip.setValue(ipAddress.getIp());
     return ip;
   }
 
@@ -35,6 +36,8 @@ public class IpAddressConverter implements TwoWayConverter<IpAddress, IaasEntiti
     } else {
       builder.clearVersion();
     }
+
+    builder.setIp(ipAddress.getValue());
     return builder.build();
   }
 

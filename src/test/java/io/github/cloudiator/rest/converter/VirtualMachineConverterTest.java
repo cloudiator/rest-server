@@ -50,10 +50,11 @@ public class VirtualMachineConverterTest {
    */
 
   public VirtualMachineConverterTest() {
-    this.restIpAddress = new IpAddress()
+    this.restIpAddress = new IpAddress().value("192.168.1.2")
         .ipVersion(IpVersion.V4).ipAddressType(IpAddressType.PRIVATE_IP);
     this.iaasIpAddress = IaasEntities.IpAddress.newBuilder()
         .setVersion(IaasEntities.IpVersion.V4).setType(IaasEntities.IpAddressType.PRIVATE_IP)
+        .setIp("192.168.1.2")
         .build();
         /*
         this.restLoginCredential = new LoginCredential();

@@ -27,7 +27,7 @@ public class Communication   {
     return this;
   }
 
-   /**
+  /**
    * The name of the required port this communication refers to. 
    * @return portRequired
   **/
@@ -47,7 +47,7 @@ public class Communication   {
     return this;
   }
 
-   /**
+  /**
    * The name of the provided port this communication refers to. 
    * @return portProvided
   **/

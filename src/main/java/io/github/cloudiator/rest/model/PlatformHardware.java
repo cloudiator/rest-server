@@ -37,7 +37,7 @@ public class PlatformHardware   {
     return this;
   }
 
-   /**
+  /**
    * Human-readable name for the hardware
    * @return name
   **/
@@ -58,7 +58,7 @@ public class PlatformHardware   {
     return this;
   }
 
-   /**
+  /**
    * Number of cores
    * @return cores
   **/
@@ -79,7 +79,7 @@ public class PlatformHardware   {
     return this;
   }
 
-   /**
+  /**
    * Amount of RAM
    * @return ram
   **/
@@ -100,7 +100,7 @@ public class PlatformHardware   {
     return this;
   }
 
-   /**
+  /**
    * Amount of disk space
    * @return disk
   **/
@@ -121,7 +121,7 @@ public class PlatformHardware   {
     return this;
   }
 
-   /**
+  /**
    * Unique identifier for the hardware
    * @return id
   **/
