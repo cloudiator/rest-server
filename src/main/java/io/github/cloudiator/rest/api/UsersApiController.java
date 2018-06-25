@@ -1,13 +1,16 @@
 package io.github.cloudiator.rest.api;
 
 //import io.github.cloudiator.rest.UserService;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.cloudiator.rest.converter.TenantToTenantConverter;
 import io.github.cloudiator.rest.converter.UserConverter;
+import io.github.cloudiator.rest.converter.UserNewConverter;
 import io.github.cloudiator.rest.model.User;
 import io.github.cloudiator.rest.model.UserNew;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import io.swagger.annotations.*;
-import java.util.Base64;
+import io.swagger.annotations.ApiParam;
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import org.cloudiator.messages.entities.User.CreateUserRequest;
 import org.cloudiator.messages.entities.UserEntities;
 import org.cloudiator.messaging.ResponseException;
@@ -18,18 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.multipart.MultipartFile;
-
-import javax.validation.constraints.*;
-import javax.validation.Valid;
-import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
-import java.util.List;
 
 @Controller
 public class UsersApiController implements UsersApi {
@@ -41,6 +33,7 @@ public class UsersApiController implements UsersApi {
 
   final TenantToTenantConverter T2TConverter;
   final UserConverter userConverter;
+  final UserNewConverter userNewConverter;
 
   @org.springframework.beans.factory.annotation.Autowired
   public UsersApiController(ObjectMapper objectMapper, HttpServletRequest request) {
@@ -48,6 +41,7 @@ public class UsersApiController implements UsersApi {
     this.request = request;
     this.T2TConverter = new TenantToTenantConverter();
     this.userConverter = new UserConverter();
+    this.userNewConverter = new UserNewConverter();
   }
 
   @Autowired
@@ -59,28 +53,18 @@ public class UsersApiController implements UsersApi {
     if (accept != null && accept.contains("application/json")) {
       try {
 
-        if(!apiUser.getPassword().matches(apiUser.getPasswordRepeat())){
-          throw new ApiException(400, "PasswordRepeat does not match. pw:"+apiUser.getPassword()+"re"+apiUser.getPasswordRepeat());
+        if (!apiUser.getPassword().matches(apiUser.getPasswordRepeat())) {
+          throw new ApiException(400, "Passwords do not match");
         }
 
-        String encodedPW = Base64.getEncoder().encodeToString(apiUser.getPassword().getBytes());
-
-
-        //MessageEntity
-        UserEntities.UserNew userNewOut = UserEntities.UserNew.newBuilder()
-            .setEmail(apiUser.getEmail())
-            .setPassword(encodedPW)
-            .setPasswordRepeat(encodedPW)
-            .setTenant(T2TConverter.apply(apiUser.getTenant()))
-            .build();
-        User userCreated = null;
+        UserEntities.UserNew userNewOut = userNewConverter.apply(apiUser);
 
         //Kafka
-        org.cloudiator.messages.entities.User.CreateUserResponse createResponse = null;
-        createResponse = userService.createUser(CreateUserRequest.newBuilder()
-            .setNewUser(userNewOut).build());
+        org.cloudiator.messages.entities.User.CreateUserResponse createResponse = userService
+            .createUser(CreateUserRequest.newBuilder()
+                .setNewUser(userNewOut).build());
 
-        userCreated = userConverter.applyBack(createResponse.getUser());
+        User userCreated = userConverter.applyBack(createResponse.getUser());
 
         return new ResponseEntity<User>(userCreated, HttpStatus.OK);
       } catch (ResponseException e) {

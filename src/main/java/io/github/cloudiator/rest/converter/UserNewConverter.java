@@ -12,7 +12,6 @@ public class UserNewConverter implements TwoWayConverter<UserNew, UserEntities.U
     UserNew result = new UserNew()
         .email(protoUserNew.getEmail())
         .password(protoUserNew.getPassword())
-        .passwordRepeat(protoUserNew.getPasswordRepeat())
         .tenant(T2TConverter.applyBack(protoUserNew.getTenant()));
     return result;
   }
@@ -22,7 +21,6 @@ public class UserNewConverter implements TwoWayConverter<UserNew, UserEntities.U
     UserEntities.UserNew.Builder result = UserEntities.UserNew.newBuilder()
         .setEmail(restUserNew.getEmail())
         .setPassword(restUserNew.getPassword())
-        .setPasswordRepeat(restUserNew.getPasswordRepeat())
         .setTenant(T2TConverter.apply(restUserNew.getTenant()));
     return result.build();
   }
