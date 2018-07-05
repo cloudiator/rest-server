@@ -1,9 +1,12 @@
 package io.github.cloudiator.rest.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.github.cloudiator.rest.UserInfo;
 import io.swagger.annotations.ApiParam;
-import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
+import org.cloudiator.messages.entities.Encryption.DecryptionRequest;
+import org.cloudiator.messages.entities.Encryption.DecryptionResponse;
+import org.cloudiator.messaging.ResponseException;
 import org.cloudiator.messaging.services.EncryptionService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,18 +37,16 @@ public class DecryptionApiController implements DecryptionApi {
   public ResponseEntity<String> decrypt(
       @ApiParam(value = "Text to decrypt", required = true) @PathVariable("text") String text) {
 
-    String accept = request.getHeader("Accept");
-    if (accept != null && accept.contains("application/json")) {
-      try {
-        return new ResponseEntity<String>(objectMapper.readValue("\"\"", String.class),
-            HttpStatus.NOT_IMPLEMENTED);
-      } catch (IOException e) {
-        log.error("Couldn't serialize response for content type application/json", e);
-        return new ResponseEntity<String>(HttpStatus.INTERNAL_SERVER_ERROR);
-      }
-    }
+    final String tenant = UserInfo.of(request).tenant();
 
-    return new ResponseEntity<String>(HttpStatus.NOT_IMPLEMENTED);
+    try {
+      DecryptionResponse decryptionResponse = encryptionService
+          .decrypt(DecryptionRequest.newBuilder().setUserId(tenant).setCiphertext(text).build());
+
+      return new ResponseEntity<>(decryptionResponse.getPlaintext(), HttpStatus.OK);
+    } catch (ResponseException e) {
+      throw new ApiException(e.code(), e.getMessage());
+    }
   }
 
 }
