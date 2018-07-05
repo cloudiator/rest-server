@@ -38,6 +38,8 @@
   <bean id="installationRequestService" factory-bean="serviceFactory"
     factory-method="createInstallationRequestService"/>
 
+  <bean id="encryptionService" factory-bean="serviceFactory"
+    factory-method="createEncryptionService"/>
 
 </beans>
 
