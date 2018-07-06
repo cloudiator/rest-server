@@ -2,6 +2,7 @@ package io.github.cloudiator.rest.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.cloudiator.rest.UserInfo;
+import io.github.cloudiator.rest.model.Text;
 import io.swagger.annotations.ApiParam;
 import javax.servlet.http.HttpServletRequest;
 import org.cloudiator.messages.entities.Encryption.DecryptionRequest;
@@ -34,7 +35,7 @@ public class DecryptionApiController implements DecryptionApi {
     this.request = request;
   }
 
-  public ResponseEntity<String> decrypt(
+  public ResponseEntity<Text> decrypt(
       @ApiParam(value = "Text to decrypt", required = true) @PathVariable("text") String text) {
 
     final String tenant = UserInfo.of(request).tenant();
@@ -43,7 +44,10 @@ public class DecryptionApiController implements DecryptionApi {
       DecryptionResponse decryptionResponse = encryptionService
           .decrypt(DecryptionRequest.newBuilder().setUserId(tenant).setCiphertext(text).build());
 
-      return new ResponseEntity<>(decryptionResponse.getPlaintext(), HttpStatus.OK);
+      Text result = new Text();
+      result.setContent(decryptionResponse.getPlaintext());
+
+      return new ResponseEntity<>(result, HttpStatus.OK);
     } catch (ResponseException e) {
       throw new ApiException(e.code(), e.getMessage());
     }

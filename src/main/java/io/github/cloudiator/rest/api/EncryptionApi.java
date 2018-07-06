@@ -5,6 +5,7 @@
  */
 package io.github.cloudiator.rest.api;
 
+import io.github.cloudiator.rest.model.Text;
 import io.swagger.annotations.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -24,14 +25,14 @@ import java.util.List;
 @Api(value = "encryption", description = "the encryption API")
 public interface EncryptionApi {
 
-    @ApiOperation(value = "", nickname = "encrypt", notes = "Encrypts the given string", response = String.class, authorizations = {
+    @ApiOperation(value = "", nickname = "encrypt", notes = "Encrypts the given string", response = Text.class, authorizations = {
         @Authorization(value = "ApiKeyAuth")
     }, tags={ "misc", })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "OK", response = String.class) })
+        @ApiResponse(code = 200, message = "OK", response = Text.class) })
     @RequestMapping(value = "/encryption/{text}",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<String> encrypt(@ApiParam(value = "Text to encrypt",required=true) @PathVariable("text") String text);
+    ResponseEntity<Text> encrypt(@ApiParam(value = "Text to encrypt",required=true) @PathVariable("text") String text);
 
 }

@@ -5,6 +5,7 @@
  */
 package io.github.cloudiator.rest.api;
 
+import io.github.cloudiator.rest.model.Text;
 import io.swagger.annotations.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -24,14 +25,14 @@ import java.util.List;
 @Api(value = "decryption", description = "the decryption API")
 public interface DecryptionApi {
 
-    @ApiOperation(value = "", nickname = "decrypt", notes = "Decrypts the given string", response = String.class, authorizations = {
+    @ApiOperation(value = "", nickname = "decrypt", notes = "Decrypts the given string", response = Text.class, authorizations = {
         @Authorization(value = "ApiKeyAuth")
     }, tags={ "misc", })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "OK", response = String.class) })
+        @ApiResponse(code = 200, message = "OK", response = Text.class) })
     @RequestMapping(value = "/decryption/{text}",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<String> decrypt(@ApiParam(value = "Text to decrypt",required=true) @PathVariable("text") String text);
+    ResponseEntity<Text> decrypt(@ApiParam(value = "Text to decrypt",required=true) @PathVariable("text") String text);
 
 }
