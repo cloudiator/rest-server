@@ -4,7 +4,6 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.github.cloudiator.rest.model.ScheduleNew;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.validation.annotation.Validated;
@@ -12,11 +11,12 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * Schedule
+ * Schedules an already created job within the system. 
  */
+@ApiModel(description = "Schedules an already created job within the system. ")
 @Validated
 
-public class Schedule   {
+public class ScheduleNew   {
   @JsonProperty("job")
   private String job = null;
 
@@ -54,10 +54,7 @@ public class Schedule   {
   @JsonProperty("instantiation")
   private InstantiationEnum instantiation = null;
 
-  @JsonProperty("id")
-  private String id = null;
-
-  public Schedule job(String job) {
+  public ScheduleNew job(String job) {
     this.job = job;
     return this;
   }
@@ -77,7 +74,7 @@ public class Schedule   {
     this.job = job;
   }
 
-  public Schedule instantiation(InstantiationEnum instantiation) {
+  public ScheduleNew instantiation(InstantiationEnum instantiation) {
     this.instantiation = instantiation;
     return this;
   }
@@ -97,26 +94,6 @@ public class Schedule   {
     this.instantiation = instantiation;
   }
 
-  public Schedule id(String id) {
-    this.id = id;
-    return this;
-  }
-
-  /**
-   * Get id
-   * @return id
-  **/
-  @ApiModelProperty(value = "")
-
-
-  public String getId() {
-    return id;
-  }
-
-  public void setId(String id) {
-    this.id = id;
-  }
-
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -126,25 +103,23 @@ public class Schedule   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    Schedule schedule = (Schedule) o;
-    return Objects.equals(this.job, schedule.job) &&
-        Objects.equals(this.instantiation, schedule.instantiation) &&
-        Objects.equals(this.id, schedule.id);
+    ScheduleNew scheduleNew = (ScheduleNew) o;
+    return Objects.equals(this.job, scheduleNew.job) &&
+        Objects.equals(this.instantiation, scheduleNew.instantiation);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(job, instantiation, id);
+    return Objects.hash(job, instantiation);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class Schedule {\n");
+    sb.append("class ScheduleNew {\n");
     
     sb.append("    job: ").append(toIndentedString(job)).append("\n");
     sb.append("    instantiation: ").append(toIndentedString(instantiation)).append("\n");
-    sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("}");
     return sb.toString();
   }

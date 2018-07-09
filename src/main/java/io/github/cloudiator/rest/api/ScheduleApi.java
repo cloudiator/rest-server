@@ -6,6 +6,7 @@
 package io.github.cloudiator.rest.api;
 
 import io.github.cloudiator.rest.model.Schedule;
+import io.github.cloudiator.rest.model.ScheduleNew;
 import io.swagger.annotations.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -34,7 +35,7 @@ public interface ScheduleApi {
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.POST)
-    ResponseEntity<Schedule> addSchedule(@ApiParam(value = "Schedule to be created " ,required=true )  @Valid @RequestBody Schedule schedule);
+    ResponseEntity<Schedule> addSchedule(@ApiParam(value = "Schedule to be created " ,required=true )  @Valid @RequestBody ScheduleNew schedule);
 
 
     @ApiOperation(value = "", nickname = "getSchedules", notes = "Retrieves all schedules by the current user. ", response = Schedule.class, responseContainer = "List", authorizations = {
