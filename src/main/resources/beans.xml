@@ -21,7 +21,7 @@
 
   <bean id="imageService" factory-bean="serviceFactory" factory-method="createImageService"/>
 
-  <bean id="processService" factory-bean="serviceFactory" factory-method=""/>
+  <bean id="processService" factory-bean="serviceFactory" factory-method="createProcessService"/>
 
   <bean id="matchmakingService" factory-bean="serviceFactory"
     factory-method="createMatchmakingService"/>

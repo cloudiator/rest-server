@@ -85,7 +85,7 @@ public class ServiceFactory {
     return INJECTOR.getInstance(EncryptionService.class);
   }
 
-  public ProcessService processService() {
+  public ProcessService createProcessService() {
     return INJECTOR.getInstance(ProcessService.class);
   }
 

@@ -1,6 +1,7 @@
 package io.github.cloudiator.rest.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.github.cloudiator.rest.UserInfo;
 import io.github.cloudiator.rest.converter.ScheduleConverter;
 import io.github.cloudiator.rest.converter.ScheduleNewConverter;
 import io.github.cloudiator.rest.model.Schedule;
@@ -48,8 +49,10 @@ public class ScheduleApiController implements ScheduleApi {
     String accept = request.getHeader("Accept");
     if (accept != null && accept.contains("application/json")) {
 
+      final String tenant = UserInfo.of(request).tenant();
+
       final CreateScheduleRequest createScheduleRequest = CreateScheduleRequest.newBuilder()
-          .setSchedule(scheduleNewConverter.apply(schedule)).build();
+          .setUserId(tenant).setSchedule(scheduleNewConverter.apply(schedule)).build();
 
       try {
         final ScheduleCreatedResponse createdScheduleMessage = processService
