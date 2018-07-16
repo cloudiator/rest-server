@@ -45,6 +45,21 @@ public interface JobsApi {
     ResponseEntity<Job> addJob(@ApiParam(value = "Job to be created. " ,required=true )  @Valid @RequestBody JobNew job);
 
 
+    @ApiOperation(value = "", nickname = "findJob", notes = "Returns the job with the given id. ", response = Job.class, authorizations = {
+        @Authorization(value = "ApiKeyAuth")
+    }, tags={ "job", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "The job identified by the id ", response = Job.class),
+        @ApiResponse(code = 401, message = "Authorization for this action is missing", response = Error.class),
+        @ApiResponse(code = 403, message = "Forbidden action", response = Error.class),
+        @ApiResponse(code = 500, message = "An unexpected Error occured", response = Error.class),
+        @ApiResponse(code = 504, message = "Server temporary not available", response = Error.class) })
+    @RequestMapping(value = "/jobs/{id}",
+        produces = { "application/json" }, 
+        method = RequestMethod.GET)
+    ResponseEntity<Job> findJob(@ApiParam(value = "Unique identifier of the resource",required=true) @PathVariable("id") String id);
+
+
     @ApiOperation(value = "", nickname = "findJobs", notes = "Returns all jobs visible to the user ", response = Job.class, responseContainer = "List", authorizations = {
         @Authorization(value = "ApiKeyAuth")
     }, tags={ "job", })
