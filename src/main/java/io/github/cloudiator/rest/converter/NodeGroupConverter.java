@@ -1,5 +1,6 @@
 package io.github.cloudiator.rest.converter;
 
+import de.uniulm.omi.cloudiator.util.TwoWayConverter;
 import io.github.cloudiator.rest.model.NodeGroup;
 import org.cloudiator.messages.NodeEntities;
 import org.cloudiator.messages.NodeEntities.NodeGroup.Builder;

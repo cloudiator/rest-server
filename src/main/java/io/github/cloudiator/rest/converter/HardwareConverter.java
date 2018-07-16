@@ -1,14 +1,16 @@
 package io.github.cloudiator.rest.converter;
 
+import de.uniulm.omi.cloudiator.util.TwoWayConverter;
 import io.github.cloudiator.rest.model.Cloud;
 import io.github.cloudiator.rest.model.CloudType;
 import io.github.cloudiator.rest.model.Hardware;
 import org.cloudiator.messages.entities.IaasEntities;
+import org.cloudiator.messages.entities.IaasEntities.HardwareFlavor;
 
 /**
  * Created by volker on 29.05.17.
  */
-public class HardwareConverter implements TwoWayConverter<Hardware, IaasEntities.HardwareFlavor> {
+public class HardwareConverter implements TwoWayConverter<Hardware, HardwareFlavor> {
 
   private final LocationConverter locationConverter = new LocationConverter();
 

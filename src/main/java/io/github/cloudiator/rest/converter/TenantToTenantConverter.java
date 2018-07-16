@@ -1,10 +1,11 @@
 package io.github.cloudiator.rest.converter;
 
+import de.uniulm.omi.cloudiator.util.TwoWayConverter;
 import io.github.cloudiator.rest.model.Tenant;
 import org.cloudiator.messages.entities.UserEntities;
 
 public class TenantToTenantConverter  implements
-    TwoWayConverter<Tenant, UserEntities.Tenant>{
+    TwoWayConverter<Tenant, UserEntities.Tenant> {
 
 
   @Override

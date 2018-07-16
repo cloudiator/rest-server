@@ -1,5 +1,6 @@
 package io.github.cloudiator.rest.converter;
 
+import de.uniulm.omi.cloudiator.util.TwoWayConverter;
 import io.github.cloudiator.rest.model.Communication;
 import io.github.cloudiator.rest.model.Job;
 import io.github.cloudiator.rest.model.Requirement;
@@ -17,7 +18,7 @@ public class JobConverter implements TwoWayConverter<Job, JobEntities.Job> {
   @Override
   public Job applyBack(JobEntities.Job job) {
     Job result = new Job()
-        .name(job.getName());
+        .name(job.getName()).id(job.getId());
     if (!job.getTasksList().isEmpty()) {
       for (TaskEntities.Task task : job.getTasksList()) {
         result.addTasksItem(taskConverter.applyBack(task));
@@ -40,7 +41,7 @@ public class JobConverter implements TwoWayConverter<Job, JobEntities.Job> {
   @Override
   public JobEntities.Job apply(Job job) {
     JobEntities.Job.Builder result = JobEntities.Job.newBuilder()
-        .setName(job.getName());
+        .setName(job.getName()).setId(job.getId());
     if (job.getTasks() != null) {
       for (Task task : job.getTasks()) {
         result.addTasks(taskConverter.apply(task));

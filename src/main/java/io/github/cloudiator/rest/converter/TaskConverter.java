@@ -1,6 +1,7 @@
 package io.github.cloudiator.rest.converter;
 
 
+import de.uniulm.omi.cloudiator.util.TwoWayConverter;
 import io.github.cloudiator.rest.model.ExecutionEnvironment;
 import io.github.cloudiator.rest.model.Port;
 import io.github.cloudiator.rest.model.Requirement;

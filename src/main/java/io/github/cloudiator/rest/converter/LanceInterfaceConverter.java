@@ -1,6 +1,7 @@
 package io.github.cloudiator.rest.converter;
 
 import com.google.common.base.Strings;
+import de.uniulm.omi.cloudiator.util.TwoWayConverter;
 import io.github.cloudiator.rest.model.LanceInterface;
 import org.cloudiator.messages.entities.TaskEntities;
 

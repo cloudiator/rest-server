@@ -18,9 +18,9 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * Represents a task of a job. 
+ * Represents a new task of a job. 
  */
-@ApiModel(description = "Represents a task of a job. ")
+@ApiModel(description = "Represents a new task of a job. ")
 @Validated
 
 public class Task   {

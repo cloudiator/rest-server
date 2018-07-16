@@ -13,6 +13,7 @@ import io.github.cloudiator.rest.model.OclRequirement;
 import io.github.cloudiator.rest.model.PortProvided;
 import io.github.cloudiator.rest.model.PortRequired;
 import io.github.cloudiator.rest.model.Task;
+import java.util.UUID;
 import org.cloudiator.messages.entities.CommonEntities;
 import org.cloudiator.messages.entities.JobEntities;
 import org.cloudiator.messages.entities.TaskEntities;
@@ -137,7 +138,9 @@ public class JobConverterTest {
         .addInterfaces(iaasTaskDockerInterface)
         .addInterfaces(iaasTaskLanceInterface).build();
     //Jobs
+    final UUID uuid = UUID.randomUUID();
     this.restJob = new Job()
+        .id(uuid.toString())
         .name("TestJob")
         .addCommunicationsItem(new Communication()
             .portProvided("ProvidedPort").portRequired("RequiredPort"))
@@ -145,6 +148,7 @@ public class JobConverterTest {
         .addRequirementsItem(restIdRequirement)
         .addTasksItem(restTask);
     this.iaasJob = JobEntities.Job.newBuilder()
+        .setId(uuid.toString())
         .setName("TestJob")
         .addCommunications(JobEntities.Communication.newBuilder()
             .setPortProvided("ProvidedPort").setPortRequired("RequiredPort"))

@@ -3,7 +3,9 @@ package io.github.cloudiator.rest.api;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.cloudiator.rest.UserInfo;
 import io.github.cloudiator.rest.converter.JobConverter;
+import io.github.cloudiator.rest.converter.JobNewConverter;
 import io.github.cloudiator.rest.model.Job;
+import io.github.cloudiator.rest.model.JobNew;
 import io.swagger.annotations.ApiParam;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -42,17 +44,18 @@ public class JobsApiController implements JobsApi {
   // jobService is missing
 
   private final JobConverter jobConverter = new JobConverter();
+  private final JobNewConverter jobNewConverter = new JobNewConverter();
 
 
   @Override
   public ResponseEntity<Job> addJob(
-      @ApiParam(value = "Job to be created. ", required = true) @Valid @RequestBody Job job) {
+      @ApiParam(value = "Job to be created. ", required = true) @Valid @RequestBody JobNew jobNew) {
     String accept = request.getHeader("Accept");
     if (accept != null && accept.contains("application/json")) {
       try {
 
         final CreateJobRequest createJobRequest = CreateJobRequest.newBuilder()
-            .setJob(jobConverter.apply(job)).setUserId(UserInfo.of(request).tenant()).build();
+            .setJob(jobNewConverter.apply(jobNew)).setUserId(UserInfo.of(request).tenant()).build();
 
         final JobCreatedResponse jobCreatedResponse = jobService.createJob(createJobRequest);
         return new ResponseEntity<>(jobConverter.applyBack(jobCreatedResponse.getJob()),

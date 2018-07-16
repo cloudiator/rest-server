@@ -1,10 +1,12 @@
 package io.github.cloudiator.rest.converter;
 
+import de.uniulm.omi.cloudiator.util.TwoWayConverter;
 import io.github.cloudiator.rest.model.NewPlatformRuntime;
 import org.cloudiator.messages.entities.PaasEntities;
+import org.cloudiator.messages.entities.PaasEntities.NewRuntime;
 
 public class NewPlatformRuntimeConverter implements
-    TwoWayConverter<NewPlatformRuntime, PaasEntities.NewRuntime> {
+    TwoWayConverter<NewPlatformRuntime, NewRuntime> {
 
   private final RuntimeLanguageConverter runtimeLanguageConverter = new RuntimeLanguageConverter();
   private final RuntimeTypeConverter runtimeTypeConverter = new RuntimeTypeConverter();

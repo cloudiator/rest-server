@@ -7,6 +7,7 @@ package io.github.cloudiator.rest.api;
 
 import io.github.cloudiator.rest.model.Error;
 import io.github.cloudiator.rest.model.Job;
+import io.github.cloudiator.rest.model.JobNew;
 import io.swagger.annotations.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -41,7 +42,7 @@ public interface JobsApi {
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.POST)
-    ResponseEntity<Job> addJob(@ApiParam(value = "Job to be created. " ,required=true )  @Valid @RequestBody Job job);
+    ResponseEntity<Job> addJob(@ApiParam(value = "Job to be created. " ,required=true )  @Valid @RequestBody JobNew job);
 
 
     @ApiOperation(value = "", nickname = "findJobs", notes = "Returns all jobs visible to the user ", response = Job.class, responseContainer = "List", authorizations = {
