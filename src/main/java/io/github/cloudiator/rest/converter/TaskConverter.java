@@ -2,7 +2,6 @@ package io.github.cloudiator.rest.converter;
 
 
 import de.uniulm.omi.cloudiator.util.TwoWayConverter;
-import io.github.cloudiator.rest.model.ExecutionEnvironment;
 import io.github.cloudiator.rest.model.Port;
 import io.github.cloudiator.rest.model.Requirement;
 import io.github.cloudiator.rest.model.Task;
@@ -40,23 +39,6 @@ public class TaskConverter implements TwoWayConverter<Task, TaskEntities.Task> {
       result.addInterfacesItem(interfaceConverter.applyBack(tInterface));
     }
 
-    switch (task.getExecutionEnvironment()) {
-      case LANCE:
-        result.setExecutionEnvironment(ExecutionEnvironment.LANCE);
-        break;
-      case SPARK:
-        result.setExecutionEnvironment(ExecutionEnvironment.SPARK);
-        break;
-      case NATIVE:
-        result.setExecutionEnvironment(ExecutionEnvironment.NATIVE);
-        break;
-      case CONTAINER:
-        result.setExecutionEnvironment(ExecutionEnvironment.CONTAINER);
-        break;
-      case UNRECOGNIZED:
-      default:
-        throw new AssertionError("ExecutionEnvironment unkown: " + task.getExecutionEnvironment());
-    }
     switch (task.getTaskType()) {
       case BATCH:
         result.setTaskType(TaskType.BATCH);
@@ -102,22 +84,6 @@ public class TaskConverter implements TwoWayConverter<Task, TaskEntities.Task> {
         break;
       default:
         throw new AssertionError("TaskType unknown: " + task.getTaskType());
-    }
-    switch (task.getExecutionEnvironment()) {
-      case LANCE:
-        result.setExecutionEnvironment(TaskEntities.ExecutionEnvironment.LANCE);
-        break;
-      case SPARK:
-        result.setExecutionEnvironment(TaskEntities.ExecutionEnvironment.SPARK);
-        break;
-      case NATIVE:
-        result.setExecutionEnvironment(TaskEntities.ExecutionEnvironment.NATIVE);
-        break;
-      case CONTAINER:
-        result.setExecutionEnvironment(TaskEntities.ExecutionEnvironment.CONTAINER);
-        break;
-      default:
-        throw new AssertionError("ExecutionEnvironment unknown: " + task.getExecutionEnvironment());
     }
 
     return result.build();

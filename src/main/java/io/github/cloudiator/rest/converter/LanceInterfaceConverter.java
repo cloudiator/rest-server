@@ -3,14 +3,54 @@ package io.github.cloudiator.rest.converter;
 import com.google.common.base.Strings;
 import de.uniulm.omi.cloudiator.util.TwoWayConverter;
 import io.github.cloudiator.rest.model.LanceInterface;
+import io.github.cloudiator.rest.model.LanceInterface.ContainerTypeEnum;
 import org.cloudiator.messages.entities.TaskEntities;
+import org.cloudiator.messages.entities.TaskEntities.ContainerType;
 
 public class LanceInterfaceConverter implements
     TwoWayConverter<LanceInterface, TaskEntities.LanceInterface> {
 
+  private static final ContainerTypeConverter CONTAINER_TYPE_CONVERTER = new ContainerTypeConverter();
+
+  private static class ContainerTypeConverter implements
+      TwoWayConverter<ContainerTypeEnum, TaskEntities.ContainerType> {
+
+    @Override
+    public ContainerTypeEnum applyBack(ContainerType containerType) {
+      switch (containerType) {
+
+        case BOTH:
+          return ContainerTypeEnum.BOTH;
+        case DOCKER:
+          return ContainerTypeEnum.DOCKER;
+        case NATIVE:
+          return ContainerTypeEnum.NATIVE;
+        case UNRECOGNIZED:
+        default:
+          throw new AssertionError("Unrecognized container type " + containerType);
+      }
+    }
+
+    @Override
+    public ContainerType apply(ContainerTypeEnum containerTypeEnum) {
+      switch (containerTypeEnum) {
+        case NATIVE:
+          return ContainerType.NATIVE;
+        case DOCKER:
+          return ContainerType.DOCKER;
+        case BOTH:
+          return ContainerType.BOTH;
+        default:
+          throw new AssertionError("Unrecognized container type " + containerTypeEnum);
+      }
+    }
+  }
+
   @Override
   public LanceInterface applyBack(TaskEntities.LanceInterface lanceInterface) {
     LanceInterface result = new LanceInterface();
+
+    result.setContainerType(CONTAINER_TYPE_CONVERTER.applyBack(lanceInterface.getContainerType()));
 
     if (Strings.isNullOrEmpty(lanceInterface.getInit())) {
       result.init(null);
@@ -96,6 +136,8 @@ public class LanceInterfaceConverter implements
   @Override
   public TaskEntities.LanceInterface apply(LanceInterface lanceInterface) {
     TaskEntities.LanceInterface.Builder result = TaskEntities.LanceInterface.newBuilder();
+
+    result.setContainerType(CONTAINER_TYPE_CONVERTER.apply(lanceInterface.getContainerType()));
 
     if (lanceInterface.getInit() != null) {
       result.setInit(lanceInterface.getInit());

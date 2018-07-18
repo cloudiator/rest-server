@@ -3,7 +3,6 @@ package io.github.cloudiator.rest.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.github.cloudiator.rest.model.ExecutionEnvironment;
 import io.github.cloudiator.rest.model.Optimization;
 import io.github.cloudiator.rest.model.Port;
 import io.github.cloudiator.rest.model.Requirement;
@@ -34,9 +33,6 @@ public class Task   {
   @JsonProperty("interfaces")
   @Valid
   private List<TaskInterface> interfaces = null;
-
-  @JsonProperty("executionEnvironment")
-  private ExecutionEnvironment executionEnvironment = null;
 
   @JsonProperty("optimization")
   private Optimization optimization = null;
@@ -127,28 +123,6 @@ public class Task   {
     this.interfaces = interfaces;
   }
 
-  public Task executionEnvironment(ExecutionEnvironment executionEnvironment) {
-    this.executionEnvironment = executionEnvironment;
-    return this;
-  }
-
-  /**
-   * Get executionEnvironment
-   * @return executionEnvironment
-  **/
-  @ApiModelProperty(required = true, value = "")
-  @NotNull
-
-  @Valid
-
-  public ExecutionEnvironment getExecutionEnvironment() {
-    return executionEnvironment;
-  }
-
-  public void setExecutionEnvironment(ExecutionEnvironment executionEnvironment) {
-    this.executionEnvironment = executionEnvironment;
-  }
-
   public Task optimization(Optimization optimization) {
     this.optimization = optimization;
     return this;
@@ -234,7 +208,6 @@ public class Task   {
     return Objects.equals(this.name, task.name) &&
         Objects.equals(this.ports, task.ports) &&
         Objects.equals(this.interfaces, task.interfaces) &&
-        Objects.equals(this.executionEnvironment, task.executionEnvironment) &&
         Objects.equals(this.optimization, task.optimization) &&
         Objects.equals(this.requirements, task.requirements) &&
         Objects.equals(this.taskType, task.taskType);
@@ -242,7 +215,7 @@ public class Task   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, ports, interfaces, executionEnvironment, optimization, requirements, taskType);
+    return Objects.hash(name, ports, interfaces, optimization, requirements, taskType);
   }
 
   @Override
@@ -253,7 +226,6 @@ public class Task   {
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    ports: ").append(toIndentedString(ports)).append("\n");
     sb.append("    interfaces: ").append(toIndentedString(interfaces)).append("\n");
-    sb.append("    executionEnvironment: ").append(toIndentedString(executionEnvironment)).append("\n");
     sb.append("    optimization: ").append(toIndentedString(optimization)).append("\n");
     sb.append("    requirements: ").append(toIndentedString(requirements)).append("\n");
     sb.append("    taskType: ").append(toIndentedString(taskType)).append("\n");
