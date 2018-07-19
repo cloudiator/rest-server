@@ -24,7 +24,10 @@ public class HardwareConverter implements TwoWayConverter<Hardware, HardwareFlav
     result.setDisk(hardwareFlavor.getDisk());
     result.setProviderId(hardwareFlavor.getProviderId());
     result.setRam(hardwareFlavor.getRam());
-    result.setLocation(locationConverter.applyBack(hardwareFlavor.getLocation()));
+
+    if(hardwareFlavor.hasLocation()) {
+      result.setLocation(locationConverter.applyBack(hardwareFlavor.getLocation()));
+    }
 
     return result;
   }
