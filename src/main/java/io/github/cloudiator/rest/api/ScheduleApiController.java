@@ -6,6 +6,8 @@ import io.github.cloudiator.rest.converter.ScheduleConverter;
 import io.github.cloudiator.rest.converter.ScheduleNewConverter;
 import io.github.cloudiator.rest.model.Schedule;
 import io.github.cloudiator.rest.model.ScheduleNew;
+import io.github.cloudiator.rest.queue.QueueService;
+import io.github.cloudiator.rest.queue.QueueService.QueueItem;
 import io.swagger.annotations.ApiParam;
 import java.io.IOException;
 import java.util.List;
@@ -33,6 +35,9 @@ public class ScheduleApiController implements ScheduleApi {
   private final HttpServletRequest request;
 
   @Autowired
+  private QueueService queueService;
+
+  @Autowired
   private ProcessService processService;
 
   private final ScheduleConverter scheduleConverter = new ScheduleConverter();
@@ -54,16 +59,24 @@ public class ScheduleApiController implements ScheduleApi {
       final CreateScheduleRequest createScheduleRequest = CreateScheduleRequest.newBuilder()
           .setUserId(tenant).setSchedule(scheduleNewConverter.apply(schedule)).build();
 
-      try {
-        final ScheduleCreatedResponse createdScheduleMessage = processService
-            .createSchedule(createScheduleRequest);
+      final QueueItem<ScheduleCreatedResponse> queueItem = queueService
+          .queueCallback(tenant,
+              scheduleCreatedResponse -> "schedule/" + scheduleCreatedResponse.getSchedule()
+                  .getId());
 
-        return new ResponseEntity<>(scheduleConverter.apply(createdScheduleMessage.getSchedule()),
-            HttpStatus.OK);
+      //try {
 
-      } catch (ResponseException e) {
-        throw new ApiException(e.code(), e.getMessage());
-      }
+        processService.createScheduleAsync(createScheduleRequest, queueItem.getCallback());
+
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);
+
+        //return new ResponseEntity<>(scheduleConverter.apply(createdScheduleMessage.getSchedule()),
+        //    HttpStatus.OK);
+
+
+      //} catch (ResponseException e) {
+      //  throw new ApiException(e.code(), e.getMessage());
+      //}
     }
 
     return new ResponseEntity<Schedule>(HttpStatus.NOT_IMPLEMENTED);
