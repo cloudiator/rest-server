@@ -5,9 +5,9 @@
  */
 package io.github.cloudiator.rest.api;
 
+import io.github.cloudiator.rest.model.Process;
+import io.github.cloudiator.rest.model.ProcessNew;
 import io.github.cloudiator.rest.model.Queue;
-import io.github.cloudiator.rest.model.Schedule;
-import io.github.cloudiator.rest.model.ScheduleNew;
 import io.swagger.annotations.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -24,29 +24,29 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 import java.util.List;
 
-@Api(value = "schedule", description = "the schedule API")
-public interface ScheduleApi {
+@Api(value = "process", description = "the process API")
+public interface ProcessApi {
 
-    @ApiOperation(value = "", nickname = "addSchedule", notes = "Creates a new schedule ", response = Queue.class, authorizations = {
+    @ApiOperation(value = "", nickname = "createProcess", notes = "Creates a new process ", response = Queue.class, authorizations = {
         @Authorization(value = "ApiKeyAuth")
     }, tags={ "job", })
     @ApiResponses(value = { 
         @ApiResponse(code = 202, message = "ACCEPTED", response = Queue.class) })
-    @RequestMapping(value = "/schedule",
+    @RequestMapping(value = "/process",
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.POST)
-    ResponseEntity<Queue> addSchedule(@ApiParam(value = "Schedule to be created " ,required=true )  @Valid @RequestBody ScheduleNew schedule);
+    ResponseEntity<Queue> createProcess(@ApiParam(value = "Process to be created " ,required=true )  @Valid @RequestBody ProcessNew process);
 
 
-    @ApiOperation(value = "", nickname = "getSchedules", notes = "Retrieves all schedules by the current user. ", response = Schedule.class, responseContainer = "List", authorizations = {
+    @ApiOperation(value = "", nickname = "getProcesses", notes = "Retrieves all process of the current user. ", response = Process.class, responseContainer = "List", authorizations = {
         @Authorization(value = "ApiKeyAuth")
     }, tags={ "job", })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "OK", response = Schedule.class, responseContainer = "List") })
-    @RequestMapping(value = "/schedule",
+        @ApiResponse(code = 200, message = "OK", response = Process.class, responseContainer = "List") })
+    @RequestMapping(value = "/process",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<List<Schedule>> getSchedules();
+    ResponseEntity<List<Process>> getProcesses();
 
 }
