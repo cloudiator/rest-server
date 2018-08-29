@@ -10,15 +10,14 @@ import org.cloudiator.messages.entities.Matchmaking;
 public class MatchmakingResponseConverter implements
     OneWayConverter<Matchmaking.MatchmakingResponse, MatchmakingResponse> {
 
-  private final VirtualMachineRequestConverter virtualMachineRequestConverter = new VirtualMachineRequestConverter();
+  private final NodeCandidateConverter nodeCandidateConverter = new NodeCandidateConverter();
 
-  @Nullable
   @Override
-  public MatchmakingResponse apply(@Nullable Matchmaking.MatchmakingResponse matchmakingResponse) {
+  public MatchmakingResponse apply(Matchmaking.MatchmakingResponse matchmakingResponse) {
 
     MatchmakingResponse response = new MatchmakingResponse();
     response.setNodes(
-        matchmakingResponse.getNodesList().stream().map(virtualMachineRequestConverter::applyBack)
+        matchmakingResponse.getCandidatesList().stream().map(nodeCandidateConverter::applyBack)
             .collect(
                 Collectors.toList()));
 
