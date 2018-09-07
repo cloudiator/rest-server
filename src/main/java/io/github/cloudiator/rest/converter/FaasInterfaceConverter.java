@@ -14,7 +14,7 @@ public class FaasInterfaceConverter implements
   @Override
   public FaasInterface applyBack(TaskEntities.FaasInterface taskInterface) {
     return new FaasInterface()
-        .funtionName(taskInterface.getFunctionName())
+        .functionName(taskInterface.getFunctionName())
         .sourceCodeUrl(taskInterface.getSourceCodeUrl())
         .handler(taskInterface.getHandler())
         .runtime(taskInterface.getRuntime())
@@ -30,7 +30,7 @@ public class FaasInterfaceConverter implements
   @Override
   public TaskEntities.FaasInterface apply(FaasInterface faasInterface) {
     return TaskEntities.FaasInterface.newBuilder()
-        .setFunctionName(faasInterface.getFuntionName())
+        .setFunctionName(faasInterface.getFunctionName())
         .setSourceCodeUrl(faasInterface.getSourceCodeUrl())
         .setHandler(faasInterface.getHandler())
         .setRuntime(faasInterface.getRuntime())

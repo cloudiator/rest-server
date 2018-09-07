@@ -115,7 +115,7 @@ public class JobConverterTest {
 
 
     this.restFaasInterface = new FaasInterface()
-        .funtionName("functionName")
+        .functionName("functionName")
         .sourceCodeUrl("http://code.url")
         .handler("file.handler")
         .runtime("nodejs")

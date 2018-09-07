@@ -20,8 +20,8 @@ import javax.validation.constraints.*;
 @Validated
 
 public class FaasInterface extends TaskInterface  {
-  @JsonProperty("funtionName")
-  private String funtionName = null;
+  @JsonProperty("functionName")
+  private String functionName = null;
 
   @JsonProperty("sourceCodeUrl")
   private String sourceCodeUrl = null;
@@ -42,24 +42,24 @@ public class FaasInterface extends TaskInterface  {
   @JsonProperty("memory")
   private Integer memory = 1024;
 
-  public FaasInterface funtionName(String funtionName) {
-    this.funtionName = funtionName;
+  public FaasInterface functionName(String functionName) {
+    this.functionName = functionName;
     return this;
   }
 
   /**
    * Unique name of the function. 
-   * @return funtionName
+   * @return functionName
   **/
   @ApiModelProperty(value = "Unique name of the function. ")
 
 
-  public String getFuntionName() {
-    return funtionName;
+  public String getFunctionName() {
+    return functionName;
   }
 
-  public void setFuntionName(String funtionName) {
-    this.funtionName = funtionName;
+  public void setFunctionName(String functionName) {
+    this.functionName = functionName;
   }
 
   public FaasInterface sourceCodeUrl(String sourceCodeUrl) {
@@ -205,7 +205,7 @@ public class FaasInterface extends TaskInterface  {
       return false;
     }
     FaasInterface faasInterface = (FaasInterface) o;
-    return Objects.equals(this.funtionName, faasInterface.funtionName) &&
+    return Objects.equals(this.functionName, faasInterface.functionName) &&
         Objects.equals(this.sourceCodeUrl, faasInterface.sourceCodeUrl) &&
         Objects.equals(this.handler, faasInterface.handler) &&
         Objects.equals(this.runtime, faasInterface.runtime) &&
@@ -217,7 +217,7 @@ public class FaasInterface extends TaskInterface  {
 
   @Override
   public int hashCode() {
-    return Objects.hash(funtionName, sourceCodeUrl, handler, runtime, triggers, timeout, memory, super.hashCode());
+    return Objects.hash(functionName, sourceCodeUrl, handler, runtime, triggers, timeout, memory, super.hashCode());
   }
 
   @Override
@@ -225,7 +225,7 @@ public class FaasInterface extends TaskInterface  {
     StringBuilder sb = new StringBuilder();
     sb.append("class FaasInterface {\n");
     sb.append("    ").append(toIndentedString(super.toString())).append("\n");
-    sb.append("    funtionName: ").append(toIndentedString(funtionName)).append("\n");
+    sb.append("    functionName: ").append(toIndentedString(functionName)).append("\n");
     sb.append("    sourceCodeUrl: ").append(toIndentedString(sourceCodeUrl)).append("\n");
     sb.append("    handler: ").append(toIndentedString(handler)).append("\n");
     sb.append("    runtime: ").append(toIndentedString(runtime)).append("\n");
