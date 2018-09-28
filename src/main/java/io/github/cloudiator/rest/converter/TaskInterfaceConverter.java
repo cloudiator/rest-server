@@ -31,6 +31,7 @@ public class TaskInterfaceConverter implements
       case SPARKINTERFACE:
         result = sparkInterfaceConverter.applyBack(taskInterface.getSparkInterface());
         result.setType(taskInterface.getSparkInterface().getClass().getSimpleName());
+        break;
       case TASKINTERFACE_NOT_SET:
       default:
         throw new AssertionError(
