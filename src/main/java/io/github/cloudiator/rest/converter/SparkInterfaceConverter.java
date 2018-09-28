@@ -31,9 +31,18 @@ public class SparkInterfaceConverter implements
     if (sparkInterface.getClassName() != null) {
       builder.setClassName(sparkInterface.getClassName());
     }
-    builder.addAllArguments(sparkInterface.getArguments())
-        .putAllSparkArguments(sparkInterface.getSparkArguments())
-        .putAllSparkConfiguration(sparkInterface.getSparkConfiguration());
+
+    if (sparkInterface.getArguments() != null) {
+      builder.addAllArguments(sparkInterface.getArguments());
+    }
+
+    if (sparkInterface.getSparkArguments() != null) {
+      builder.putAllSparkArguments(sparkInterface.getSparkArguments());
+    }
+
+    if (sparkInterface.getSparkConfiguration() != null) {
+      builder.putAllSparkConfiguration(sparkInterface.getSparkConfiguration());
+    }
 
     return builder.build();
   }
