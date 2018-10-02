@@ -27,7 +27,7 @@ public interface EncryptionApi {
 
     @ApiOperation(value = "", nickname = "encrypt", notes = "Encrypts the given string", response = Text.class, authorizations = {
         @Authorization(value = "ApiKeyAuth")
-    }, tags={ "misc", })
+    }, tags={ "security", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "OK", response = Text.class) })
     @RequestMapping(value = "/encryption/{text}",

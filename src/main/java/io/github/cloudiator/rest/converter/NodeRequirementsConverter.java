@@ -17,6 +17,7 @@ public class NodeRequirementsConverter implements
 
   @Override
   public NodeEntities.NodeRequirements apply(NodeRequirements nodeRequirements) {
+    //todo implement conversion of optimization
     return NodeEntities.NodeRequirements.newBuilder().addAllRequirements(
         nodeRequirements.getRequirements().stream()
             .map(requirementConverter).collect(

@@ -3,10 +3,12 @@ package io.github.cloudiator.rest.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.github.cloudiator.rest.model.NodeRequirements;
 import io.github.cloudiator.rest.model.Optimization;
+import io.github.cloudiator.rest.model.Requirement;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import java.util.ArrayList;
+import java.util.List;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -19,13 +21,22 @@ import javax.validation.constraints.*;
 
 public class MatchmakingRequest   {
   @JsonProperty("requirements")
-  private NodeRequirements requirements = null;
+  @Valid
+  private List<Requirement> requirements = null;
 
   @JsonProperty("optimization")
   private Optimization optimization = null;
 
-  public MatchmakingRequest requirements(NodeRequirements requirements) {
+  public MatchmakingRequest requirements(List<Requirement> requirements) {
     this.requirements = requirements;
+    return this;
+  }
+
+  public MatchmakingRequest addRequirementsItem(Requirement requirementsItem) {
+    if (this.requirements == null) {
+      this.requirements = new ArrayList<Requirement>();
+    }
+    this.requirements.add(requirementsItem);
     return this;
   }
 
@@ -37,11 +48,11 @@ public class MatchmakingRequest   {
 
   @Valid
 
-  public NodeRequirements getRequirements() {
+  public List<Requirement> getRequirements() {
     return requirements;
   }
 
-  public void setRequirements(NodeRequirements requirements) {
+  public void setRequirements(List<Requirement> requirements) {
     this.requirements = requirements;
   }
 
