@@ -57,6 +57,7 @@ src/main/java/io/github/cloudiator/rest/api/QueueApiController.java
 
 src/main/java/io/github/cloudiator/rest/api/EncryptionApiController.java
 src/main/java/io/github/cloudiator/rest/api/DecryptionApiController.java
+src/main/java/io/github/cloudiator/rest/api/SecureStoreApiController.java
 
 
 # Ignore Exceptionhandling
