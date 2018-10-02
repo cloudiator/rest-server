@@ -104,9 +104,12 @@ public class SecureStoreApiController implements SecureStoreApi {
         throw new ApiException(400, "Value must not be null or empty");
       }
 
+      final String tenant = UserInfo.of(request).tenant();
+
       try {
         final SecureStoreResponse secureStoreResponse = secureStoreService.storeSecurely(
-            SecureStoreRequest.newBuilder().setKey(key).setValue(value.getContent()).build());
+            SecureStoreRequest.newBuilder().setUserId(tenant).setKey(key)
+                .setValue(value.getContent()).build());
 
         return new ResponseEntity<>(new Text().content(secureStoreResponse.getEncryptedValue()),
             HttpStatus.OK);
