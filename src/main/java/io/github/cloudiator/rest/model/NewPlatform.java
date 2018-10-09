@@ -72,7 +72,7 @@ public class NewPlatform   {
     return this;
   }
 
-   /**
+  /**
    * Human-readable name
    * @return name
   **/
@@ -93,7 +93,7 @@ public class NewPlatform   {
     return this;
   }
 
-   /**
+  /**
    * PaaS stack type
    * @return type
   **/
@@ -113,7 +113,7 @@ public class NewPlatform   {
     return this;
   }
 
-   /**
+  /**
    * Get api
    * @return api
   **/
@@ -135,7 +135,7 @@ public class NewPlatform   {
     return this;
   }
 
-   /**
+  /**
    * Get credential
    * @return credential
   **/
@@ -157,7 +157,7 @@ public class NewPlatform   {
     return this;
   }
 
-   /**
+  /**
    * URI where the api of this platform provider can be accessed.
    * @return endpoint
   **/

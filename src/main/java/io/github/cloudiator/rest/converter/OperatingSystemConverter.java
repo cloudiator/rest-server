@@ -1,5 +1,6 @@
 package io.github.cloudiator.rest.converter;
 
+import de.uniulm.omi.cloudiator.util.TwoWayConverter;
 import io.github.cloudiator.rest.model.OperatingSystem;
 import io.github.cloudiator.rest.model.OperatingSystemFamily;
 import io.github.cloudiator.rest.model.OperatingSystemType;

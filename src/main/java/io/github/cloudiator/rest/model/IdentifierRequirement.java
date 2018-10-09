@@ -31,7 +31,7 @@ public class IdentifierRequirement extends Requirement  {
     return this;
   }
 
-   /**
+  /**
    * Get hardwareId
    * @return hardwareId
   **/
@@ -51,7 +51,7 @@ public class IdentifierRequirement extends Requirement  {
     return this;
   }
 
-   /**
+  /**
    * Get locationId
    * @return locationId
   **/
@@ -71,7 +71,7 @@ public class IdentifierRequirement extends Requirement  {
     return this;
   }
 
-   /**
+  /**
    * Get imageId
    * @return imageId
   **/

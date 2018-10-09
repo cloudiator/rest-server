@@ -40,7 +40,7 @@ public class NodeCandidate   {
     return this;
   }
 
-   /**
+  /**
    * Get price
    * @return price
   **/
@@ -60,7 +60,7 @@ public class NodeCandidate   {
     return this;
   }
 
-   /**
+  /**
    * Get cloud
    * @return cloud
   **/
@@ -81,7 +81,7 @@ public class NodeCandidate   {
     return this;
   }
 
-   /**
+  /**
    * Get image
    * @return image
   **/
@@ -102,7 +102,7 @@ public class NodeCandidate   {
     return this;
   }
 
-   /**
+  /**
    * Get hardware
    * @return hardware
   **/
@@ -123,7 +123,7 @@ public class NodeCandidate   {
     return this;
   }
 
-   /**
+  /**
    * Get location
    * @return location
   **/

@@ -33,7 +33,7 @@ public class NewPlatformHardware   {
     return this;
   }
 
-   /**
+  /**
    * Human-readable name for the hardware
    * @return name
   **/
@@ -54,7 +54,7 @@ public class NewPlatformHardware   {
     return this;
   }
 
-   /**
+  /**
    * Number of cores
    * @return cores
   **/
@@ -75,7 +75,7 @@ public class NewPlatformHardware   {
     return this;
   }
 
-   /**
+  /**
    * Amount of RAM
    * @return ram
   **/
@@ -96,7 +96,7 @@ public class NewPlatformHardware   {
     return this;
   }
 
-   /**
+  /**
    * Amount of disk space
    * @return disk
   **/

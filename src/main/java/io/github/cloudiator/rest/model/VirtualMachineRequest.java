@@ -30,7 +30,7 @@ public class VirtualMachineRequest   {
     return this;
   }
 
-   /**
+  /**
    * Get image
    * @return image
   **/
@@ -50,7 +50,7 @@ public class VirtualMachineRequest   {
     return this;
   }
 
-   /**
+  /**
    * Get hardware
    * @return hardware
   **/
@@ -70,7 +70,7 @@ public class VirtualMachineRequest   {
     return this;
   }
 
-   /**
+  /**
    * Get location
    * @return location
   **/

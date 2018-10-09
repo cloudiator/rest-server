@@ -3,6 +3,7 @@ package io.github.cloudiator.rest.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import io.github.cloudiator.rest.model.Optimization;
 import io.github.cloudiator.rest.model.Requirement;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -13,15 +14,18 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * Array of Requirements. Represents a request to create a new node fullfilling the given requirements 
+ * Issues a request to the matchmaking component 
  */
-@ApiModel(description = "Array of Requirements. Represents a request to create a new node fullfilling the given requirements ")
+@ApiModel(description = "Issues a request to the matchmaking component ")
 @Validated
 
 public class NodeRequirements   {
   @JsonProperty("requirements")
   @Valid
   private List<Requirement> requirements = null;
+
+  @JsonProperty("optimization")
+  private Optimization optimization = null;
 
   public NodeRequirements requirements(List<Requirement> requirements) {
     this.requirements = requirements;
@@ -36,7 +40,7 @@ public class NodeRequirements   {
     return this;
   }
 
-   /**
+  /**
    * Get requirements
    * @return requirements
   **/
@@ -52,6 +56,27 @@ public class NodeRequirements   {
     this.requirements = requirements;
   }
 
+  public NodeRequirements optimization(Optimization optimization) {
+    this.optimization = optimization;
+    return this;
+  }
+
+  /**
+   * Get optimization
+   * @return optimization
+  **/
+  @ApiModelProperty(value = "")
+
+  @Valid
+
+  public Optimization getOptimization() {
+    return optimization;
+  }
+
+  public void setOptimization(Optimization optimization) {
+    this.optimization = optimization;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -62,12 +87,13 @@ public class NodeRequirements   {
       return false;
     }
     NodeRequirements nodeRequirements = (NodeRequirements) o;
-    return Objects.equals(this.requirements, nodeRequirements.requirements);
+    return Objects.equals(this.requirements, nodeRequirements.requirements) &&
+        Objects.equals(this.optimization, nodeRequirements.optimization);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(requirements);
+    return Objects.hash(requirements, optimization);
   }
 
   @Override
@@ -76,6 +102,7 @@ public class NodeRequirements   {
     sb.append("class NodeRequirements {\n");
     
     sb.append("    requirements: ").append(toIndentedString(requirements)).append("\n");
+    sb.append("    optimization: ").append(toIndentedString(optimization)).append("\n");
     sb.append("}");
     return sb.toString();
   }

@@ -47,7 +47,7 @@ public class PlatformEnvironment   {
     return this;
   }
 
-   /**
+  /**
    * Human-readable name
    * @return name
   **/
@@ -68,7 +68,7 @@ public class PlatformEnvironment   {
     return this;
   }
 
-   /**
+  /**
    * Get platform
    * @return platform
   **/
@@ -89,7 +89,7 @@ public class PlatformEnvironment   {
     return this;
   }
 
-   /**
+  /**
    * Get platformHardware
    * @return platformHardware
   **/
@@ -111,7 +111,7 @@ public class PlatformEnvironment   {
     return this;
   }
 
-   /**
+  /**
    * Get platformRuntime
    * @return platformRuntime
   **/
@@ -141,7 +141,7 @@ public class PlatformEnvironment   {
     return this;
   }
 
-   /**
+  /**
    * Get platformService
    * @return platformService
   **/
@@ -162,7 +162,7 @@ public class PlatformEnvironment   {
     return this;
   }
 
-   /**
+  /**
    * Unique identifier
    * @return id
   **/

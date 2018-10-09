@@ -3,7 +3,7 @@ package io.github.cloudiator.rest.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.github.cloudiator.rest.model.ExecutionEnvironment;
+import io.github.cloudiator.rest.model.Optimization;
 import io.github.cloudiator.rest.model.Port;
 import io.github.cloudiator.rest.model.Requirement;
 import io.github.cloudiator.rest.model.TaskInterface;
@@ -17,9 +17,9 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * Represents a task of a job. 
+ * Represents a new task of a job. 
  */
-@ApiModel(description = "Represents a task of a job. ")
+@ApiModel(description = "Represents a new task of a job. ")
 @Validated
 
 public class Task   {
@@ -34,8 +34,8 @@ public class Task   {
   @Valid
   private List<TaskInterface> interfaces = null;
 
-  @JsonProperty("executionEnvironment")
-  private ExecutionEnvironment executionEnvironment = null;
+  @JsonProperty("optimization")
+  private Optimization optimization = null;
 
   @JsonProperty("requirements")
   @Valid
@@ -49,7 +49,7 @@ public class Task   {
     return this;
   }
 
-   /**
+  /**
    * Human-readable name. Uniquely identifies a task.
    * @return name
   **/
@@ -78,7 +78,7 @@ public class Task   {
     return this;
   }
 
-   /**
+  /**
    * Get ports
    * @return ports
   **/
@@ -107,7 +107,7 @@ public class Task   {
     return this;
   }
 
-   /**
+  /**
    * Interfaces of this task
    * @return interfaces
   **/
@@ -123,26 +123,25 @@ public class Task   {
     this.interfaces = interfaces;
   }
 
-  public Task executionEnvironment(ExecutionEnvironment executionEnvironment) {
-    this.executionEnvironment = executionEnvironment;
+  public Task optimization(Optimization optimization) {
+    this.optimization = optimization;
     return this;
   }
 
-   /**
-   * Get executionEnvironment
-   * @return executionEnvironment
+  /**
+   * Get optimization
+   * @return optimization
   **/
-  @ApiModelProperty(required = true, value = "")
-  @NotNull
+  @ApiModelProperty(value = "")
 
   @Valid
 
-  public ExecutionEnvironment getExecutionEnvironment() {
-    return executionEnvironment;
+  public Optimization getOptimization() {
+    return optimization;
   }
 
-  public void setExecutionEnvironment(ExecutionEnvironment executionEnvironment) {
-    this.executionEnvironment = executionEnvironment;
+  public void setOptimization(Optimization optimization) {
+    this.optimization = optimization;
   }
 
   public Task requirements(List<Requirement> requirements) {
@@ -158,7 +157,7 @@ public class Task   {
     return this;
   }
 
-   /**
+  /**
    * Get requirements
    * @return requirements
   **/
@@ -179,7 +178,7 @@ public class Task   {
     return this;
   }
 
-   /**
+  /**
    * Get taskType
    * @return taskType
   **/
@@ -209,14 +208,14 @@ public class Task   {
     return Objects.equals(this.name, task.name) &&
         Objects.equals(this.ports, task.ports) &&
         Objects.equals(this.interfaces, task.interfaces) &&
-        Objects.equals(this.executionEnvironment, task.executionEnvironment) &&
+        Objects.equals(this.optimization, task.optimization) &&
         Objects.equals(this.requirements, task.requirements) &&
         Objects.equals(this.taskType, task.taskType);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, ports, interfaces, executionEnvironment, requirements, taskType);
+    return Objects.hash(name, ports, interfaces, optimization, requirements, taskType);
   }
 
   @Override
@@ -227,7 +226,7 @@ public class Task   {
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    ports: ").append(toIndentedString(ports)).append("\n");
     sb.append("    interfaces: ").append(toIndentedString(interfaces)).append("\n");
-    sb.append("    executionEnvironment: ").append(toIndentedString(executionEnvironment)).append("\n");
+    sb.append("    optimization: ").append(toIndentedString(optimization)).append("\n");
     sb.append("    requirements: ").append(toIndentedString(requirements)).append("\n");
     sb.append("    taskType: ").append(toIndentedString(taskType)).append("\n");
     sb.append("}");

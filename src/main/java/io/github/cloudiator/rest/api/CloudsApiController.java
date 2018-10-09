@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import org.cloudiator.messages.Cloud.CloudDeletedResponse;
 import org.cloudiator.messages.entities.IaasEntities;
 import org.cloudiator.messaging.ResponseException;
 import org.cloudiator.messaging.services.CloudService;
@@ -94,30 +95,26 @@ public class CloudsApiController implements CloudsApi {
 
   public ResponseEntity<Void> deleteCloud(
       @ApiParam(value = "Unique identifier of the resource", required = true) @PathVariable("id") String id) {
-    String accept = request.getHeader("Accept");
-    if (accept != null && accept.contains("application/json")) {
-      try {
-        // inputvalidation+preparation
-        if (id.length() != 32) {
-          throw new ApiException(400, "ID not valid. Length must be 32");
-        }
-        org.cloudiator.messages.Cloud.DeleteCloudRequest deleteCloudRequest = org.cloudiator.messages.Cloud.DeleteCloudRequest
-            .newBuilder().setUserId(UserInfo.of(request).tenant()).setCloudId(id).build();
-        org.cloudiator.messages.Cloud.CloudDeletedResponse cloudDeletedResponse = null;
 
-        // to Kafka
-        cloudDeletedResponse = cloudService.deleteCloud(deleteCloudRequest);
-
-        System.out.println("----------------- response -----------\n" + cloudDeletedResponse);
-        System.out.println("------ done ---------");
-
-        return new ResponseEntity<>(HttpStatus.OK);
-      } catch (ResponseException re) {
-        throw new ApiException(re.code(), re.getMessage());
+    try {
+      // inputvalidation+preparation
+      if (id.length() != 32) {
+        throw new ApiException(400, "ID not valid. Length must be 32");
       }
-    }
+      org.cloudiator.messages.Cloud.DeleteCloudRequest deleteCloudRequest = org.cloudiator.messages.Cloud.DeleteCloudRequest
+          .newBuilder().setUserId(UserInfo.of(request).tenant()).setCloudId(id).build();
 
-    return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+      // to Kafka
+      final CloudDeletedResponse cloudDeletedResponse = cloudService
+          .deleteCloud(deleteCloudRequest);
+
+      System.out.println("----------------- response -----------\n" + cloudDeletedResponse);
+      System.out.println("------ done ---------");
+
+      return new ResponseEntity<>(HttpStatus.OK);
+    } catch (ResponseException re) {
+      throw new ApiException(re.code(), re.getMessage());
+    }
   }
 
   public ResponseEntity<Cloud> findCloud(

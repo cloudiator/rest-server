@@ -11,13 +11,14 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
 import java.util.List;
+import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * a (minimal) node to debug the Cloudiator tool installation
+ * Node
  */
-@ApiModel(description = "a (minimal) node to debug the Cloudiator tool installation")
+@Validated
 
 public class Node   {
   @JsonProperty("nodeId")
@@ -65,6 +66,7 @@ public class Node   {
   private NodeTypeEnum nodeType = null;
 
   @JsonProperty("ipAddresses")
+  @Valid
   private List<IpAddress> ipAddresses = null;
 
   @JsonProperty("nodeProperties")
@@ -75,7 +77,7 @@ public class Node   {
     return this;
   }
 
-   /**
+  /**
    * Get nodeId
    * @return nodeId
   **/
@@ -95,7 +97,7 @@ public class Node   {
     return this;
   }
 
-   /**
+  /**
    * Get loginCredential
    * @return loginCredential
   **/
@@ -116,7 +118,7 @@ public class Node   {
     return this;
   }
 
-   /**
+  /**
    * Get nodeType
    * @return nodeType
   **/
@@ -144,7 +146,7 @@ public class Node   {
     return this;
   }
 
-   /**
+  /**
    * Get ipAddresses
    * @return ipAddresses
   **/
@@ -165,7 +167,7 @@ public class Node   {
     return this;
   }
 
-   /**
+  /**
    * Get nodeProperties
    * @return nodeProperties
   **/

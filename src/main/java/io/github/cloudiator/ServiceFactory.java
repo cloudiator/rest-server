@@ -6,6 +6,7 @@ import de.uniulm.omi.cloudiator.util.configuration.Configuration;
 import org.cloudiator.messaging.kafka.KafkaContext;
 import org.cloudiator.messaging.kafka.KafkaMessagingModule;
 import org.cloudiator.messaging.services.CloudService;
+import org.cloudiator.messaging.services.EncryptionService;
 import org.cloudiator.messaging.services.HardwareService;
 import org.cloudiator.messaging.services.ImageService;
 import org.cloudiator.messaging.services.InstallationRequestService;
@@ -14,6 +15,8 @@ import org.cloudiator.messaging.services.LocationService;
 import org.cloudiator.messaging.services.MatchmakingService;
 import org.cloudiator.messaging.services.MessageServiceModule;
 import org.cloudiator.messaging.services.NodeService;
+import org.cloudiator.messaging.services.ProcessService;
+import org.cloudiator.messaging.services.SecureStoreService;
 import org.cloudiator.messaging.services.TaskService;
 import org.cloudiator.messaging.services.UserService;
 import org.cloudiator.messaging.services.VirtualMachineService;
@@ -79,5 +82,16 @@ public class ServiceFactory {
     return INJECTOR.getInstance(UserService.class);
   }
 
+  public EncryptionService createEncryptionService() {
+    return INJECTOR.getInstance(EncryptionService.class);
+  }
+
+  public ProcessService createProcessService() {
+    return INJECTOR.getInstance(ProcessService.class);
+  }
+
+  public SecureStoreService createSecureStoreService() {
+    return INJECTOR.getInstance(SecureStoreService.class);
+  }
 
 }

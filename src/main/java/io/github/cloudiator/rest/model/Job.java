@@ -4,6 +4,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.github.cloudiator.rest.model.Communication;
+import io.github.cloudiator.rest.model.JobNew;
 import io.github.cloudiator.rest.model.Requirement;
 import io.github.cloudiator.rest.model.Task;
 import io.swagger.annotations.ApiModel;
@@ -15,9 +16,9 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * Represents an job. An job is a logical group of tasks. 
+ * Represents a job in the system. A job is a logical group of tasks 
  */
-@ApiModel(description = "Represents an job. An job is a logical group of tasks. ")
+@ApiModel(description = "Represents a job in the system. A job is a logical group of tasks ")
 @Validated
 
 public class Job   {
@@ -36,12 +37,15 @@ public class Job   {
   @Valid
   private List<Requirement> requirements = null;
 
+  @JsonProperty("id")
+  private String id = null;
+
   public Job name(String name) {
     this.name = name;
     return this;
   }
 
-   /**
+  /**
    * Get name
    * @return name
   **/
@@ -70,7 +74,7 @@ public class Job   {
     return this;
   }
 
-   /**
+  /**
    * An array of tasks that form this application. 
    * @return tasks
   **/
@@ -99,7 +103,7 @@ public class Job   {
     return this;
   }
 
-   /**
+  /**
    * Get communications
    * @return communications
   **/
@@ -128,7 +132,7 @@ public class Job   {
     return this;
   }
 
-   /**
+  /**
    * Get requirements
    * @return requirements
   **/
@@ -144,6 +148,26 @@ public class Job   {
     this.requirements = requirements;
   }
 
+  public Job id(String id) {
+    this.id = id;
+    return this;
+  }
+
+  /**
+   * Get id
+   * @return id
+  **/
+  @ApiModelProperty(value = "")
+
+
+  public String getId() {
+    return id;
+  }
+
+  public void setId(String id) {
+    this.id = id;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -157,12 +181,13 @@ public class Job   {
     return Objects.equals(this.name, job.name) &&
         Objects.equals(this.tasks, job.tasks) &&
         Objects.equals(this.communications, job.communications) &&
-        Objects.equals(this.requirements, job.requirements);
+        Objects.equals(this.requirements, job.requirements) &&
+        Objects.equals(this.id, job.id);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, tasks, communications, requirements);
+    return Objects.hash(name, tasks, communications, requirements, id);
   }
 
   @Override
@@ -174,6 +199,7 @@ public class Job   {
     sb.append("    tasks: ").append(toIndentedString(tasks)).append("\n");
     sb.append("    communications: ").append(toIndentedString(communications)).append("\n");
     sb.append("    requirements: ").append(toIndentedString(requirements)).append("\n");
+    sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("}");
     return sb.toString();
   }

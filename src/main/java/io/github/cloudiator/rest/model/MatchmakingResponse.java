@@ -3,7 +3,7 @@ package io.github.cloudiator.rest.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.github.cloudiator.rest.model.VirtualMachineRequest;
+import io.github.cloudiator.rest.model.NodeCandidate;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
@@ -21,22 +21,22 @@ import javax.validation.constraints.*;
 public class MatchmakingResponse   {
   @JsonProperty("nodes")
   @Valid
-  private List<VirtualMachineRequest> nodes = null;
+  private List<NodeCandidate> nodes = null;
 
-  public MatchmakingResponse nodes(List<VirtualMachineRequest> nodes) {
+  public MatchmakingResponse nodes(List<NodeCandidate> nodes) {
     this.nodes = nodes;
     return this;
   }
 
-  public MatchmakingResponse addNodesItem(VirtualMachineRequest nodesItem) {
+  public MatchmakingResponse addNodesItem(NodeCandidate nodesItem) {
     if (this.nodes == null) {
-      this.nodes = new ArrayList<VirtualMachineRequest>();
+      this.nodes = new ArrayList<NodeCandidate>();
     }
     this.nodes.add(nodesItem);
     return this;
   }
 
-   /**
+  /**
    * Get nodes
    * @return nodes
   **/
@@ -44,11 +44,11 @@ public class MatchmakingResponse   {
 
   @Valid
 
-  public List<VirtualMachineRequest> getNodes() {
+  public List<NodeCandidate> getNodes() {
     return nodes;
   }
 
-  public void setNodes(List<VirtualMachineRequest> nodes) {
+  public void setNodes(List<NodeCandidate> nodes) {
     this.nodes = nodes;
   }
 

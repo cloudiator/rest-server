@@ -67,11 +67,9 @@ public class LoginApiController implements LoginApi {
           throw new ApiException(400,"PasswordInputError");
         }
 
-        String encodedPW = Base64.getEncoder().encodeToString(apilogin.getPassword().getBytes());
-
         UserEntities.Login kafkaLogin = UserEntities.Login.newBuilder()
             .setEmail(apilogin.getEmail())
-            .setPassword(encodedPW)
+            .setPassword(apilogin.getPassword())
             .setTenant(T2TConverter.apply(apilogin.getTenant()))
             .build();
 

@@ -1,28 +1,24 @@
 package io.github.cloudiator.rest.converter;
 
-import static org.junit.Assert.*;
-
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThat;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.cloudiator.rest.model.DockerInterface;
-import io.github.cloudiator.rest.model.ExecutionEnvironment;
 import io.github.cloudiator.rest.model.IdentifierRequirement;
-import io.github.cloudiator.rest.model.TaskType;
 import io.github.cloudiator.rest.model.LanceInterface;
+import io.github.cloudiator.rest.model.LanceInterface.ContainerTypeEnum;
 import io.github.cloudiator.rest.model.OclRequirement;
 import io.github.cloudiator.rest.model.PortProvided;
 import io.github.cloudiator.rest.model.PortRequired;
-
 import io.github.cloudiator.rest.model.Task;
+import io.github.cloudiator.rest.model.TaskType;
 import java.io.IOException;
 import org.cloudiator.messages.entities.CommonEntities;
 import org.cloudiator.messages.entities.TaskEntities;
-
-
+import org.cloudiator.messages.entities.TaskEntities.ContainerType;
 import org.junit.Test;
-
-import static org.junit.Assert.*;
-import static org.hamcrest.Matchers.*;
 
 public class TaskConverterTest {
 
@@ -84,6 +80,7 @@ public class TaskConverterTest {
                 .setDockerImage("DockerImage").build()
         ).build();
     this.restLanceInterface = new LanceInterface()
+        .containerType(ContainerTypeEnum.BOTH)
         .init("init").preInstall("preInstall").install("install").postInstall("postInstall")
         .startDetection("startDetection").preStart("preStart").start("start").postStart("postStart")
         .stopDetection("stopDetection").preStop("preStop").stop("stop").postStop("postStop")
@@ -92,6 +89,7 @@ public class TaskConverterTest {
     this.iaasTaskLanceInterface = TaskEntities.TaskInterface.newBuilder()
         .setLanceInterface(
             TaskEntities.LanceInterface.newBuilder()
+                .setContainerType(ContainerType.BOTH)
                 .setInit("init").setPreInstall("preInstall").setInstall("install")
                 .setPostInstall("postInstall")
                 .setStartDetection("startDetection").setPreStart("preStart").setStart("start")
@@ -128,10 +126,7 @@ public class TaskConverterTest {
     //Task
     this.restTask = new Task()
         .name("TaskTest")
-
         .taskType(TaskType.BATCH)
-        .executionEnvironment(ExecutionEnvironment.LANCE)
-
         .addPortsItem(restProvidedPort)
         .addPortsItem(restRequiredPort)
         .addInterfacesItem(restDockerInterface)
@@ -141,7 +136,6 @@ public class TaskConverterTest {
     this.iaasTask = TaskEntities.Task.newBuilder()
         .setName("TaskTest")
         .setTaskType(TaskEntities.TaskType.BATCH)
-        .setExecutionEnvironment(TaskEntities.ExecutionEnvironment.LANCE)
         .addPorts(iaasPortProvidedPort)
         .addPorts(iaasPortRequiredPort)
         .addInterfaces(iaasTaskDockerInterface)

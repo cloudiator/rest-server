@@ -10,7 +10,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * Part of Location Represents a geographical location
+ * Part of Location Represents a geographical location 
  */
 @ApiModel(description = "Part of Location Represents a geographical location ")
 @Validated
@@ -33,7 +33,7 @@ public class GeoLocation   {
     return this;
   }
 
-   /**
+  /**
    * City of the location
    * @return city
   **/
@@ -53,7 +53,7 @@ public class GeoLocation   {
     return this;
   }
 
-   /**
+  /**
    * An ISO 3166-1 alpha-2 country code
    * @return country
   **/
@@ -73,7 +73,7 @@ public class GeoLocation   {
     return this;
   }
 
-   /**
+  /**
    * Latitude of the location in decimal degrees
    * @return latitude
   **/
@@ -93,7 +93,7 @@ public class GeoLocation   {
     return this;
   }
 
-   /**
+  /**
    * Longitude of the location in decimal degrees
    * @return longitude
   **/
@@ -133,7 +133,7 @@ public class GeoLocation   {
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class GeoLocation {\n");
-
+    
     sb.append("    city: ").append(toIndentedString(city)).append("\n");
     sb.append("    country: ").append(toIndentedString(country)).append("\n");
     sb.append("    latitude: ").append(toIndentedString(latitude)).append("\n");
@@ -153,3 +153,4 @@ public class GeoLocation   {
     return o.toString().replace("\n", "\n    ");
   }
 }
+

@@ -76,7 +76,7 @@ public class Platform   {
     return this;
   }
 
-   /**
+  /**
    * Human-readable name
    * @return name
   **/
@@ -97,7 +97,7 @@ public class Platform   {
     return this;
   }
 
-   /**
+  /**
    * PaaS stack type
    * @return type
   **/
@@ -117,7 +117,7 @@ public class Platform   {
     return this;
   }
 
-   /**
+  /**
    * Get api
    * @return api
   **/
@@ -139,7 +139,7 @@ public class Platform   {
     return this;
   }
 
-   /**
+  /**
    * Get credential
    * @return credential
   **/
@@ -161,7 +161,7 @@ public class Platform   {
     return this;
   }
 
-   /**
+  /**
    * URI where the api of this platform provider can be accessed.
    * @return endpoint
   **/
@@ -181,7 +181,7 @@ public class Platform   {
     return this;
   }
 
-   /**
+  /**
    * Unique identifier for the platform
    * @return id
   **/

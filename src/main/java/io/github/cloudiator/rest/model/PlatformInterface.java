@@ -25,7 +25,7 @@ public class PlatformInterface extends TaskInterface  {
     return this;
   }
 
-   /**
+  /**
    * URL to the source code repository (currently only git is supported) 
    * @return sourceRepository
   **/

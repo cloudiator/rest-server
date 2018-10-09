@@ -7,6 +7,7 @@ import io.github.cloudiator.rest.model.GeoLocation;
 import io.github.cloudiator.rest.model.OperatingSystem;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
@@ -14,6 +15,7 @@ import javax.validation.constraints.*;
  * attributes defining a node
  */
 @ApiModel(description = "attributes defining a node")
+@Validated
 
 public class NodeProperties   {
   @JsonProperty("numberOfCores")
@@ -36,7 +38,7 @@ public class NodeProperties   {
     return this;
   }
 
-   /**
+  /**
    * Get numberOfCores
    * @return numberOfCores
   **/
@@ -56,7 +58,7 @@ public class NodeProperties   {
     return this;
   }
 
-   /**
+  /**
    * Get memory
    * @return memory
   **/
@@ -76,7 +78,7 @@ public class NodeProperties   {
     return this;
   }
 
-   /**
+  /**
    * Get disk
    * @return disk
   **/
@@ -96,7 +98,7 @@ public class NodeProperties   {
     return this;
   }
 
-   /**
+  /**
    * Get operatingSystem
    * @return operatingSystem
   **/
@@ -117,7 +119,7 @@ public class NodeProperties   {
     return this;
   }
 
-   /**
+  /**
    * Get geoLocation
    * @return geoLocation
   **/

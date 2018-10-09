@@ -10,8 +10,9 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * LoginCredential
+ * Credentials for remote access to the virtual machine. Typically, one of password or privateKey is set. 
  */
+@ApiModel(description = "Credentials for remote access to the virtual machine. Typically, one of password or privateKey is set. ")
 @Validated
 
 public class LoginCredential   {
@@ -29,11 +30,11 @@ public class LoginCredential   {
     return this;
   }
 
-   /**
-   * username for VM 
+  /**
+   * The username for login
    * @return username
   **/
-  @ApiModelProperty(example = "ubuntu", value = "username for VM ")
+  @ApiModelProperty(value = "The username for login")
 
 
   public String getUsername() {
@@ -49,11 +50,11 @@ public class LoginCredential   {
     return this;
   }
 
-   /**
-   * password for VM (either password or key need to be set) 
+  /**
+   * The password for login
    * @return password
   **/
-  @ApiModelProperty(value = "password for VM (either password or key need to be set) ")
+  @ApiModelProperty(value = "The password for login")
 
 
   public String getPassword() {
@@ -69,11 +70,11 @@ public class LoginCredential   {
     return this;
   }
 
-   /**
-   * private SSH key for VM (either password or key need to be set)     
+  /**
+   * The private key for login
    * @return privateKey
   **/
-  @ApiModelProperty(value = "private SSH key for VM (either password or key need to be set)     ")
+  @ApiModelProperty(value = "The private key for login")
 
 
   public String getPrivateKey() {

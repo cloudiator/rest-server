@@ -1,8 +1,10 @@
 package io.github.cloudiator.rest.converter;
 
+import de.uniulm.omi.cloudiator.util.TwoWayConverter;
 import io.github.cloudiator.rest.model.InstallationRequest;
 import io.github.cloudiator.rest.model.Tool;
 import org.cloudiator.messages.InstallationEntities;
+import org.cloudiator.messages.InstallationEntities.Installation;
 
 /**
  * Created by Daniel Seybold on 12.09.2017.
@@ -10,7 +12,7 @@ import org.cloudiator.messages.InstallationEntities;
  * converts REST model into protobuf message and vice versa
  */
 public class InstallationRequestConverter implements
-    TwoWayConverter<InstallationRequest, InstallationEntities.Installation> {
+    TwoWayConverter<InstallationRequest, Installation> {
 
   private final ToolConverter toolConverter = new ToolConverter();
   private final NodeConverter nodeConverter = new NodeConverter();

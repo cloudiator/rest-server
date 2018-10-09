@@ -3,6 +3,7 @@ package io.github.cloudiator.rest.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 import io.github.cloudiator.rest.model.TaskInterface;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -17,6 +18,42 @@ import javax.validation.constraints.*;
 @Validated
 
 public class LanceInterface extends TaskInterface  {
+  /**
+   * The container type that lance should use. Can be DOCKER to force a docker deployment, NATIVE to force a plain container deployment or BOTH to let the system derive the container type. 
+   */
+  public enum ContainerTypeEnum {
+    NATIVE("NATIVE"),
+    
+    DOCKER("DOCKER"),
+    
+    BOTH("BOTH");
+
+    private String value;
+
+    ContainerTypeEnum(String value) {
+      this.value = value;
+    }
+
+    @Override
+    @JsonValue
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    @JsonCreator
+    public static ContainerTypeEnum fromValue(String text) {
+      for (ContainerTypeEnum b : ContainerTypeEnum.values()) {
+        if (String.valueOf(b.value).equals(text)) {
+          return b;
+        }
+      }
+      return null;
+    }
+  }
+
+  @JsonProperty("containerType")
+  private ContainerTypeEnum containerType = null;
+
   @JsonProperty("init")
   private String init = null;
 
@@ -56,12 +93,32 @@ public class LanceInterface extends TaskInterface  {
   @JsonProperty("shutdown")
   private String shutdown = null;
 
+  public LanceInterface containerType(ContainerTypeEnum containerType) {
+    this.containerType = containerType;
+    return this;
+  }
+
+  /**
+   * The container type that lance should use. Can be DOCKER to force a docker deployment, NATIVE to force a plain container deployment or BOTH to let the system derive the container type. 
+   * @return containerType
+  **/
+  @ApiModelProperty(value = "The container type that lance should use. Can be DOCKER to force a docker deployment, NATIVE to force a plain container deployment or BOTH to let the system derive the container type. ")
+
+
+  public ContainerTypeEnum getContainerType() {
+    return containerType;
+  }
+
+  public void setContainerType(ContainerTypeEnum containerType) {
+    this.containerType = containerType;
+  }
+
   public LanceInterface init(String init) {
     this.init = init;
     return this;
   }
 
-   /**
+  /**
    * Initialization action. 
    * @return init
   **/
@@ -81,7 +138,7 @@ public class LanceInterface extends TaskInterface  {
     return this;
   }
 
-   /**
+  /**
    * Executed before installation action. Can be e.g. used for downloading binaries. 
    * @return preInstall
   **/
@@ -101,7 +158,7 @@ public class LanceInterface extends TaskInterface  {
     return this;
   }
 
-   /**
+  /**
    * Used for installing the application. 
    * @return install
   **/
@@ -121,7 +178,7 @@ public class LanceInterface extends TaskInterface  {
     return this;
   }
 
-   /**
+  /**
    * Used for configuration of the application component. First action where Lance environment variables are set. 
    * @return postInstall
   **/
@@ -141,7 +198,7 @@ public class LanceInterface extends TaskInterface  {
     return this;
   }
 
-   /**
+  /**
    * Called before starting the application. Can be e.g. used for configuration an environment. 
    * @return preStart
   **/
@@ -161,7 +218,7 @@ public class LanceInterface extends TaskInterface  {
     return this;
   }
 
-   /**
+  /**
    * Starts the component. Needs to return for PlainContainer and not return for Docker. 
    * @return start
   **/
@@ -181,7 +238,7 @@ public class LanceInterface extends TaskInterface  {
     return this;
   }
 
-   /**
+  /**
    * Detects the start of the application. Required if the application does not start instantianous. 
    * @return startDetection
   **/
@@ -201,7 +258,7 @@ public class LanceInterface extends TaskInterface  {
     return this;
   }
 
-   /**
+  /**
    * Checks if the application has stopped. Is periodically checked to detect a crash of the application. 
    * @return stopDetection
   **/
@@ -221,7 +278,7 @@ public class LanceInterface extends TaskInterface  {
     return this;
   }
 
-   /**
+  /**
    * Executed after the application has successfully started. 
    * @return postStart
   **/
@@ -241,7 +298,7 @@ public class LanceInterface extends TaskInterface  {
     return this;
   }
 
-   /**
+  /**
    * Called before the application is stopped. 
    * @return preStop
   **/
@@ -261,7 +318,7 @@ public class LanceInterface extends TaskInterface  {
     return this;
   }
 
-   /**
+  /**
    * Stops the application. 
    * @return stop
   **/
@@ -281,7 +338,7 @@ public class LanceInterface extends TaskInterface  {
     return this;
   }
 
-   /**
+  /**
    * Executed after the application is successfully stopped. 
    * @return postStop
   **/
@@ -301,7 +358,7 @@ public class LanceInterface extends TaskInterface  {
     return this;
   }
 
-   /**
+  /**
    * Executed before the container is shutdown. Can be used to backup state. 
    * @return shutdown
   **/
@@ -326,7 +383,8 @@ public class LanceInterface extends TaskInterface  {
       return false;
     }
     LanceInterface lanceInterface = (LanceInterface) o;
-    return Objects.equals(this.init, lanceInterface.init) &&
+    return Objects.equals(this.containerType, lanceInterface.containerType) &&
+        Objects.equals(this.init, lanceInterface.init) &&
         Objects.equals(this.preInstall, lanceInterface.preInstall) &&
         Objects.equals(this.install, lanceInterface.install) &&
         Objects.equals(this.postInstall, lanceInterface.postInstall) &&
@@ -344,7 +402,7 @@ public class LanceInterface extends TaskInterface  {
 
   @Override
   public int hashCode() {
-    return Objects.hash(init, preInstall, install, postInstall, preStart, start, startDetection, stopDetection, postStart, preStop, stop, postStop, shutdown, super.hashCode());
+    return Objects.hash(containerType, init, preInstall, install, postInstall, preStart, start, startDetection, stopDetection, postStart, preStop, stop, postStop, shutdown, super.hashCode());
   }
 
   @Override
@@ -352,6 +410,7 @@ public class LanceInterface extends TaskInterface  {
     StringBuilder sb = new StringBuilder();
     sb.append("class LanceInterface {\n");
     sb.append("    ").append(toIndentedString(super.toString())).append("\n");
+    sb.append("    containerType: ").append(toIndentedString(containerType)).append("\n");
     sb.append("    init: ").append(toIndentedString(init)).append("\n");
     sb.append("    preInstall: ").append(toIndentedString(preInstall)).append("\n");
     sb.append("    install: ").append(toIndentedString(install)).append("\n");

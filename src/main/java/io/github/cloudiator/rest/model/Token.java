@@ -33,7 +33,7 @@ public class Token   {
     return this;
   }
 
-   /**
+  /**
    * The token
    * @return token
   **/
@@ -54,7 +54,7 @@ public class Token   {
     return this;
   }
 
-   /**
+  /**
    * owner of the token
    * @return owner
   **/
@@ -74,7 +74,7 @@ public class Token   {
     return this;
   }
 
-   /**
+  /**
    * SystemMillis Token was issued
    * @return issuedTime
   **/
@@ -94,7 +94,7 @@ public class Token   {
     return this;
   }
 
-   /**
+  /**
    * SystemMillis the Token expires
    * @return expireTime
   **/

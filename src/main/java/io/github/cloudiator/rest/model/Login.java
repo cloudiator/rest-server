@@ -31,7 +31,7 @@ public class Login   {
     return this;
   }
 
-   /**
+  /**
    * EMail address of the user
    * @return email
   **/
@@ -52,7 +52,7 @@ public class Login   {
     return this;
   }
 
-   /**
+  /**
    * Get tenant
    * @return tenant
   **/
@@ -74,7 +74,7 @@ public class Login   {
     return this;
   }
 
-   /**
+  /**
    * Password of the user
    * @return password
   **/

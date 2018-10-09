@@ -44,7 +44,7 @@ public class Cloud   {
     return this;
   }
 
-   /**
+  /**
    * URI where the api of this cloud provider can be accessed.
    * @return endpoint
   **/
@@ -64,7 +64,7 @@ public class Cloud   {
     return this;
   }
 
-   /**
+  /**
    * Get cloudType
    * @return cloudType
   **/
@@ -86,7 +86,7 @@ public class Cloud   {
     return this;
   }
 
-   /**
+  /**
    * Get api
    * @return api
   **/
@@ -108,7 +108,7 @@ public class Cloud   {
     return this;
   }
 
-   /**
+  /**
    * Get credential
    * @return credential
   **/
@@ -130,7 +130,7 @@ public class Cloud   {
     return this;
   }
 
-   /**
+  /**
    * Get cloudConfiguration
    * @return cloudConfiguration
   **/
@@ -151,7 +151,7 @@ public class Cloud   {
     return this;
   }
 
-   /**
+  /**
    * Unique identifier for the cloud
    * @return id
   **/

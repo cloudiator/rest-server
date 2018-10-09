@@ -1,5 +1,6 @@
 package io.github.cloudiator.rest.converter;
 
+import de.uniulm.omi.cloudiator.util.TwoWayConverter;
 import io.github.cloudiator.rest.model.Node.NodeTypeEnum;
 import org.cloudiator.messages.NodeEntities.NodeType;
 
@@ -10,14 +11,27 @@ public class NodeTypeConverter implements TwoWayConverter<NodeTypeEnum, NodeType
 
   @Override
   public NodeTypeEnum applyBack(NodeType nodeType) {
-    return null;
+
+    switch (nodeType) {
+      case VM:
+        return NodeTypeEnum.VM;
+      case BYON:
+        return NodeTypeEnum.BYON;
+      case CONTAINER:
+        return NodeTypeEnum.CONTAINER;
+      case UNKNOWN_TYPE:
+        return NodeTypeEnum.UNKNOWN_TYPE;
+      case UNRECOGNIZED:
+      default:
+        throw new AssertionError("Unrecognized nodeType " + nodeType);
+    }
   }
 
   @Override
   public NodeType apply(NodeTypeEnum nodeTypeEnum) {
     //from REST to protobuf
 
-    switch (nodeTypeEnum){
+    switch (nodeTypeEnum) {
       case BYON:
         return NodeType.BYON;
       case CONTAINER:

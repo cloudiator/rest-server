@@ -3,9 +3,12 @@ package io.github.cloudiator.rest.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.github.cloudiator.rest.model.NodeRequirements;
+import io.github.cloudiator.rest.model.Optimization;
+import io.github.cloudiator.rest.model.Requirement;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import java.util.ArrayList;
+import java.util.List;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -18,14 +21,26 @@ import javax.validation.constraints.*;
 
 public class MatchmakingRequest   {
   @JsonProperty("requirements")
-  private NodeRequirements requirements = null;
+  @Valid
+  private List<Requirement> requirements = null;
 
-  public MatchmakingRequest requirements(NodeRequirements requirements) {
+  @JsonProperty("optimization")
+  private Optimization optimization = null;
+
+  public MatchmakingRequest requirements(List<Requirement> requirements) {
     this.requirements = requirements;
     return this;
   }
 
-   /**
+  public MatchmakingRequest addRequirementsItem(Requirement requirementsItem) {
+    if (this.requirements == null) {
+      this.requirements = new ArrayList<Requirement>();
+    }
+    this.requirements.add(requirementsItem);
+    return this;
+  }
+
+  /**
    * Get requirements
    * @return requirements
   **/
@@ -33,12 +48,33 @@ public class MatchmakingRequest   {
 
   @Valid
 
-  public NodeRequirements getRequirements() {
+  public List<Requirement> getRequirements() {
     return requirements;
   }
 
-  public void setRequirements(NodeRequirements requirements) {
+  public void setRequirements(List<Requirement> requirements) {
     this.requirements = requirements;
+  }
+
+  public MatchmakingRequest optimization(Optimization optimization) {
+    this.optimization = optimization;
+    return this;
+  }
+
+  /**
+   * Get optimization
+   * @return optimization
+  **/
+  @ApiModelProperty(value = "")
+
+  @Valid
+
+  public Optimization getOptimization() {
+    return optimization;
+  }
+
+  public void setOptimization(Optimization optimization) {
+    this.optimization = optimization;
   }
 
 
@@ -51,12 +87,13 @@ public class MatchmakingRequest   {
       return false;
     }
     MatchmakingRequest matchmakingRequest = (MatchmakingRequest) o;
-    return Objects.equals(this.requirements, matchmakingRequest.requirements);
+    return Objects.equals(this.requirements, matchmakingRequest.requirements) &&
+        Objects.equals(this.optimization, matchmakingRequest.optimization);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(requirements);
+    return Objects.hash(requirements, optimization);
   }
 
   @Override
@@ -65,6 +102,7 @@ public class MatchmakingRequest   {
     sb.append("class MatchmakingRequest {\n");
     
     sb.append("    requirements: ").append(toIndentedString(requirements)).append("\n");
+    sb.append("    optimization: ").append(toIndentedString(optimization)).append("\n");
     sb.append("}");
     return sb.toString();
   }

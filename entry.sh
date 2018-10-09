@@ -19,11 +19,6 @@ validateMandatory() {
   if [ -z "$KAFKA_BOOTSTRAP_SERVERS" ]; then
 	  env_required "KAFKA_BOOTSTRAP_SERVERS"
   fi
-
-  if [ -z "$SECURITY_API_KEY" ]; then
-	  env_required "SECURITY_API_KEY"
-  fi
-
 }
 
 setDefaults() {
@@ -43,4 +38,4 @@ validateMandatory
 setDefaults
 
 # Run the service
-java -Dsecurity.apiKey=${SECURITY_API_KEY} -Dkafka.groupId=${KAFKA_GROUP_ID} -Dkafka.responseTimeout=${KAFKA_RESPONSE_TIMEOUT} -Dkafka.bootstrapServers=${KAFKA_BOOTSTRAP_SERVERS} -jar rest-server-0.3.0-SNAPSHOT.jar
+java -Dkafka.groupId=${KAFKA_GROUP_ID} -Dkafka.responseTimeout=${KAFKA_RESPONSE_TIMEOUT} -Dkafka.bootstrapServers=${KAFKA_BOOTSTRAP_SERVERS} -jar rest-server-0.3.0-SNAPSHOT.jar

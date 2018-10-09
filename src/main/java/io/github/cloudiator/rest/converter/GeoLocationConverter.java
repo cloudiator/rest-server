@@ -1,6 +1,8 @@
 package io.github.cloudiator.rest.converter;
 
 
+import com.google.common.base.Strings;
+import de.uniulm.omi.cloudiator.util.TwoWayConverter;
 import io.github.cloudiator.rest.model.GeoLocation;
 import org.cloudiator.messages.entities.IaasEntities;
 
@@ -16,11 +18,23 @@ public class GeoLocationConverter implements
     if (geolocation == null) {
       return null;
     }
-    GeoLocation result = new GeoLocation()
-        .city(geolocation.getCity())
-        .country(geolocation.getCountry())
-        .latitude(geolocation.getLatitude())
-        .longitude(geolocation.getLongitude());
+    GeoLocation result = new GeoLocation();
+
+    if (!Strings.isNullOrEmpty(geolocation.getCity())) {
+      result.city(geolocation.getCity());
+    }
+
+    if (!Strings.isNullOrEmpty(geolocation.getCountry())) {
+      result.country(geolocation.getCountry());
+    }
+
+    if (geolocation.getLatitude() != 0) {
+      result.latitude(geolocation.getLatitude());
+    }
+
+    if (geolocation.getLongitude() != 0) {
+      result.longitude(geolocation.getLongitude());
+    }
 
     return result;
   }

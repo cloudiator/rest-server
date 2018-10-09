@@ -1,27 +1,26 @@
 package io.github.cloudiator.rest.converter;
 
-import static org.junit.Assert.*;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThat;
 
 import io.github.cloudiator.rest.model.Communication;
 import io.github.cloudiator.rest.model.DockerInterface;
-import io.github.cloudiator.rest.model.ExecutionEnvironment;
 import io.github.cloudiator.rest.model.IdentifierRequirement;
 import io.github.cloudiator.rest.model.Job;
-import io.github.cloudiator.rest.model.TaskType;
 import io.github.cloudiator.rest.model.LanceInterface;
+import io.github.cloudiator.rest.model.LanceInterface.ContainerTypeEnum;
 import io.github.cloudiator.rest.model.OclRequirement;
 import io.github.cloudiator.rest.model.PortProvided;
 import io.github.cloudiator.rest.model.PortRequired;
 import io.github.cloudiator.rest.model.Task;
+import io.github.cloudiator.rest.model.TaskType;
+import java.util.UUID;
 import org.cloudiator.messages.entities.CommonEntities;
 import org.cloudiator.messages.entities.JobEntities;
 import org.cloudiator.messages.entities.TaskEntities;
-
-
+import org.cloudiator.messages.entities.TaskEntities.ContainerType;
 import org.junit.Test;
-
-import static org.junit.Assert.*;
-import static org.hamcrest.Matchers.*;
 
 public class JobConverterTest {
 
@@ -99,6 +98,7 @@ public class JobConverterTest {
                 .setDockerImage("DockerImage").build()
         ).build();
     this.restLanceInterface = new LanceInterface()
+        .containerType(ContainerTypeEnum.BOTH)
         .init("init").preInstall("preInstall").install("install").postInstall("postInstall")
         .startDetection("startDetection").preStart("preStart").start("start").postStart("postStart")
         .stopDetection("stopDetection").preStop("preStop").stop("stop").postStop("postStop")
@@ -107,6 +107,7 @@ public class JobConverterTest {
     this.iaasTaskLanceInterface = TaskEntities.TaskInterface.newBuilder()
         .setLanceInterface(
             TaskEntities.LanceInterface.newBuilder()
+                .setContainerType(ContainerType.BOTH)
                 .setInit("init").setPreInstall("preInstall").setInstall("install")
                 .setPostInstall("postInstall")
                 .setStartDetection("startDetection").setPreStart("preStart").setStart("start")
@@ -119,7 +120,6 @@ public class JobConverterTest {
     this.restTask = new Task()
         .name("TestTask")
         .taskType(TaskType.BATCH)
-        .executionEnvironment(ExecutionEnvironment.SPARK)
         .addPortsItem(restProvidedPort)
         .addPortsItem(restRequiredPort)
         .addRequirementsItem(restIdRequirement)
@@ -129,7 +129,6 @@ public class JobConverterTest {
     this.iaasTask = TaskEntities.Task.newBuilder()
         .setName("TestTask")
         .setTaskType(TaskEntities.TaskType.BATCH)
-        .setExecutionEnvironment(TaskEntities.ExecutionEnvironment.SPARK)
         .addPorts(iaasPortProvidedPort)
         .addPorts(iaasPortRequiredPort)
         .addRequirements(iaasIdRequirement)
@@ -137,7 +136,9 @@ public class JobConverterTest {
         .addInterfaces(iaasTaskDockerInterface)
         .addInterfaces(iaasTaskLanceInterface).build();
     //Jobs
+    final UUID uuid = UUID.randomUUID();
     this.restJob = new Job()
+        .id(uuid.toString())
         .name("TestJob")
         .addCommunicationsItem(new Communication()
             .portProvided("ProvidedPort").portRequired("RequiredPort"))
@@ -145,6 +146,7 @@ public class JobConverterTest {
         .addRequirementsItem(restIdRequirement)
         .addTasksItem(restTask);
     this.iaasJob = JobEntities.Job.newBuilder()
+        .setId(uuid.toString())
         .setName("TestJob")
         .addCommunications(JobEntities.Communication.newBuilder()
             .setPortProvided("ProvidedPort").setPortRequired("RequiredPort"))

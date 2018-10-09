@@ -21,6 +21,8 @@
 
   <bean id="imageService" factory-bean="serviceFactory" factory-method="createImageService"/>
 
+  <bean id="processService" factory-bean="serviceFactory" factory-method="createProcessService"/>
+
   <bean id="matchmakingService" factory-bean="serviceFactory"
     factory-method="createMatchmakingService"/>
 
@@ -33,11 +35,16 @@
   <bean id="taskService" factory-bean="serviceFactory"
     factory-method="createTaskService"/>
 
-  <bean id="lRRMapService" class="io.github.cloudiator.rest.LRRMapService"/>
+  <bean id="lRRMapService" class="io.github.cloudiator.rest.queue.QueueService"/>
 
   <bean id="installationRequestService" factory-bean="serviceFactory"
     factory-method="createInstallationRequestService"/>
 
+  <bean id="encryptionService" factory-bean="serviceFactory"
+    factory-method="createEncryptionService"/>
+
+  <bean id="secureStoreService" factory-bean="serviceFactory"
+    factory-method="createSecureStoreService"/>
 
 </beans>
 
