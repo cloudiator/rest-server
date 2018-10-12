@@ -4,9 +4,12 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import io.github.cloudiator.rest.model.Process;
 import io.github.cloudiator.rest.model.ScheduleNew;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import java.util.ArrayList;
+import java.util.List;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -56,6 +59,10 @@ public class Schedule   {
 
   @JsonProperty("id")
   private String id = null;
+
+  @JsonProperty("processes")
+  @Valid
+  private List<Process> processes = null;
 
   public Schedule job(String job) {
     this.job = job;
@@ -117,6 +124,35 @@ public class Schedule   {
     this.id = id;
   }
 
+  public Schedule processes(List<Process> processes) {
+    this.processes = processes;
+    return this;
+  }
+
+  public Schedule addProcessesItem(Process processesItem) {
+    if (this.processes == null) {
+      this.processes = new ArrayList<Process>();
+    }
+    this.processes.add(processesItem);
+    return this;
+  }
+
+  /**
+   * Get processes
+   * @return processes
+  **/
+  @ApiModelProperty(value = "")
+
+  @Valid
+
+  public List<Process> getProcesses() {
+    return processes;
+  }
+
+  public void setProcesses(List<Process> processes) {
+    this.processes = processes;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -129,12 +165,13 @@ public class Schedule   {
     Schedule schedule = (Schedule) o;
     return Objects.equals(this.job, schedule.job) &&
         Objects.equals(this.instantiation, schedule.instantiation) &&
-        Objects.equals(this.id, schedule.id);
+        Objects.equals(this.id, schedule.id) &&
+        Objects.equals(this.processes, schedule.processes);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(job, instantiation, id);
+    return Objects.hash(job, instantiation, id, processes);
   }
 
   @Override
@@ -145,6 +182,7 @@ public class Schedule   {
     sb.append("    job: ").append(toIndentedString(job)).append("\n");
     sb.append("    instantiation: ").append(toIndentedString(instantiation)).append("\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
+    sb.append("    processes: ").append(toIndentedString(processes)).append("\n");
     sb.append("}");
     return sb.toString();
   }
