@@ -12,7 +12,7 @@ public class ScheduleConverter implements OneWayConverter<ProcessEntities.Schedu
 
     Schedule result = new Schedule();
     result.setId(schedule.getId());
-    result.setInstantiation(InstantiationEnum.fromValue(schedule.getInstantiaton().name()));
+    result.setInstantiation(InstantiationEnum.fromValue(schedule.getInstantiation().name()));
     result.setJob(schedule.getJob());
 
     return result;
