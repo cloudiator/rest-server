@@ -29,7 +29,8 @@ public class PortProvided extends Port  {
    * Get port
    * @return port
   **/
-  @ApiModelProperty(value = "")
+  @ApiModelProperty(required = true, value = "")
+  @NotNull
 
 
   public Integer getPort() {

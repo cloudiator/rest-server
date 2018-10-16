@@ -11,14 +11,17 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * Subtype of TaskInterface 
+ * Subtype of TaskInterface to represent docker containers 
  */
-@ApiModel(description = "Subtype of TaskInterface ")
+@ApiModel(description = "Subtype of TaskInterface to represent docker containers ")
 @Validated
 
 public class DockerInterface extends TaskInterface  {
   @JsonProperty("dockerImage")
   private String dockerImage = null;
+
+  @JsonProperty("environment")
+  private java.util.Map environment = null;
 
   public DockerInterface dockerImage(String dockerImage) {
     this.dockerImage = dockerImage;
@@ -26,10 +29,10 @@ public class DockerInterface extends TaskInterface  {
   }
 
   /**
-   * Name of the docker image 
+   * Name of the docker image (should include repository, credentials, tags) 
    * @return dockerImage
   **/
-  @ApiModelProperty(value = "Name of the docker image ")
+  @ApiModelProperty(value = "Name of the docker image (should include repository, credentials, tags) ")
 
 
   public String getDockerImage() {
@@ -38,6 +41,27 @@ public class DockerInterface extends TaskInterface  {
 
   public void setDockerImage(String dockerImage) {
     this.dockerImage = dockerImage;
+  }
+
+  public DockerInterface environment(java.util.Map environment) {
+    this.environment = environment;
+    return this;
+  }
+
+  /**
+   * A key-value map representing the environment of the docker container 
+   * @return environment
+  **/
+  @ApiModelProperty(value = "A key-value map representing the environment of the docker container ")
+
+  @Valid
+
+  public java.util.Map getEnvironment() {
+    return environment;
+  }
+
+  public void setEnvironment(java.util.Map environment) {
+    this.environment = environment;
   }
 
 
@@ -51,12 +75,13 @@ public class DockerInterface extends TaskInterface  {
     }
     DockerInterface dockerInterface = (DockerInterface) o;
     return Objects.equals(this.dockerImage, dockerInterface.dockerImage) &&
+        Objects.equals(this.environment, dockerInterface.environment) &&
         super.equals(o);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(dockerImage, super.hashCode());
+    return Objects.hash(dockerImage, environment, super.hashCode());
   }
 
   @Override
@@ -65,6 +90,7 @@ public class DockerInterface extends TaskInterface  {
     sb.append("class DockerInterface {\n");
     sb.append("    ").append(toIndentedString(super.toString())).append("\n");
     sb.append("    dockerImage: ").append(toIndentedString(dockerImage)).append("\n");
+    sb.append("    environment: ").append(toIndentedString(environment)).append("\n");
     sb.append("}");
     return sb.toString();
   }

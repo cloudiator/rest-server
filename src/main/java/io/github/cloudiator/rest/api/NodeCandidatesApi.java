@@ -5,8 +5,9 @@
  */
 package io.github.cloudiator.rest.api;
 
+import java.util.List;
 import io.github.cloudiator.rest.model.NodeCandidate;
-import io.github.cloudiator.rest.model.NodeRequirements;
+import io.github.cloudiator.rest.model.Requirement;
 import io.swagger.annotations.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -35,6 +36,6 @@ public interface NodeCandidatesApi {
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.POST)
-    ResponseEntity<List<NodeCandidate>> findNodeCandidates(@ApiParam(value = "Node Request "  )  @Valid @RequestBody NodeRequirements nodeRequirements);
+    ResponseEntity<List<NodeCandidate>> findNodeCandidates(@ApiParam(value = "Node Request "  )  @Valid @RequestBody List<Requirement> nodeRequirements);
 
 }

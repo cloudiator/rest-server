@@ -38,7 +38,8 @@ public class Port   {
    * Discriminator for polymorphism. Only subtypes are allowed. 
    * @return type
   **/
-  @ApiModelProperty(value = "Discriminator for polymorphism. Only subtypes are allowed. ")
+  @ApiModelProperty(required = true, value = "Discriminator for polymorphism. Only subtypes are allowed. ")
+  @NotNull
 
 
   public String getType() {

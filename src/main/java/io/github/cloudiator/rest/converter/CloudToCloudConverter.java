@@ -1,5 +1,6 @@
 package io.github.cloudiator.rest.converter;
 
+import de.uniulm.omi.cloudiator.util.TwoWayConverter;
 import io.github.cloudiator.rest.model.Cloud;
 import io.github.cloudiator.rest.model.CloudType;
 import org.cloudiator.messages.entities.IaasEntities;

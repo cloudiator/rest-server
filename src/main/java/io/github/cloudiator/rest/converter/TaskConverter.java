@@ -1,7 +1,7 @@
 package io.github.cloudiator.rest.converter;
 
 
-import io.github.cloudiator.rest.model.ExecutionEnvironment;
+import de.uniulm.omi.cloudiator.util.TwoWayConverter;
 import io.github.cloudiator.rest.model.Port;
 import io.github.cloudiator.rest.model.Requirement;
 import io.github.cloudiator.rest.model.Task;
@@ -16,44 +16,29 @@ public class TaskConverter implements TwoWayConverter<Task, TaskEntities.Task> {
   private final PortConverter portConverter = new PortConverter();
   private final RequirementConverter requirementConverter = new RequirementConverter();
   private final TaskInterfaceConverter interfaceConverter = new TaskInterfaceConverter();
+  private final OptimizationConverter optimizationConverter = OptimizationConverter.INSTANCE;
 
   @Override
   public Task applyBack(TaskEntities.Task task) {
     Task result = new Task()
         .name(task.getName());
-    if (!task.getPortsList().isEmpty()) {
-      for (TaskEntities.Port port : task.getPortsList()) {
-        result.addPortsItem(portConverter.applyBack(port));
-      }
-    }
-    if (!task.getRequirementsList().isEmpty()) {
-      for (CommonEntities.Requirement req : task.getRequirementsList()) {
-        result.addRequirementsItem(requirementConverter.applyBack(req));
-      }
-    }
-    if (!task.getInterfacesList().isEmpty()) {
-      for (TaskEntities.TaskInterface tInterface : task.getInterfacesList()) {
-        result.addInterfacesItem(interfaceConverter.applyBack(tInterface));
-      }
+
+    for (TaskEntities.Port port : task.getPortsList()) {
+      result.addPortsItem(portConverter.applyBack(port));
     }
 
-    switch (task.getExecutionEnvironment()) {
-      case LANCE:
-        result.setExecutionEnvironment(ExecutionEnvironment.LANCE);
-        break;
-      case SPARK:
-        result.setExecutionEnvironment(ExecutionEnvironment.SPARK);
-        break;
-      case NATIVE:
-        result.setExecutionEnvironment(ExecutionEnvironment.NATIVE);
-        break;
-      case CONTAINER:
-        result.setExecutionEnvironment(ExecutionEnvironment.CONTAINER);
-        break;
-      case UNRECOGNIZED:
-      default:
-        throw new AssertionError("ExecutionEnvironment unkown: " + task.getExecutionEnvironment());
+    for (CommonEntities.Requirement req : task.getRequirementsList()) {
+      result.addRequirementsItem(requirementConverter.applyBack(req));
     }
+
+    if (task.hasOptimization()) {
+      result.setOptimization(optimizationConverter.applyBack(task.getOptimization()));
+    }
+
+    for (TaskEntities.TaskInterface tInterface : task.getInterfacesList()) {
+      result.addInterfacesItem(interfaceConverter.applyBack(tInterface));
+    }
+
     switch (task.getTaskType()) {
       case BATCH:
         result.setTaskType(TaskType.BATCH);
@@ -73,26 +58,25 @@ public class TaskConverter implements TwoWayConverter<Task, TaskEntities.Task> {
   public TaskEntities.Task apply(Task task) {
     TaskEntities.Task.Builder result = TaskEntities.Task.newBuilder()
         .setName(task.getName());
-    if (!task.getPorts().isEmpty()) {
+
+    if (task.getPorts() != null) {
       for (Port port : task.getPorts()) {
         result.addPorts(portConverter.apply(port));
       }
-    } else {
-      result.clearPorts();
     }
-    if (!task.getRequirements().isEmpty()) {
+
+    if (task.getRequirements() != null) {
       for (Requirement req : task.getRequirements()) {
         result.addRequirements(requirementConverter.apply(req));
       }
-    } else {
-      result.clearRequirements();
     }
-    if (!task.getInterfaces().isEmpty()) {
-      for (TaskInterface tInterface : task.getInterfaces()) {
-        result.addInterfaces(interfaceConverter.apply(tInterface));
-      }
-    } else {
-      result.clearInterfaces();
+
+    if (task.getOptimization() != null) {
+      result.setOptimization(optimizationConverter.apply(task.getOptimization()));
+    }
+
+    for (TaskInterface tInterface : task.getInterfaces()) {
+      result.addInterfaces(interfaceConverter.apply(tInterface));
     }
 
     switch (task.getTaskType()) {
@@ -103,23 +87,7 @@ public class TaskConverter implements TwoWayConverter<Task, TaskEntities.Task> {
         result.setTaskType(TaskEntities.TaskType.SERVICE);
         break;
       default:
-        throw new AssertionError("TaskType unkown: " + task.getTaskType());
-    }
-    switch (task.getExecutionEnvironment()) {
-      case LANCE:
-        result.setExecutionEnvironment(TaskEntities.ExecutionEnvironment.LANCE);
-        break;
-      case SPARK:
-        result.setExecutionEnvironment(TaskEntities.ExecutionEnvironment.SPARK);
-        break;
-      case NATIVE:
-        result.setExecutionEnvironment(TaskEntities.ExecutionEnvironment.NATIVE);
-        break;
-      case CONTAINER:
-        result.setExecutionEnvironment(TaskEntities.ExecutionEnvironment.CONTAINER);
-        break;
-      default:
-        throw new AssertionError("ExecutionEnvironment unkown: " + task.getExecutionEnvironment());
+        throw new AssertionError("TaskType unknown: " + task.getTaskType());
     }
 
     return result.build();

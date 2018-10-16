@@ -1,8 +1,10 @@
 package io.github.cloudiator.rest.converter;
 
+import de.uniulm.omi.cloudiator.util.TwoWayConverter;
 import io.github.cloudiator.rest.model.DockerInterface;
 import io.github.cloudiator.rest.model.LanceInterface;
 import io.github.cloudiator.rest.model.PlatformInterface;
+import io.github.cloudiator.rest.model.SparkInterface;
 import io.github.cloudiator.rest.model.TaskInterface;
 import org.cloudiator.messages.entities.TaskEntities;
 
@@ -12,6 +14,7 @@ public class TaskInterfaceConverter implements
   private final DockerInterfaceConverter dockerInterfaceConverter = new DockerInterfaceConverter();
   private final LanceInterfaceConverter lanceInterfaceConverter = new LanceInterfaceConverter();
   private final PlatformInterfaceConverter platformInterfaceConverter = new PlatformInterfaceConverter();
+  private final SparkInterfaceConverter sparkInterfaceConverter = new SparkInterfaceConverter();
 
   @Override
   public TaskInterface applyBack(TaskEntities.TaskInterface taskInterface) {
@@ -25,10 +28,14 @@ public class TaskInterfaceConverter implements
         result = dockerInterfaceConverter.applyBack(taskInterface.getDockerInterface());
         result.setType(taskInterface.getDockerInterface().getClass().getSimpleName());
         break;
+      case SPARKINTERFACE:
+        result = sparkInterfaceConverter.applyBack(taskInterface.getSparkInterface());
+        result.setType(taskInterface.getSparkInterface().getClass().getSimpleName());
+        break;
       case TASKINTERFACE_NOT_SET:
       default:
         throw new AssertionError(
-            "TaskInterface not set or unkown: " + taskInterface.getTaskInterfaceCase());
+            "TaskInterface not set or unknown: " + taskInterface.getTaskInterfaceCase());
     }
     return result;
   }
@@ -41,6 +48,8 @@ public class TaskInterfaceConverter implements
       result.setLanceInterface(lanceInterfaceConverter.apply((LanceInterface) taskInterface));
     } else if (taskInterface instanceof DockerInterface) {
       result.setDockerInterface(dockerInterfaceConverter.apply((DockerInterface) taskInterface));
+    } else if (taskInterface instanceof SparkInterface) {
+      result.setSparkInterface(sparkInterfaceConverter.apply((SparkInterface) taskInterface));
     } else if (taskInterface instanceof PlatformInterface) {
       throw new AssertionError("Not implemented!");
     } else {

@@ -3,11 +3,8 @@ package io.github.cloudiator.rest.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.github.cloudiator.rest.model.Property;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.util.ArrayList;
-import java.util.List;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -23,8 +20,7 @@ public class CloudConfiguration   {
   private String nodeGroup = null;
 
   @JsonProperty("properties")
-  @Valid
-  private List<Property> properties = null;
+  private java.util.Map properties = null;
 
   public CloudConfiguration nodeGroup(String nodeGroup) {
     this.nodeGroup = nodeGroup;
@@ -46,32 +42,24 @@ public class CloudConfiguration   {
     this.nodeGroup = nodeGroup;
   }
 
-  public CloudConfiguration properties(List<Property> properties) {
+  public CloudConfiguration properties(java.util.Map properties) {
     this.properties = properties;
     return this;
   }
 
-  public CloudConfiguration addPropertiesItem(Property propertiesItem) {
-    if (this.properties == null) {
-      this.properties = new ArrayList<Property>();
-    }
-    this.properties.add(propertiesItem);
-    return this;
-  }
-
   /**
-   * Array of configuration properties.
+   * Configuration as key-value map.
    * @return properties
   **/
-  @ApiModelProperty(value = "Array of configuration properties.")
+  @ApiModelProperty(value = "Configuration as key-value map.")
 
   @Valid
 
-  public List<Property> getProperties() {
+  public java.util.Map getProperties() {
     return properties;
   }
 
-  public void setProperties(List<Property> properties) {
+  public void setProperties(java.util.Map properties) {
     this.properties = properties;
   }
 

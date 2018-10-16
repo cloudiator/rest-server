@@ -1,5 +1,6 @@
 package io.github.cloudiator.rest.converter;
 
+import de.uniulm.omi.cloudiator.util.TwoWayConverter;
 import io.github.cloudiator.rest.model.AttributeRequirement;
 import io.github.cloudiator.rest.model.IdentifierRequirement;
 import io.github.cloudiator.rest.model.OclRequirement;
@@ -67,6 +68,7 @@ public class RequirementConverter implements
         attributeRequirement.setRequirementOperator(RequirementOperator
             .valueOf(requirement.getAttributeRequirement().getRequirementOperator().name()));
         attributeRequirement.setValue(requirement.getAttributeRequirement().getValue());
+        attributeRequirement.setType(attributeRequirement.getClass().getSimpleName());
         return attributeRequirement;
       default:
         throw new AssertionError(

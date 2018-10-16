@@ -52,7 +52,8 @@ public class PortRequired extends Port  {
    * States if an instance of a downstream tasks needs to be already started (true), or if the task can start without a downstream task (false). 
    * @return isMandatory
   **/
-  @ApiModelProperty(value = "States if an instance of a downstream tasks needs to be already started (true), or if the task can start without a downstream task (false). ")
+  @ApiModelProperty(required = true, value = "States if an instance of a downstream tasks needs to be already started (true), or if the task can start without a downstream task (false). ")
+  @NotNull
 
 
   public Boolean isIsMandatory() {

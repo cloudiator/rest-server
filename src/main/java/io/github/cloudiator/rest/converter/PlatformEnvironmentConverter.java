@@ -1,12 +1,14 @@
 package io.github.cloudiator.rest.converter;
 
+import de.uniulm.omi.cloudiator.util.TwoWayConverter;
 import io.github.cloudiator.rest.model.PlatformEnvironment;
 import io.github.cloudiator.rest.model.PlatformService;
 import org.cloudiator.messages.entities.PaasEntities;
+import org.cloudiator.messages.entities.PaasEntities.Environment;
 import org.cloudiator.messages.entities.PaasEntities.RuntimeService;
 
 public class PlatformEnvironmentConverter implements
-    TwoWayConverter<PlatformEnvironment, PaasEntities.Environment> {
+    TwoWayConverter<PlatformEnvironment, Environment> {
 
   private final PlatformRuntimeConverter runtimeConverter = new PlatformRuntimeConverter();
   private final PlatformHardwareConverter hardwareConverter = new PlatformHardwareConverter();

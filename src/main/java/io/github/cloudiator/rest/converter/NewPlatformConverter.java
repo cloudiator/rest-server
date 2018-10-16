@@ -1,12 +1,14 @@
 package io.github.cloudiator.rest.converter;
 
+import de.uniulm.omi.cloudiator.util.TwoWayConverter;
 import io.github.cloudiator.rest.model.Api;
 import io.github.cloudiator.rest.model.CloudCredential;
 import io.github.cloudiator.rest.model.NewPlatform;
 import io.github.cloudiator.rest.model.NewPlatform.TypeEnum;
 import org.cloudiator.messages.entities.PaasEntities;
+import org.cloudiator.messages.entities.PaasEntities.Platform;
 
-public class NewPlatformConverter implements TwoWayConverter<NewPlatform, PaasEntities.Platform> {
+public class NewPlatformConverter implements TwoWayConverter<NewPlatform, Platform> {
 
   private final PlatformTypeConverter platformTypeConverter = new PlatformTypeConverter();
 

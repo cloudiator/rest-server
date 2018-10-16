@@ -1,10 +1,12 @@
 package io.github.cloudiator.rest.converter;
 
+import de.uniulm.omi.cloudiator.util.TwoWayConverter;
 import io.github.cloudiator.rest.model.PlatformHardware;
 import org.cloudiator.messages.entities.PaasEntities;
+import org.cloudiator.messages.entities.PaasEntities.HardwareFlavour;
 
 public class PlatformHardwareConverter implements
-    TwoWayConverter<PlatformHardware, PaasEntities.HardwareFlavour> {
+    TwoWayConverter<PlatformHardware, HardwareFlavour> {
 
   @Override
   public PlatformHardware applyBack(PaasEntities.HardwareFlavour hardwareFlavour) {

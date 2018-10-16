@@ -1,11 +1,12 @@
 package io.github.cloudiator.rest.converter;
 
+import de.uniulm.omi.cloudiator.util.TwoWayConverter;
 import io.github.cloudiator.rest.model.PlatformService;
 import org.cloudiator.messages.entities.PaasEntities;
 import org.cloudiator.messages.entities.PaasEntities.RuntimeService;
 
 public class PlatformServiceConverter implements
-    TwoWayConverter<PlatformService, PaasEntities.RuntimeService> {
+    TwoWayConverter<PlatformService, RuntimeService> {
 
   @Override
   public PlatformService applyBack(RuntimeService runtimeService) {

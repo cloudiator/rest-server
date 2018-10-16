@@ -1,12 +1,18 @@
 package io.github.cloudiator.rest.converter;
 
-import io.github.cloudiator.rest.model.*;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
+
+import io.github.cloudiator.rest.model.Api;
+import io.github.cloudiator.rest.model.Cloud;
+import io.github.cloudiator.rest.model.CloudConfiguration;
+import io.github.cloudiator.rest.model.CloudCredential;
+import io.github.cloudiator.rest.model.CloudType;
+import java.util.Collections;
 import org.cloudiator.messages.entities.IaasEntities;
-
 import org.junit.Test;
-
-import static org.junit.Assert.*;
-import static org.hamcrest.Matchers.*;
 
 public class CloudToCloudConverterTest {
 
@@ -19,8 +25,11 @@ public class CloudToCloudConverterTest {
   //CloudConfigurations
   private final CloudConfiguration restCloudConfig;
   private final IaasEntities.Configuration iaasCloudConfig;
+<<<<<<< HEAD
   private final Property restCloudConfigProperty;
   private final IaasEntities.Property iaasCloudConfigProperty;
+=======
+>>>>>>> master
   // CloudCredentials
   private final CloudCredential restCloudCredential;
   private final IaasEntities.Credential iaasCloudCredential;
@@ -30,6 +39,7 @@ public class CloudToCloudConverterTest {
     this.iaasApi = IaasEntities.Api.newBuilder().setProviderName("TestProvider").build();
     this.restApi = new Api().providerName("TestProvider");
     //CloudConfigurations
+<<<<<<< HEAD
     this.restCloudConfigProperty = new Property().key("TestKey").value("TestValue");
     this.iaasCloudConfigProperty = IaasEntities.Property.newBuilder()
         .setKey("TestKey").setValue("TestValue").build();
@@ -37,6 +47,12 @@ public class CloudToCloudConverterTest {
         .setNodeGroup("TestNodeGroup").addProperty(iaasCloudConfigProperty).build();
     this.restCloudConfig = new CloudConfiguration().nodeGroup("TestNodeGroup")
         .addPropertiesItem(restCloudConfigProperty);
+=======
+    this.iaasCloudConfig = IaasEntities.Configuration.newBuilder()
+        .setNodeGroup("TestNodeGroup").putProperties("TestKey", "TestValue").build();
+    this.restCloudConfig = new CloudConfiguration().nodeGroup("TestNodeGroup").properties(
+        Collections.singletonMap("TestKey", "TestValue"));
+>>>>>>> master
     //CloudCredentials
     this.iaasCloudCredential = IaasEntities.Credential.newBuilder()
         .setUser("TestUser").setSecret("TestSecret").build();

@@ -1,22 +1,20 @@
 package io.github.cloudiator.rest.api;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.cloudiator.rest.UserInfo;
-import io.github.cloudiator.rest.UserServiceOld;
-import io.github.cloudiator.rest.converter.MatchmakingResponseConverter;
+import io.github.cloudiator.rest.converter.NodeCandidateConverter;
 import io.github.cloudiator.rest.converter.NodeRequirementsConverter;
-import io.github.cloudiator.rest.model.MatchmakingRequest;
-import io.github.cloudiator.rest.model.MatchmakingResponse;
+import io.github.cloudiator.rest.model.NodeCandidate;
+import io.github.cloudiator.rest.model.NodeRequirements;
 import io.swagger.annotations.ApiParam;
+import java.util.List;
+import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import org.cloudiator.messages.entities.Matchmaking;
 import org.cloudiator.messaging.ResponseException;
 import org.cloudiator.messaging.services.MatchmakingService;
-import org.cloudiator.messaging.services.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -27,45 +25,44 @@ public class MatchmakingApiController implements MatchmakingApi {
 
   private static final Logger log = LoggerFactory.getLogger(MatchmakingApiController.class);
 
-  private final ObjectMapper objectMapper;
-
   private final HttpServletRequest request;
 
-  @Autowired
-  private MatchmakingService matchmakingService;
 
-  @Autowired
-  private UserServiceOld userService;
+  private final MatchmakingService matchmakingService;
 
 
   private static final NodeRequirementsConverter NODE_REQUIREMENTS_CONVERTER = new NodeRequirementsConverter();
-  private static final MatchmakingResponseConverter MATCHMAKING_RESPONSE_CONVERTER = new MatchmakingResponseConverter();
+  private static final NodeCandidateConverter NODE_CANDIDATE_CONVERTER = new NodeCandidateConverter();
 
   @org.springframework.beans.factory.annotation.Autowired
-  public MatchmakingApiController(ObjectMapper objectMapper, HttpServletRequest request) {
-    this.objectMapper = objectMapper;
+  public MatchmakingApiController(HttpServletRequest request,
+      MatchmakingService matchmakingService) {
     this.request = request;
+    this.matchmakingService = matchmakingService;
   }
 
-  public ResponseEntity<MatchmakingResponse> solveMatchmaking(
-      @ApiParam(value = "The matchmaking request to solve", required = true) @Valid @RequestBody MatchmakingRequest matchmakingRequest) {
+  public ResponseEntity<List<NodeCandidate>> solveMatchmaking(
+      @ApiParam(value = "The requirements with respect to nodes", required = true) @Valid @RequestBody NodeRequirements nodeRequirements) {
 
     String accept = request.getHeader("Accept");
     if (accept != null && accept.contains("application/json")) {
       try {
         final Matchmaking.MatchmakingRequest matchmakingMessage = Matchmaking.MatchmakingRequest
             .newBuilder()
-            .setRequirements(
-                NODE_REQUIREMENTS_CONVERTER.apply(matchmakingRequest.getRequirements()))
-            //.setUserId(userService.getUserId())
+            .setNodeRequirements(
+                NODE_REQUIREMENTS_CONVERTER.apply(nodeRequirements))
             .setUserId(UserInfo.of(request).tenant())
             .build();
 
         Matchmaking.MatchmakingResponse matchmakingResponse = matchmakingService
             .requestMatch(matchmakingMessage);
 
+        List<NodeCandidate> response = matchmakingResponse.getCandidatesList().stream()
+            .map(NODE_CANDIDATE_CONVERTER::applyBack).collect(
+                Collectors.toList());
+
         return new ResponseEntity<>(
-            MATCHMAKING_RESPONSE_CONVERTER.apply(matchmakingResponse), HttpStatus.OK);
+            response, HttpStatus.OK);
       } catch (ResponseException e) {
         throw new ApiException(e.code(), e.getMessage());
       } catch (Exception e) {
