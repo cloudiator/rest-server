@@ -52,6 +52,7 @@ src/main/java/io/github/cloudiator/rest/api/UsersApiController.java
 src/main/java/io/github/cloudiator/rest/api/InstallerApiController.java
 
 src/main/java/io/github/cloudiator/rest/api/ScheduleApiController.java
+src/main/java/io/github/cloudiator/rest/api/ProcessApiController.java
 
 src/main/java/io/github/cloudiator/rest/api/QueueApiController.java
 
