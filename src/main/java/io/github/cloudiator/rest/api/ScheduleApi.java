@@ -39,6 +39,17 @@ public interface ScheduleApi {
     ResponseEntity<Queue> addSchedule(@ApiParam(value = "Schedule to be created " ,required=true )  @Valid @RequestBody ScheduleNew schedule);
 
 
+    @ApiOperation(value = "", nickname = "findSchedule", notes = "Retrieves the schedule identified by parameter id. ", response = Schedule.class, authorizations = {
+        @Authorization(value = "ApiKeyAuth")
+    }, tags={ "job", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "OK", response = Schedule.class) })
+    @RequestMapping(value = "/schedule/{id}",
+        produces = { "application/json" }, 
+        method = RequestMethod.GET)
+    ResponseEntity<Schedule> findSchedule(@ApiParam(value = "Unique identifier of the resource",required=true) @PathVariable("id") String id);
+
+
     @ApiOperation(value = "", nickname = "getSchedules", notes = "Retrieves all schedules by the current user. ", response = Schedule.class, responseContainer = "List", authorizations = {
         @Authorization(value = "ApiKeyAuth")
     }, tags={ "job", })

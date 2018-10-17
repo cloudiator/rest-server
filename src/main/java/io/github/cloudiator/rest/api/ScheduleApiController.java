@@ -10,12 +10,15 @@ import io.github.cloudiator.rest.model.ScheduleNew;
 import io.github.cloudiator.rest.queue.QueueService;
 import io.github.cloudiator.rest.queue.QueueService.QueueItem;
 import io.swagger.annotations.ApiParam;
-import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import org.cloudiator.messages.Process.CreateScheduleRequest;
 import org.cloudiator.messages.Process.ScheduleCreatedResponse;
+import org.cloudiator.messages.Process.ScheduleQueryRequest;
+import org.cloudiator.messages.Process.ScheduleQueryResponse;
+import org.cloudiator.messaging.ResponseException;
 import org.cloudiator.messaging.services.ProcessService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -75,19 +78,58 @@ public class ScheduleApiController implements ScheduleApi {
     return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
   }
 
-  public ResponseEntity<List<Schedule>> getSchedules() {
+  @Override
+  public ResponseEntity<Schedule> findSchedule(String id) {
     String accept = request.getHeader("Accept");
     if (accept != null && accept.contains("application/json")) {
+
+      final String tenant = UserInfo.of(request).tenant();
+
       try {
-        return new ResponseEntity<List<Schedule>>(
-            objectMapper.readValue("[ \"\", \"\" ]", List.class), HttpStatus.NOT_IMPLEMENTED);
-      } catch (IOException e) {
-        log.error("Couldn't serialize response for content type application/json", e);
-        return new ResponseEntity<List<Schedule>>(HttpStatus.INTERNAL_SERVER_ERROR);
+        final ScheduleQueryResponse scheduleQueryResponse = processService
+            .querySchedules(ScheduleQueryRequest.newBuilder().setUserId(tenant).build());
+
+        if (scheduleQueryResponse.getSchedulesCount() == 0) {
+          throw new ApiException(404, "Could not find schedule with id " + id);
+        }
+
+        if (scheduleQueryResponse.getSchedulesCount() >= 1) {
+          throw new ApiException(500, "Retrieved more than one schedule.");
+        }
+
+        return new ResponseEntity<>(
+            scheduleConverter.apply(scheduleQueryResponse.getSchedulesList().get(0)),
+            HttpStatus.OK);
+
+      } catch (ResponseException e) {
+        throw new ApiException(e.code(), e.getMessage());
       }
     }
 
-    return new ResponseEntity<List<Schedule>>(HttpStatus.NOT_IMPLEMENTED);
+    return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+  }
+
+
+  public ResponseEntity<List<Schedule>> getSchedules() {
+    String accept = request.getHeader("Accept");
+    if (accept != null && accept.contains("application/json")) {
+
+      final String tenant = UserInfo.of(request).tenant();
+
+      try {
+        final ScheduleQueryResponse scheduleQueryResponse = processService
+            .querySchedules(ScheduleQueryRequest.newBuilder().setUserId(tenant).build());
+
+        return new ResponseEntity<>(
+            scheduleQueryResponse.getSchedulesList().stream().map(scheduleConverter).collect(
+                Collectors.toList()), HttpStatus.OK);
+
+      } catch (ResponseException e) {
+        throw new ApiException(e.code(), e.getMessage());
+      }
+    }
+
+    return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
   }
 
 }
