@@ -55,12 +55,16 @@ public class TaskConverter implements TwoWayConverter<Task, TaskEntities.Task> {
     TaskEntities.Task.Builder result = TaskEntities.Task.newBuilder()
         .setName(task.getName());
 
-    for (Port port : task.getPorts()) {
-      result.addPorts(portConverter.apply(port));
+    if (task.getPorts() != null) {
+      for (Port port : task.getPorts()) {
+        result.addPorts(portConverter.apply(port));
+      }
     }
 
-    for (Requirement req : task.getRequirements()) {
-      result.addRequirements(requirementConverter.apply(req));
+    if (task.getRequirements() != null) {
+      for (Requirement req : task.getRequirements()) {
+        result.addRequirements(requirementConverter.apply(req));
+      }
     }
 
     if (task.getOptimization() != null) {

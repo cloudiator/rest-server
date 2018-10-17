@@ -11,6 +11,7 @@ public class TaskInterfaceConverter implements
   private final LanceInterfaceConverter lanceInterfaceConverter = new LanceInterfaceConverter();
   private final PlatformInterfaceConverter platformInterfaceConverter = new PlatformInterfaceConverter();
   private final FaasInterfaceConverter faasInterfaceConverter = new FaasInterfaceConverter();
+  private final SparkInterfaceConverter sparkInterfaceConverter = new SparkInterfaceConverter();
 
   @Override
   public TaskInterface applyBack(TaskEntities.TaskInterface taskInterface) {
@@ -28,10 +29,14 @@ public class TaskInterfaceConverter implements
         result = faasInterfaceConverter.applyBack(taskInterface.getFaasInterface());
         result.setType(taskInterface.getFaasInterface().getClass().getSimpleName());
         break;
+      case SPARKINTERFACE:
+        result = sparkInterfaceConverter.applyBack(taskInterface.getSparkInterface());
+        result.setType(taskInterface.getSparkInterface().getClass().getSimpleName());
+        break;
       case TASKINTERFACE_NOT_SET:
       default:
         throw new AssertionError(
-            "TaskInterface not set or unkown: " + taskInterface.getTaskInterfaceCase());
+            "TaskInterface not set or unknown: " + taskInterface.getTaskInterfaceCase());
     }
     return result;
   }
@@ -44,6 +49,8 @@ public class TaskInterfaceConverter implements
       result.setLanceInterface(lanceInterfaceConverter.apply((LanceInterface) taskInterface));
     } else if (taskInterface instanceof DockerInterface) {
       result.setDockerInterface(dockerInterfaceConverter.apply((DockerInterface) taskInterface));
+    } else if (taskInterface instanceof SparkInterface) {
+      result.setSparkInterface(sparkInterfaceConverter.apply((SparkInterface) taskInterface));
     } else if (taskInterface instanceof PlatformInterface) {
       throw new AssertionError("Not implemented!");
     } else if (taskInterface instanceof FaasInterface) {

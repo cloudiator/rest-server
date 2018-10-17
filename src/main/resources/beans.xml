@@ -43,5 +43,8 @@
   <bean id="encryptionService" factory-bean="serviceFactory"
     factory-method="createEncryptionService"/>
 
+  <bean id="secureStoreService" factory-bean="serviceFactory"
+    factory-method="createSecureStoreService"/>
+
 </beans>
 

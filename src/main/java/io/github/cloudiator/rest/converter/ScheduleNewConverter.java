@@ -12,6 +12,6 @@ public class ScheduleNewConverter implements
   public ProcessEntities.ScheduleNew apply(ScheduleNew scheduleNew) {
 
     return ProcessEntities.ScheduleNew.newBuilder().setJob(scheduleNew.getJob())
-        .setInstantiaton(Instantiation.valueOf(scheduleNew.getInstantiation().name())).build();
+        .setInstantiation(Instantiation.valueOf(scheduleNew.getInstantiation().name())).build();
   }
 }

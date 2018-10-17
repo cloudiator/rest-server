@@ -19,6 +19,7 @@ import javax.validation.constraints.*;
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type", visible = true )
 @JsonSubTypes({
   @JsonSubTypes.Type(value = FaasInterface.class, name = "FaasInterface"),
+  @JsonSubTypes.Type(value = SparkInterface.class, name = "SparkInterface"),
   @JsonSubTypes.Type(value = PlatformInterface.class, name = "PlatformInterface"),
   @JsonSubTypes.Type(value = DockerInterface.class, name = "DockerInterface"),
   @JsonSubTypes.Type(value = LanceInterface.class, name = "LanceInterface"),
