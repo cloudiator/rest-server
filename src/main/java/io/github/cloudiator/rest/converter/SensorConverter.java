@@ -1,13 +1,11 @@
 package io.github.cloudiator.rest.converter;
 
-import io.github.cloudiator.rest.model.Port;
-import io.github.cloudiator.rest.model.PortProvided;
-import io.github.cloudiator.rest.model.PortRequired;
+import de.uniulm.omi.cloudiator.util.TwoWayConverter;
+
 import io.github.cloudiator.rest.model.PullSensor;
 import io.github.cloudiator.rest.model.PushSensor;
 import io.github.cloudiator.rest.model.Sensor;
 import org.cloudiator.messages.entities.MonitorEntities;
-import org.cloudiator.messages.entities.TaskEntities;
 
 public class SensorConverter implements TwoWayConverter<Sensor, MonitorEntities.Sensor> {
 

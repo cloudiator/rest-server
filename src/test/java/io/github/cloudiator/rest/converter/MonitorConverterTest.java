@@ -10,6 +10,8 @@ import io.github.cloudiator.rest.model.MonitoringTag;
 import io.github.cloudiator.rest.model.MonitoringTarget;
 import io.github.cloudiator.rest.model.PushSensor;
 import io.github.cloudiator.rest.model.Sensor;
+import java.util.Collection;
+import java.util.Collections;
 import org.cloudiator.messages.entities.MonitorEntities;
 import org.cloudiator.messages.entities.MonitorEntities.SinkType;
 import org.cloudiator.messages.entities.MonitorEntities.TargetType;
@@ -51,21 +53,18 @@ public class MonitorConverterTest {
     //Sinks
     this.restSink1 = new DataSink()
         .type(TypeEnum.INFLUX)
-        ._configuration(new DataSinkConfiguration().key("DataSink1Key").value("DataSink1Value"));
+        ._configuration(Collections.singletonMap("DataSink1Key", "DataSink1Value"));
     this.restSink2 = new DataSink()
         .type(TypeEnum.KAIROS_DB)
-        ._configuration(new DataSinkConfiguration().key("DataSink2Key").value("DataSink2Value"));
+        ._configuration(Collections.singletonMap("DataSink2Key", "DataSink2Value"));
     this.kafkaSink1 = MonitorEntities.Sink.newBuilder()
         .setType(SinkType.INFLUX)
-        .setConfiguration(
-            MonitorEntities.SinkConfiguration.newBuilder().setKey("DataSink1Key")
-                .setValue("DataSink1Value").build()).build();
+        .putAllConfiguration(Collections.singletonMap("DataSink1Key", "DataSink1Value"))
+        .build();
     this.kafkaSink2 = MonitorEntities.Sink.newBuilder()
         .setType(SinkType.KAIROS_DB)
-        .setConfiguration(
-            MonitorEntities.SinkConfiguration.newBuilder().setKey("DataSink2Key")
-                .setValue("DataSink2Value").build()).build();
-
+        .putAllConfiguration(Collections.singletonMap("DataSink2Key", "DataSink2Value"))
+        .build();
     //Tags
     this.restTag1 = new MonitoringTag().key("Tag1Key").value("Tag1Value");
     this.restTag2 = new MonitoringTag().key("Tag2Key").value("Tag2Value");

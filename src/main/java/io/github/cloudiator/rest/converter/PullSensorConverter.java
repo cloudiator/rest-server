@@ -1,16 +1,14 @@
 package io.github.cloudiator.rest.converter;
 
-import io.github.cloudiator.rest.model.PortRequired;
+import de.uniulm.omi.cloudiator.util.TwoWayConverter;
 import io.github.cloudiator.rest.model.PullSensor;
-import io.github.cloudiator.rest.model.SensorConfiguration;
 import org.cloudiator.messages.entities.MonitorEntities;
-import org.cloudiator.messages.entities.TaskEntities;
+
 
 public class PullSensorConverter implements
     TwoWayConverter<PullSensor, MonitorEntities.PullSensor> {
 
   private final IntervalConverter intervalConverter = new IntervalConverter();
-  private final SensorConfigConverter sensorConfigConverter = new SensorConfigConverter();
 
 
   @Override
@@ -18,7 +16,7 @@ public class PullSensorConverter implements
     PullSensor result = new PullSensor();
     result.setClassName(kafkaSensor.getClassName());
     result.setInterval(intervalConverter.applyBack(kafkaSensor.getInterval()));
-    result.setConfiguration(sensorConfigConverter.applyBack(kafkaSensor.getConfiguration()));
+    result.setConfiguration(kafkaSensor.getConfigurationMap());
 
     return result;
   }
@@ -28,7 +26,7 @@ public class PullSensorConverter implements
     MonitorEntities.PullSensor.Builder result = MonitorEntities.PullSensor.newBuilder()
         .setClassName(restSensor.getClassName())
         .setInterval(intervalConverter.apply(restSensor.getInterval()))
-        .setConfiguration(sensorConfigConverter.apply(restSensor.getConfiguration()));
+        .putAllConfiguration(restSensor.getConfiguration());
 
     return result.build();
   }

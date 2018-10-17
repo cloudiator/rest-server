@@ -1,25 +1,23 @@
 package io.github.cloudiator.rest.converter;
 
+import de.uniulm.omi.cloudiator.util.TwoWayConverter;
 import io.github.cloudiator.rest.model.DataSink;
 import io.github.cloudiator.rest.model.DataSink.TypeEnum;
-import io.github.cloudiator.rest.model.DataSinkConfiguration;
-import io.github.cloudiator.rest.model.PullSensor;
-import io.github.cloudiator.rest.model.PushSensor;
-import io.github.cloudiator.rest.model.Sensor;
 import org.cloudiator.messages.entities.MonitorEntities;
-import org.cloudiator.messages.entities.MonitorEntities.SinkConfiguration;
+import org.cloudiator.messages.entities.MonitorEntities.Sink;
+
 import org.cloudiator.messages.entities.MonitorEntities.SinkType;
 
-public class DataSinkConverter implements TwoWayConverter<DataSink, MonitorEntities.Sink> {
+public class DataSinkConverter implements TwoWayConverter<DataSink, Sink> {
 
   private final SinkTypeConverter sinkTypeConverter = new SinkTypeConverter();
-  private final SinkConfigConverter sinkConfigConverter = new SinkConfigConverter();
+
 
   @Override
   public DataSink applyBack(MonitorEntities.Sink kafkaSink) {
     DataSink dataSink = new DataSink()
         .type(sinkTypeConverter.applyBack(kafkaSink.getType()))
-        ._configuration(sinkConfigConverter.applyBack(kafkaSink.getConfiguration()));
+        ._configuration(kafkaSink.getConfigurationMap());
 
     return dataSink;
   }
@@ -28,7 +26,7 @@ public class DataSinkConverter implements TwoWayConverter<DataSink, MonitorEntit
   public MonitorEntities.Sink apply(DataSink restSink) {
     MonitorEntities.Sink.Builder result = MonitorEntities.Sink.newBuilder()
         .setType(sinkTypeConverter.apply(restSink.getType()))
-        .setConfiguration(sinkConfigConverter.apply(restSink.getConfiguration()));
+        .putAllConfiguration(restSink.getConfiguration());
 
     return result.build();
   }
@@ -60,29 +58,4 @@ public class DataSinkConverter implements TwoWayConverter<DataSink, MonitorEntit
       }
     }
   }
-
-  private class SinkConfigConverter implements
-      TwoWayConverter<DataSinkConfiguration, MonitorEntities.SinkConfiguration> {
-
-    @Override
-    public DataSinkConfiguration applyBack(SinkConfiguration kafkaSinkConfig) {
-      DataSinkConfiguration result = new DataSinkConfiguration()
-          .key(kafkaSinkConfig.getKey())
-          .value(kafkaSinkConfig.getValue());
-
-      return result;
-    }
-
-    @Override
-    public MonitorEntities.SinkConfiguration apply(DataSinkConfiguration restSinkConfig) {
-      MonitorEntities.SinkConfiguration.Builder result = MonitorEntities.SinkConfiguration
-          .newBuilder()
-          .setKey(restSinkConfig.getKey())
-          .setValue(restSinkConfig.getValue());
-
-      return result.build();
-    }
-  }
-
-
 }
