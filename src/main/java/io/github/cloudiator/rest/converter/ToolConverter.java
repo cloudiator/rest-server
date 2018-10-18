@@ -23,6 +23,8 @@ public class ToolConverter implements TwoWayConverter<Tool, InstallationEntities
         return Tool.KAIROSDB;
       case 4:
         return Tool.DOCKER;
+      case 5:
+        return Tool.SPARK_WORKER;
       default:
         throw new AssertionError("Unrecognized toolType " + tool);
     }
@@ -44,6 +46,8 @@ public class ToolConverter implements TwoWayConverter<Tool, InstallationEntities
         return InstallationEntities.Tool.LANCE;
       case VISOR:
         return InstallationEntities.Tool.VISOR;
+      case SPARK_WORKER:
+        return InstallationEntities.Tool.SPARK_WORKER;
       default:
         throw new AssertionError("Unrecognized toolType " + tool);
     }

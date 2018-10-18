@@ -32,8 +32,7 @@ public class InstallerApiController implements InstallerApi {
     System.out.println("Starting tools installation!");
     //TODO: get installationRequest service
 
-    LOGGER.debug("installing something maybe...");
-    System.out.println("installing something maybe...");
+    System.out.println("New installation request triggered...");
 
     installationRequestService.createInstallationRequestAsync(Installation.InstallationRequest.newBuilder()
         .setUserId("dummyuser")
@@ -44,7 +43,7 @@ public class InstallerApiController implements InstallerApi {
         });
 
 
-    LOGGER.debug("installing something maybe...");
+    System.out.println("Installation request finished!");
 
     return new ResponseEntity<>(HttpStatus.OK);
   }
