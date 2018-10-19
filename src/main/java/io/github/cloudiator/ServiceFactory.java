@@ -14,6 +14,7 @@ import org.cloudiator.messaging.services.JobService;
 import org.cloudiator.messaging.services.LocationService;
 import org.cloudiator.messaging.services.MatchmakingService;
 import org.cloudiator.messaging.services.MessageServiceModule;
+import org.cloudiator.messaging.services.MonitorService;
 import org.cloudiator.messaging.services.NodeService;
 import org.cloudiator.messaging.services.ProcessService;
 import org.cloudiator.messaging.services.SecureStoreService;
@@ -92,6 +93,10 @@ public class ServiceFactory {
 
   public SecureStoreService createSecureStoreService() {
     return INJECTOR.getInstance(SecureStoreService.class);
+  }
+
+  public MonitorService createMonitorService() {
+    return INJECTOR.getInstance(MonitorService.class);
   }
 
 }

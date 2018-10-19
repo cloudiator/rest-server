@@ -6,7 +6,6 @@
 package io.github.cloudiator.rest.api;
 
 import io.github.cloudiator.rest.model.Monitor;
-import io.github.cloudiator.rest.model.MonitorNew;
 import io.swagger.annotations.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -35,18 +34,18 @@ public interface MonitorsApi {
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.POST)
-    ResponseEntity<Monitor> addMonitor(@ApiParam(value = "Monitor to be created " ,required=true )  @Valid @RequestBody MonitorNew monitor);
+    ResponseEntity<Monitor> addMonitor(@ApiParam(value = "Monitor to be created " ,required=true )  @Valid @RequestBody Monitor monitor);
 
 
-    @ApiOperation(value = "", nickname = "deleteMonitor", notes = "Deletes the monitor identified by the given id paramater. ", authorizations = {
+    @ApiOperation(value = "", nickname = "deleteMonitor", notes = "Deletes the monitor identified by the given metric name. ", authorizations = {
         @Authorization(value = "ApiKeyAuth")
     }, tags={ "monitoring", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "OK") })
-    @RequestMapping(value = "/monitors/{id}",
+    @RequestMapping(value = "/monitors/{metric}",
         produces = { "application/json" }, 
         method = RequestMethod.DELETE)
-    ResponseEntity<Void> deleteMonitor(@ApiParam(value = "Unique identifier of the resource",required=true) @PathVariable("id") String id);
+    ResponseEntity<Void> deleteMonitor(@ApiParam(value = "Unique identifier of a monitor",required=true) @PathVariable("metric") String metric);
 
 
     @ApiOperation(value = "", nickname = "findMonitors", notes = "Returns all monitors visible to the user ", response = Monitor.class, responseContainer = "List", authorizations = {
@@ -60,14 +59,14 @@ public interface MonitorsApi {
     ResponseEntity<List<Monitor>> findMonitors();
 
 
-    @ApiOperation(value = "", nickname = "getMonitor", notes = "Retrieves the monitor with the given id parameter ", response = Monitor.class, responseContainer = "List", authorizations = {
+    @ApiOperation(value = "", nickname = "getMonitor", notes = "Retrieves the monitor with the given metric name ", response = Monitor.class, responseContainer = "List", authorizations = {
         @Authorization(value = "ApiKeyAuth")
     }, tags={ "monitoring", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "OK", response = Monitor.class, responseContainer = "List") })
-    @RequestMapping(value = "/monitors/{id}",
+    @RequestMapping(value = "/monitors/{metric}",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<List<Monitor>> getMonitor(@ApiParam(value = "Unique identifier of the resource",required=true) @PathVariable("id") String id);
+    ResponseEntity<List<Monitor>> getMonitor(@ApiParam(value = "Unique identifier of a monitor",required=true) @PathVariable("metric") String metric);
 
 }

@@ -22,7 +22,9 @@ public enum Tool {
   
   VISOR("VISOR"),
   
-  AXE("AXE");
+  AXE("AXE"),
+  
+  SPARK_WORKER("SPARK_WORKER");
 
   private String value;
 
