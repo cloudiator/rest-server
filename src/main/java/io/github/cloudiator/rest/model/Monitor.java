@@ -4,7 +4,6 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.github.cloudiator.rest.model.DataSink;
-import io.github.cloudiator.rest.model.MonitorNew;
 import io.github.cloudiator.rest.model.MonitoringTag;
 import io.github.cloudiator.rest.model.MonitoringTarget;
 import io.github.cloudiator.rest.model.Sensor;
@@ -40,9 +39,6 @@ public class Monitor   {
   @Valid
   private List<MonitoringTag> tags = null;
 
-  @JsonProperty("id")
-  private String id = null;
-
   public Monitor metric(String metric) {
     this.metric = metric;
     return this;
@@ -52,7 +48,8 @@ public class Monitor   {
    * Name of the collected metric
    * @return metric
   **/
-  @ApiModelProperty(value = "Name of the collected metric")
+  @ApiModelProperty(required = true, value = "Name of the collected metric")
+  @NotNull
 
 
   public String getMetric() {
@@ -171,26 +168,6 @@ public class Monitor   {
     this.tags = tags;
   }
 
-  public Monitor id(String id) {
-    this.id = id;
-    return this;
-  }
-
-  /**
-   * Get id
-   * @return id
-  **/
-  @ApiModelProperty(value = "")
-
-
-  public String getId() {
-    return id;
-  }
-
-  public void setId(String id) {
-    this.id = id;
-  }
-
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -205,13 +182,12 @@ public class Monitor   {
         Objects.equals(this.targets, monitor.targets) &&
         Objects.equals(this.sensor, monitor.sensor) &&
         Objects.equals(this.sinks, monitor.sinks) &&
-        Objects.equals(this.tags, monitor.tags) &&
-        Objects.equals(this.id, monitor.id);
+        Objects.equals(this.tags, monitor.tags);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(metric, targets, sensor, sinks, tags, id);
+    return Objects.hash(metric, targets, sensor, sinks, tags);
   }
 
   @Override
@@ -224,7 +200,6 @@ public class Monitor   {
     sb.append("    sensor: ").append(toIndentedString(sensor)).append("\n");
     sb.append("    sinks: ").append(toIndentedString(sinks)).append("\n");
     sb.append("    tags: ").append(toIndentedString(tags)).append("\n");
-    sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("}");
     return sb.toString();
   }

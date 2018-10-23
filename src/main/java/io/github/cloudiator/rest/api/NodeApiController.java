@@ -6,7 +6,7 @@ import io.github.cloudiator.rest.UserInfo;
 import io.github.cloudiator.rest.converter.NodeConverter;
 import io.github.cloudiator.rest.converter.NodeRequirementsConverter;
 import io.github.cloudiator.rest.model.Node;
-import io.github.cloudiator.rest.model.NodeRequirements;
+import io.github.cloudiator.rest.model.NodeRequest;
 import io.github.cloudiator.rest.model.Queue;
 import io.github.cloudiator.rest.queue.QueueService;
 import io.github.cloudiator.rest.queue.QueueService.QueueItem;
@@ -14,7 +14,6 @@ import io.swagger.annotations.ApiParam;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
 import org.cloudiator.messages.Node.NodeQueryMessage;
 import org.cloudiator.messages.Node.NodeQueryResponse;
 import org.cloudiator.messages.Node.NodeRequestMessage;
@@ -29,7 +28,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 
 
 @Controller
@@ -54,8 +52,8 @@ public class NodeApiController implements NodeApi {
   private NodeRequirementsConverter nodeRequirementsConverter = new NodeRequirementsConverter();
   private NodeConverter nodeConverter = new NodeConverter();
 
-  public ResponseEntity<Queue> addNode(
-      @ApiParam(value = "Node Request", required = true) @Valid @RequestBody NodeRequirements nodeRequirements) {
+  @Override
+  public ResponseEntity<Queue> addNode(NodeRequest nodeRequest) {
     String accept = request.getHeader("Accept");
     if (accept != null && accept.contains("application/json")) {
 
@@ -66,7 +64,8 @@ public class NodeApiController implements NodeApi {
 
       final NodeRequestMessage nodeRequestMessage = NodeRequestMessage.newBuilder()
           .setUserId(tenant)
-          .setNodeRequest(nodeRequirementsConverter.apply(nodeRequirements)).build();
+          .setGroupName(nodeRequest.getGroupName())
+          .setNodeRequest(nodeRequirementsConverter.apply(nodeRequest.getRequirements())).build();
 
       nodeService.createNodesAsync(nodeRequestMessage, queueItem.getCallback());
 
