@@ -1,7 +1,6 @@
 package io.github.cloudiator.rest.api;
 
 import io.github.cloudiator.rest.model.Monitor;
-import io.github.cloudiator.rest.model.MonitorNew;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.*;
 import org.slf4j.Logger;
@@ -37,11 +36,11 @@ public class MonitorsApiController implements MonitorsApi {
         this.request = request;
     }
 
-    public ResponseEntity<Monitor> addMonitor(@ApiParam(value = "Monitor to be created " ,required=true )  @Valid @RequestBody MonitorNew monitor) {
+    public ResponseEntity<Monitor> addMonitor(@ApiParam(value = "Monitor to be created " ,required=true )  @Valid @RequestBody Monitor monitor) {
         String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
             try {
-                return new ResponseEntity<Monitor>(objectMapper.readValue("\"\"", Monitor.class), HttpStatus.NOT_IMPLEMENTED);
+                return new ResponseEntity<Monitor>(objectMapper.readValue("{  \"metric\" : \"metric\",  \"sinks\" : [ {    \"configuration\" : { },    \"type\" : \"KAIROS_DB\"  }, {    \"configuration\" : { },    \"type\" : \"KAIROS_DB\"  } ],  \"sensor\" : {    \"type\" : \"type\"  },  \"targets\" : [ {    \"identifier\" : \"identifier\",    \"type\" : \"JOB\"  }, {    \"identifier\" : \"identifier\",    \"type\" : \"JOB\"  } ],  \"tags\" : [ {    \"value\" : \"value\",    \"key\" : \"key\"  }, {    \"value\" : \"value\",    \"key\" : \"key\"  } ]}", Monitor.class), HttpStatus.NOT_IMPLEMENTED);
             } catch (IOException e) {
                 log.error("Couldn't serialize response for content type application/json", e);
                 return new ResponseEntity<Monitor>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -51,7 +50,7 @@ public class MonitorsApiController implements MonitorsApi {
         return new ResponseEntity<Monitor>(HttpStatus.NOT_IMPLEMENTED);
     }
 
-    public ResponseEntity<Void> deleteMonitor(@ApiParam(value = "Unique identifier of the resource",required=true) @PathVariable("id") String id) {
+    public ResponseEntity<Void> deleteMonitor(@ApiParam(value = "Unique identifier of a monitor",required=true) @PathVariable("metric") String metric) {
         String accept = request.getHeader("Accept");
         return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
     }
@@ -60,7 +59,7 @@ public class MonitorsApiController implements MonitorsApi {
         String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
             try {
-                return new ResponseEntity<List<Monitor>>(objectMapper.readValue("[ \"\", \"\" ]", List.class), HttpStatus.NOT_IMPLEMENTED);
+                return new ResponseEntity<List<Monitor>>(objectMapper.readValue("[ {  \"metric\" : \"metric\",  \"sinks\" : [ {    \"configuration\" : { },    \"type\" : \"KAIROS_DB\"  }, {    \"configuration\" : { },    \"type\" : \"KAIROS_DB\"  } ],  \"sensor\" : {    \"type\" : \"type\"  },  \"targets\" : [ {    \"identifier\" : \"identifier\",    \"type\" : \"JOB\"  }, {    \"identifier\" : \"identifier\",    \"type\" : \"JOB\"  } ],  \"tags\" : [ {    \"value\" : \"value\",    \"key\" : \"key\"  }, {    \"value\" : \"value\",    \"key\" : \"key\"  } ]}, {  \"metric\" : \"metric\",  \"sinks\" : [ {    \"configuration\" : { },    \"type\" : \"KAIROS_DB\"  }, {    \"configuration\" : { },    \"type\" : \"KAIROS_DB\"  } ],  \"sensor\" : {    \"type\" : \"type\"  },  \"targets\" : [ {    \"identifier\" : \"identifier\",    \"type\" : \"JOB\"  }, {    \"identifier\" : \"identifier\",    \"type\" : \"JOB\"  } ],  \"tags\" : [ {    \"value\" : \"value\",    \"key\" : \"key\"  }, {    \"value\" : \"value\",    \"key\" : \"key\"  } ]} ]", List.class), HttpStatus.NOT_IMPLEMENTED);
             } catch (IOException e) {
                 log.error("Couldn't serialize response for content type application/json", e);
                 return new ResponseEntity<List<Monitor>>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -70,11 +69,11 @@ public class MonitorsApiController implements MonitorsApi {
         return new ResponseEntity<List<Monitor>>(HttpStatus.NOT_IMPLEMENTED);
     }
 
-    public ResponseEntity<List<Monitor>> getMonitor(@ApiParam(value = "Unique identifier of the resource",required=true) @PathVariable("id") String id) {
+    public ResponseEntity<List<Monitor>> getMonitor(@ApiParam(value = "Unique identifier of a monitor",required=true) @PathVariable("metric") String metric) {
         String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
             try {
-                return new ResponseEntity<List<Monitor>>(objectMapper.readValue("[ \"\", \"\" ]", List.class), HttpStatus.NOT_IMPLEMENTED);
+                return new ResponseEntity<List<Monitor>>(objectMapper.readValue("[ {  \"metric\" : \"metric\",  \"sinks\" : [ {    \"configuration\" : { },    \"type\" : \"KAIROS_DB\"  }, {    \"configuration\" : { },    \"type\" : \"KAIROS_DB\"  } ],  \"sensor\" : {    \"type\" : \"type\"  },  \"targets\" : [ {    \"identifier\" : \"identifier\",    \"type\" : \"JOB\"  }, {    \"identifier\" : \"identifier\",    \"type\" : \"JOB\"  } ],  \"tags\" : [ {    \"value\" : \"value\",    \"key\" : \"key\"  }, {    \"value\" : \"value\",    \"key\" : \"key\"  } ]}, {  \"metric\" : \"metric\",  \"sinks\" : [ {    \"configuration\" : { },    \"type\" : \"KAIROS_DB\"  }, {    \"configuration\" : { },    \"type\" : \"KAIROS_DB\"  } ],  \"sensor\" : {    \"type\" : \"type\"  },  \"targets\" : [ {    \"identifier\" : \"identifier\",    \"type\" : \"JOB\"  }, {    \"identifier\" : \"identifier\",    \"type\" : \"JOB\"  } ],  \"tags\" : [ {    \"value\" : \"value\",    \"key\" : \"key\"  }, {    \"value\" : \"value\",    \"key\" : \"key\"  } ]} ]", List.class), HttpStatus.NOT_IMPLEMENTED);
             } catch (IOException e) {
                 log.error("Couldn't serialize response for content type application/json", e);
                 return new ResponseEntity<List<Monitor>>(HttpStatus.INTERNAL_SERVER_ERROR);

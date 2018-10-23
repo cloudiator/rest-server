@@ -39,7 +39,18 @@ public interface ProcessApi {
     ResponseEntity<Queue> createProcess(@ApiParam(value = "Process to be created " ,required=true )  @Valid @RequestBody ProcessNew process);
 
 
-    @ApiOperation(value = "", nickname = "getProcesses", notes = "Retrieves all process of the current user. ", response = Process.class, responseContainer = "List", authorizations = {
+    @ApiOperation(value = "", nickname = "findProcess", notes = "Finds the job corresponding to the given id and parameters. ", response = Process.class, authorizations = {
+        @Authorization(value = "ApiKeyAuth")
+    }, tags={ "job", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "OK", response = Process.class) })
+    @RequestMapping(value = "/process/{id}",
+        produces = { "application/json" }, 
+        method = RequestMethod.GET)
+    ResponseEntity<Process> findProcess(@ApiParam(value = "Unique identifier of the resource",required=true) @PathVariable("id") String id);
+
+
+    @ApiOperation(value = "", nickname = "getProcesses", notes = "Retrieves all process of the current user matching the parameters. ", response = Process.class, responseContainer = "List", authorizations = {
         @Authorization(value = "ApiKeyAuth")
     }, tags={ "job", })
     @ApiResponses(value = { 
@@ -47,6 +58,6 @@ public interface ProcessApi {
     @RequestMapping(value = "/process",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<List<Process>> getProcesses();
+    ResponseEntity<List<Process>> getProcesses(@ApiParam(value = "Id of the schedule. ") @Valid @RequestParam(value = "scheduleId", required = false) String scheduleId);
 
 }

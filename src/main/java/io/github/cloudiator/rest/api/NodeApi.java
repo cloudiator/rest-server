@@ -7,7 +7,7 @@ package io.github.cloudiator.rest.api;
 
 import io.github.cloudiator.rest.model.Error;
 import io.github.cloudiator.rest.model.Node;
-import io.github.cloudiator.rest.model.NodeRequirements;
+import io.github.cloudiator.rest.model.NodeRequest;
 import io.github.cloudiator.rest.model.Queue;
 import io.swagger.annotations.*;
 import org.springframework.http.ResponseEntity;
@@ -43,7 +43,7 @@ public interface NodeApi {
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.POST)
-    ResponseEntity<Queue> addNode(@ApiParam(value = "Node Request" ,required=true )  @Valid @RequestBody NodeRequirements nodeRequirements);
+    ResponseEntity<Queue> addNode(@ApiParam(value = "Node Request" ,required=true )  @Valid @RequestBody NodeRequest nodeRequest);
 
 
     @ApiOperation(value = "", nickname = "findNodes", notes = "Retrieve all nodes the current user has access to", response = Node.class, responseContainer = "List", authorizations = {
