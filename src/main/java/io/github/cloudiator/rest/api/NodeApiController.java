@@ -3,6 +3,7 @@ package io.github.cloudiator.rest.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.cloudiator.rest.UserInfo;
+import io.github.cloudiator.rest.converter.NodeCandidateConverter;
 import io.github.cloudiator.rest.converter.NodeConverter;
 import io.github.cloudiator.rest.converter.NodeRequirementsConverter;
 import io.github.cloudiator.rest.model.Node;
@@ -53,6 +54,7 @@ public class NodeApiController implements NodeApi {
   private QueueService queueService;
 
   private NodeRequirementsConverter nodeRequirementsConverter = new NodeRequirementsConverter();
+  private NodeCandidateConverter nodeCandidateConverter = new NodeCandidateConverter();
   private NodeConverter nodeConverter = new NodeConverter();
 
   @Override
@@ -67,8 +69,15 @@ public class NodeApiController implements NodeApi {
               nodeRequestResponse -> "nodeGroup/" + nodeRequestResponse.getNodeGroup().getId());
 
       Builder builder = NodeRequestMessage.newBuilder()
-          .setUserId(tenant)
-          .setNodeRequest(nodeRequirementsConverter.apply(nodeRequest.getRequirements()));
+          .setUserId(tenant);
+
+      if (nodeRequest.getNodeCandidate() != null) {
+        builder.setNodeCandidate(nodeCandidateConverter.apply(nodeRequest.getNodeCandidate()));
+      } else if (nodeRequest.getRequirements() != null) {
+        builder.setRequirements(nodeRequirementsConverter.apply(nodeRequest.getRequirements()));
+      } else {
+        throw new ApiException(400, "Neither node candidate nor requirements are set.");
+      }
 
       if (nodeRequest.getGroupName() != null) {
         builder.setGroupName(nodeRequest.getGroupName());

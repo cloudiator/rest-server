@@ -7,24 +7,22 @@ import org.cloudiator.messages.entities.MatchmakingEntities;
 public class NodeCandidateConverter implements
     TwoWayConverter<NodeCandidate, MatchmakingEntities.NodeCandidate> {
 
-  public final CloudToCloudConverter cloudConverter = new CloudToCloudConverter();
-  public final ImageConverter imageConverter = new ImageConverter();
-  public final HardwareConverter hardwareConverter = new HardwareConverter();
-  public final LocationConverter locationConverter = new LocationConverter();
+  private final CloudToCloudConverter cloudConverter = new CloudToCloudConverter();
+  private final ImageConverter imageConverter = new ImageConverter();
+  private final HardwareConverter hardwareConverter = new HardwareConverter();
+  private final LocationConverter locationConverter = new LocationConverter();
 
 
   @Override
   public NodeCandidate applyBack(MatchmakingEntities.NodeCandidate nodeCandidate) {
 
-    NodeCandidate result = new NodeCandidate()
+    return new NodeCandidate()
         .id(nodeCandidate.getId())
         .cloud(cloudConverter.applyBack(nodeCandidate.getCloud()))
         .hardware(hardwareConverter.applyBack(nodeCandidate.getHardwareFlavor()))
         .image(imageConverter.applyBack(nodeCandidate.getImage()))
         .location(locationConverter.applyBack(nodeCandidate.getLocation()))
         .price(nodeCandidate.getPrice());
-
-    return result;
   }
 
   @Override
