@@ -20,6 +20,7 @@ public class NodeConverter implements TwoWayConverter<Node, NodeEntities.Node> {
 
     Node rest = new Node();
     rest.setNodeId(node.getId());
+    rest.setName(node.getName());
     rest.setNodeType(nodeTypeConverter.applyBack(node.getNodeType()));
     rest.setLoginCredential(loginCredentialConverter.applyBack(node.getLoginCredential()));
     rest.setNodeProperties(nodePropertiesConverter.applyBack(node.getNodeProperties()));
@@ -37,6 +38,7 @@ public class NodeConverter implements TwoWayConverter<Node, NodeEntities.Node> {
 
     builder
         .setId(node.getNodeId())
+        .setName(node.getName())
         .setNodeType(nodeTypeConverter.apply(node.getNodeType()))
         .setNodeProperties(nodePropertiesConverter.apply(node.getNodeProperties()))
         .setLoginCredential(loginCredentialConverter.apply(node.getLoginCredential()));
