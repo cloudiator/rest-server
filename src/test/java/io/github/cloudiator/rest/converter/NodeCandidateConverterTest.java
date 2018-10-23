@@ -1,6 +1,8 @@
 package io.github.cloudiator.rest.converter;
 
-import static org.junit.Assert.*;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThat;
 
 import io.github.cloudiator.rest.model.Cloud;
 import io.github.cloudiator.rest.model.Hardware;
@@ -10,9 +12,6 @@ import io.github.cloudiator.rest.model.NodeCandidate;
 import org.cloudiator.messages.entities.IaasEntities;
 import org.cloudiator.messages.entities.MatchmakingEntities;
 import org.junit.Test;
-
-import static org.hamcrest.Matchers.*;
-import static org.junit.Assert.*;
 
 public class NodeCandidateConverterTest {
 
@@ -37,6 +36,8 @@ public class NodeCandidateConverterTest {
   private final IaasEntities.HardwareFlavor iaasHardware;
   private final IaasEntities.Location iaasLocationNoParent;
 
+  private final String id = "testId";
+
 
   public NodeCandidateConverterTest() {
     //rest
@@ -45,6 +46,7 @@ public class NodeCandidateConverterTest {
     this.restHardware = hwConverterTest.restHardware;
     this.restLocationNoParent = locationConverterTest.restParentLocation;
     this.restNodeCandidate = new NodeCandidate()
+        .id(id)
         .cloud(restCloud)
         .image(restImage)
         .hardware(restHardware)
@@ -56,6 +58,7 @@ public class NodeCandidateConverterTest {
     this.iaasHardware = hwConverterTest.iaasHardware;
     this.iaasLocationNoParent = locationConverterTest.iaasParentLocation;
     this.iaasNodeCandidate = MatchmakingEntities.NodeCandidate.newBuilder()
+        .setId(id)
         .setCloud(iaasCloud)
         .setImage(iaasImage)
         .setHardwareFlavor(iaasHardware)

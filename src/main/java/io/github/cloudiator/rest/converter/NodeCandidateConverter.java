@@ -17,6 +17,7 @@ public class NodeCandidateConverter implements
   public NodeCandidate applyBack(MatchmakingEntities.NodeCandidate nodeCandidate) {
 
     NodeCandidate result = new NodeCandidate()
+        .id(nodeCandidate.getId())
         .cloud(cloudConverter.applyBack(nodeCandidate.getCloud()))
         .hardware(hardwareConverter.applyBack(nodeCandidate.getHardwareFlavor()))
         .image(imageConverter.applyBack(nodeCandidate.getImage()))
@@ -32,7 +33,8 @@ public class NodeCandidateConverter implements
     MatchmakingEntities.NodeCandidate.Builder builder = MatchmakingEntities.NodeCandidate
         .newBuilder();
 
-    builder.setCloud(cloudConverter.apply(nodeCandidate.getCloud()))
+    builder.setId(nodeCandidate.getId())
+        .setCloud(cloudConverter.apply(nodeCandidate.getCloud()))
         .setHardwareFlavor(hardwareConverter.apply(nodeCandidate.getHardware()))
         .setImage(imageConverter.apply(nodeCandidate.getImage()))
         .setLocation(locationConverter.apply(nodeCandidate.getLocation()))
