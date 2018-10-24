@@ -105,21 +105,21 @@ public class NodeApiController implements NodeApi {
 
   @Override
   public ResponseEntity<Queue> deleteNode(
-      @ApiParam(value = "Unique identifier of the resource", required = true) @PathVariable("id") String id) {
+      @ApiParam(value = "Unique identifier of the resource", required = true) @PathVariable("id") final String id) {
     String accept = request.getHeader("Accept");
     if (accept != null && accept.contains("application/json")) {
-
-      id = idEncoder.decode(id);
-
-      final String tenant = UserInfo.of(request).tenant();
-      final QueueItem<NodeDeleteResponseMessage> queueItem = queueService
-          .queueCallback(tenant);
 
       if (Strings.isNullOrEmpty(id)) {
         throw new ApiException(400, "Id is null or empty");
       }
 
-      NodeDeleteMessage nodeDeleteMessage = NodeDeleteMessage.newBuilder().setNodeId(id)
+      final String decodedId = idEncoder.decode(id);
+
+      final String tenant = UserInfo.of(request).tenant();
+      final QueueItem<NodeDeleteResponseMessage> queueItem = queueService
+          .queueCallback(tenant);
+
+      NodeDeleteMessage nodeDeleteMessage = NodeDeleteMessage.newBuilder().setNodeId(decodedId)
           .setUserId(tenant).build();
 
       nodeService.deleteNodeAsync(nodeDeleteMessage, queueItem.getCallback());
@@ -160,9 +160,9 @@ public class NodeApiController implements NodeApi {
 
   @Override
   public ResponseEntity<Node> getNode(
-      @ApiParam(value = "Unique identifier of the resource", required = true) @PathVariable("id") String id) {
+      @ApiParam(value = "Unique identifier of the resource", required = true) @PathVariable("id") final String id) {
 
-    id = idEncoder.decode(id);
+    final String decodedId = idEncoder.decode(id);
 
     String accept = request.getHeader("Accept");
     if (accept != null && accept.contains("application/json")) {
@@ -171,7 +171,8 @@ public class NodeApiController implements NodeApi {
 
       try {
         final NodeQueryResponse nodeQueryResponse = nodeService
-            .queryNodes(NodeQueryMessage.newBuilder().setUserId(tenant).setNodeId(id).build());
+            .queryNodes(
+                NodeQueryMessage.newBuilder().setUserId(tenant).setNodeId(decodedId).build());
 
         if (nodeQueryResponse.getNodesCount() == 0) {
           return new ResponseEntity<>(HttpStatus.NOT_FOUND);
