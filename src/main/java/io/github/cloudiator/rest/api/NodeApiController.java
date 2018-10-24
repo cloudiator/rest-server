@@ -2,6 +2,7 @@ package io.github.cloudiator.rest.api;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.base.Strings;
 import io.github.cloudiator.rest.UserInfo;
 import io.github.cloudiator.rest.converter.NodeCandidateConverter;
 import io.github.cloudiator.rest.converter.NodeConverter;
@@ -16,6 +17,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import org.cloudiator.messages.Node.NodeDeleteMessage;
+import org.cloudiator.messages.Node.NodeDeleteResponseMessage;
 import org.cloudiator.messages.Node.NodeQueryMessage;
 import org.cloudiator.messages.Node.NodeQueryResponse;
 import org.cloudiator.messages.Node.NodeRequestMessage;
@@ -86,6 +89,35 @@ public class NodeApiController implements NodeApi {
       final NodeRequestMessage nodeRequestMessage = builder.build();
 
       nodeService.createNodesAsync(nodeRequestMessage, queueItem.getCallback());
+
+      final HttpHeaders httpHeaders = new HttpHeaders();
+      httpHeaders.add(HttpHeaders.LOCATION, queueItem.getQueueLocation());
+
+      return new ResponseEntity<Queue>(queueItem.getQueue(), httpHeaders, HttpStatus.OK);
+
+
+    }
+    return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+  }
+
+  @Override
+  public ResponseEntity<Queue> deleteNode(
+      @ApiParam(value = "Unique identifier of the resource", required = true) @PathVariable("id") String id) {
+    String accept = request.getHeader("Accept");
+    if (accept != null && accept.contains("application/json")) {
+
+      final String tenant = UserInfo.of(request).tenant();
+      final QueueItem<NodeDeleteResponseMessage> queueItem = queueService
+          .queueCallback(tenant);
+
+      if (Strings.isNullOrEmpty(id)) {
+        throw new ApiException(400, "Id is null or empty");
+      }
+
+      NodeDeleteMessage nodeDeleteMessage = NodeDeleteMessage.newBuilder().setNodeId(id)
+          .setUserId(tenant).build();
+
+      nodeService.deleteNodeAsync(nodeDeleteMessage, queueItem.getCallback());
 
       final HttpHeaders httpHeaders = new HttpHeaders();
       httpHeaders.add(HttpHeaders.LOCATION, queueItem.getQueueLocation());

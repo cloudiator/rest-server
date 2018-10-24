@@ -84,6 +84,12 @@ public class QueueService {
     return putEntry(new QueueItem<T>(userId, queueCallback, queue));
   }
 
+  public <T> QueueItem<T> queueCallback(String userId) {
+    final Queue queue = QueueFactory.next();
+    final QueueCallback<T> queueCallback = new QueueCallback<>();
+    return putEntry(new QueueItem<T>(userId, queueCallback, queue));
+  }
+
   @Nullable
   public Queue get(String userId, String id) {
     checkNotNull(userId, "userId is null");

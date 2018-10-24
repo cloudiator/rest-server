@@ -46,6 +46,17 @@ public interface NodeApi {
     ResponseEntity<Queue> addNode(@ApiParam(value = "Node Request" ,required=true )  @Valid @RequestBody NodeRequest nodeRequest);
 
 
+    @ApiOperation(value = "", nickname = "deleteNode", notes = "Deletes the node with the given id.", response = Queue.class, authorizations = {
+        @Authorization(value = "ApiKeyAuth")
+    }, tags={ "node", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 202, message = "OK ", response = Queue.class) })
+    @RequestMapping(value = "/node/{id}",
+        produces = { "application/json" }, 
+        method = RequestMethod.DELETE)
+    ResponseEntity<Queue> deleteNode(@ApiParam(value = "Unique identifier of the resource",required=true) @PathVariable("id") String id);
+
+
     @ApiOperation(value = "", nickname = "findNodes", notes = "Retrieve all nodes the current user has access to", response = Node.class, responseContainer = "List", authorizations = {
         @Authorization(value = "ApiKeyAuth")
     }, tags={ "node", })

@@ -14,6 +14,7 @@ import org.cloudiator.messaging.ResponseException;
 class QueueCallback<T> implements Future<String>, ResponseCallback<T> {
 
   private final SettableFuture<String> settableFuture;
+  @Nullable
   private final Function<T, String> toStringFunction;
 
   public QueueCallback(
@@ -21,6 +22,12 @@ class QueueCallback<T> implements Future<String>, ResponseCallback<T> {
     this.settableFuture = SettableFuture.create();
     this.toStringFunction = toStringFunction;
   }
+
+  public QueueCallback() {
+    this.settableFuture = SettableFuture.create();
+    this.toStringFunction = null;
+  }
+
 
   @Override
   public boolean cancel(boolean b) {
@@ -54,7 +61,12 @@ class QueueCallback<T> implements Future<String>, ResponseCallback<T> {
       settableFuture.setException(new ResponseException(error.getCode(), error.getMessage()));
     }
     if (content != null) {
-      settableFuture.set(toStringFunction.apply(content));
+      if (toStringFunction != null) {
+        settableFuture.set(toStringFunction.apply(content));
+      } else {
+        settableFuture.set(null);
+      }
+
     }
   }
 }
