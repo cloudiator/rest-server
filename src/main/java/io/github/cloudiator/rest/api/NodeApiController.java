@@ -12,6 +12,8 @@ import io.github.cloudiator.rest.model.NodeRequest;
 import io.github.cloudiator.rest.model.Queue;
 import io.github.cloudiator.rest.queue.QueueService;
 import io.github.cloudiator.rest.queue.QueueService.QueueItem;
+import io.github.cloudiator.util.Base64IdEncoder;
+import io.github.cloudiator.util.IdEncoder;
 import io.swagger.annotations.ApiParam;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -43,6 +45,7 @@ public class NodeApiController implements NodeApi {
   private static final Logger log = LoggerFactory.getLogger(PlatformApiController.class);
   private final ObjectMapper objectMapper;
   private final HttpServletRequest request;
+  private final IdEncoder idEncoder = Base64IdEncoder.create();
 
   @org.springframework.beans.factory.annotation.Autowired
   public NodeApiController(ObjectMapper objectMapper, HttpServletRequest request) {
@@ -106,6 +109,8 @@ public class NodeApiController implements NodeApi {
     String accept = request.getHeader("Accept");
     if (accept != null && accept.contains("application/json")) {
 
+      id = idEncoder.decode(id);
+
       final String tenant = UserInfo.of(request).tenant();
       final QueueItem<NodeDeleteResponseMessage> queueItem = queueService
           .queueCallback(tenant);
@@ -156,6 +161,9 @@ public class NodeApiController implements NodeApi {
   @Override
   public ResponseEntity<Node> getNode(
       @ApiParam(value = "Unique identifier of the resource", required = true) @PathVariable("id") String id) {
+
+    id = idEncoder.decode(id);
+
     String accept = request.getHeader("Accept");
     if (accept != null && accept.contains("application/json")) {
 

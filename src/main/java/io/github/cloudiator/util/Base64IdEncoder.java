@@ -1,7 +1,7 @@
 package io.github.cloudiator.util;
 
 import com.google.common.base.Charsets;
-import org.springframework.security.crypto.codec.Base64;
+import com.google.common.io.BaseEncoding;
 
 public class Base64IdEncoder implements IdEncoder {
 
@@ -16,11 +16,11 @@ public class Base64IdEncoder implements IdEncoder {
 
   @Override
   public String encode(String s) {
-    return new String(Base64.encode(s.getBytes(Charsets.UTF_8)));
+    return BaseEncoding.base64Url().encode(s.getBytes(Charsets.UTF_8));
   }
 
   @Override
   public String decode(String s) {
-    return new String(Base64.decode(s.getBytes(Charsets.UTF_8)));
+    return new String(BaseEncoding.base64Url().decode(s));
   }
 }
