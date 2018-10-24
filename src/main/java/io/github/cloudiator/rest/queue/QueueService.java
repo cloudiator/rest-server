@@ -131,6 +131,7 @@ public class QueueService {
       } catch (ExecutionException e) {
         if (e.getCause() instanceof ResponseException) {
           queue.setStatus(QueueStatus.FAILED);
+          queue.setDiagnosis(e.getCause().getMessage());
         } else {
           throw new IllegalStateException(e.getCause());
         }
