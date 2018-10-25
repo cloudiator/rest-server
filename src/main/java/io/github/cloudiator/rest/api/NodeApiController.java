@@ -2,7 +2,9 @@ package io.github.cloudiator.rest.api;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.base.Strings;
 import io.github.cloudiator.rest.UserInfo;
+import io.github.cloudiator.rest.converter.NodeCandidateConverter;
 import io.github.cloudiator.rest.converter.NodeConverter;
 import io.github.cloudiator.rest.converter.NodeRequirementsConverter;
 import io.github.cloudiator.rest.model.Node;
@@ -10,11 +12,15 @@ import io.github.cloudiator.rest.model.NodeRequest;
 import io.github.cloudiator.rest.model.Queue;
 import io.github.cloudiator.rest.queue.QueueService;
 import io.github.cloudiator.rest.queue.QueueService.QueueItem;
+import io.github.cloudiator.util.Base64IdEncoder;
+import io.github.cloudiator.util.IdEncoder;
 import io.swagger.annotations.ApiParam;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import org.cloudiator.messages.Node.NodeDeleteMessage;
+import org.cloudiator.messages.Node.NodeDeleteResponseMessage;
 import org.cloudiator.messages.Node.NodeQueryMessage;
 import org.cloudiator.messages.Node.NodeQueryResponse;
 import org.cloudiator.messages.Node.NodeRequestMessage;
@@ -39,6 +45,7 @@ public class NodeApiController implements NodeApi {
   private static final Logger log = LoggerFactory.getLogger(PlatformApiController.class);
   private final ObjectMapper objectMapper;
   private final HttpServletRequest request;
+  private final IdEncoder idEncoder = Base64IdEncoder.create();
 
   @org.springframework.beans.factory.annotation.Autowired
   public NodeApiController(ObjectMapper objectMapper, HttpServletRequest request) {
@@ -53,6 +60,7 @@ public class NodeApiController implements NodeApi {
   private QueueService queueService;
 
   private NodeRequirementsConverter nodeRequirementsConverter = new NodeRequirementsConverter();
+  private NodeCandidateConverter nodeCandidateConverter = new NodeCandidateConverter();
   private NodeConverter nodeConverter = new NodeConverter();
 
   @Override
@@ -67,8 +75,15 @@ public class NodeApiController implements NodeApi {
               nodeRequestResponse -> "nodeGroup/" + nodeRequestResponse.getNodeGroup().getId());
 
       Builder builder = NodeRequestMessage.newBuilder()
-          .setUserId(tenant)
-          .setNodeRequest(nodeRequirementsConverter.apply(nodeRequest.getRequirements()));
+          .setUserId(tenant);
+
+      if (nodeRequest.getNodeCandidate() != null) {
+        builder.setNodeCandidate(nodeCandidateConverter.apply(nodeRequest.getNodeCandidate()));
+      } else if (nodeRequest.getRequirements() != null) {
+        builder.setRequirements(nodeRequirementsConverter.apply(nodeRequest.getRequirements()));
+      } else {
+        throw new ApiException(400, "Neither node candidate nor requirements are set.");
+      }
 
       if (nodeRequest.getGroupName() != null) {
         builder.setGroupName(nodeRequest.getGroupName());
@@ -77,6 +92,37 @@ public class NodeApiController implements NodeApi {
       final NodeRequestMessage nodeRequestMessage = builder.build();
 
       nodeService.createNodesAsync(nodeRequestMessage, queueItem.getCallback());
+
+      final HttpHeaders httpHeaders = new HttpHeaders();
+      httpHeaders.add(HttpHeaders.LOCATION, queueItem.getQueueLocation());
+
+      return new ResponseEntity<Queue>(queueItem.getQueue(), httpHeaders, HttpStatus.OK);
+
+
+    }
+    return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+  }
+
+  @Override
+  public ResponseEntity<Queue> deleteNode(
+      @ApiParam(value = "Unique identifier of the resource", required = true) @PathVariable("id") final String id) {
+    String accept = request.getHeader("Accept");
+    if (accept != null && accept.contains("application/json")) {
+
+      if (Strings.isNullOrEmpty(id)) {
+        throw new ApiException(400, "Id is null or empty");
+      }
+
+      final String decodedId = idEncoder.decode(id);
+
+      final String tenant = UserInfo.of(request).tenant();
+      final QueueItem<NodeDeleteResponseMessage> queueItem = queueService
+          .queueCallback(tenant);
+
+      NodeDeleteMessage nodeDeleteMessage = NodeDeleteMessage.newBuilder().setNodeId(decodedId)
+          .setUserId(tenant).build();
+
+      nodeService.deleteNodeAsync(nodeDeleteMessage, queueItem.getCallback());
 
       final HttpHeaders httpHeaders = new HttpHeaders();
       httpHeaders.add(HttpHeaders.LOCATION, queueItem.getQueueLocation());
@@ -114,7 +160,10 @@ public class NodeApiController implements NodeApi {
 
   @Override
   public ResponseEntity<Node> getNode(
-      @ApiParam(value = "Unique identifier of the resource", required = true) @PathVariable("id") String id) {
+      @ApiParam(value = "Unique identifier of the resource", required = true) @PathVariable("id") final String id) {
+
+    final String decodedId = idEncoder.decode(id);
+
     String accept = request.getHeader("Accept");
     if (accept != null && accept.contains("application/json")) {
 
@@ -122,7 +171,8 @@ public class NodeApiController implements NodeApi {
 
       try {
         final NodeQueryResponse nodeQueryResponse = nodeService
-            .queryNodes(NodeQueryMessage.newBuilder().setUserId(tenant).setNodeId(id).build());
+            .queryNodes(
+                NodeQueryMessage.newBuilder().setUserId(tenant).setNodeId(decodedId).build());
 
         if (nodeQueryResponse.getNodesCount() == 0) {
           return new ResponseEntity<>(HttpStatus.NOT_FOUND);

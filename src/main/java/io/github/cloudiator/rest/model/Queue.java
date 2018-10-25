@@ -23,6 +23,9 @@ public class Queue   {
   @JsonProperty("status")
   private QueueStatus status = null;
 
+  @JsonProperty("diagnosis")
+  private String diagnosis = null;
+
   @JsonProperty("location")
   private String location = null;
 
@@ -67,6 +70,26 @@ public class Queue   {
     this.status = status;
   }
 
+  public Queue diagnosis(String diagnosis) {
+    this.diagnosis = diagnosis;
+    return this;
+  }
+
+  /**
+   * Gives human-readable feedback
+   * @return diagnosis
+  **/
+  @ApiModelProperty(value = "Gives human-readable feedback")
+
+
+  public String getDiagnosis() {
+    return diagnosis;
+  }
+
+  public void setDiagnosis(String diagnosis) {
+    this.diagnosis = diagnosis;
+  }
+
   public Queue location(String location) {
     this.location = location;
     return this;
@@ -99,12 +122,13 @@ public class Queue   {
     Queue queue = (Queue) o;
     return Objects.equals(this.id, queue.id) &&
         Objects.equals(this.status, queue.status) &&
+        Objects.equals(this.diagnosis, queue.diagnosis) &&
         Objects.equals(this.location, queue.location);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, status, location);
+    return Objects.hash(id, status, diagnosis, location);
   }
 
   @Override
@@ -114,6 +138,7 @@ public class Queue   {
     
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    status: ").append(toIndentedString(status)).append("\n");
+    sb.append("    diagnosis: ").append(toIndentedString(diagnosis)).append("\n");
     sb.append("    location: ").append(toIndentedString(location)).append("\n");
     sb.append("}");
     return sb.toString();
