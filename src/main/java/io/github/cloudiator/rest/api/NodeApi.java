@@ -7,7 +7,7 @@ package io.github.cloudiator.rest.api;
 
 import io.github.cloudiator.rest.model.Error;
 import io.github.cloudiator.rest.model.Node;
-import io.github.cloudiator.rest.model.NodeRequirements;
+import io.github.cloudiator.rest.model.NodeRequest;
 import io.github.cloudiator.rest.model.Queue;
 import io.swagger.annotations.*;
 import org.springframework.http.ResponseEntity;
@@ -43,7 +43,18 @@ public interface NodeApi {
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.POST)
-    ResponseEntity<Queue> addNode(@ApiParam(value = "Node Request" ,required=true )  @Valid @RequestBody NodeRequirements nodeRequirements);
+    ResponseEntity<Queue> addNode(@ApiParam(value = "Node Request" ,required=true )  @Valid @RequestBody NodeRequest nodeRequest);
+
+
+    @ApiOperation(value = "", nickname = "deleteNode", notes = "Deletes the node with the given id.", response = Queue.class, authorizations = {
+        @Authorization(value = "ApiKeyAuth")
+    }, tags={ "node", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 202, message = "OK ", response = Queue.class) })
+    @RequestMapping(value = "/node/{id}",
+        produces = { "application/json" }, 
+        method = RequestMethod.DELETE)
+    ResponseEntity<Queue> deleteNode(@ApiParam(value = "Unique identifier of the resource",required=true) @PathVariable("id") String id);
 
 
     @ApiOperation(value = "", nickname = "findNodes", notes = "Retrieve all nodes the current user has access to", response = Node.class, responseContainer = "List", authorizations = {

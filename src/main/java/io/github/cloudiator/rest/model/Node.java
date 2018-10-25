@@ -24,6 +24,9 @@ public class Node   {
   @JsonProperty("nodeId")
   private String nodeId = null;
 
+  @JsonProperty("name")
+  private String name = null;
+
   @JsonProperty("loginCredential")
   private LoginCredential loginCredential = null;
 
@@ -90,6 +93,26 @@ public class Node   {
 
   public void setNodeId(String nodeId) {
     this.nodeId = nodeId;
+  }
+
+  public Node name(String name) {
+    this.name = name;
+    return this;
+  }
+
+  /**
+   * Get name
+   * @return name
+  **/
+  @ApiModelProperty(value = "")
+
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
   }
 
   public Node loginCredential(LoginCredential loginCredential) {
@@ -194,6 +217,7 @@ public class Node   {
     }
     Node node = (Node) o;
     return Objects.equals(this.nodeId, node.nodeId) &&
+        Objects.equals(this.name, node.name) &&
         Objects.equals(this.loginCredential, node.loginCredential) &&
         Objects.equals(this.nodeType, node.nodeType) &&
         Objects.equals(this.ipAddresses, node.ipAddresses) &&
@@ -202,7 +226,7 @@ public class Node   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(nodeId, loginCredential, nodeType, ipAddresses, nodeProperties);
+    return Objects.hash(nodeId, name, loginCredential, nodeType, ipAddresses, nodeProperties);
   }
 
   @Override
@@ -211,6 +235,7 @@ public class Node   {
     sb.append("class Node {\n");
     
     sb.append("    nodeId: ").append(toIndentedString(nodeId)).append("\n");
+    sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    loginCredential: ").append(toIndentedString(loginCredential)).append("\n");
     sb.append("    nodeType: ").append(toIndentedString(nodeType)).append("\n");
     sb.append("    ipAddresses: ").append(toIndentedString(ipAddresses)).append("\n");

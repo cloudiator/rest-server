@@ -20,6 +20,9 @@ import javax.validation.constraints.*;
 @Validated
 
 public class NodeCandidate   {
+  @JsonProperty("id")
+  private String id = null;
+
   @JsonProperty("price")
   private Double price = null;
 
@@ -34,6 +37,26 @@ public class NodeCandidate   {
 
   @JsonProperty("location")
   private Location location = null;
+
+  public NodeCandidate id(String id) {
+    this.id = id;
+    return this;
+  }
+
+  /**
+   * Get id
+   * @return id
+  **/
+  @ApiModelProperty(value = "")
+
+
+  public String getId() {
+    return id;
+  }
+
+  public void setId(String id) {
+    this.id = id;
+  }
 
   public NodeCandidate price(Double price) {
     this.price = price;
@@ -149,7 +172,8 @@ public class NodeCandidate   {
       return false;
     }
     NodeCandidate nodeCandidate = (NodeCandidate) o;
-    return Objects.equals(this.price, nodeCandidate.price) &&
+    return Objects.equals(this.id, nodeCandidate.id) &&
+        Objects.equals(this.price, nodeCandidate.price) &&
         Objects.equals(this.cloud, nodeCandidate.cloud) &&
         Objects.equals(this.image, nodeCandidate.image) &&
         Objects.equals(this.hardware, nodeCandidate.hardware) &&
@@ -158,7 +182,7 @@ public class NodeCandidate   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(price, cloud, image, hardware, location);
+    return Objects.hash(id, price, cloud, image, hardware, location);
   }
 
   @Override
@@ -166,6 +190,7 @@ public class NodeCandidate   {
     StringBuilder sb = new StringBuilder();
     sb.append("class NodeCandidate {\n");
     
+    sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    price: ").append(toIndentedString(price)).append("\n");
     sb.append("    cloud: ").append(toIndentedString(cloud)).append("\n");
     sb.append("    image: ").append(toIndentedString(image)).append("\n");

@@ -47,6 +47,7 @@ public class MonitorsApiController implements MonitorsApi {
     this.monitorConverter = new MonitorConverter();
   }
 
+
   @Autowired
   private MonitorService monitorService;
 
@@ -62,6 +63,7 @@ public class MonitorsApiController implements MonitorsApi {
         }
 
         return new ResponseEntity<Monitor>(monitor, HttpStatus.NOT_IMPLEMENTED);
+
 
         // return new ResponseEntity<Monitor>(objectMapper.readValue("{  \"metric\" : \"metric\",  \"sinks\" : [ {    \"configuration\" : { },    \"type\" : \"KAIROS_DB\"  }, {    \"configuration\" : { },    \"type\" : \"KAIROS_DB\"  } ],  \"sensor\" : {    \"type\" : \"type\"  },  \"targets\" : [ {    \"identifier\" : \"identifier\",    \"type\" : \"JOB\"  }, {    \"identifier\" : \"identifier\",    \"type\" : \"JOB\"  } ],  \"tags\" : [ {    \"value\" : \"value\",    \"key\" : \"key\"  }, {    \"value\" : \"value\",    \"key\" : \"key\"  } ]}", Monitor.class), HttpStatus.NOT_IMPLEMENTED);
       } catch (Exception e) {
@@ -91,14 +93,12 @@ public class MonitorsApiController implements MonitorsApi {
         monitorList = monitorQueryResponse.getMonitorList().stream()
             .map(monitorConverter::applyBack).collect(
                 Collectors.toList());
-
         return new ResponseEntity<List<Monitor>>(monitorList, HttpStatus.OK);
       } catch (Exception e) {
         log.error("Couldn't serialize response for content type application/json", e);
         return new ResponseEntity<List<Monitor>>(HttpStatus.INTERNAL_SERVER_ERROR);
       }
     }
-
     return new ResponseEntity<List<Monitor>>(HttpStatus.NOT_IMPLEMENTED);
   }
 
