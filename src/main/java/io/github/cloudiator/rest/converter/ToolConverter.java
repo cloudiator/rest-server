@@ -12,19 +12,24 @@ public class ToolConverter implements TwoWayConverter<Tool, InstallationEntities
   @Override
   public Tool applyBack(InstallationEntities.Tool tool) {
 
-    switch (tool.getNumber()){
-      case 0:
+    switch (tool) {
+      case VISOR:
         return Tool.VISOR;
-      case 1:
+      case AXE:
         return Tool.AXE;
-      case 2:
+      case LANCE:
         return Tool.LANCE;
-      case 3:
+      case KAIROSDB:
         return Tool.KAIROSDB;
-      case 4:
+      case DOCKER:
         return Tool.DOCKER;
-      case 5:
+      case SPARK_WORKER:
         return Tool.SPARK_WORKER;
+      case DLMS_AGENT:
+        return Tool.DLMS_AGENT;
+      case ALLUXIO_CLIENT:
+        return Tool.ALLUXIO_CLIENT;
+      case UNRECOGNIZED:
       default:
         throw new AssertionError("Unrecognized toolType " + tool);
     }
@@ -35,7 +40,7 @@ public class ToolConverter implements TwoWayConverter<Tool, InstallationEntities
   public InstallationEntities.Tool apply(Tool tool) {
     //from REST to protobuf
 
-    switch (tool){
+    switch (tool) {
       case AXE:
         return InstallationEntities.Tool.AXE;
       case DOCKER:
@@ -48,6 +53,10 @@ public class ToolConverter implements TwoWayConverter<Tool, InstallationEntities
         return InstallationEntities.Tool.VISOR;
       case SPARK_WORKER:
         return InstallationEntities.Tool.SPARK_WORKER;
+      case ALLUXIO_CLIENT:
+        return InstallationEntities.Tool.ALLUXIO_CLIENT;
+      case DLMS_AGENT:
+        return InstallationEntities.Tool.DLMS_AGENT;
       default:
         throw new AssertionError("Unrecognized toolType " + tool);
     }
