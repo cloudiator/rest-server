@@ -46,6 +46,7 @@ public class NodeCandidateConverterTest {
     this.restHardware = hwConverterTest.restHardware;
     this.restLocationNoParent = locationConverterTest.restParentLocation;
     this.restNodeCandidate = new NodeCandidate()
+        .nodeCandidateType(NodeCandidate.NodeCandidateTypeEnum.IAAS)
         .id(id)
         .cloud(restCloud)
         .image(restImage)
@@ -58,6 +59,7 @@ public class NodeCandidateConverterTest {
     this.iaasHardware = hwConverterTest.iaasHardware;
     this.iaasLocationNoParent = locationConverterTest.iaasParentLocation;
     this.iaasNodeCandidate = MatchmakingEntities.NodeCandidate.newBuilder()
+        .setType(MatchmakingEntities.NodeCandidateType.IAAS)
         .setId(id)
         .setCloud(iaasCloud)
         .setImage(iaasImage)
@@ -65,7 +67,6 @@ public class NodeCandidateConverterTest {
         .setLocation(iaasLocationNoParent)
         .setPrice(123.4)
         .build();
-
   }
 
   @Test

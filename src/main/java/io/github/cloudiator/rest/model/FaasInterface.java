@@ -157,12 +157,12 @@ public class FaasInterface extends TaskInterface  {
   }
 
   /**
-   * Allowed time in seconds for funtion to finish its task. 
+   * Allowed time in seconds for function to finish its task. 
    * minimum: 1
    * maximum: 600
    * @return timeout
   **/
-  @ApiModelProperty(value = "Allowed time in seconds for funtion to finish its task. ")
+  @ApiModelProperty(value = "Allowed time in seconds for function to finish its task. ")
 
 @Min(1) @Max(600) 
   public Integer getTimeout() {
