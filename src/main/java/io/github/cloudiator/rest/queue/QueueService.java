@@ -101,8 +101,10 @@ public class QueueService {
     checkNotNull(userId, "userId is null");
     List<Queue> queueList = new LinkedList<>();
 
-    for (Entry<String, QueueItem> entry : table.get(userId).entrySet()) {
-      queueList.add(entry.getValue().getQueue());
+    if (table.get(userId) != null) {
+      for (Entry<String, QueueItem> entry : table.get(userId).entrySet()) {
+        queueList.add(entry.getValue().getQueue());
+      }
     }
 
     return queueList;
