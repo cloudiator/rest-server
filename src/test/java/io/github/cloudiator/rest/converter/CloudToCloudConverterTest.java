@@ -11,6 +11,7 @@ import io.github.cloudiator.rest.model.CloudConfiguration;
 import io.github.cloudiator.rest.model.CloudCredential;
 import io.github.cloudiator.rest.model.CloudType;
 import java.util.Collections;
+import java.util.Map;
 import org.cloudiator.messages.entities.IaasEntities;
 import org.junit.Test;
 
@@ -25,6 +26,8 @@ public class CloudToCloudConverterTest {
   //CloudConfigurations
   private final CloudConfiguration restCloudConfig;
   private final IaasEntities.Configuration iaasCloudConfig;
+
+
   // CloudCredentials
   private final CloudCredential restCloudCredential;
   private final IaasEntities.Credential iaasCloudCredential;
