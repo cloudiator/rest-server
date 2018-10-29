@@ -13,10 +13,12 @@ public class NodeCandidateTypeConverter implements
   @Override
   public NodeCandidate.NodeCandidateTypeEnum applyBack(MatchmakingEntities.NodeCandidateType type) {
     switch (type) {
-      case IAAS:
+      case NC_IAAS:
         return IAAS;
-      case FAAS:
+      case NC_FAAS:
         return FAAS;
+      case NC_PAAS:
+      case NC_BYON:
       case UNRECOGNIZED:
       default:
         throw new IllegalStateException("Unknown node candidate type " + type);
@@ -27,9 +29,11 @@ public class NodeCandidateTypeConverter implements
   public MatchmakingEntities.NodeCandidateType apply(NodeCandidate.NodeCandidateTypeEnum type) {
     switch (type) {
       case IAAS:
-        return MatchmakingEntities.NodeCandidateType.IAAS;
+        return MatchmakingEntities.NodeCandidateType.NC_IAAS;
       case FAAS:
-        return MatchmakingEntities.NodeCandidateType.FAAS;
+        return MatchmakingEntities.NodeCandidateType.NC_FAAS;
+      case PAAS:
+      case BYON:
       default:
         throw new IllegalStateException("Unknown node candidate type " + type);
     }

@@ -59,7 +59,7 @@ public class NodeCandidateConverterTest {
     this.iaasHardware = hwConverterTest.iaasHardware;
     this.iaasLocationNoParent = locationConverterTest.iaasParentLocation;
     this.iaasNodeCandidate = MatchmakingEntities.NodeCandidate.newBuilder()
-        .setType(MatchmakingEntities.NodeCandidateType.IAAS)
+        .setType(MatchmakingEntities.NodeCandidateType.NC_IAAS)
         .setId(id)
         .setCloud(iaasCloud)
         .setImage(iaasImage)

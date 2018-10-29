@@ -31,7 +31,11 @@ public class NodeCandidate   {
   public enum NodeCandidateTypeEnum {
     IAAS("IAAS"),
     
-    FAAS("FAAS");
+    FAAS("FAAS"),
+    
+    PAAS("PAAS"),
+    
+    BYON("BYON");
 
     private String value;
 

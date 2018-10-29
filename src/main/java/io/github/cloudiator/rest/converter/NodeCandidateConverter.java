@@ -14,10 +14,12 @@ public class NodeCandidateConverter implements
   @Override
   public NodeCandidate applyBack(MatchmakingEntities.NodeCandidate nodeCandidate) {
     switch (nodeCandidate.getType()) {
-      case IAAS:
+      case NC_IAAS:
         return iaasNodeCandidateConverter.applyBack(nodeCandidate);
-      case FAAS:
+      case NC_FAAS:
         return faasNodeCandidateConverter.applyBack(nodeCandidate);
+      case NC_PAAS:
+      case NC_BYON:
       case UNRECOGNIZED:
       default:
         throw new IllegalStateException(
