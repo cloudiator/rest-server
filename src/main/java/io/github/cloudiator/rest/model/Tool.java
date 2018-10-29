@@ -24,7 +24,11 @@ public enum Tool {
   
   AXE("AXE"),
   
-  SPARK_WORKER("SPARK_WORKER");
+  SPARK_WORKER("SPARK_WORKER"),
+  
+  DLMS_AGENT("DLMS_AGENT"),
+  
+  ALLUXIO_CLIENT("ALLUXIO_CLIENT");
 
   private String value;
 
