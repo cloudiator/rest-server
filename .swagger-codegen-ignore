@@ -30,42 +30,42 @@ LICENSE.md
 README.md
 
 # Ignore Home Controller
-src/main/java/io/swagger/configuration/HomeController.java
+server/src/main/java/io/swagger/configuration/HomeController.java
 
 # Ignore implemented controllers
-src/main/java/io/github/cloudiator/rest/api/ApiErrorController.java
-src/main/java/io/github/cloudiator/rest/api/CloudsApiController.java
-src/main/java/io/github/cloudiator/rest/api/HardwareApiController.java
-src/main/java/io/github/cloudiator/rest/api/ImagesApiController.java
-src/main/java/io/github/cloudiator/rest/api/JobsApiController.java
-src/main/java/io/github/cloudiator/rest/api/LocationsApiController.java
-src/main/java/io/github/cloudiator/rest/api/NodeApiController.java
-src/main/java/io/github/cloudiator/rest/api/NodeGroupApiController.java
-src/main/java/io/github/cloudiator/rest/api/MatchmakingApiController.java
-src/main/java/io/github/cloudiator/rest/api/VmApiController.java
-src/main/java/io/github/cloudiator/rest/api/NodeCandidatesApiController.java
-src/main/java/io/github/cloudiator/rest/api/MonitorsApiController.java
+server/src/main/java/io/github/cloudiator/rest/api/ApiErrorController.java
+server/src/main/java/io/github/cloudiator/rest/api/CloudsApiController.java
+server/src/main/java/io/github/cloudiator/rest/api/HardwareApiController.java
+server/src/main/java/io/github/cloudiator/rest/api/ImagesApiController.java
+server/src/main/java/io/github/cloudiator/rest/api/JobsApiController.java
+server/src/main/java/io/github/cloudiator/rest/api/LocationsApiController.java
+server/src/main/java/io/github/cloudiator/rest/api/NodeApiController.java
+server/src/main/java/io/github/cloudiator/rest/api/NodeGroupApiController.java
+server/src/main/java/io/github/cloudiator/rest/api/MatchmakingApiController.java
+server/src/main/java/io/github/cloudiator/rest/api/VmApiController.java
+server/src/main/java/io/github/cloudiator/rest/api/NodeCandidatesApiController.java
+server/src/main/java/io/github/cloudiator/rest/api/MonitorsApiController.java
 
-src/main/java/io/github/cloudiator/rest/api/LoginApiController.java
-src/main/java/io/github/cloudiator/rest/api/TenantsApiController.java
-src/main/java/io/github/cloudiator/rest/api/UsersApiController.java
+server/src/main/java/io/github/cloudiator/rest/api/LoginApiController.java
+server/src/main/java/io/github/cloudiator/rest/api/TenantsApiController.java
+server/src/main/java/io/github/cloudiator/rest/api/UsersApiController.java
 
-src/main/java/io/github/cloudiator/rest/api/InstallerApiController.java
+server/src/main/java/io/github/cloudiator/rest/api/InstallerApiController.java
 
-src/main/java/io/github/cloudiator/rest/api/ScheduleApiController.java
-src/main/java/io/github/cloudiator/rest/api/ProcessApiController.java
+server/src/main/java/io/github/cloudiator/rest/api/ScheduleApiController.java
+server/src/main/java/io/github/cloudiator/rest/api/ProcessApiController.java
 
-src/main/java/io/github/cloudiator/rest/api/QueueApiController.java
+server/src/main/java/io/github/cloudiator/rest/api/QueueApiController.java
 
-src/main/java/io/github/cloudiator/rest/api/EncryptionApiController.java
-src/main/java/io/github/cloudiator/rest/api/DecryptionApiController.java
-src/main/java/io/github/cloudiator/rest/api/SecureStoreApiController.java
+server/src/main/java/io/github/cloudiator/rest/api/EncryptionApiController.java
+server/src/main/java/io/github/cloudiator/rest/api/DecryptionApiController.java
+server/src/main/java/io/github/cloudiator/rest/api/SecureStoreApiController.java
 
 
 # Ignore Exceptionhandling
-src/main/java/io/github/cloudiator/rest/api/ApiException.java
-src/main/java/io/github/cloudiator/rest/api/ApiExceptionHandler.java
+server/src/main/java/io/github/cloudiator/rest/api/ApiException.java
+server/src/main/java/io/github/cloudiator/rest/api/ApiExceptionHandler.java
 
 # Ignore Spring Boot config
-src/**/Swagger2SpringBoot.java
-src/**/SwaggerDocumentationConfig.java
+server/src/main/java/io/swagger/Swagger2SpringBoot.java
+server/src/main/java/io/swagger/configuration/SwaggerDocumentationConfig.java
