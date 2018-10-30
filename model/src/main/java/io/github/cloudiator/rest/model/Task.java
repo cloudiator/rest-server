@@ -2,6 +2,12 @@ package io.github.cloudiator.rest.model;
 
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import io.github.cloudiator.rest.model.Optimization;
+import io.github.cloudiator.rest.model.Port;
+import io.github.cloudiator.rest.model.Requirement;
+import io.github.cloudiator.rest.model.TaskInterface;
+import io.github.cloudiator.rest.model.TaskType;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;

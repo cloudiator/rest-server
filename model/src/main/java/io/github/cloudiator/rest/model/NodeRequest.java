@@ -2,10 +2,14 @@ package io.github.cloudiator.rest.model;
 
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import io.github.cloudiator.rest.model.NodeCandidate;
+import io.github.cloudiator.rest.model.NodeRequirements;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
+import javax.validation.constraints.*;
 
 /**
  * A request to start a node. May either contain requirements or a candidate. If requirements are passed, the matchmaking logic is used to derive the most suitable node candidate otherwise the given node candidate is used. If a node candidate is given, this one will be always prefered above the requirements. 

@@ -10,13 +10,18 @@ import io.github.cloudiator.rest.model.ProcessNew;
 import io.github.cloudiator.rest.model.Queue;
 import io.swagger.annotations.*;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import javax.validation.constraints.*;
 import java.util.List;
 
 @Api(value = "process", description = "the process API")
@@ -34,7 +39,18 @@ public interface ProcessApi {
     ResponseEntity<Queue> createProcess(@ApiParam(value = "Process to be created " ,required=true )  @Valid @RequestBody ProcessNew process);
 
 
-    @ApiOperation(value = "", nickname = "findProcess", notes = "Finds the job corresponding to the given id and parameters. ", response = Process.class, authorizations = {
+    @ApiOperation(value = "", nickname = "deleteProcess", notes = "Deletes the process corresponding to the given id. ", response = Queue.class, authorizations = {
+        @Authorization(value = "ApiKeyAuth")
+    }, tags={ "job", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 202, message = "ACCEPTED", response = Queue.class) })
+    @RequestMapping(value = "/process/{id}",
+        produces = { "application/json" }, 
+        method = RequestMethod.DELETE)
+    ResponseEntity<Queue> deleteProcess(@ApiParam(value = "Unique identifier of the resource",required=true) @PathVariable("id") String id);
+
+
+    @ApiOperation(value = "", nickname = "findProcess", notes = "Finds the process corresponding to the given id. ", response = Process.class, authorizations = {
         @Authorization(value = "ApiKeyAuth")
     }, tags={ "job", })
     @ApiResponses(value = { 

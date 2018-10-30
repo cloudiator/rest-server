@@ -80,6 +80,12 @@ public class ProcessApiController implements ProcessApi {
   }
 
   @Override
+  public ResponseEntity<Queue> deleteProcess(
+      @ApiParam(value = "Unique identifier of the resource", required = true) @PathVariable("id") String id) {
+    return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+  }
+
+  @Override
   public ResponseEntity<Process> findProcess(
       @ApiParam(value = "Unique identifier of the resource", required = true) @PathVariable("id") String id) {
     String accept = request.getHeader("Accept");
