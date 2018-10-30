@@ -1,0 +1,5 @@
+springfox.documentation.swagger.v2.path=$APPLICATION_DOCS_PATH
+server.contextPath=$APPLICATION_CONTEXT_PATH
+server.port=$APPLICATION_PORT
+spring.jackson.date-format=RFC3339DateFormat
+spring.jackson.serialization.WRITE_DATES_AS_TIMESTAMPS=false
