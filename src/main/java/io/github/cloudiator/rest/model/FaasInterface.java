@@ -42,6 +42,9 @@ public class FaasInterface extends TaskInterface  {
   @JsonProperty("memory")
   private Integer memory = 1024;
 
+  @JsonProperty("functionEnvironment")
+  private java.util.Map functionEnvironment = null;
+
   public FaasInterface functionName(String functionName) {
     this.functionName = functionName;
     return this;
@@ -195,6 +198,27 @@ public class FaasInterface extends TaskInterface  {
     this.memory = memory;
   }
 
+  public FaasInterface functionEnvironment(java.util.Map functionEnvironment) {
+    this.functionEnvironment = functionEnvironment;
+    return this;
+  }
+
+  /**
+   * Environment variables passed to function. 
+   * @return functionEnvironment
+  **/
+  @ApiModelProperty(value = "Environment variables passed to function. ")
+
+  @Valid
+
+  public java.util.Map getFunctionEnvironment() {
+    return functionEnvironment;
+  }
+
+  public void setFunctionEnvironment(java.util.Map functionEnvironment) {
+    this.functionEnvironment = functionEnvironment;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -212,12 +236,13 @@ public class FaasInterface extends TaskInterface  {
         Objects.equals(this.triggers, faasInterface.triggers) &&
         Objects.equals(this.timeout, faasInterface.timeout) &&
         Objects.equals(this.memory, faasInterface.memory) &&
+        Objects.equals(this.functionEnvironment, faasInterface.functionEnvironment) &&
         super.equals(o);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(functionName, sourceCodeUrl, handler, runtime, triggers, timeout, memory, super.hashCode());
+    return Objects.hash(functionName, sourceCodeUrl, handler, runtime, triggers, timeout, memory, functionEnvironment, super.hashCode());
   }
 
   @Override
@@ -232,6 +257,7 @@ public class FaasInterface extends TaskInterface  {
     sb.append("    triggers: ").append(toIndentedString(triggers)).append("\n");
     sb.append("    timeout: ").append(toIndentedString(timeout)).append("\n");
     sb.append("    memory: ").append(toIndentedString(memory)).append("\n");
+    sb.append("    functionEnvironment: ").append(toIndentedString(functionEnvironment)).append("\n");
     sb.append("}");
     return sb.toString();
   }

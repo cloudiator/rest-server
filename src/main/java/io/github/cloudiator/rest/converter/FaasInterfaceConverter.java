@@ -24,7 +24,8 @@ public class FaasInterfaceConverter implements
             .getTriggersList()
             .stream()
             .map(triggerConverter::applyBack)
-            .collect(Collectors.toList()));
+            .collect(Collectors.toList()))
+        .functionEnvironment(taskInterface.getFunctionEnvironmentMap());
   }
 
   @Override
@@ -41,6 +42,7 @@ public class FaasInterfaceConverter implements
             .stream()
             .map(triggerConverter)
             .collect(Collectors.toList()))
+        .putAllFunctionEnvironment(faasInterface.getFunctionEnvironment())
         .build();
   }
 }

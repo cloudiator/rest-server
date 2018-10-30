@@ -1,6 +1,7 @@
 package io.github.cloudiator.rest.converter;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
 import io.github.cloudiator.rest.model.*;
 import io.github.cloudiator.rest.model.LanceInterface.ContainerTypeEnum;
 import org.cloudiator.messages.entities.CommonEntities;
@@ -123,7 +124,8 @@ public class JobConverterTest {
         .memory(1234)
         .triggers(ImmutableList.of(new HttpTrigger()
             .httpMethod("GET")
-            .httpPath("http/path")));
+            .httpPath("http/path")))
+        .functionEnvironment(ImmutableMap.of("key", "value"));
     this.restFaasInterface.setType(restFaasInterface.getClass().getSimpleName());
     Trigger trigger = this.restFaasInterface.getTriggers().get(0);
     trigger.setType(trigger.getClass().getSimpleName());
@@ -140,6 +142,7 @@ public class JobConverterTest {
                     TaskEntities.HttpTrigger.newBuilder()
                         .setHttpMethod("GET")
                         .setHttpPath("http/path")))
+                .putFunctionEnvironment("key", "value")
         ).build();
     //Task
     this.restTask = new Task()
