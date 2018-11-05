@@ -74,4 +74,15 @@ public interface JobsApi {
         method = RequestMethod.GET)
     ResponseEntity<List<Job>> findJobs();
 
+
+    @ApiOperation(value = "", nickname = "jobGraph", notes = "Returns a json graph representation usable by cyctoscape.js ", response = Object.class, authorizations = {
+        @Authorization(value = "ApiKeyAuth")
+    }, tags={ "job", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "See js.cyctoscape.org ", response = Object.class) })
+    @RequestMapping(value = "/jobs/{id}/graph",
+        produces = { "application/json" }, 
+        method = RequestMethod.GET)
+    ResponseEntity<Object> jobGraph(@ApiParam(value = "Unique identifier of the resource",required=true) @PathVariable("id") String id);
+
 }

@@ -16,6 +16,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import org.cloudiator.messages.Job.CreateJobRequest;
 import org.cloudiator.messages.Job.JobCreatedResponse;
+import org.cloudiator.messages.Job.JobGraphRequest;
+import org.cloudiator.messages.Job.JobGraphResponse;
 import org.cloudiator.messages.Job.JobQueryRequest;
 import org.cloudiator.messages.Job.JobQueryResponse;
 import org.cloudiator.messages.entities.JobEntities;
@@ -129,6 +131,34 @@ public class JobsApiController implements JobsApi {
     }
     return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
 
+  }
+
+  @Override
+  public ResponseEntity<Object> jobGraph(
+      @ApiParam(value = "Unique identifier of the resource", required = true) @PathVariable("id") String id) {
+    String accept = request.getHeader("Accept");
+
+    if (accept != null && accept.contains("application/json")) {
+
+      final String tenant = UserInfo.of(request).tenant();
+
+      if (Strings.isNullOrEmpty(id)) {
+        throw new ApiException(400, "id is null or empty");
+      }
+
+      try {
+
+        JobGraphResponse jobGraphResponse = jobService
+            .graph(JobGraphRequest.newBuilder().setUserId(tenant).setJobId(id).build());
+
+        return new ResponseEntity<>(jobGraphResponse.getJson(), HttpStatus.OK);
+
+      } catch (ResponseException e) {
+        throw new ApiException(e.code(), e.getMessage());
+      }
+
+    }
+    return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
   }
 
 }
