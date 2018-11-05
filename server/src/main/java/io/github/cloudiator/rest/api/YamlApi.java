@@ -5,7 +5,7 @@
  */
 package io.github.cloudiator.rest.api;
 
-import io.github.cloudiator.rest.model.Queue;
+import io.github.cloudiator.rest.model.Job;
 import io.swagger.annotations.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -25,15 +25,15 @@ import java.util.List;
 @Api(value = "yaml", description = "the yaml API")
 public interface YamlApi {
 
-    @ApiOperation(value = "", nickname = "parseYAML", notes = "", response = Queue.class, authorizations = {
+    @ApiOperation(value = "", nickname = "parseYAML", notes = "", response = Job.class, authorizations = {
         @Authorization(value = "ApiKeyAuth")
-    }, tags={  })
+    }, tags={ "yaml", })
     @ApiResponses(value = { 
-        @ApiResponse(code = 202, message = "ACCEPTED", response = Queue.class) })
+        @ApiResponse(code = 200, message = "OK", response = Job.class) })
     @RequestMapping(value = "/yaml",
         produces = { "application/json" }, 
         consumes = { "application/yaml" },
         method = RequestMethod.POST)
-    ResponseEntity<Queue> parseYAML(@ApiParam(value = "YAML payload" ,required=true )  @Valid @RequestBody String yaml);
+    ResponseEntity<Job> parseYAML(@ApiParam(value = "YAML payload" ,required=true )  @Valid @RequestBody String yaml);
 
 }
