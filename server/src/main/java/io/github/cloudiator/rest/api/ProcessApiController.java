@@ -67,7 +67,7 @@ public class ProcessApiController implements ProcessApi {
 
       final String tenant = UserInfo.of(request).tenant();
 
-      process.setNode(idEncoder.encode(process.getNode()));
+      process.setNode(idEncoder.decode(process.getNode()));
 
       final CreateProcessRequest createProcessRequest = CreateProcessRequest.newBuilder()
           .setUserId(tenant).setProcess(PROCESS_NEW_CONVERTER.apply(process)).build();
