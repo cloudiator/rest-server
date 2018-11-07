@@ -4,7 +4,7 @@ WORKDIR /data
 
 EXPOSE 9000
 
-ADD target/rest-server-0.3.0-SNAPSHOT.jar .
+ADD server/target/server-0.3.0-SNAPSHOT.jar .
 ADD entry.sh .
 
 ENTRYPOINT ["./entry.sh"]
