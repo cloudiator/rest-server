@@ -3,6 +3,7 @@ package io.github.cloudiator.rest.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 import io.github.cloudiator.rest.model.Api;
 import io.github.cloudiator.rest.model.CloudConfiguration;
 import io.github.cloudiator.rest.model.CloudCredential;
@@ -38,6 +39,43 @@ public class Cloud   {
 
   @JsonProperty("id")
   private String id = null;
+
+  /**
+   * State of the cloud
+   */
+  public enum StateEnum {
+    OK("OK"),
+    
+    ERROR("ERROR");
+
+    private String value;
+
+    StateEnum(String value) {
+      this.value = value;
+    }
+
+    @Override
+    @JsonValue
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    @JsonCreator
+    public static StateEnum fromValue(String text) {
+      for (StateEnum b : StateEnum.values()) {
+        if (String.valueOf(b.value).equals(text)) {
+          return b;
+        }
+      }
+      return null;
+    }
+  }
+
+  @JsonProperty("state")
+  private StateEnum state = null;
+
+  @JsonProperty("diagnostic")
+  private String diagnostic = null;
 
   public Cloud endpoint(String endpoint) {
     this.endpoint = endpoint;
@@ -166,6 +204,46 @@ public class Cloud   {
     this.id = id;
   }
 
+  public Cloud state(StateEnum state) {
+    this.state = state;
+    return this;
+  }
+
+  /**
+   * State of the cloud
+   * @return state
+  **/
+  @ApiModelProperty(value = "State of the cloud")
+
+
+  public StateEnum getState() {
+    return state;
+  }
+
+  public void setState(StateEnum state) {
+    this.state = state;
+  }
+
+  public Cloud diagnostic(String diagnostic) {
+    this.diagnostic = diagnostic;
+    return this;
+  }
+
+  /**
+   * Diagnostic information for the cloud
+   * @return diagnostic
+  **/
+  @ApiModelProperty(value = "Diagnostic information for the cloud")
+
+
+  public String getDiagnostic() {
+    return diagnostic;
+  }
+
+  public void setDiagnostic(String diagnostic) {
+    this.diagnostic = diagnostic;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -181,12 +259,14 @@ public class Cloud   {
         Objects.equals(this.api, cloud.api) &&
         Objects.equals(this.credential, cloud.credential) &&
         Objects.equals(this.cloudConfiguration, cloud.cloudConfiguration) &&
-        Objects.equals(this.id, cloud.id);
+        Objects.equals(this.id, cloud.id) &&
+        Objects.equals(this.state, cloud.state) &&
+        Objects.equals(this.diagnostic, cloud.diagnostic);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(endpoint, cloudType, api, credential, cloudConfiguration, id);
+    return Objects.hash(endpoint, cloudType, api, credential, cloudConfiguration, id, state, diagnostic);
   }
 
   @Override
@@ -200,6 +280,8 @@ public class Cloud   {
     sb.append("    credential: ").append(toIndentedString(credential)).append("\n");
     sb.append("    cloudConfiguration: ").append(toIndentedString(cloudConfiguration)).append("\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
+    sb.append("    state: ").append(toIndentedString(state)).append("\n");
+    sb.append("    diagnostic: ").append(toIndentedString(diagnostic)).append("\n");
     sb.append("}");
     return sb.toString();
   }
