@@ -3,6 +3,7 @@ package io.github.cloudiator.rest.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 import io.github.cloudiator.rest.model.ProcessNew;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -27,6 +28,40 @@ public class Process   {
 
   @JsonProperty("id")
   private String id = null;
+
+  /**
+   * Gets or Sets type
+   */
+  public enum TypeEnum {
+    LANCE("LANCE"),
+    
+    SPARK("SPARK");
+
+    private String value;
+
+    TypeEnum(String value) {
+      this.value = value;
+    }
+
+    @Override
+    @JsonValue
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    @JsonCreator
+    public static TypeEnum fromValue(String text) {
+      for (TypeEnum b : TypeEnum.values()) {
+        if (String.valueOf(b.value).equals(text)) {
+          return b;
+        }
+      }
+      return null;
+    }
+  }
+
+  @JsonProperty("type")
+  private TypeEnum type = null;
 
   public Process schedule(String schedule) {
     this.schedule = schedule;
@@ -111,6 +146,26 @@ public class Process   {
     this.id = id;
   }
 
+  public Process type(TypeEnum type) {
+    this.type = type;
+    return this;
+  }
+
+  /**
+   * Get type
+   * @return type
+  **/
+  @ApiModelProperty(value = "")
+
+
+  public TypeEnum getType() {
+    return type;
+  }
+
+  public void setType(TypeEnum type) {
+    this.type = type;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -124,12 +179,13 @@ public class Process   {
     return Objects.equals(this.schedule, process.schedule) &&
         Objects.equals(this.task, process.task) &&
         Objects.equals(this.node, process.node) &&
-        Objects.equals(this.id, process.id);
+        Objects.equals(this.id, process.id) &&
+        Objects.equals(this.type, process.type);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(schedule, task, node, id);
+    return Objects.hash(schedule, task, node, id, type);
   }
 
   @Override
@@ -141,6 +197,7 @@ public class Process   {
     sb.append("    task: ").append(toIndentedString(task)).append("\n");
     sb.append("    node: ").append(toIndentedString(node)).append("\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
+    sb.append("    type: ").append(toIndentedString(type)).append("\n");
     sb.append("}");
     return sb.toString();
   }
