@@ -17,6 +17,7 @@ public class NodePropertiesConverter implements
   public NodeProperties applyBack(NodeEntities.NodeProperties nodeProperties) {
 
     NodeProperties rest = new NodeProperties();
+    rest.setProviderId(nodeProperties.getProviderId());
     rest.setNumberOfCores(nodeProperties.getNumberOfCores());
     rest.setMemory(nodeProperties.getMemory());
     rest.setDisk((float) nodeProperties.getDisk());
@@ -33,6 +34,7 @@ public class NodePropertiesConverter implements
     NodeEntities.NodeProperties.Builder builder = NodeEntities.NodeProperties.newBuilder();
 
     builder
+        .setProviderId(nodeProperties.getProviderId())
         .setNumberOfCores(nodeProperties.getNumberOfCores())
         .setMemory(nodeProperties.getMemory())
         .setDisk(nodeProperties.getDisk())
