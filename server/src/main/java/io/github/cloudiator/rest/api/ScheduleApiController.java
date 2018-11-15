@@ -27,6 +27,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
@@ -79,6 +80,12 @@ public class ScheduleApiController implements ScheduleApi {
       return new ResponseEntity<>(queueItem.getQueue(), httpHeaders, HttpStatus.ACCEPTED);
     }
 
+    return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+  }
+
+  @Override
+  public ResponseEntity<Queue> deleteSchedule(
+      @ApiParam(value = "Unique identifier of the resource", required = true) @PathVariable("id") String id) {
     return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
   }
 

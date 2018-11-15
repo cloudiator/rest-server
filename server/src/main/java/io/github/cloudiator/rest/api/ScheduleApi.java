@@ -29,7 +29,7 @@ public interface ScheduleApi {
 
     @ApiOperation(value = "", nickname = "addSchedule", notes = "Creates a new schedule ", response = Queue.class, authorizations = {
         @Authorization(value = "ApiKeyAuth")
-    }, tags={ "job", })
+    }, tags={ "process", })
     @ApiResponses(value = { 
         @ApiResponse(code = 202, message = "ACCEPTED", response = Queue.class) })
     @RequestMapping(value = "/schedule",
@@ -39,9 +39,20 @@ public interface ScheduleApi {
     ResponseEntity<Queue> addSchedule(@ApiParam(value = "Schedule to be created " ,required=true )  @Valid @RequestBody ScheduleNew schedule);
 
 
-    @ApiOperation(value = "", nickname = "findSchedule", notes = "Retrieves the schedule identified by parameter id. ", response = Schedule.class, authorizations = {
+    @ApiOperation(value = "", nickname = "deleteSchedule", notes = "Deletes the schedule identified by the given id and all corresponding processes and nodes. ", response = Queue.class, authorizations = {
         @Authorization(value = "ApiKeyAuth")
     }, tags={ "job", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 202, message = "ACCEPTED", response = Queue.class) })
+    @RequestMapping(value = "/schedule/{id}",
+        produces = { "application/json" }, 
+        method = RequestMethod.DELETE)
+    ResponseEntity<Queue> deleteSchedule(@ApiParam(value = "Unique identifier of the resource",required=true) @PathVariable("id") String id);
+
+
+    @ApiOperation(value = "", nickname = "findSchedule", notes = "Retrieves the schedule identified by parameter id. ", response = Schedule.class, authorizations = {
+        @Authorization(value = "ApiKeyAuth")
+    }, tags={ "process", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "OK", response = Schedule.class) })
     @RequestMapping(value = "/schedule/{id}",
@@ -52,7 +63,7 @@ public interface ScheduleApi {
 
     @ApiOperation(value = "", nickname = "getSchedules", notes = "Retrieves all schedules by the current user. ", response = Schedule.class, responseContainer = "List", authorizations = {
         @Authorization(value = "ApiKeyAuth")
-    }, tags={ "job", })
+    }, tags={ "process", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "OK", response = Schedule.class, responseContainer = "List") })
     @RequestMapping(value = "/schedule",
