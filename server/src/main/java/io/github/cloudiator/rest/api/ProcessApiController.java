@@ -19,7 +19,9 @@ import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import org.cloudiator.messages.Process.CreateProcessRequest;
+import org.cloudiator.messages.Process.DeleteProcessRequest;
 import org.cloudiator.messages.Process.ProcessCreatedResponse;
+import org.cloudiator.messages.Process.ProcessDeletedResponse;
 import org.cloudiator.messages.Process.ProcessQueryRequest;
 import org.cloudiator.messages.Process.ProcessQueryRequest.Builder;
 import org.cloudiator.messages.Process.ProcessQueryResponse;
@@ -92,6 +94,29 @@ public class ProcessApiController implements ProcessApi {
   @Override
   public ResponseEntity<Queue> deleteProcess(
       @ApiParam(value = "Unique identifier of the resource", required = true) @PathVariable("id") String id) {
+
+    String accept = request.getHeader("Accept");
+    if (accept != null && accept.contains("application/json")) {
+
+      if (Strings.isNullOrEmpty(id)) {
+        throw new ApiException(400, "id is null or empty");
+      }
+
+      final String tenant = UserInfo.of(request).tenant();
+
+      final DeleteProcessRequest deleteProcessRequest = DeleteProcessRequest.newBuilder()
+          .setUserId(tenant).setProcessId(id).build();
+
+      final QueueItem<ProcessDeletedResponse> queueItem = queueService.queueCallback(tenant);
+
+      processService.deleteProcessAsync(deleteProcessRequest, queueItem.getCallback());
+
+      final HttpHeaders httpHeaders = new HttpHeaders();
+      httpHeaders.add(HttpHeaders.LOCATION, queueItem.getQueueLocation());
+
+      return new ResponseEntity<>(queueItem.getQueue(), httpHeaders, HttpStatus.ACCEPTED);
+    }
+
     return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
   }
 
