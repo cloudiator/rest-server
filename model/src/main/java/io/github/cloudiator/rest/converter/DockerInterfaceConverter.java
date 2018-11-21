@@ -10,14 +10,15 @@ public class DockerInterfaceConverter implements
   @Override
   public DockerInterface applyBack(TaskEntities.DockerInterface dockerInterface) {
     DockerInterface result = new DockerInterface()
-        .dockerImage(dockerInterface.getDockerImage());
+        .dockerImage(dockerInterface.getDockerImage()).environment(dockerInterface.getEnvironmentMap());
+
     return result;
   }
 
   @Override
   public TaskEntities.DockerInterface apply(DockerInterface dockerInterface) {
     TaskEntities.DockerInterface.Builder result = TaskEntities.DockerInterface.newBuilder()
-        .setDockerImage(dockerInterface.getDockerImage());
+        .setDockerImage(dockerInterface.getDockerImage()).putAllEnvironment(dockerInterface.getEnvironment());
     return result.build();
   }
 }
