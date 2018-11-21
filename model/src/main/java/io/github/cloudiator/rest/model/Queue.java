@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import io.github.cloudiator.rest.model.QueueStatus;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import org.threeten.bp.OffsetDateTime;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -22,6 +23,12 @@ public class Queue   {
 
   @JsonProperty("status")
   private QueueStatus status = null;
+
+  @JsonProperty("start")
+  private OffsetDateTime start = null;
+
+  @JsonProperty("end")
+  private OffsetDateTime end = null;
 
   @JsonProperty("diagnosis")
   private String diagnosis = null;
@@ -68,6 +75,48 @@ public class Queue   {
 
   public void setStatus(QueueStatus status) {
     this.status = status;
+  }
+
+  public Queue start(OffsetDateTime start) {
+    this.start = start;
+    return this;
+  }
+
+  /**
+   * Get start
+   * @return start
+  **/
+  @ApiModelProperty(value = "")
+
+  @Valid
+
+  public OffsetDateTime getStart() {
+    return start;
+  }
+
+  public void setStart(OffsetDateTime start) {
+    this.start = start;
+  }
+
+  public Queue end(OffsetDateTime end) {
+    this.end = end;
+    return this;
+  }
+
+  /**
+   * Get end
+   * @return end
+  **/
+  @ApiModelProperty(value = "")
+
+  @Valid
+
+  public OffsetDateTime getEnd() {
+    return end;
+  }
+
+  public void setEnd(OffsetDateTime end) {
+    this.end = end;
   }
 
   public Queue diagnosis(String diagnosis) {
@@ -122,13 +171,15 @@ public class Queue   {
     Queue queue = (Queue) o;
     return Objects.equals(this.id, queue.id) &&
         Objects.equals(this.status, queue.status) &&
+        Objects.equals(this.start, queue.start) &&
+        Objects.equals(this.end, queue.end) &&
         Objects.equals(this.diagnosis, queue.diagnosis) &&
         Objects.equals(this.location, queue.location);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, status, diagnosis, location);
+    return Objects.hash(id, status, start, end, diagnosis, location);
   }
 
   @Override
@@ -138,6 +189,8 @@ public class Queue   {
     
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    status: ").append(toIndentedString(status)).append("\n");
+    sb.append("    start: ").append(toIndentedString(start)).append("\n");
+    sb.append("    end: ").append(toIndentedString(end)).append("\n");
     sb.append("    diagnosis: ").append(toIndentedString(diagnosis)).append("\n");
     sb.append("    location: ").append(toIndentedString(location)).append("\n");
     sb.append("}");

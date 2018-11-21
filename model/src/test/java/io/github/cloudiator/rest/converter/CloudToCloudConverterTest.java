@@ -5,11 +5,13 @@ import static org.junit.Assert.assertThat;
 
 import io.github.cloudiator.rest.model.Api;
 import io.github.cloudiator.rest.model.Cloud;
+import io.github.cloudiator.rest.model.Cloud.StateEnum;
 import io.github.cloudiator.rest.model.CloudConfiguration;
 import io.github.cloudiator.rest.model.CloudCredential;
 import io.github.cloudiator.rest.model.CloudType;
 import java.util.Collections;
 import org.cloudiator.messages.entities.IaasEntities;
+import org.cloudiator.messages.entities.IaasEntities.CloudState;
 import org.hamcrest.Matchers;
 import org.junit.Test;
 
@@ -48,11 +50,14 @@ public class CloudToCloudConverterTest {
         .setApi(iaasApi).setConfiguration(iaasCloudConfig).setCredential(iaasCloudCredential)
         .setEndpoint("www.TestEndpoint.com")
         .setId("32chars-long_testID_for_UnitTest")
-        .setCloudType(IaasEntities.CloudType.PRIVATE_CLOUD).build();
+        .setCloudType(IaasEntities.CloudType.PRIVATE_CLOUD)
+        .setState(CloudState.CLOUD_STATE_OK)
+        .setDiagnostic("diagnostic")
+        .build();
     this.restCloud = new Cloud().api(restApi).cloudConfiguration(restCloudConfig)
         .credential(restCloudCredential).endpoint("www.TestEndpoint.com")
         .id("32chars-long_testID_for_UnitTest")
-        .cloudType(CloudType.PRIVATE);
+        .cloudType(CloudType.PRIVATE).state(StateEnum.OK).diagnostic("diagnostic");
   }
 
   @Test

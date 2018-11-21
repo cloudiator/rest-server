@@ -1,8 +1,8 @@
 package io.github.cloudiator.rest.converter;
 
+import com.google.common.base.Strings;
 import de.uniulm.omi.cloudiator.util.TwoWayConverter;
 import io.github.cloudiator.rest.model.Cloud;
-import io.github.cloudiator.rest.model.CloudType;
 import org.cloudiator.messages.entities.IaasEntities;
 
 /**
@@ -14,6 +14,7 @@ public class CloudToCloudConverter implements TwoWayConverter<Cloud, IaasEntitie
   private final CloudTypeConverter cloudTypeConverter = new CloudTypeConverter();
   private final CloudCredentialConverter cloudCredentialConverter = new CloudCredentialConverter();
   private final CloudConfigurationConverter cloudConfigurationConverter = new CloudConfigurationConverter();
+  private final CloudStateConverter cloudStateConverter = new CloudStateConverter();
 
   @Override
   public Cloud applyBack(IaasEntities.Cloud cloud) {
@@ -29,6 +30,11 @@ public class CloudToCloudConverter implements TwoWayConverter<Cloud, IaasEntitie
     result.setApi(apiToApiConverter.applyBack(cloud.getApi()));
     result.setCloudConfiguration(cloudConfigurationConverter.applyBack(cloud.getConfiguration()));
     result.setCredential(cloudCredentialConverter.applyBack(cloud.getCredential()));
+    if (!Strings.isNullOrEmpty(cloud.getDiagnostic())) {
+      result.setDiagnostic(cloud.getDiagnostic());
+    }
+    result.setState(cloudStateConverter.apply(cloud.getState()));
+
     return result;
   }
 
@@ -50,37 +56,12 @@ public class CloudToCloudConverter implements TwoWayConverter<Cloud, IaasEntitie
       builder.clearConfiguration();
     }
     builder.setCredential(cloudCredentialConverter.apply(cloud.getCredential()));
+    builder.setState(cloudStateConverter.applyBack(cloud.getState()));
+
+    if (cloud.getDiagnostic() != null) {
+      builder.setDiagnostic(cloud.getDiagnostic());
+    }
 
     return builder.build();
-  }
-
-
-  private class CloudTypeConverter implements TwoWayConverter<CloudType, IaasEntities.CloudType> {
-
-    @Override
-    public CloudType applyBack(IaasEntities.CloudType cloudType) {
-      switch (cloudType) {
-        case PUBLIC_CLOUD:
-          return CloudType.PUBLIC;
-        case PRIVATE_CLOUD:
-          return CloudType.PRIVATE;
-        case UNRECOGNIZED:
-        default:
-          throw new AssertionError("Unrecognized cloudType " + cloudType);
-      }
-    }
-
-    @Override
-    public IaasEntities.CloudType apply(CloudType cloudTypeEnum) {
-      switch (cloudTypeEnum) {
-        case PRIVATE:
-          return IaasEntities.CloudType.PRIVATE_CLOUD;
-        case PUBLIC:
-          return IaasEntities.CloudType.PUBLIC_CLOUD;
-        default:
-          throw new AssertionError("Unrecognized cloudType " + cloudTypeEnum);
-      }
-    }
-
   }
 }

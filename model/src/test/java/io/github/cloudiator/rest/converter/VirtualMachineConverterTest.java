@@ -1,7 +1,5 @@
 package io.github.cloudiator.rest.converter;
 
-import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertThat;
 
 import io.github.cloudiator.rest.model.Hardware;
@@ -13,7 +11,6 @@ import io.github.cloudiator.rest.model.Location;
 import io.github.cloudiator.rest.model.OperatingSystem;
 import io.github.cloudiator.rest.model.OperatingSystemArchitecture;
 import io.github.cloudiator.rest.model.OperatingSystemFamily;
-import io.github.cloudiator.rest.model.OperatingSystemType;
 import io.github.cloudiator.rest.model.VirtualMachine;
 import org.cloudiator.messages.entities.CommonEntities;
 import org.cloudiator.messages.entities.IaasEntities;
@@ -108,12 +105,10 @@ public class VirtualMachineConverterTest {
     this.restOperatingSystem = new OperatingSystem()
         .operatingSystemArchitecture(OperatingSystemArchitecture.AMD64)
         .operatingSystemFamily(OperatingSystemFamily.UBUNTU)
-        .operatingSystemType(OperatingSystemType.UNIX)
         .operatingSystemVersion("1.test");
     this.iaasOperatingSystem = CommonEntities.OperatingSystem.newBuilder()
         .setOperatingSystemArchitecture(CommonEntities.OperatingSystemArchitecture.AMD64)
         .setOperatingSystemFamily(CommonEntities.OperatingSystemFamily.UBUNTU)
-        .setOperatingSystemType(CommonEntities.OperatingSystemType.UNIX)
         .setOperatingSystemVersion("1.test").build();
     this.restImage = new Image()
         .id("32chars-long_testID_forImageTest")

@@ -18,6 +18,9 @@ import javax.validation.constraints.*;
 @Validated
 
 public class NodeProperties   {
+  @JsonProperty("providerId")
+  private String providerId = null;
+
   @JsonProperty("numberOfCores")
   private Integer numberOfCores = null;
 
@@ -32,6 +35,26 @@ public class NodeProperties   {
 
   @JsonProperty("geoLocation")
   private GeoLocation geoLocation = null;
+
+  public NodeProperties providerId(String providerId) {
+    this.providerId = providerId;
+    return this;
+  }
+
+  /**
+   * Get providerId
+   * @return providerId
+  **/
+  @ApiModelProperty(value = "")
+
+
+  public String getProviderId() {
+    return providerId;
+  }
+
+  public void setProviderId(String providerId) {
+    this.providerId = providerId;
+  }
 
   public NodeProperties numberOfCores(Integer numberOfCores) {
     this.numberOfCores = numberOfCores;
@@ -145,7 +168,8 @@ public class NodeProperties   {
       return false;
     }
     NodeProperties nodeProperties = (NodeProperties) o;
-    return Objects.equals(this.numberOfCores, nodeProperties.numberOfCores) &&
+    return Objects.equals(this.providerId, nodeProperties.providerId) &&
+        Objects.equals(this.numberOfCores, nodeProperties.numberOfCores) &&
         Objects.equals(this.memory, nodeProperties.memory) &&
         Objects.equals(this.disk, nodeProperties.disk) &&
         Objects.equals(this.operatingSystem, nodeProperties.operatingSystem) &&
@@ -154,7 +178,7 @@ public class NodeProperties   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(numberOfCores, memory, disk, operatingSystem, geoLocation);
+    return Objects.hash(providerId, numberOfCores, memory, disk, operatingSystem, geoLocation);
   }
 
   @Override
@@ -162,6 +186,7 @@ public class NodeProperties   {
     StringBuilder sb = new StringBuilder();
     sb.append("class NodeProperties {\n");
     
+    sb.append("    providerId: ").append(toIndentedString(providerId)).append("\n");
     sb.append("    numberOfCores: ").append(toIndentedString(numberOfCores)).append("\n");
     sb.append("    memory: ").append(toIndentedString(memory)).append("\n");
     sb.append("    disk: ").append(toIndentedString(disk)).append("\n");

@@ -11,7 +11,7 @@ import org.cloudiator.messages.entities.IaasEntities;
 public class NewCloudConverter implements TwoWayConverter<NewCloud, IaasEntities.NewCloud> {
 
   private final ApiToApiConverter apiToApiConverter = new ApiToApiConverter();
-  private final NewCloudConverter.CloudTypeConverter cloudTypeConverter = new NewCloudConverter.CloudTypeConverter();
+  private final CloudTypeConverter cloudTypeConverter = new CloudTypeConverter();
   private final CloudCredentialConverter cloudCredentialConverter = new CloudCredentialConverter();
   private final CloudConfigurationConverter cloudConfigurationConverter = new CloudConfigurationConverter();
 
@@ -45,32 +45,5 @@ public class NewCloudConverter implements TwoWayConverter<NewCloud, IaasEntities
   }
 
 
-  private class CloudTypeConverter implements TwoWayConverter<CloudType, IaasEntities.CloudType> {
 
-    @Override
-    public CloudType applyBack(IaasEntities.CloudType cloudType) {
-      switch (cloudType) {
-        case PUBLIC_CLOUD:
-          return CloudType.PUBLIC;
-        case PRIVATE_CLOUD:
-          return CloudType.PRIVATE;
-        case UNRECOGNIZED:
-        default:
-          throw new AssertionError("Unrecognized cloudType " + cloudType);
-      }
-    }
-
-    @Override
-    public IaasEntities.CloudType apply(CloudType cloudTypeEnum) {
-      switch (cloudTypeEnum) {
-        case PRIVATE:
-          return IaasEntities.CloudType.PRIVATE_CLOUD;
-        case PUBLIC:
-          return IaasEntities.CloudType.PUBLIC_CLOUD;
-        default:
-          throw new AssertionError("Unrecognized cloudType " + cloudTypeEnum);
-      }
-    }
-
-  }
 }
