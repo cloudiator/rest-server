@@ -1,11 +1,14 @@
 package io.github.cloudiator.rest.api;
 
+import io.github.cloudiator.rest.UserInfo;
 import io.github.cloudiator.rest.converter.MonitorConverter;
 import io.github.cloudiator.rest.model.Monitor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.*;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
+import org.cloudiator.messages.Monitor.CreateMonitorRequest;
+import org.cloudiator.messages.Monitor.CreateMonitorResponse;
 import org.cloudiator.messages.Monitor.MonitorQueryRequest;
 import org.cloudiator.messages.Monitor.MonitorQueryResponse;
 import org.cloudiator.messaging.services.MonitorService;
@@ -50,6 +53,7 @@ public class MonitorsApiController implements MonitorsApi {
       @ApiParam(value = "Monitor to be created ", required = true) @Valid @RequestBody Monitor monitor) {
     String accept = request.getHeader("Accept");
     if (accept != null && accept.contains("application/json")) {
+      final String userId = UserInfo.of(request).tenant();
       try {
 
         if (monitor == null) {
@@ -57,8 +61,13 @@ public class MonitorsApiController implements MonitorsApi {
           return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
-        return new ResponseEntity<Monitor>(monitor, HttpStatus.NOT_IMPLEMENTED);
+        CreateMonitorRequest request = CreateMonitorRequest.newBuilder().setUserId(userId)
+            .setNewmonitor(monitorConverter.apply(monitor)).build();
+        CreateMonitorResponse response = monitorService.addMonitor(request);
 
+        Monitor createdMonitor = monitorConverter.applyBack(response.getMonitor());
+
+        return new ResponseEntity<Monitor>(createdMonitor, HttpStatus.OK);
 
         // return new ResponseEntity<Monitor>(objectMapper.readValue("{  \"metric\" : \"metric\",  \"sinks\" : [ {    \"configuration\" : { },    \"type\" : \"KAIROS_DB\"  }, {    \"configuration\" : { },    \"type\" : \"KAIROS_DB\"  } ],  \"sensor\" : {    \"type\" : \"type\"  },  \"targets\" : [ {    \"identifier\" : \"identifier\",    \"type\" : \"JOB\"  }, {    \"identifier\" : \"identifier\",    \"type\" : \"JOB\"  } ],  \"tags\" : [ {    \"value\" : \"value\",    \"key\" : \"key\"  }, {    \"value\" : \"value\",    \"key\" : \"key\"  } ]}", Monitor.class), HttpStatus.NOT_IMPLEMENTED);
       } catch (Exception e) {
@@ -101,6 +110,8 @@ public class MonitorsApiController implements MonitorsApi {
       @ApiParam(value = "Unique identifier of a monitor", required = true) @PathVariable("metric") String metric) {
     String accept = request.getHeader("Accept");
     if (accept != null && accept.contains("application/json")) {
+
+      final String userId = UserInfo.of(request).tenant();
       try {
         System.out.println("Jetzt gehts los");
         return new ResponseEntity<List<Monitor>>(objectMapper.readValue(
