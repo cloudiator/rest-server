@@ -1,6 +1,7 @@
 package io.github.cloudiator.rest.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.base.Strings;
 import io.github.cloudiator.rest.UserInfo;
 import io.github.cloudiator.rest.converter.ScheduleConverter;
 import io.github.cloudiator.rest.converter.ScheduleNewConverter;
@@ -15,7 +16,9 @@ import java.util.stream.Collectors;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import org.cloudiator.messages.Process.CreateScheduleRequest;
+import org.cloudiator.messages.Process.DeleteScheduleRequest;
 import org.cloudiator.messages.Process.ScheduleCreatedResponse;
+import org.cloudiator.messages.Process.ScheduleDeleteResponse;
 import org.cloudiator.messages.Process.ScheduleQueryRequest;
 import org.cloudiator.messages.Process.ScheduleQueryResponse;
 import org.cloudiator.messaging.ResponseException;
@@ -23,9 +26,11 @@ import org.cloudiator.messaging.services.ProcessService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
@@ -72,7 +77,39 @@ public class ScheduleApiController implements ScheduleApi {
 
       processService.createScheduleAsync(createScheduleRequest, queueItem.getCallback());
 
-      return new ResponseEntity<>(queueItem.getQueue(), HttpStatus.ACCEPTED);
+      final HttpHeaders httpHeaders = new HttpHeaders();
+      httpHeaders.add(HttpHeaders.LOCATION, queueItem.getQueueLocation());
+
+      return new ResponseEntity<>(queueItem.getQueue(), httpHeaders, HttpStatus.ACCEPTED);
+    }
+
+    return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+  }
+
+  @Override
+  public ResponseEntity<Queue> deleteSchedule(
+      @ApiParam(value = "Unique identifier of the resource", required = true) @PathVariable("id") String id) {
+
+    String accept = request.getHeader("Accept");
+    if (accept != null && accept.contains("application/json")) {
+
+      if (Strings.isNullOrEmpty(id)) {
+        throw new ApiException(400, "id is null or empty");
+      }
+
+      final String tenant = UserInfo.of(request).tenant();
+
+      DeleteScheduleRequest deleteScheduleRequest = DeleteScheduleRequest.newBuilder()
+          .setUserId(tenant).setScheduleId(id).build();
+
+      final QueueItem<ScheduleDeleteResponse> queueItem = queueService.queueCallback(tenant);
+
+      processService.deleteScheduleAsync(deleteScheduleRequest, queueItem.getCallback());
+
+      final HttpHeaders httpHeaders = new HttpHeaders();
+      httpHeaders.add(HttpHeaders.LOCATION, queueItem.getQueueLocation());
+
+      return new ResponseEntity<>(queueItem.getQueue(), httpHeaders, HttpStatus.ACCEPTED);
     }
 
     return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);

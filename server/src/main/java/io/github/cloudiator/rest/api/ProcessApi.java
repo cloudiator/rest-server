@@ -29,7 +29,7 @@ public interface ProcessApi {
 
     @ApiOperation(value = "", nickname = "createProcess", notes = "Creates a new process ", response = Queue.class, authorizations = {
         @Authorization(value = "ApiKeyAuth")
-    }, tags={ "job", })
+    }, tags={ "process", })
     @ApiResponses(value = { 
         @ApiResponse(code = 202, message = "ACCEPTED", response = Queue.class) })
     @RequestMapping(value = "/process",
@@ -41,7 +41,7 @@ public interface ProcessApi {
 
     @ApiOperation(value = "", nickname = "deleteProcess", notes = "Deletes the process corresponding to the given id. ", response = Queue.class, authorizations = {
         @Authorization(value = "ApiKeyAuth")
-    }, tags={ "job", })
+    }, tags={ "process", })
     @ApiResponses(value = { 
         @ApiResponse(code = 202, message = "ACCEPTED", response = Queue.class) })
     @RequestMapping(value = "/process/{id}",
@@ -52,7 +52,7 @@ public interface ProcessApi {
 
     @ApiOperation(value = "", nickname = "findProcess", notes = "Finds the process corresponding to the given id. ", response = Process.class, authorizations = {
         @Authorization(value = "ApiKeyAuth")
-    }, tags={ "job", })
+    }, tags={ "process", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "OK", response = Process.class) })
     @RequestMapping(value = "/process/{id}",
@@ -63,7 +63,7 @@ public interface ProcessApi {
 
     @ApiOperation(value = "", nickname = "getProcesses", notes = "Retrieves all process of the current user matching the parameters. ", response = Process.class, responseContainer = "List", authorizations = {
         @Authorization(value = "ApiKeyAuth")
-    }, tags={ "job", })
+    }, tags={ "process", })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "OK", response = Process.class, responseContainer = "List") })
     @RequestMapping(value = "/process",

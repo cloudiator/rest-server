@@ -15,6 +15,7 @@ import java.util.concurrent.ExecutionException;
 import java.util.function.Function;
 import javax.annotation.Nullable;
 import org.cloudiator.messaging.ResponseException;
+import org.threeten.bp.OffsetDateTime;
 
 public class QueueService {
 
@@ -33,6 +34,7 @@ public class QueueService {
       final Queue queue = new Queue();
       queue.setId(UUID.randomUUID().toString());
       queue.setStatus(QueueStatus.SCHEDULED);
+      queue.setStart(OffsetDateTime.now());
       return queue;
     }
 
@@ -127,6 +129,7 @@ public class QueueService {
       try {
         final String s = queueItem.getCallback().get();
         queue.setLocation(s);
+        queue.setEnd(queueItem.getCallback().end());
         queue.setStatus(QueueStatus.COMPLETED);
       } catch (InterruptedException e) {
         throw new IllegalStateException(e);
@@ -134,6 +137,7 @@ public class QueueService {
         if (e.getCause() instanceof ResponseException) {
           queue.setStatus(QueueStatus.FAILED);
           queue.setDiagnosis(e.getCause().getMessage());
+          queue.setEnd(queueItem.getCallback().end());
         } else {
           throw new IllegalStateException(e.getCause());
         }

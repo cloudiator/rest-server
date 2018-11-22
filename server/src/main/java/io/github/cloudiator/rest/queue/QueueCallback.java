@@ -1,5 +1,7 @@
 package io.github.cloudiator.rest.queue;
 
+import static com.google.common.base.Preconditions.checkState;
+
 import com.google.common.util.concurrent.SettableFuture;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
@@ -10,12 +12,14 @@ import javax.annotation.Nullable;
 import org.cloudiator.messages.General.Error;
 import org.cloudiator.messaging.ResponseCallback;
 import org.cloudiator.messaging.ResponseException;
+import org.threeten.bp.OffsetDateTime;
 
 class QueueCallback<T> implements Future<String>, ResponseCallback<T> {
 
   private final SettableFuture<String> settableFuture;
   @Nullable
   private final Function<T, String> toStringFunction;
+  private OffsetDateTime end = null;
 
   public QueueCallback(
       Function<T, String> toStringFunction) {
@@ -55,6 +59,11 @@ class QueueCallback<T> implements Future<String>, ResponseCallback<T> {
     return settableFuture.get(l, timeUnit);
   }
 
+  private void setEnd(OffsetDateTime offsetDateTime) {
+    checkState(end == null, "End already set");
+    this.end = offsetDateTime;
+  }
+
   @Override
   public void accept(@Nullable T content, @Nullable Error error) {
     if (error != null) {
@@ -68,5 +77,11 @@ class QueueCallback<T> implements Future<String>, ResponseCallback<T> {
       }
 
     }
+    setEnd(OffsetDateTime.now());
+  }
+
+  @Nullable
+  OffsetDateTime end() {
+    return end;
   }
 }

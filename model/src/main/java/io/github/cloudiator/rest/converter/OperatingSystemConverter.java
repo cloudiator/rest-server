@@ -2,9 +2,9 @@ package io.github.cloudiator.rest.converter;
 
 import de.uniulm.omi.cloudiator.util.TwoWayConverter;
 import io.github.cloudiator.rest.model.OperatingSystem;
+import io.github.cloudiator.rest.model.OperatingSystemArchitecture;
 import io.github.cloudiator.rest.model.OperatingSystemFamily;
 import io.github.cloudiator.rest.model.OperatingSystemType;
-import io.github.cloudiator.rest.model.OperatingSystemArchitecture;
 import org.cloudiator.messages.entities.CommonEntities;
 
 
@@ -16,28 +16,23 @@ public class OperatingSystemConverter implements
 
   private final OperatingSystemArchitectureConverter osaConverter = new OperatingSystemArchitectureConverter();
   private final OperatingSystemFamilyConverter osfConverter = new OperatingSystemFamilyConverter();
-  private final OperatingSystemTypeConverter ostConverter = new OperatingSystemTypeConverter();
 
   @Override
   public OperatingSystem applyBack(CommonEntities.OperatingSystem operatingSystem) {
-    OperatingSystem result = new OperatingSystem()
+    return new OperatingSystem()
         .operatingSystemArchitecture(
             osaConverter.applyBack(operatingSystem.getOperatingSystemArchitecture()))
         .operatingSystemFamily(osfConverter.applyBack(operatingSystem.getOperatingSystemFamily()))
-        .operatingSystemType(ostConverter.applyBack(operatingSystem.getOperatingSystemType()))
         .operatingSystemVersion(operatingSystem.getOperatingSystemVersion());
-    return result;
   }
 
   @Override
   public CommonEntities.OperatingSystem apply(OperatingSystem operatingSystem) {
-    CommonEntities.OperatingSystem result = CommonEntities.OperatingSystem.newBuilder()
+    return CommonEntities.OperatingSystem.newBuilder()
         .setOperatingSystemArchitecture(
             osaConverter.apply(operatingSystem.getOperatingSystemArchitecture()))
         .setOperatingSystemFamily(osfConverter.apply(operatingSystem.getOperatingSystemFamily()))
-        .setOperatingSystemType(ostConverter.apply(operatingSystem.getOperatingSystemType()))
         .setOperatingSystemVersion(operatingSystem.getOperatingSystemVersion()).build();
-    return result;
   }
 
 
