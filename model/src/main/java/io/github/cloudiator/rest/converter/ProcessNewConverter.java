@@ -14,7 +14,9 @@ public class ProcessNewConverter implements
 
   @Override
   public ProcessEntities.ProcessNew apply(ProcessNew processNew) {
-    return ProcessEntities.ProcessNew.newBuilder().setNode(processNew.getNode())
-        .setSchedule(processNew.getSchedule()).setTask(processNew.getTask()).build();
+    return ProcessEntities.ProcessNew.newBuilder()
+        .setNodeGroup(processNew.getNodeGroup())
+        .setSchedule(processNew.getSchedule())
+        .setTask(processNew.getTask()).build();
   }
 }
