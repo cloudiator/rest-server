@@ -1,0 +1,53 @@
+<?xml version = "1.0" encoding = "UTF-8"?>
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans
+   http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+  <bean id="userService" factory-bean="serviceFactory" factory-method="createUserService"/>
+
+  <bean id="serviceFactory" class="io.github.cloudiator.ServiceFactory"/>
+
+  <bean id="nodeService" factory-bean="serviceFactory" factory-method="createNodeService"/>
+
+  <bean id="cloudService" factory-bean="serviceFactory" factory-method="createCloudService"/>
+
+  <bean id="hardwareService" factory-bean="serviceFactory" factory-method="createHardwareService"/>
+
+  <bean id="locationService" factory-bean="serviceFactory" factory-method="createLocationService"/>
+
+  <bean id="imageService" factory-bean="serviceFactory" factory-method="createImageService"/>
+
+  <bean id="processService" factory-bean="serviceFactory" factory-method="createProcessService"/>
+
+  <bean id="matchmakingService" factory-bean="serviceFactory"
+    factory-method="createMatchmakingService"/>
+
+  <bean id="virtualMachineService" factory-bean="serviceFactory"
+    factory-method="createVirtualMachineService"/>
+
+  <bean id="functionService" factory-bean="serviceFactory"
+        factory-method="createFunctionService"/>
+
+  <bean id="jobService" factory-bean="serviceFactory"
+    factory-method="createJobService"/>
+
+  <bean id="taskService" factory-bean="serviceFactory"
+    factory-method="createTaskService"/>
+
+  <bean id="lRRMapService" class="io.github.cloudiator.rest.queue.QueueService"/>
+
+  <bean id="installationRequestService" factory-bean="serviceFactory"
+    factory-method="createInstallationRequestService"/>
+
+  <bean id="encryptionService" factory-bean="serviceFactory"
+    factory-method="createEncryptionService"/>
+
+  <bean id="secureStoreService" factory-bean="serviceFactory"
+    factory-method="createSecureStoreService"/>
+
+  <bean id="monitorService" factory-bean="serviceFactory" factory-method="createMonitorService"/>
+
+</beans>
+

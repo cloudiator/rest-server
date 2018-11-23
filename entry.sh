@@ -3,7 +3,7 @@
 set -x
 
 DEFAULT_KAFKA_GROUP_ID="restServer"
-DEFAULT_KAFKA_RESPONSE_TIMEOUT=50000
+DEFAULT_KAFKA_RESPONSE_TIMEOUT=20000
 
 env_required() {
   echo "EnvironmentVariable $1 is required."
@@ -38,4 +38,4 @@ validateMandatory
 setDefaults
 
 # Run the service
-java -Dkafka.groupId=${KAFKA_GROUP_ID} -Dkafka.responseTimeout=${KAFKA_RESPONSE_TIMEOUT} -Dkafka.bootstrapServers=${KAFKA_BOOTSTRAP_SERVERS} -jar rest-server-0.3.0-SNAPSHOT.jar
+java -Dkafka.groupId=${KAFKA_GROUP_ID} -Dkafka.responseTimeout=${KAFKA_RESPONSE_TIMEOUT} -Dkafka.bootstrapServers=${KAFKA_BOOTSTRAP_SERVERS} -jar server-0.3.0-SNAPSHOT.jar
