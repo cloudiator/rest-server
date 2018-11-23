@@ -70,14 +70,14 @@ public class ProcessApiController implements ProcessApi {
 
       final String tenant = UserInfo.of(request).tenant();
 
-      process.setNode(idEncoder.decode(process.getNode()));
+      process.setNodeGroup(idEncoder.decode(process.getNodeGroup()));
 
       final CreateProcessRequest createProcessRequest = CreateProcessRequest.newBuilder()
           .setUserId(tenant).setProcess(PROCESS_NEW_CONVERTER.apply(process)).build();
 
       final QueueItem<ProcessCreatedResponse> queueItem = queueService
           .queueCallback(tenant,
-              processCreatedResponse -> "process/" + processCreatedResponse.getProcess()
+              processCreatedResponse -> "process/" + processCreatedResponse.getProcessGroup()
                   .getId());
 
       processService.createProcessAsync(createProcessRequest, queueItem.getCallback());
@@ -149,7 +149,7 @@ public class ProcessApiController implements ProcessApi {
         }
 
         final Process process = PROCESS_CONVERTER.applyBack(processQueryResponse.getProcesses(0));
-        process.setNode(idEncoder.encode(process.getNode()));
+        process.setNodeGroup(idEncoder.encode(process.getNodeGroup()));
 
         return new ResponseEntity<>(process
             , HttpStatus.OK);
@@ -182,7 +182,7 @@ public class ProcessApiController implements ProcessApi {
 
         return new ResponseEntity<>(
             processQueryResponse.getProcessesList().stream().map(PROCESS_CONVERTER::applyBack).map(
-                (Function<Process, Process>) input -> input.node(idEncoder.encode(input.getNode())))
+                (Function<Process, Process>) input -> input.nodeGroup(idEncoder.encode(input.getNodeGroup())))
                 .collect(
                     Collectors.toList()), HttpStatus.OK);
 

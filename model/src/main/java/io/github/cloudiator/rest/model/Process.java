@@ -23,8 +23,8 @@ public class Process   {
   @JsonProperty("task")
   private String task = null;
 
-  @JsonProperty("node")
-  private String node = null;
+  @JsonProperty("nodeGroup")
+  private String nodeGroup = null;
 
   @JsonProperty("id")
   private String id = null;
@@ -105,25 +105,25 @@ public class Process   {
     this.task = task;
   }
 
-  public Process node(String node) {
-    this.node = node;
+  public Process nodeGroup(String nodeGroup) {
+    this.nodeGroup = nodeGroup;
     return this;
   }
 
   /**
-   * Tne id of the node this process is hosted on.
-   * @return node
+   * The id of the nodeGroup this process is hosted on.
+   * @return nodeGroup
   **/
-  @ApiModelProperty(required = true, value = "Tne id of the node this process is hosted on.")
+  @ApiModelProperty(required = true, value = "The id of the nodeGroup this process is hosted on.")
   @NotNull
 
 
-  public String getNode() {
-    return node;
+  public String getNodeGroup() {
+    return nodeGroup;
   }
 
-  public void setNode(String node) {
-    this.node = node;
+  public void setNodeGroup(String nodeGroup) {
+    this.nodeGroup = nodeGroup;
   }
 
   public Process id(String id) {
@@ -178,14 +178,14 @@ public class Process   {
     Process process = (Process) o;
     return Objects.equals(this.schedule, process.schedule) &&
         Objects.equals(this.task, process.task) &&
-        Objects.equals(this.node, process.node) &&
+        Objects.equals(this.nodeGroup, process.nodeGroup) &&
         Objects.equals(this.id, process.id) &&
         Objects.equals(this.type, process.type);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(schedule, task, node, id, type);
+    return Objects.hash(schedule, task, nodeGroup, id, type);
   }
 
   @Override
@@ -195,7 +195,7 @@ public class Process   {
     
     sb.append("    schedule: ").append(toIndentedString(schedule)).append("\n");
     sb.append("    task: ").append(toIndentedString(task)).append("\n");
-    sb.append("    node: ").append(toIndentedString(node)).append("\n");
+    sb.append("    nodeGroup: ").append(toIndentedString(nodeGroup)).append("\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    type: ").append(toIndentedString(type)).append("\n");
     sb.append("}");

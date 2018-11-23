@@ -22,8 +22,8 @@ public class ProcessNew   {
   @JsonProperty("task")
   private String task = null;
 
-  @JsonProperty("node")
-  private String node = null;
+  @JsonProperty("nodeGroup")
+  private String nodeGroup = null;
 
   public ProcessNew schedule(String schedule) {
     this.schedule = schedule;
@@ -67,25 +67,25 @@ public class ProcessNew   {
     this.task = task;
   }
 
-  public ProcessNew node(String node) {
-    this.node = node;
+  public ProcessNew nodeGroup(String nodeGroup) {
+    this.nodeGroup = nodeGroup;
     return this;
   }
 
   /**
-   * Tne id of the node this process is hosted on.
-   * @return node
+   * The id of the nodeGroup this process is hosted on.
+   * @return nodeGroup
   **/
-  @ApiModelProperty(required = true, value = "Tne id of the node this process is hosted on.")
+  @ApiModelProperty(required = true, value = "The id of the nodeGroup this process is hosted on.")
   @NotNull
 
 
-  public String getNode() {
-    return node;
+  public String getNodeGroup() {
+    return nodeGroup;
   }
 
-  public void setNode(String node) {
-    this.node = node;
+  public void setNodeGroup(String nodeGroup) {
+    this.nodeGroup = nodeGroup;
   }
 
 
@@ -100,12 +100,12 @@ public class ProcessNew   {
     ProcessNew processNew = (ProcessNew) o;
     return Objects.equals(this.schedule, processNew.schedule) &&
         Objects.equals(this.task, processNew.task) &&
-        Objects.equals(this.node, processNew.node);
+        Objects.equals(this.nodeGroup, processNew.nodeGroup);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(schedule, task, node);
+    return Objects.hash(schedule, task, nodeGroup);
   }
 
   @Override
@@ -115,7 +115,7 @@ public class ProcessNew   {
     
     sb.append("    schedule: ").append(toIndentedString(schedule)).append("\n");
     sb.append("    task: ").append(toIndentedString(task)).append("\n");
-    sb.append("    node: ").append(toIndentedString(node)).append("\n");
+    sb.append("    nodeGroup: ").append(toIndentedString(nodeGroup)).append("\n");
     sb.append("}");
     return sb.toString();
   }
