@@ -6,14 +6,14 @@ import org.cloudiator.messages.entities.FaasEntities;
 
 public class FunctionConverter implements TwoWayConverter<Function, FaasEntities.Function> {
 
-  private final LocationConverter locationConverter = new LocationConverter();
-
   @Override
   public Function applyBack(FaasEntities.Function function) {
     Function result = new Function();
     result.setId(function.getId());
     result.setCloudId(function.getCloudId());
     result.setLocationId(function.getLocationId());
+    result.setMemory(function.getMemory());
+    result.setStackId(function.getStackId());
     return result;
   }
 
@@ -23,6 +23,8 @@ public class FunctionConverter implements TwoWayConverter<Function, FaasEntities
         .setId(function.getId())
         .setCloudId(function.getCloudId())
         .setLocationId(function.getLocationId())
+        .setMemory(function.getMemory())
+        .setStackId(function.getStackId())
         .build();
   }
 }

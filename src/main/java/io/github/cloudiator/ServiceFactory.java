@@ -5,21 +5,7 @@ import com.google.inject.Injector;
 import de.uniulm.omi.cloudiator.util.configuration.Configuration;
 import org.cloudiator.messaging.kafka.KafkaContext;
 import org.cloudiator.messaging.kafka.KafkaMessagingModule;
-import org.cloudiator.messaging.services.CloudService;
-import org.cloudiator.messaging.services.EncryptionService;
-import org.cloudiator.messaging.services.HardwareService;
-import org.cloudiator.messaging.services.ImageService;
-import org.cloudiator.messaging.services.InstallationRequestService;
-import org.cloudiator.messaging.services.JobService;
-import org.cloudiator.messaging.services.LocationService;
-import org.cloudiator.messaging.services.MatchmakingService;
-import org.cloudiator.messaging.services.MessageServiceModule;
-import org.cloudiator.messaging.services.NodeService;
-import org.cloudiator.messaging.services.ProcessService;
-import org.cloudiator.messaging.services.SecureStoreService;
-import org.cloudiator.messaging.services.TaskService;
-import org.cloudiator.messaging.services.UserService;
-import org.cloudiator.messaging.services.VirtualMachineService;
+import org.cloudiator.messaging.services.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -55,6 +41,10 @@ public class ServiceFactory {
 
   public VirtualMachineService createVirtualMachineService() {
     return INJECTOR.getInstance(VirtualMachineService.class);
+  }
+
+  public FunctionService createFunctionService() {
+    return INJECTOR.getInstance(FunctionService.class);
   }
 
   public JobService createJobService() {

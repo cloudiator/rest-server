@@ -12,6 +12,9 @@ public class LoginCredentialConverter implements
 
   @Override
   public LoginCredential applyBack(IaasEntities.LoginCredential loginCredential) {
+    if (loginCredential == null) {
+      return null;
+    }
 
     LoginCredential rest = new LoginCredential();
 
@@ -31,6 +34,9 @@ public class LoginCredentialConverter implements
   @Override
   public IaasEntities.LoginCredential apply(LoginCredential loginCredential) {
     //from REST to protobuf
+    if (loginCredential == null) {
+      return null;
+    }
 
     IaasEntities.LoginCredential.Builder builder = IaasEntities.LoginCredential.newBuilder();
 

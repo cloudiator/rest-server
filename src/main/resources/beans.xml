@@ -29,6 +29,9 @@
   <bean id="virtualMachineService" factory-bean="serviceFactory"
     factory-method="createVirtualMachineService"/>
 
+  <bean id="functionService" factory-bean="serviceFactory"
+        factory-method="createFunctionService"/>
+
   <bean id="jobService" factory-bean="serviceFactory"
     factory-method="createJobService"/>
 

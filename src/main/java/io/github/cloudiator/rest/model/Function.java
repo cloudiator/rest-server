@@ -27,6 +27,9 @@ public class Function   {
   @JsonProperty("memory")
   private Integer memory = 1024;
 
+  @JsonProperty("stackId")
+  private String stackId = null;
+
   public Function id(String id) {
     this.id = id;
     return this;
@@ -109,6 +112,26 @@ public class Function   {
     this.memory = memory;
   }
 
+  public Function stackId(String stackId) {
+    this.stackId = stackId;
+    return this;
+  }
+
+  /**
+   * Get stackId
+   * @return stackId
+  **/
+  @ApiModelProperty(value = "")
+
+
+  public String getStackId() {
+    return stackId;
+  }
+
+  public void setStackId(String stackId) {
+    this.stackId = stackId;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -122,12 +145,13 @@ public class Function   {
     return Objects.equals(this.id, function.id) &&
         Objects.equals(this.cloudId, function.cloudId) &&
         Objects.equals(this.locationId, function.locationId) &&
-        Objects.equals(this.memory, function.memory);
+        Objects.equals(this.memory, function.memory) &&
+        Objects.equals(this.stackId, function.stackId);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, cloudId, locationId, memory);
+    return Objects.hash(id, cloudId, locationId, memory, stackId);
   }
 
   @Override
@@ -139,6 +163,7 @@ public class Function   {
     sb.append("    cloudId: ").append(toIndentedString(cloudId)).append("\n");
     sb.append("    locationId: ").append(toIndentedString(locationId)).append("\n");
     sb.append("    memory: ").append(toIndentedString(memory)).append("\n");
+    sb.append("    stackId: ").append(toIndentedString(stackId)).append("\n");
     sb.append("}");
     return sb.toString();
   }
