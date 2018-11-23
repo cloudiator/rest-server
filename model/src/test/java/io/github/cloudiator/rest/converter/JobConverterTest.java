@@ -11,6 +11,14 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
 import io.github.cloudiator.rest.model.*;
 import io.github.cloudiator.rest.model.LanceInterface.ContainerTypeEnum;
+import io.github.cloudiator.rest.model.OclRequirement;
+import io.github.cloudiator.rest.model.PortProvided;
+import io.github.cloudiator.rest.model.PortRequired;
+import io.github.cloudiator.rest.model.Task;
+import io.github.cloudiator.rest.model.TaskType;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 import org.cloudiator.messages.entities.CommonEntities;
 import org.cloudiator.messages.entities.JobEntities;
 import org.cloudiator.messages.entities.TaskEntities;
@@ -94,13 +102,15 @@ public class JobConverterTest {
                 .setName("PortRequiredTest").build()
         ).build();
     //Interfaces
+    Map<String,String> testEnv = new HashMap<>();
+    testEnv.put("john","doe");
     this.restDockerInterface = new DockerInterface()
-        .dockerImage("DockerImage");
+        .dockerImage("DockerImage").environment(testEnv);
     this.restDockerInterface.setType(restDockerInterface.getClass().getSimpleName());
     this.iaasTaskDockerInterface = TaskEntities.TaskInterface.newBuilder()
         .setDockerInterface(
             TaskEntities.DockerInterface.newBuilder()
-                .setDockerImage("DockerImage").build()
+                .setDockerImage("DockerImage").putAllEnvironment(testEnv).build()
         ).build();
     this.restLanceInterface = new LanceInterface()
         .containerType(ContainerTypeEnum.BOTH)
