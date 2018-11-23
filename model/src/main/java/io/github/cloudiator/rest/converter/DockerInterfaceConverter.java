@@ -11,7 +11,6 @@ public class DockerInterfaceConverter implements
   public DockerInterface applyBack(TaskEntities.DockerInterface dockerInterface) {
     DockerInterface result = new DockerInterface()
         .dockerImage(dockerInterface.getDockerImage()).environment(dockerInterface.getEnvironmentMap());
-
     return result;
   }
 
