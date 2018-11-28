@@ -11,6 +11,7 @@ import org.cloudiator.messages.Monitor.CreateMonitorRequest;
 import org.cloudiator.messages.Monitor.CreateMonitorResponse;
 import org.cloudiator.messages.Monitor.MonitorQueryRequest;
 import org.cloudiator.messages.Monitor.MonitorQueryResponse;
+import org.cloudiator.messaging.ResponseException;
 import org.cloudiator.messaging.services.MonitorService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,7 +58,7 @@ public class MonitorsApiController implements MonitorsApi {
       try {
 
         if (monitor == null) {
-          System.out.println("NISCHTS DRIN");
+          System.out.println("Monitor is empty " + monitor);
           return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
@@ -90,14 +91,24 @@ public class MonitorsApiController implements MonitorsApi {
     String accept = request.getHeader("Accept");
     if (accept != null && accept.contains("application/json")) {
       try {
-        MonitorQueryRequest monitorQueryRequest = MonitorQueryRequest.newBuilder().build();
-        List<Monitor> monitorList = new ArrayList<>();
+
+        MonitorQueryRequest monitorQueryRequest = MonitorQueryRequest.newBuilder()
+            .setUserId(UserInfo.of(request).tenant()).build();
+
+        List<Monitor> result = new ArrayList<>();
+
         MonitorQueryResponse monitorQueryResponse = monitorService
             .findMonitors(monitorQueryRequest);
-        monitorList = monitorQueryResponse.getMonitorList().stream()
+
+        System.out.println("MonitorQueryResponse: " + monitorQueryResponse);
+
+        result = monitorQueryResponse.getMonitorList().stream()
             .map(monitorConverter::applyBack).collect(
                 Collectors.toList());
-        return new ResponseEntity<List<Monitor>>(monitorList, HttpStatus.OK);
+
+        return new ResponseEntity<List<Monitor>>(result, HttpStatus.OK);
+      } catch (ResponseException re) {
+        throw new ApiException(re.code(), re.getMessage());
       } catch (Exception e) {
         log.error("Couldn't serialize response for content type application/json", e);
         return new ResponseEntity<List<Monitor>>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -106,18 +117,16 @@ public class MonitorsApiController implements MonitorsApi {
     return new ResponseEntity<List<Monitor>>(HttpStatus.NOT_IMPLEMENTED);
   }
 
+
   public ResponseEntity<List<Monitor>> getMonitor(
       @ApiParam(value = "Unique identifier of a monitor", required = true) @PathVariable("metric") String metric) {
     String accept = request.getHeader("Accept");
     if (accept != null && accept.contains("application/json")) {
-
       final String userId = UserInfo.of(request).tenant();
       try {
-        System.out.println("Jetzt gehts los");
-        return new ResponseEntity<List<Monitor>>(objectMapper.readValue(
-            "[ {  \"metric\" : \"metric\",  \"sinks\" : [ {    \"configuration\" : { },    \"type\" : \"KAIROS_DB\"  }, {    \"configuration\" : { },    \"type\" : \"KAIROS_DB\"  } ],  \"sensor\" : {    \"type\" : \"type\"  },  \"targets\" : [ {    \"identifier\" : \"identifier\",    \"type\" : \"JOB\"  }, {    \"identifier\" : \"identifier\",    \"type\" : \"JOB\"  } ],  \"tags\" : [ {    \"value\" : \"value\",    \"key\" : \"key\"  }, {    \"value\" : \"value\",    \"key\" : \"key\"  } ]}, {  \"metric\" : \"metric\",  \"sinks\" : [ {    \"configuration\" : { },    \"type\" : \"KAIROS_DB\"  }, {    \"configuration\" : { },    \"type\" : \"KAIROS_DB\"  } ],  \"sensor\" : {    \"type\" : \"type\"  },  \"targets\" : [ {    \"identifier\" : \"identifier\",    \"type\" : \"JOB\"  }, {    \"identifier\" : \"identifier\",    \"type\" : \"JOB\"  } ],  \"tags\" : [ {    \"value\" : \"value\",    \"key\" : \"key\"  }, {    \"value\" : \"value\",    \"key\" : \"key\"  } ]} ]",
-            List.class), HttpStatus.NOT_IMPLEMENTED);
-      } catch (IOException e) {
+
+        return new ResponseEntity<List<Monitor>>(HttpStatus.NOT_IMPLEMENTED);
+      } catch (Exception e) {
         log.error("Couldn't serialize response for content type application/json", e);
         return new ResponseEntity<List<Monitor>>(HttpStatus.INTERNAL_SERVER_ERROR);
       }

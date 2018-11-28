@@ -25,7 +25,9 @@ public class MonitorConverter implements TwoWayConverter<Monitor, MonitorEntitie
     //Targets
     if (!kafkamonitor.getTargetList().isEmpty()) {
       for (MonitorEntities.MonitoringTarget monTarg : kafkamonitor.getTargetList()) {
-        restmonitor.addTargetsItem(monitorTargetConverter.applyBack(monTarg));
+        if (monTarg != null) {
+          restmonitor.addTargetsItem(monitorTargetConverter.applyBack(monTarg));
+        }
       }
     }
     //Sinks
