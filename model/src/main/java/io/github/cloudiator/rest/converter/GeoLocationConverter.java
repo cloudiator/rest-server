@@ -41,6 +41,9 @@ public class GeoLocationConverter implements
 
   @Override
   public IaasEntities.GeoLocation apply(GeoLocation geolocation) {
+    if (geolocation == null) {
+      return null;
+    }
     IaasEntities.GeoLocation.Builder builder = IaasEntities.GeoLocation.newBuilder();
 
     if (geolocation.getCity() != null) {

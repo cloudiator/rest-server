@@ -1,11 +1,7 @@
 package io.github.cloudiator.rest.converter;
 
 import de.uniulm.omi.cloudiator.util.TwoWayConverter;
-import io.github.cloudiator.rest.model.DockerInterface;
-import io.github.cloudiator.rest.model.LanceInterface;
-import io.github.cloudiator.rest.model.PlatformInterface;
-import io.github.cloudiator.rest.model.SparkInterface;
-import io.github.cloudiator.rest.model.TaskInterface;
+import io.github.cloudiator.rest.model.*;
 import org.cloudiator.messages.entities.TaskEntities;
 
 public class TaskInterfaceConverter implements
@@ -14,6 +10,7 @@ public class TaskInterfaceConverter implements
   private final DockerInterfaceConverter dockerInterfaceConverter = new DockerInterfaceConverter();
   private final LanceInterfaceConverter lanceInterfaceConverter = new LanceInterfaceConverter();
   private final PlatformInterfaceConverter platformInterfaceConverter = new PlatformInterfaceConverter();
+  private final FaasInterfaceConverter faasInterfaceConverter = new FaasInterfaceConverter();
   private final SparkInterfaceConverter sparkInterfaceConverter = new SparkInterfaceConverter();
 
   @Override
@@ -27,6 +24,10 @@ public class TaskInterfaceConverter implements
       case DOCKERINTERFACE:
         result = dockerInterfaceConverter.applyBack(taskInterface.getDockerInterface());
         result.setType(taskInterface.getDockerInterface().getClass().getSimpleName());
+        break;
+      case FAASINTERFACE:
+        result = faasInterfaceConverter.applyBack(taskInterface.getFaasInterface());
+        result.setType(taskInterface.getFaasInterface().getClass().getSimpleName());
         break;
       case SPARKINTERFACE:
         result = sparkInterfaceConverter.applyBack(taskInterface.getSparkInterface());
@@ -52,6 +53,8 @@ public class TaskInterfaceConverter implements
       result.setSparkInterface(sparkInterfaceConverter.apply((SparkInterface) taskInterface));
     } else if (taskInterface instanceof PlatformInterface) {
       throw new AssertionError("Not implemented!");
+    } else if (taskInterface instanceof FaasInterface) {
+      result.setFaasInterface(faasInterfaceConverter.apply((FaasInterface) taskInterface));
     } else {
       throw new AssertionError(
           "InterfaceType not known: " + taskInterface.getClass().getSimpleName());

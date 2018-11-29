@@ -74,7 +74,9 @@ public class Node   {
     
     BYON("BYON"),
     
-    CONTAINER("CONTAINER");
+    CONTAINER("CONTAINER"),
+    
+    FAAS("FAAS");
 
     private String value;
 

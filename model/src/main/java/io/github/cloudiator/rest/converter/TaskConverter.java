@@ -2,11 +2,7 @@ package io.github.cloudiator.rest.converter;
 
 
 import de.uniulm.omi.cloudiator.util.TwoWayConverter;
-import io.github.cloudiator.rest.model.Port;
-import io.github.cloudiator.rest.model.Requirement;
-import io.github.cloudiator.rest.model.Task;
-import io.github.cloudiator.rest.model.TaskInterface;
-import io.github.cloudiator.rest.model.TaskType;
+import io.github.cloudiator.rest.model.*;
 import org.cloudiator.messages.entities.CommonEntities;
 import org.cloudiator.messages.entities.TaskEntities;
 
