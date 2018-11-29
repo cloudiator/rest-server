@@ -145,7 +145,7 @@ public class LanceInterfaceConverter implements
       result.clearInit();
     }
 
-    if (lanceInterface.getInstall() != null) {
+    if (lanceInterface.getPreInstall() != null) {
       result.setPreInstall(lanceInterface.getPreInstall());
     } else {
       result.clearPreInstall();
