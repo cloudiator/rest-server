@@ -12,24 +12,20 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * Represents an interface 
+ * Represents an event that triggers a function. 
  */
-@ApiModel(description = "Represents an interface ")
+@ApiModel(description = "Represents an event that triggers a function. ")
 @Validated
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type", visible = true )
 @JsonSubTypes({
-  @JsonSubTypes.Type(value = SparkInterface.class, name = "SparkInterface"),
-  @JsonSubTypes.Type(value = FaasInterface.class, name = "FaasInterface"),
-  @JsonSubTypes.Type(value = PlatformInterface.class, name = "PlatformInterface"),
-  @JsonSubTypes.Type(value = DockerInterface.class, name = "DockerInterface"),
-  @JsonSubTypes.Type(value = LanceInterface.class, name = "LanceInterface"),
+  @JsonSubTypes.Type(value = HttpTrigger.class, name = "HttpTrigger"),
 })
 
-public class TaskInterface   {
+public class Trigger   {
   @JsonProperty("type")
   private String type = null;
 
-  public TaskInterface type(String type) {
+  public Trigger type(String type) {
     this.type = type;
     return this;
   }
@@ -59,8 +55,8 @@ public class TaskInterface   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    TaskInterface taskInterface = (TaskInterface) o;
-    return Objects.equals(this.type, taskInterface.type);
+    Trigger trigger = (Trigger) o;
+    return Objects.equals(this.type, trigger.type);
   }
 
   @Override
@@ -71,7 +67,7 @@ public class TaskInterface   {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class TaskInterface {\n");
+    sb.append("class Trigger {\n");
     
     sb.append("    type: ").append(toIndentedString(type)).append("\n");
     sb.append("}");
