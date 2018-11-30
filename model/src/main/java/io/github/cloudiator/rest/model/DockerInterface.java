@@ -64,6 +64,7 @@ public class DockerInterface extends TaskInterface  {
     this.environment = environment;
   }
 
+
   @Override
   public boolean equals(java.lang.Object o) {
     if (this == o) {

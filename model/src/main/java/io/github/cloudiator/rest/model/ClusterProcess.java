@@ -4,6 +4,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import io.github.cloudiator.rest.model.Process;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.validation.annotation.Validated;
@@ -11,11 +12,11 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * Process
+ * ClusterProcess
  */
 @Validated
 
-public class Process   {
+public class ClusterProcess   {
   @JsonProperty("id")
   private String id = null;
 
@@ -59,7 +60,7 @@ public class Process   {
   @JsonProperty("task")
   private String task = null;
 
-  public Process id(String id) {
+  public ClusterProcess id(String id) {
     this.id = id;
     return this;
   }
@@ -80,7 +81,7 @@ public class Process   {
     this.id = id;
   }
 
-  public Process type(TypeEnum type) {
+  public ClusterProcess type(TypeEnum type) {
     this.type = type;
     return this;
   }
@@ -101,7 +102,7 @@ public class Process   {
     this.type = type;
   }
 
-  public Process schedule(String schedule) {
+  public ClusterProcess schedule(String schedule) {
     this.schedule = schedule;
     return this;
   }
@@ -122,7 +123,7 @@ public class Process   {
     this.schedule = schedule;
   }
 
-  public Process task(String task) {
+  public ClusterProcess task(String task) {
     this.task = task;
     return this;
   }
@@ -152,11 +153,11 @@ public class Process   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    Process process = (Process) o;
-    return Objects.equals(this.id, process.id) &&
-        Objects.equals(this.type, process.type) &&
-        Objects.equals(this.schedule, process.schedule) &&
-        Objects.equals(this.task, process.task);
+    ClusterProcess clusterProcess = (ClusterProcess) o;
+    return Objects.equals(this.id, clusterProcess.id) &&
+        Objects.equals(this.type, clusterProcess.type) &&
+        Objects.equals(this.schedule, clusterProcess.schedule) &&
+        Objects.equals(this.task, clusterProcess.task);
   }
 
   @Override
@@ -167,7 +168,7 @@ public class Process   {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class Process {\n");
+    sb.append("class ClusterProcess {\n");
     
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    type: ").append(toIndentedString(type)).append("\n");
