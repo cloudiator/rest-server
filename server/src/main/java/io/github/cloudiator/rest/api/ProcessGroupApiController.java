@@ -1,26 +1,17 @@
 package io.github.cloudiator.rest.api;
 
-import io.github.cloudiator.rest.model.Error;
-import io.github.cloudiator.rest.model.ProcessGroup;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.swagger.annotations.*;
+import io.github.cloudiator.rest.model.ProcessGroup;
+import io.swagger.annotations.ApiParam;
+import java.io.IOException;
+import java.util.List;
+import javax.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.multipart.MultipartFile;
-
-import javax.validation.constraints.*;
-import javax.validation.Valid;
-import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
-import java.util.List;
 
 @Controller
 public class ProcessGroupApiController implements ProcessGroupApi {
@@ -41,7 +32,7 @@ public class ProcessGroupApiController implements ProcessGroupApi {
         String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
             try {
-                return new ResponseEntity<List<ProcessGroup>>(objectMapper.readValue("[ {  \"processes\" : [ {    \"schedule\" : \"schedule\",    \"task\" : \"task\",    \"id\" : \"id\",    \"type\" : \"LANCE\"  }, {    \"schedule\" : \"schedule\",    \"task\" : \"task\",    \"id\" : \"id\",    \"type\" : \"LANCE\"  } ],  \"id\" : \"id\"}, {  \"processes\" : [ {    \"schedule\" : \"schedule\",    \"task\" : \"task\",    \"id\" : \"id\",    \"type\" : \"LANCE\"  }, {    \"schedule\" : \"schedule\",    \"task\" : \"task\",    \"id\" : \"id\",    \"type\" : \"LANCE\"  } ],  \"id\" : \"id\"} ]", List.class), HttpStatus.NOT_IMPLEMENTED);
+                return new ResponseEntity<List<ProcessGroup>>(objectMapper.readValue("[ {  \"processes\" : [ {    \"schedule\" : \"schedule\",    \"task\" : \"task\",    \"id\" : \"id\",    \"processType\" : \"SINGLE\",    \"type\" : \"LANCE\"  }, {    \"schedule\" : \"schedule\",    \"task\" : \"task\",    \"id\" : \"id\",    \"processType\" : \"SINGLE\",    \"type\" : \"LANCE\"  } ],  \"id\" : \"id\"}, {  \"processes\" : [ {    \"schedule\" : \"schedule\",    \"task\" : \"task\",    \"id\" : \"id\",    \"processType\" : \"SINGLE\",    \"type\" : \"LANCE\"  }, {    \"schedule\" : \"schedule\",    \"task\" : \"task\",    \"id\" : \"id\",    \"processType\" : \"SINGLE\",    \"type\" : \"LANCE\"  } ],  \"id\" : \"id\"} ]", List.class), HttpStatus.NOT_IMPLEMENTED);
             } catch (IOException e) {
                 log.error("Couldn't serialize response for content type application/json", e);
                 return new ResponseEntity<List<ProcessGroup>>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -55,7 +46,7 @@ public class ProcessGroupApiController implements ProcessGroupApi {
         String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
             try {
-                return new ResponseEntity<ProcessGroup>(objectMapper.readValue("{  \"processes\" : [ {    \"schedule\" : \"schedule\",    \"task\" : \"task\",    \"id\" : \"id\",    \"type\" : \"LANCE\"  }, {    \"schedule\" : \"schedule\",    \"task\" : \"task\",    \"id\" : \"id\",    \"type\" : \"LANCE\"  } ],  \"id\" : \"id\"}", ProcessGroup.class), HttpStatus.NOT_IMPLEMENTED);
+                return new ResponseEntity<ProcessGroup>(objectMapper.readValue("{  \"processes\" : [ {    \"schedule\" : \"schedule\",    \"task\" : \"task\",    \"id\" : \"id\",    \"processType\" : \"SINGLE\",    \"type\" : \"LANCE\"  }, {    \"schedule\" : \"schedule\",    \"task\" : \"task\",    \"id\" : \"id\",    \"processType\" : \"SINGLE\",    \"type\" : \"LANCE\"  } ],  \"id\" : \"id\"}", ProcessGroup.class), HttpStatus.NOT_IMPLEMENTED);
             } catch (IOException e) {
                 log.error("Couldn't serialize response for content type application/json", e);
                 return new ResponseEntity<ProcessGroup>(HttpStatus.INTERNAL_SERVER_ERROR);

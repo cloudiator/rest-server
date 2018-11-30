@@ -16,132 +16,29 @@ import javax.validation.constraints.*;
  */
 @Validated
 
-public class ClusterProcess   {
-  @JsonProperty("id")
-  private String id = null;
+public class ClusterProcess extends Process  {
+  @JsonProperty("nodeGroup")
+  private String nodeGroup = null;
 
-  /**
-   * Gets or Sets type
-   */
-  public enum TypeEnum {
-    LANCE("LANCE"),
-    
-    SPARK("SPARK");
-
-    private String value;
-
-    TypeEnum(String value) {
-      this.value = value;
-    }
-
-    @Override
-    @JsonValue
-    public String toString() {
-      return String.valueOf(value);
-    }
-
-    @JsonCreator
-    public static TypeEnum fromValue(String text) {
-      for (TypeEnum b : TypeEnum.values()) {
-        if (String.valueOf(b.value).equals(text)) {
-          return b;
-        }
-      }
-      return null;
-    }
-  }
-
-  @JsonProperty("type")
-  private TypeEnum type = null;
-
-  @JsonProperty("schedule")
-  private String schedule = null;
-
-  @JsonProperty("task")
-  private String task = null;
-
-  public ClusterProcess id(String id) {
-    this.id = id;
+  public ClusterProcess nodeGroup(String nodeGroup) {
+    this.nodeGroup = nodeGroup;
     return this;
   }
 
   /**
-   * Get id
-   * @return id
+   * The id of the nodeGroup this process is hosted on.
+   * @return nodeGroup
   **/
-  @ApiModelProperty(required = true, value = "")
+  @ApiModelProperty(required = true, value = "The id of the nodeGroup this process is hosted on.")
   @NotNull
 
 
-  public String getId() {
-    return id;
+  public String getNodeGroup() {
+    return nodeGroup;
   }
 
-  public void setId(String id) {
-    this.id = id;
-  }
-
-  public ClusterProcess type(TypeEnum type) {
-    this.type = type;
-    return this;
-  }
-
-  /**
-   * Get type
-   * @return type
-  **/
-  @ApiModelProperty(required = true, value = "")
-  @NotNull
-
-
-  public TypeEnum getType() {
-    return type;
-  }
-
-  public void setType(TypeEnum type) {
-    this.type = type;
-  }
-
-  public ClusterProcess schedule(String schedule) {
-    this.schedule = schedule;
-    return this;
-  }
-
-  /**
-   * The id of the schedule this process belongs to.
-   * @return schedule
-  **/
-  @ApiModelProperty(required = true, value = "The id of the schedule this process belongs to.")
-  @NotNull
-
-
-  public String getSchedule() {
-    return schedule;
-  }
-
-  public void setSchedule(String schedule) {
-    this.schedule = schedule;
-  }
-
-  public ClusterProcess task(String task) {
-    this.task = task;
-    return this;
-  }
-
-  /**
-   * The id of the task that is instantiated by this process.
-   * @return task
-  **/
-  @ApiModelProperty(required = true, value = "The id of the task that is instantiated by this process.")
-  @NotNull
-
-
-  public String getTask() {
-    return task;
-  }
-
-  public void setTask(String task) {
-    this.task = task;
+  public void setNodeGroup(String nodeGroup) {
+    this.nodeGroup = nodeGroup;
   }
 
 
@@ -154,26 +51,21 @@ public class ClusterProcess   {
       return false;
     }
     ClusterProcess clusterProcess = (ClusterProcess) o;
-    return Objects.equals(this.id, clusterProcess.id) &&
-        Objects.equals(this.type, clusterProcess.type) &&
-        Objects.equals(this.schedule, clusterProcess.schedule) &&
-        Objects.equals(this.task, clusterProcess.task);
+    return Objects.equals(this.nodeGroup, clusterProcess.nodeGroup) &&
+        super.equals(o);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, type, schedule, task);
+    return Objects.hash(nodeGroup, super.hashCode());
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class ClusterProcess {\n");
-    
-    sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    type: ").append(toIndentedString(type)).append("\n");
-    sb.append("    schedule: ").append(toIndentedString(schedule)).append("\n");
-    sb.append("    task: ").append(toIndentedString(task)).append("\n");
+    sb.append("    ").append(toIndentedString(super.toString())).append("\n");
+    sb.append("    nodeGroup: ").append(toIndentedString(nodeGroup)).append("\n");
     sb.append("}");
     return sb.toString();
   }

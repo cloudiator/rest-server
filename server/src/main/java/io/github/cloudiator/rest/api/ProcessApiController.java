@@ -1,7 +1,6 @@
 package io.github.cloudiator.rest.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.base.Function;
 import com.google.common.base.Strings;
 import io.github.cloudiator.rest.UserInfo;
 import io.github.cloudiator.rest.converter.ProcessConverter;
@@ -148,11 +147,15 @@ public class ProcessApiController implements ProcessApi {
           throw new ApiException(500, "Multiple process found for id");
         }
 
-        final Process process = PROCESS_CONVERTER.applyBack(processQueryResponse.getProcesses(0));
-        process.setNodeGroup(idEncoder.encode(process.getNodeGroup()));
 
-        return new ResponseEntity<>(process
-            , HttpStatus.OK);
+
+
+        final Process process = PROCESS_CONVERTER.applyBack(processQueryResponse.getProcesses(0));
+
+        //TODO: needs to be refactored for Single and Cluster Process
+        //process.setNodeGroup(idEncoder.encode(process.getNodeGroup()));
+
+        return new ResponseEntity<>(process, HttpStatus.OK);
 
 
       } catch (ResponseException e) {
@@ -180,9 +183,17 @@ public class ProcessApiController implements ProcessApi {
         final ProcessQueryResponse processQueryResponse = processService
             .queryProcesses(builder.build());
 
+        //TODO: needs to be refactored for Single and Cluster Process
+        /*
         return new ResponseEntity<>(
             processQueryResponse.getProcessesList().stream().map(PROCESS_CONVERTER::applyBack).map(
                 (Function<Process, Process>) input -> input.nodeGroup(idEncoder.encode(input.getNodeGroup())))
+                .collect(
+                    Collectors.toList()), HttpStatus.OK);
+                    */
+
+        return new ResponseEntity<>(
+            processQueryResponse.getProcessesList().stream().map(PROCESS_CONVERTER::applyBack)
                 .collect(
                     Collectors.toList()), HttpStatus.OK);
 
