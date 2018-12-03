@@ -4,7 +4,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.github.cloudiator.rest.model.Process;
+import io.github.cloudiator.rest.model.CloudiatorProcess;
 import io.github.cloudiator.rest.model.ScheduleNew;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -62,7 +62,7 @@ public class Schedule   {
 
   @JsonProperty("processes")
   @Valid
-  private List<Process> processes = null;
+  private List<CloudiatorProcess> processes = null;
 
   public Schedule job(String job) {
     this.job = job;
@@ -124,14 +124,14 @@ public class Schedule   {
     this.id = id;
   }
 
-  public Schedule processes(List<Process> processes) {
+  public Schedule processes(List<CloudiatorProcess> processes) {
     this.processes = processes;
     return this;
   }
 
-  public Schedule addProcessesItem(Process processesItem) {
+  public Schedule addProcessesItem(CloudiatorProcess processesItem) {
     if (this.processes == null) {
-      this.processes = new ArrayList<Process>();
+      this.processes = new ArrayList<CloudiatorProcess>();
     }
     this.processes.add(processesItem);
     return this;
@@ -145,11 +145,11 @@ public class Schedule   {
 
   @Valid
 
-  public List<Process> getProcesses() {
+  public List<CloudiatorProcess> getProcesses() {
     return processes;
   }
 
-  public void setProcesses(List<Process> processes) {
+  public void setProcesses(List<CloudiatorProcess> processes) {
     this.processes = processes;
   }
 

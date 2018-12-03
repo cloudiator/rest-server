@@ -5,8 +5,8 @@
  */
 package io.github.cloudiator.rest.api;
 
-import io.github.cloudiator.rest.model.Process;
-import io.github.cloudiator.rest.model.ProcessNew;
+import io.github.cloudiator.rest.model.CloudiatorProcess;
+import io.github.cloudiator.rest.model.CloudiatorProcessNew;
 import io.github.cloudiator.rest.model.Queue;
 import io.swagger.annotations.*;
 import org.springframework.http.ResponseEntity;
@@ -36,7 +36,7 @@ public interface ProcessApi {
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.POST)
-    ResponseEntity<Queue> createProcess(@ApiParam(value = "Process to be created " ,required=true )  @Valid @RequestBody ProcessNew process);
+    ResponseEntity<Queue> createProcess(@ApiParam(value = "Process to be created " ,required=true )  @Valid @RequestBody CloudiatorProcessNew process);
 
 
     @ApiOperation(value = "", nickname = "deleteProcess", notes = "Deletes the process corresponding to the given id. ", response = Queue.class, authorizations = {
@@ -50,25 +50,25 @@ public interface ProcessApi {
     ResponseEntity<Queue> deleteProcess(@ApiParam(value = "Unique identifier of the resource",required=true) @PathVariable("id") String id);
 
 
-    @ApiOperation(value = "", nickname = "findProcess", notes = "Finds the process corresponding to the given id. ", response = Process.class, authorizations = {
+    @ApiOperation(value = "", nickname = "findProcess", notes = "Finds the process corresponding to the given id. ", response = CloudiatorProcess.class, authorizations = {
         @Authorization(value = "ApiKeyAuth")
     }, tags={ "process", })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "OK", response = Process.class) })
+        @ApiResponse(code = 200, message = "OK", response = CloudiatorProcess.class) })
     @RequestMapping(value = "/process/{id}",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<Process> findProcess(@ApiParam(value = "Unique identifier of the resource",required=true) @PathVariable("id") String id);
+    ResponseEntity<CloudiatorProcess> findProcess(@ApiParam(value = "Unique identifier of the resource",required=true) @PathVariable("id") String id);
 
 
-    @ApiOperation(value = "", nickname = "getProcesses", notes = "Retrieves all process of the current user matching the parameters. ", response = Process.class, responseContainer = "List", authorizations = {
+    @ApiOperation(value = "", nickname = "getProcesses", notes = "Retrieves all process of the current user matching the parameters. ", response = CloudiatorProcess.class, responseContainer = "List", authorizations = {
         @Authorization(value = "ApiKeyAuth")
     }, tags={ "process", })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "OK", response = Process.class, responseContainer = "List") })
+        @ApiResponse(code = 200, message = "OK", response = CloudiatorProcess.class, responseContainer = "List") })
     @RequestMapping(value = "/process",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<List<Process>> getProcesses(@ApiParam(value = "Id of the schedule. ") @Valid @RequestParam(value = "scheduleId", required = false) String scheduleId);
+    ResponseEntity<List<CloudiatorProcess>> getProcesses(@ApiParam(value = "Id of the schedule. ") @Valid @RequestParam(value = "scheduleId", required = false) String scheduleId);
 
 }

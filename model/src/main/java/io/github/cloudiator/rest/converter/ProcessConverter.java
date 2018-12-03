@@ -2,16 +2,15 @@ package io.github.cloudiator.rest.converter;
 
 
 import de.uniulm.omi.cloudiator.util.TwoWayConverter;
+import io.github.cloudiator.rest.model.CloudiatorProcess;
+import io.github.cloudiator.rest.model.CloudiatorProcess.ProcessTypeEnum;
 import io.github.cloudiator.rest.model.ClusterProcess;
-import io.github.cloudiator.rest.model.Process;
-import io.github.cloudiator.rest.model.Process.ProcessTypeEnum;
-import io.github.cloudiator.rest.model.Process.TypeEnum;
 import io.github.cloudiator.rest.model.SingleProcess;
 import org.cloudiator.messages.entities.ProcessEntities;
 import org.cloudiator.messages.entities.ProcessEntities.Process.Builder;
 import org.cloudiator.messages.entities.ProcessEntities.ProcessType;
 
-public class ProcessConverter implements TwoWayConverter<Process, ProcessEntities.Process> {
+public class ProcessConverter implements TwoWayConverter<CloudiatorProcess, ProcessEntities.Process> {
 
   public final static ProcessConverter INSTANCE = new ProcessConverter();
   private static final String SINGLE_PROCESS_TYPE = "singleProcess";
@@ -21,7 +20,7 @@ public class ProcessConverter implements TwoWayConverter<Process, ProcessEntitie
   }
 
   @Override
-  public Process applyBack(ProcessEntities.Process process) {
+  public CloudiatorProcess applyBack(ProcessEntities.Process process) {
 
     switch (process.getRunsOnCase()){
       case NODE:
@@ -50,7 +49,7 @@ public class ProcessConverter implements TwoWayConverter<Process, ProcessEntitie
   }
 
   @Override
-  public ProcessEntities.Process apply(Process process) {
+  public ProcessEntities.Process apply(CloudiatorProcess process) {
 
     Builder processBuilder = ProcessEntities.Process.newBuilder()
         .setId(process.getId())
@@ -74,17 +73,17 @@ public class ProcessConverter implements TwoWayConverter<Process, ProcessEntitie
   }
 
   private static class ProcessTypeConverter implements
-      TwoWayConverter<Process.TypeEnum, ProcessEntities.ProcessType> {
+      TwoWayConverter<CloudiatorProcess.TypeEnum, ProcessEntities.ProcessType> {
 
     private static final ProcessTypeConverter INSTANCE = new ProcessTypeConverter();
 
     @Override
-    public TypeEnum applyBack(ProcessType processType) {
+    public CloudiatorProcess.TypeEnum applyBack(ProcessType processType) {
       switch (processType) {
         case LANCE:
-          return TypeEnum.LANCE;
+          return CloudiatorProcess.TypeEnum.LANCE;
         case SPARK:
-          return TypeEnum.SPARK;
+          return CloudiatorProcess.TypeEnum.SPARK;
         case UNRECOGNIZED:
         default:
           throw new AssertionError("Unknown processType: " + processType);
@@ -92,7 +91,7 @@ public class ProcessConverter implements TwoWayConverter<Process, ProcessEntitie
     }
 
     @Override
-    public ProcessType apply(TypeEnum typeEnum) {
+    public ProcessType apply(CloudiatorProcess.TypeEnum typeEnum) {
       switch (typeEnum) {
         case SPARK:
           return ProcessType.SPARK;

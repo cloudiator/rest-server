@@ -13,7 +13,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * Process
+ * CloudiatorProcess
  */
 @Validated
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "processType", visible = true )
@@ -22,7 +22,7 @@ import javax.validation.constraints.*;
   @JsonSubTypes.Type(value = SingleProcess.class, name = "SingleProcess"),
 })
 
-public class Process   {
+public class CloudiatorProcess   {
   @JsonProperty("id")
   private String id = null;
 
@@ -100,7 +100,7 @@ public class Process   {
   @JsonProperty("task")
   private String task = null;
 
-  public Process id(String id) {
+  public CloudiatorProcess id(String id) {
     this.id = id;
     return this;
   }
@@ -121,7 +121,7 @@ public class Process   {
     this.id = id;
   }
 
-  public Process processType(ProcessTypeEnum processType) {
+  public CloudiatorProcess processType(ProcessTypeEnum processType) {
     this.processType = processType;
     return this;
   }
@@ -142,7 +142,7 @@ public class Process   {
     this.processType = processType;
   }
 
-  public Process type(TypeEnum type) {
+  public CloudiatorProcess type(TypeEnum type) {
     this.type = type;
     return this;
   }
@@ -163,7 +163,7 @@ public class Process   {
     this.type = type;
   }
 
-  public Process schedule(String schedule) {
+  public CloudiatorProcess schedule(String schedule) {
     this.schedule = schedule;
     return this;
   }
@@ -184,7 +184,7 @@ public class Process   {
     this.schedule = schedule;
   }
 
-  public Process task(String task) {
+  public CloudiatorProcess task(String task) {
     this.task = task;
     return this;
   }
@@ -214,12 +214,12 @@ public class Process   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    Process process = (Process) o;
-    return Objects.equals(this.id, process.id) &&
-        Objects.equals(this.processType, process.processType) &&
-        Objects.equals(this.type, process.type) &&
-        Objects.equals(this.schedule, process.schedule) &&
-        Objects.equals(this.task, process.task);
+    CloudiatorProcess cloudiatorProcess = (CloudiatorProcess) o;
+    return Objects.equals(this.id, cloudiatorProcess.id) &&
+        Objects.equals(this.processType, cloudiatorProcess.processType) &&
+        Objects.equals(this.type, cloudiatorProcess.type) &&
+        Objects.equals(this.schedule, cloudiatorProcess.schedule) &&
+        Objects.equals(this.task, cloudiatorProcess.task);
   }
 
   @Override
@@ -230,7 +230,7 @@ public class Process   {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class Process {\n");
+    sb.append("class CloudiatorProcess {\n");
     
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    processType: ").append(toIndentedString(processType)).append("\n");

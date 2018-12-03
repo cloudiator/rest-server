@@ -15,7 +15,7 @@ import javax.validation.constraints.*;
 @ApiModel(description = "A process represents a task running on a node")
 @Validated
 
-public class ProcessNew   {
+public class CloudiatorProcessNew   {
   @JsonProperty("schedule")
   private String schedule = null;
 
@@ -25,7 +25,7 @@ public class ProcessNew   {
   @JsonProperty("nodeGroup")
   private String nodeGroup = null;
 
-  public ProcessNew schedule(String schedule) {
+  public CloudiatorProcessNew schedule(String schedule) {
     this.schedule = schedule;
     return this;
   }
@@ -46,7 +46,7 @@ public class ProcessNew   {
     this.schedule = schedule;
   }
 
-  public ProcessNew task(String task) {
+  public CloudiatorProcessNew task(String task) {
     this.task = task;
     return this;
   }
@@ -67,7 +67,7 @@ public class ProcessNew   {
     this.task = task;
   }
 
-  public ProcessNew nodeGroup(String nodeGroup) {
+  public CloudiatorProcessNew nodeGroup(String nodeGroup) {
     this.nodeGroup = nodeGroup;
     return this;
   }
@@ -97,10 +97,10 @@ public class ProcessNew   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    ProcessNew processNew = (ProcessNew) o;
-    return Objects.equals(this.schedule, processNew.schedule) &&
-        Objects.equals(this.task, processNew.task) &&
-        Objects.equals(this.nodeGroup, processNew.nodeGroup);
+    CloudiatorProcessNew cloudiatorProcessNew = (CloudiatorProcessNew) o;
+    return Objects.equals(this.schedule, cloudiatorProcessNew.schedule) &&
+        Objects.equals(this.task, cloudiatorProcessNew.task) &&
+        Objects.equals(this.nodeGroup, cloudiatorProcessNew.nodeGroup);
   }
 
   @Override
@@ -111,7 +111,7 @@ public class ProcessNew   {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class ProcessNew {\n");
+    sb.append("class CloudiatorProcessNew {\n");
     
     sb.append("    schedule: ").append(toIndentedString(schedule)).append("\n");
     sb.append("    task: ").append(toIndentedString(task)).append("\n");

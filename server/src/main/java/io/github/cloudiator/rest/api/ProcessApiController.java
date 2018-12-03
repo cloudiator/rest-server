@@ -5,8 +5,8 @@ import com.google.common.base.Strings;
 import io.github.cloudiator.rest.UserInfo;
 import io.github.cloudiator.rest.converter.ProcessConverter;
 import io.github.cloudiator.rest.converter.ProcessNewConverter;
-import io.github.cloudiator.rest.model.Process;
-import io.github.cloudiator.rest.model.ProcessNew;
+import io.github.cloudiator.rest.model.CloudiatorProcess;
+import io.github.cloudiator.rest.model.CloudiatorProcessNew;
 import io.github.cloudiator.rest.model.Queue;
 import io.github.cloudiator.rest.queue.QueueService;
 import io.github.cloudiator.rest.queue.QueueService.QueueItem;
@@ -63,7 +63,7 @@ public class ProcessApiController implements ProcessApi {
   }
 
   public ResponseEntity<Queue> createProcess(
-      @ApiParam(value = "Process to be created ", required = true) @Valid @RequestBody ProcessNew process) {
+      @ApiParam(value = "Process to be created ", required = true) @Valid @RequestBody CloudiatorProcessNew process) {
     String accept = request.getHeader("Accept");
     if (accept != null && accept.contains("application/json")) {
 
@@ -120,7 +120,7 @@ public class ProcessApiController implements ProcessApi {
   }
 
   @Override
-  public ResponseEntity<Process> findProcess(
+  public ResponseEntity<CloudiatorProcess> findProcess(
       @ApiParam(value = "Unique identifier of the resource", required = true) @PathVariable("id") String id) {
     String accept = request.getHeader("Accept");
     if (accept != null && accept.contains("application/json")) {
@@ -147,10 +147,8 @@ public class ProcessApiController implements ProcessApi {
           throw new ApiException(500, "Multiple process found for id");
         }
 
-
-
-
-        final Process process = PROCESS_CONVERTER.applyBack(processQueryResponse.getProcesses(0));
+        final CloudiatorProcess process = PROCESS_CONVERTER
+            .applyBack(processQueryResponse.getProcesses(0));
 
         //TODO: needs to be refactored for Single and Cluster Process
         //process.setNodeGroup(idEncoder.encode(process.getNodeGroup()));
@@ -166,7 +164,7 @@ public class ProcessApiController implements ProcessApi {
     return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
   }
 
-  public ResponseEntity<List<Process>> getProcesses(
+  public ResponseEntity<List<CloudiatorProcess>> getProcesses(
       @ApiParam(value = "Id of the schedule. ") @Valid @RequestParam(value = "scheduleId", required = false) String scheduleId) {
 
     String accept = request.getHeader("Accept");
