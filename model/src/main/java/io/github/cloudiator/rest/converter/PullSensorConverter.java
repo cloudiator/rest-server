@@ -18,7 +18,7 @@ public class PullSensorConverter implements
     PullSensor result = new PullSensor();
     result.setClassName(kafkaSensor.getClassName());
     result.setInterval(intervalConverter.applyBack(kafkaSensor.getInterval()));
-    result.setType(kafkaSensor.getClass().getSimpleName());
+    result.setType(result.getClass().getSimpleName());
     Map configs = new HashMap();
     configs.putAll(kafkaSensor.getConfigurationMap());
     result.setConfiguration(configs);
@@ -29,7 +29,7 @@ public class PullSensorConverter implements
   @Override
   public MonitorEntities.PullSensor apply(PullSensor restSensor) {
     MonitorEntities.PullSensor.Builder result = MonitorEntities.PullSensor.newBuilder()
-        .setClassName(restSensor.getType())
+        .setClassName(restSensor.getClassName())
         .setInterval(intervalConverter.apply(restSensor.getInterval()))
         .putAllConfiguration(restSensor.getConfiguration());
 
