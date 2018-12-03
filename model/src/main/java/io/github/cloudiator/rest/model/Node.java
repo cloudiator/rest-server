@@ -27,6 +27,40 @@ public class Node   {
   @JsonProperty("name")
   private String name = null;
 
+  /**
+   * Gets or Sets state
+   */
+  public enum StateEnum {
+    OK("OK"),
+    
+    ERROR("ERROR");
+
+    private String value;
+
+    StateEnum(String value) {
+      this.value = value;
+    }
+
+    @Override
+    @JsonValue
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    @JsonCreator
+    public static StateEnum fromValue(String text) {
+      for (StateEnum b : StateEnum.values()) {
+        if (String.valueOf(b.value).equals(text)) {
+          return b;
+        }
+      }
+      return null;
+    }
+  }
+
+  @JsonProperty("state")
+  private StateEnum state = null;
+
   @JsonProperty("loginCredential")
   private LoginCredential loginCredential = null;
 
@@ -115,6 +149,26 @@ public class Node   {
 
   public void setName(String name) {
     this.name = name;
+  }
+
+  public Node state(StateEnum state) {
+    this.state = state;
+    return this;
+  }
+
+  /**
+   * Get state
+   * @return state
+  **/
+  @ApiModelProperty(value = "")
+
+
+  public StateEnum getState() {
+    return state;
+  }
+
+  public void setState(StateEnum state) {
+    this.state = state;
   }
 
   public Node loginCredential(LoginCredential loginCredential) {
@@ -220,6 +274,7 @@ public class Node   {
     Node node = (Node) o;
     return Objects.equals(this.nodeId, node.nodeId) &&
         Objects.equals(this.name, node.name) &&
+        Objects.equals(this.state, node.state) &&
         Objects.equals(this.loginCredential, node.loginCredential) &&
         Objects.equals(this.nodeType, node.nodeType) &&
         Objects.equals(this.ipAddresses, node.ipAddresses) &&
@@ -228,7 +283,7 @@ public class Node   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(nodeId, name, loginCredential, nodeType, ipAddresses, nodeProperties);
+    return Objects.hash(nodeId, name, state, loginCredential, nodeType, ipAddresses, nodeProperties);
   }
 
   @Override
@@ -238,6 +293,7 @@ public class Node   {
     
     sb.append("    nodeId: ").append(toIndentedString(nodeId)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
+    sb.append("    state: ").append(toIndentedString(state)).append("\n");
     sb.append("    loginCredential: ").append(toIndentedString(loginCredential)).append("\n");
     sb.append("    nodeType: ").append(toIndentedString(nodeType)).append("\n");
     sb.append("    ipAddresses: ").append(toIndentedString(ipAddresses)).append("\n");

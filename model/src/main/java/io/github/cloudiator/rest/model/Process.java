@@ -3,8 +3,9 @@ package io.github.cloudiator.rest.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.github.cloudiator.rest.model.ProcessNew;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.validation.annotation.Validated;
@@ -15,19 +16,49 @@ import javax.validation.constraints.*;
  * Process
  */
 @Validated
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "processType", visible = true )
+@JsonSubTypes({
+  @JsonSubTypes.Type(value = ClusterProcess.class, name = "ClusterProcess"),
+  @JsonSubTypes.Type(value = SingleProcess.class, name = "SingleProcess"),
+})
 
 public class Process   {
-  @JsonProperty("schedule")
-  private String schedule = null;
-
-  @JsonProperty("task")
-  private String task = null;
-
-  @JsonProperty("node")
-  private String node = null;
-
   @JsonProperty("id")
   private String id = null;
+
+  /**
+   * Gets or Sets processType
+   */
+  public enum ProcessTypeEnum {
+    SINGLE("SINGLE"),
+    
+    CLUSTER("CLUSTER");
+
+    private String value;
+
+    ProcessTypeEnum(String value) {
+      this.value = value;
+    }
+
+    @Override
+    @JsonValue
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    @JsonCreator
+    public static ProcessTypeEnum fromValue(String text) {
+      for (ProcessTypeEnum b : ProcessTypeEnum.values()) {
+        if (String.valueOf(b.value).equals(text)) {
+          return b;
+        }
+      }
+      return null;
+    }
+  }
+
+  @JsonProperty("processType")
+  private ProcessTypeEnum processType = null;
 
   /**
    * Gets or Sets type
@@ -62,6 +93,75 @@ public class Process   {
 
   @JsonProperty("type")
   private TypeEnum type = null;
+
+  @JsonProperty("schedule")
+  private String schedule = null;
+
+  @JsonProperty("task")
+  private String task = null;
+
+  public Process id(String id) {
+    this.id = id;
+    return this;
+  }
+
+  /**
+   * Get id
+   * @return id
+  **/
+  @ApiModelProperty(required = true, value = "")
+  @NotNull
+
+
+  public String getId() {
+    return id;
+  }
+
+  public void setId(String id) {
+    this.id = id;
+  }
+
+  public Process processType(ProcessTypeEnum processType) {
+    this.processType = processType;
+    return this;
+  }
+
+  /**
+   * Get processType
+   * @return processType
+  **/
+  @ApiModelProperty(required = true, value = "")
+  @NotNull
+
+
+  public ProcessTypeEnum getProcessType() {
+    return processType;
+  }
+
+  public void setProcessType(ProcessTypeEnum processType) {
+    this.processType = processType;
+  }
+
+  public Process type(TypeEnum type) {
+    this.type = type;
+    return this;
+  }
+
+  /**
+   * Get type
+   * @return type
+  **/
+  @ApiModelProperty(required = true, value = "")
+  @NotNull
+
+
+  public TypeEnum getType() {
+    return type;
+  }
+
+  public void setType(TypeEnum type) {
+    this.type = type;
+  }
 
   public Process schedule(String schedule) {
     this.schedule = schedule;
@@ -105,67 +205,6 @@ public class Process   {
     this.task = task;
   }
 
-  public Process node(String node) {
-    this.node = node;
-    return this;
-  }
-
-  /**
-   * Tne id of the node this process is hosted on.
-   * @return node
-  **/
-  @ApiModelProperty(required = true, value = "Tne id of the node this process is hosted on.")
-  @NotNull
-
-
-  public String getNode() {
-    return node;
-  }
-
-  public void setNode(String node) {
-    this.node = node;
-  }
-
-  public Process id(String id) {
-    this.id = id;
-    return this;
-  }
-
-  /**
-   * Get id
-   * @return id
-  **/
-  @ApiModelProperty(value = "")
-
-
-  public String getId() {
-    return id;
-  }
-
-  public void setId(String id) {
-    this.id = id;
-  }
-
-  public Process type(TypeEnum type) {
-    this.type = type;
-    return this;
-  }
-
-  /**
-   * Get type
-   * @return type
-  **/
-  @ApiModelProperty(value = "")
-
-
-  public TypeEnum getType() {
-    return type;
-  }
-
-  public void setType(TypeEnum type) {
-    this.type = type;
-  }
-
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -176,16 +215,16 @@ public class Process   {
       return false;
     }
     Process process = (Process) o;
-    return Objects.equals(this.schedule, process.schedule) &&
-        Objects.equals(this.task, process.task) &&
-        Objects.equals(this.node, process.node) &&
-        Objects.equals(this.id, process.id) &&
-        Objects.equals(this.type, process.type);
+    return Objects.equals(this.id, process.id) &&
+        Objects.equals(this.processType, process.processType) &&
+        Objects.equals(this.type, process.type) &&
+        Objects.equals(this.schedule, process.schedule) &&
+        Objects.equals(this.task, process.task);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(schedule, task, node, id, type);
+    return Objects.hash(id, processType, type, schedule, task);
   }
 
   @Override
@@ -193,11 +232,11 @@ public class Process   {
     StringBuilder sb = new StringBuilder();
     sb.append("class Process {\n");
     
+    sb.append("    id: ").append(toIndentedString(id)).append("\n");
+    sb.append("    processType: ").append(toIndentedString(processType)).append("\n");
+    sb.append("    type: ").append(toIndentedString(type)).append("\n");
     sb.append("    schedule: ").append(toIndentedString(schedule)).append("\n");
     sb.append("    task: ").append(toIndentedString(task)).append("\n");
-    sb.append("    node: ").append(toIndentedString(node)).append("\n");
-    sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    type: ").append(toIndentedString(type)).append("\n");
     sb.append("}");
     return sb.toString();
   }
