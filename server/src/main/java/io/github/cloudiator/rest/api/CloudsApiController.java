@@ -144,7 +144,7 @@ public class CloudsApiController implements CloudsApi {
     String accept = request.getHeader("Accept");
     if (accept != null && accept.contains("application/json")) {
       try {
-
+        log.debug("Find clouds called");
         //prepare
         org.cloudiator.messages.Cloud.CloudQueryRequest cloudQueryRequest = org.cloudiator.messages.Cloud.CloudQueryRequest
             .newBuilder().setUserId(UserInfo.of(request).tenant()).build();
@@ -159,6 +159,7 @@ public class CloudsApiController implements CloudsApi {
 
         return new ResponseEntity<List<Cloud>>(cloudList, HttpStatus.OK);
       } catch (ResponseException re) {
+        log.error("Reponse exeption", re);
         throw new ApiException(re.code(), re.getMessage());
       } catch (Exception e) {
         log.error("Couldn't serialize response for content type application/json", e);
