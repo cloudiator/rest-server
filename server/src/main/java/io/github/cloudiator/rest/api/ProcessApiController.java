@@ -1,13 +1,12 @@
 package io.github.cloudiator.rest.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.common.base.Function;
 import com.google.common.base.Strings;
 import io.github.cloudiator.rest.UserInfo;
 import io.github.cloudiator.rest.converter.ProcessConverter;
 import io.github.cloudiator.rest.converter.ProcessNewConverter;
-import io.github.cloudiator.rest.model.Process;
-import io.github.cloudiator.rest.model.ProcessNew;
+import io.github.cloudiator.rest.model.CloudiatorProcess;
+import io.github.cloudiator.rest.model.CloudiatorProcessNew;
 import io.github.cloudiator.rest.model.Queue;
 import io.github.cloudiator.rest.queue.QueueService;
 import io.github.cloudiator.rest.queue.QueueService.QueueItem;
@@ -64,20 +63,20 @@ public class ProcessApiController implements ProcessApi {
   }
 
   public ResponseEntity<Queue> createProcess(
-      @ApiParam(value = "Process to be created ", required = true) @Valid @RequestBody ProcessNew process) {
+      @ApiParam(value = "Process to be created ", required = true) @Valid @RequestBody CloudiatorProcessNew process) {
     String accept = request.getHeader("Accept");
     if (accept != null && accept.contains("application/json")) {
 
       final String tenant = UserInfo.of(request).tenant();
 
-      process.setNode(idEncoder.decode(process.getNode()));
+      process.setNodeGroup(idEncoder.decode(process.getNodeGroup()));
 
       final CreateProcessRequest createProcessRequest = CreateProcessRequest.newBuilder()
           .setUserId(tenant).setProcess(PROCESS_NEW_CONVERTER.apply(process)).build();
 
       final QueueItem<ProcessCreatedResponse> queueItem = queueService
           .queueCallback(tenant,
-              processCreatedResponse -> "process/" + processCreatedResponse.getProcess()
+              processCreatedResponse -> "process/" + processCreatedResponse.getProcessGroup()
                   .getId());
 
       processService.createProcessAsync(createProcessRequest, queueItem.getCallback());
@@ -121,7 +120,7 @@ public class ProcessApiController implements ProcessApi {
   }
 
   @Override
-  public ResponseEntity<Process> findProcess(
+  public ResponseEntity<CloudiatorProcess> findProcess(
       @ApiParam(value = "Unique identifier of the resource", required = true) @PathVariable("id") String id) {
     String accept = request.getHeader("Accept");
     if (accept != null && accept.contains("application/json")) {
@@ -148,11 +147,13 @@ public class ProcessApiController implements ProcessApi {
           throw new ApiException(500, "Multiple process found for id");
         }
 
-        final Process process = PROCESS_CONVERTER.applyBack(processQueryResponse.getProcesses(0));
-        process.setNode(idEncoder.encode(process.getNode()));
+        final CloudiatorProcess process = PROCESS_CONVERTER
+            .applyBack(processQueryResponse.getProcesses(0));
 
-        return new ResponseEntity<>(process
-            , HttpStatus.OK);
+        //TODO: needs to be refactored for Single and Cluster Process
+        //process.setNodeGroup(idEncoder.encode(process.getNodeGroup()));
+
+        return new ResponseEntity<>(process, HttpStatus.OK);
 
 
       } catch (ResponseException e) {
@@ -163,7 +164,7 @@ public class ProcessApiController implements ProcessApi {
     return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
   }
 
-  public ResponseEntity<List<Process>> getProcesses(
+  public ResponseEntity<List<CloudiatorProcess>> getProcesses(
       @ApiParam(value = "Id of the schedule. ") @Valid @RequestParam(value = "scheduleId", required = false) String scheduleId) {
 
     String accept = request.getHeader("Accept");
@@ -180,9 +181,17 @@ public class ProcessApiController implements ProcessApi {
         final ProcessQueryResponse processQueryResponse = processService
             .queryProcesses(builder.build());
 
+        //TODO: needs to be refactored for Single and Cluster Process
+        /*
         return new ResponseEntity<>(
             processQueryResponse.getProcessesList().stream().map(PROCESS_CONVERTER::applyBack).map(
-                (Function<Process, Process>) input -> input.node(idEncoder.encode(input.getNode())))
+                (Function<Process, Process>) input -> input.nodeGroup(idEncoder.encode(input.getNodeGroup())))
+                .collect(
+                    Collectors.toList()), HttpStatus.OK);
+                    */
+
+        return new ResponseEntity<>(
+            processQueryResponse.getProcessesList().stream().map(PROCESS_CONVERTER::applyBack)
                 .collect(
                     Collectors.toList()), HttpStatus.OK);
 

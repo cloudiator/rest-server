@@ -2,7 +2,6 @@ package io.github.cloudiator.rest.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.cloudiator.rest.UserInfo;
-import io.github.cloudiator.rest.converter.NodeConverter;
 import io.github.cloudiator.rest.converter.NodeGroupConverter;
 import io.github.cloudiator.rest.model.NodeGroup;
 import io.swagger.annotations.ApiParam;
@@ -33,7 +32,7 @@ public class NodeGroupApiController implements NodeGroupApi {
   @Autowired
   private NodeService nodeService;
 
-  private final NodeConverter nodeConverter = new NodeConverter();
+
   private final NodeGroupConverter nodeGroupConverter = new NodeGroupConverter();
 
   @org.springframework.beans.factory.annotation.Autowired

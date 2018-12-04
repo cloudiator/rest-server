@@ -15,17 +15,17 @@ import javax.validation.constraints.*;
 @ApiModel(description = "A process represents a task running on a node")
 @Validated
 
-public class ProcessNew   {
+public class CloudiatorProcessNew   {
   @JsonProperty("schedule")
   private String schedule = null;
 
   @JsonProperty("task")
   private String task = null;
 
-  @JsonProperty("node")
-  private String node = null;
+  @JsonProperty("nodeGroup")
+  private String nodeGroup = null;
 
-  public ProcessNew schedule(String schedule) {
+  public CloudiatorProcessNew schedule(String schedule) {
     this.schedule = schedule;
     return this;
   }
@@ -46,7 +46,7 @@ public class ProcessNew   {
     this.schedule = schedule;
   }
 
-  public ProcessNew task(String task) {
+  public CloudiatorProcessNew task(String task) {
     this.task = task;
     return this;
   }
@@ -67,25 +67,25 @@ public class ProcessNew   {
     this.task = task;
   }
 
-  public ProcessNew node(String node) {
-    this.node = node;
+  public CloudiatorProcessNew nodeGroup(String nodeGroup) {
+    this.nodeGroup = nodeGroup;
     return this;
   }
 
   /**
-   * Tne id of the node this process is hosted on.
-   * @return node
+   * The id of the nodeGroup this process is hosted on.
+   * @return nodeGroup
   **/
-  @ApiModelProperty(required = true, value = "Tne id of the node this process is hosted on.")
+  @ApiModelProperty(required = true, value = "The id of the nodeGroup this process is hosted on.")
   @NotNull
 
 
-  public String getNode() {
-    return node;
+  public String getNodeGroup() {
+    return nodeGroup;
   }
 
-  public void setNode(String node) {
-    this.node = node;
+  public void setNodeGroup(String nodeGroup) {
+    this.nodeGroup = nodeGroup;
   }
 
 
@@ -97,25 +97,25 @@ public class ProcessNew   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    ProcessNew processNew = (ProcessNew) o;
-    return Objects.equals(this.schedule, processNew.schedule) &&
-        Objects.equals(this.task, processNew.task) &&
-        Objects.equals(this.node, processNew.node);
+    CloudiatorProcessNew cloudiatorProcessNew = (CloudiatorProcessNew) o;
+    return Objects.equals(this.schedule, cloudiatorProcessNew.schedule) &&
+        Objects.equals(this.task, cloudiatorProcessNew.task) &&
+        Objects.equals(this.nodeGroup, cloudiatorProcessNew.nodeGroup);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(schedule, task, node);
+    return Objects.hash(schedule, task, nodeGroup);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class ProcessNew {\n");
+    sb.append("class CloudiatorProcessNew {\n");
     
     sb.append("    schedule: ").append(toIndentedString(schedule)).append("\n");
     sb.append("    task: ").append(toIndentedString(task)).append("\n");
-    sb.append("    node: ").append(toIndentedString(node)).append("\n");
+    sb.append("    nodeGroup: ").append(toIndentedString(nodeGroup)).append("\n");
     sb.append("}");
     return sb.toString();
   }

@@ -3,7 +3,7 @@ package io.github.cloudiator.rest.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.github.cloudiator.rest.model.Process;
+import io.github.cloudiator.rest.model.CloudiatorProcess;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
@@ -24,7 +24,7 @@ public class ProcessGroup   {
 
   @JsonProperty("processes")
   @Valid
-  private List<Process> processes = new ArrayList<Process>();
+  private List<CloudiatorProcess> processes = new ArrayList<CloudiatorProcess>();
 
   public ProcessGroup id(String id) {
     this.id = id;
@@ -47,12 +47,12 @@ public class ProcessGroup   {
     this.id = id;
   }
 
-  public ProcessGroup processes(List<Process> processes) {
+  public ProcessGroup processes(List<CloudiatorProcess> processes) {
     this.processes = processes;
     return this;
   }
 
-  public ProcessGroup addProcessesItem(Process processesItem) {
+  public ProcessGroup addProcessesItem(CloudiatorProcess processesItem) {
     this.processes.add(processesItem);
     return this;
   }
@@ -66,11 +66,11 @@ public class ProcessGroup   {
 
   @Valid
 
-  public List<Process> getProcesses() {
+  public List<CloudiatorProcess> getProcesses() {
     return processes;
   }
 
-  public void setProcesses(List<Process> processes) {
+  public void setProcesses(List<CloudiatorProcess> processes) {
     this.processes = processes;
   }
 

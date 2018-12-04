@@ -7,37 +7,36 @@ import org.cloudiator.messages.entities.MatchmakingEntities;
 public class NodeCandidateConverter implements
     TwoWayConverter<NodeCandidate, MatchmakingEntities.NodeCandidate> {
 
-  private final CloudToCloudConverter cloudConverter = new CloudToCloudConverter();
-  private final ImageConverter imageConverter = new ImageConverter();
-  private final HardwareConverter hardwareConverter = new HardwareConverter();
-  private final LocationConverter locationConverter = new LocationConverter();
+  private final IaasNodeCandidateConverter iaasNodeCandidateConverter = new IaasNodeCandidateConverter();
+  private final FaasNodeCandidateConverter faasNodeCandidateConverter = new FaasNodeCandidateConverter();
 
 
   @Override
   public NodeCandidate applyBack(MatchmakingEntities.NodeCandidate nodeCandidate) {
-
-    return new NodeCandidate()
-        .id(nodeCandidate.getId())
-        .cloud(cloudConverter.applyBack(nodeCandidate.getCloud()))
-        .hardware(hardwareConverter.applyBack(nodeCandidate.getHardwareFlavor()))
-        .image(imageConverter.applyBack(nodeCandidate.getImage()))
-        .location(locationConverter.applyBack(nodeCandidate.getLocation()))
-        .price(nodeCandidate.getPrice());
+    switch (nodeCandidate.getType()) {
+      case NC_IAAS:
+        return iaasNodeCandidateConverter.applyBack(nodeCandidate);
+      case NC_FAAS:
+        return faasNodeCandidateConverter.applyBack(nodeCandidate);
+      case NC_PAAS:
+      case NC_BYON:
+      case UNRECOGNIZED:
+      default:
+        throw new IllegalStateException(
+            "Unknown node candidate type " + nodeCandidate.getType());
+    }
   }
 
   @Override
   public MatchmakingEntities.NodeCandidate apply(NodeCandidate nodeCandidate) {
-
-    MatchmakingEntities.NodeCandidate.Builder builder = MatchmakingEntities.NodeCandidate
-        .newBuilder();
-
-    builder.setId(nodeCandidate.getId())
-        .setCloud(cloudConverter.apply(nodeCandidate.getCloud()))
-        .setHardwareFlavor(hardwareConverter.apply(nodeCandidate.getHardware()))
-        .setImage(imageConverter.apply(nodeCandidate.getImage()))
-        .setLocation(locationConverter.apply(nodeCandidate.getLocation()))
-        .setPrice(nodeCandidate.getPrice());
-
-    return builder.build();
+    switch (nodeCandidate.getNodeCandidateType()) {
+      case IAAS:
+        return iaasNodeCandidateConverter.apply(nodeCandidate);
+      case FAAS:
+        return faasNodeCandidateConverter.apply(nodeCandidate);
+      default:
+        throw new IllegalStateException(
+            "Unknown node candidate type " + nodeCandidate.getNodeCandidateType());
+    }
   }
 }
