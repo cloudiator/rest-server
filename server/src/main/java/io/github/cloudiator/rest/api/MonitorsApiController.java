@@ -9,8 +9,11 @@ import java.util.ArrayList;
 import java.util.stream.Collectors;
 import org.cloudiator.messages.Monitor.CreateMonitorRequest;
 import org.cloudiator.messages.Monitor.CreateMonitorResponse;
+import org.cloudiator.messages.Monitor.DeleteMonitorRequest;
+import org.cloudiator.messages.Monitor.DeleteMonitorResponse;
 import org.cloudiator.messages.Monitor.MonitorQueryRequest;
 import org.cloudiator.messages.Monitor.MonitorQueryResponse;
+import org.cloudiator.messages.entities.MonitorEntities;
 import org.cloudiator.messaging.ResponseException;
 import org.cloudiator.messaging.services.MonitorService;
 import org.slf4j.Logger;
@@ -57,22 +60,21 @@ public class MonitorsApiController implements MonitorsApi {
       final String userId = UserInfo.of(request).tenant();
       try {
 
-        if (monitor == null) {
-          System.out.println("Monitor is empty " + monitor);
-          return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
-
         CreateMonitorRequest request = CreateMonitorRequest.newBuilder().setUserId(userId)
             .setNewmonitor(monitorConverter.apply(monitor)).build();
         CreateMonitorResponse response = monitorService.addMonitor(request);
 
         Monitor createdMonitor = monitorConverter.applyBack(response.getMonitor());
+        System.out.println("so far :" + createdMonitor);
 
         return new ResponseEntity<Monitor>(createdMonitor, HttpStatus.OK);
 
-        // return new ResponseEntity<Monitor>(objectMapper.readValue("{  \"metric\" : \"metric\",  \"sinks\" : [ {    \"configuration\" : { },    \"type\" : \"KAIROS_DB\"  }, {    \"configuration\" : { },    \"type\" : \"KAIROS_DB\"  } ],  \"sensor\" : {    \"type\" : \"type\"  },  \"targets\" : [ {    \"identifier\" : \"identifier\",    \"type\" : \"JOB\"  }, {    \"identifier\" : \"identifier\",    \"type\" : \"JOB\"  } ],  \"tags\" : [ {    \"value\" : \"value\",    \"key\" : \"key\"  }, {    \"value\" : \"value\",    \"key\" : \"key\"  } ]}", Monitor.class), HttpStatus.NOT_IMPLEMENTED);
-      } catch (Exception e) {
-        log.error("Couldn't serialize response for content type application/json", e);
+      } catch (IllegalArgumentException ex) {
+        log.error("Illegal Argument!", ex);
+        throw new ApiException(HttpStatus.BAD_REQUEST.value(), ex.getMessage());
+      } catch (ResponseException e) {
+        log.error("Error while creating Monitor: ", e);
+        System.out.println("PRoblem: " + e.getMessage());
         return new ResponseEntity<Monitor>(HttpStatus.INTERNAL_SERVER_ERROR);
       }
     }
@@ -83,8 +85,31 @@ public class MonitorsApiController implements MonitorsApi {
   public ResponseEntity<Void> deleteMonitor(
       @ApiParam(value = "Unique identifier of a monitor", required = true) @PathVariable("metric") String metric) {
     String accept = request.getHeader("Accept");
-    System.out.println("nothing to delete!!");
-    return new ResponseEntity<Void>(HttpStatus.NOT_IMPLEMENTED);
+    if (accept != null && accept.contains("application/json")) {
+      final String userId = UserInfo.of(request).tenant();
+      try {
+        MonitorEntities.Monitor delMonitor = MonitorEntities.Monitor.newBuilder()
+            .setMetric(metric)
+            .clearDatasink()
+            .clearTarget()
+            .clearSensor()
+            .clearTags()
+            .build();
+
+        DeleteMonitorRequest request = DeleteMonitorRequest.newBuilder()
+            .setUserId(userId)
+            .setMonitor(delMonitor)
+            .build();
+        DeleteMonitorResponse response = monitorService.deleteMonitor(request);
+
+        return new ResponseEntity(response, HttpStatus.OK);
+      } catch (Exception e) {
+        log.error("Couldn't serialize response for content type application/json", e);
+        return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+      }
+    }
+
+    return new ResponseEntity(HttpStatus.NOT_IMPLEMENTED);
   }
 
   public ResponseEntity<List<Monitor>> findMonitors() {

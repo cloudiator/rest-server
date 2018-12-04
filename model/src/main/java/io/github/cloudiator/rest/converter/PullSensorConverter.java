@@ -1,28 +1,26 @@
 package io.github.cloudiator.rest.converter;
 
 import de.uniulm.omi.cloudiator.util.TwoWayConverter;
+import io.github.cloudiator.rest.model.Interval;
+import io.github.cloudiator.rest.model.Interval.UnitEnum;
 import io.github.cloudiator.rest.model.PullSensor;
 import java.util.HashMap;
 import java.util.Map;
 import org.cloudiator.messages.entities.MonitorEntities;
+import org.cloudiator.messages.entities.MonitorEntities.Unit;
 
 
 public class PullSensorConverter implements
     TwoWayConverter<PullSensor, MonitorEntities.PullSensor> {
 
-  private final IntervalConverter intervalConverter = new IntervalConverter();
-
-
   @Override
   public PullSensor applyBack(MonitorEntities.PullSensor kafkaSensor) {
-    PullSensor result = new PullSensor();
-    result.setClassName(kafkaSensor.getClassName());
-    result.setInterval(intervalConverter.applyBack(kafkaSensor.getInterval()));
+    PullSensor result = new PullSensor()
+        .className(kafkaSensor.getClassName())
+        .interval(new Interval().unit(UnitEnum.valueOf(kafkaSensor.getInterval().getUnit().name()))
+            .period(kafkaSensor.getInterval().getPeriod()))
+        ._configuration(kafkaSensor.getConfigurationMap());
     result.setType(result.getClass().getSimpleName());
-    Map configs = new HashMap();
-    configs.putAll(kafkaSensor.getConfigurationMap());
-    result.setConfiguration(configs);
-
     return result;
   }
 
@@ -30,8 +28,14 @@ public class PullSensorConverter implements
   public MonitorEntities.PullSensor apply(PullSensor restSensor) {
     MonitorEntities.PullSensor.Builder result = MonitorEntities.PullSensor.newBuilder()
         .setClassName(restSensor.getClassName())
-        .setInterval(intervalConverter.apply(restSensor.getInterval()))
-        .putAllConfiguration(restSensor.getConfiguration());
+        .setInterval(MonitorEntities.Interval.newBuilder()
+            .setUnit(Unit.valueOf(restSensor.getInterval().getUnit().name()))
+            .setPeriod(restSensor.getInterval().getPeriod()).build());
+    if (!restSensor.getConfiguration().isEmpty()) {
+      result.putAllConfiguration(restSensor.getConfiguration());
+    } else {
+      result.clearConfiguration();
+    }
 
     return result.build();
   }
