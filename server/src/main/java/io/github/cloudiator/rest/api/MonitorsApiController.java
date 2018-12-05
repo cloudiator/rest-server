@@ -13,6 +13,8 @@ import org.cloudiator.messages.Monitor.DeleteMonitorRequest;
 import org.cloudiator.messages.Monitor.DeleteMonitorResponse;
 import org.cloudiator.messages.Monitor.MonitorQueryRequest;
 import org.cloudiator.messages.Monitor.MonitorQueryResponse;
+import org.cloudiator.messages.Monitor.UpdateMonitorRequest;
+import org.cloudiator.messages.Monitor.UpdateMonitorResponse;
 import org.cloudiator.messages.entities.MonitorEntities;
 import org.cloudiator.messaging.ResponseException;
 import org.cloudiator.messaging.services.MonitorService;
@@ -59,16 +61,12 @@ public class MonitorsApiController implements MonitorsApi {
     if (accept != null && accept.contains("application/json")) {
       final String userId = UserInfo.of(request).tenant();
       try {
-
         CreateMonitorRequest request = CreateMonitorRequest.newBuilder().setUserId(userId)
             .setNewmonitor(monitorConverter.apply(monitor)).build();
         CreateMonitorResponse response = monitorService.addMonitor(request);
-
         Monitor createdMonitor = monitorConverter.applyBack(response.getMonitor());
-        System.out.println("so far :" + createdMonitor);
 
         return new ResponseEntity<Monitor>(createdMonitor, HttpStatus.OK);
-
       } catch (IllegalArgumentException ex) {
         log.error("Illegal Argument!", ex);
         throw new ApiException(HttpStatus.BAD_REQUEST.value(), ex.getMessage());
@@ -95,7 +93,12 @@ public class MonitorsApiController implements MonitorsApi {
             .build();
         DeleteMonitorResponse response = monitorService.deleteMonitor(request);
 
-        return new ResponseEntity(response, HttpStatus.OK);
+        if (response == null) {
+          throw new ApiException(HttpStatus.INTERNAL_SERVER_ERROR.value(),
+              "Error while deleting Monitor");
+        }
+
+        return new ResponseEntity(HttpStatus.OK);
       } catch (Exception e) {
         log.error("Couldn't serialize response for content type application/json", e);
         return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -114,16 +117,12 @@ public class MonitorsApiController implements MonitorsApi {
             .setUserId(UserInfo.of(request).tenant()).build();
 
         List<Monitor> result = new ArrayList<>();
-
         MonitorQueryResponse monitorQueryResponse = monitorService
             .findMonitors(monitorQueryRequest);
-
-        System.out.println("MonitorQueryResponse: " + monitorQueryResponse);
 
         result = monitorQueryResponse.getMonitorList().stream()
             .map(monitorConverter::applyBack).collect(
                 Collectors.toList());
-
         return new ResponseEntity<List<Monitor>>(result, HttpStatus.OK);
       } catch (ResponseException re) {
         throw new ApiException(re.code(), re.getMessage());
@@ -139,14 +138,31 @@ public class MonitorsApiController implements MonitorsApi {
     if (accept != null && accept.contains("application/json")) {
       final String userId = UserInfo.of(request).tenant();
       try {
+        MonitorEntities.Monitor requestedMonitor = MonitorEntities.Monitor.newBuilder()
+            .clear()
+            .setMetric(metric)
+            .build();
 
-        return new ResponseEntity<List<Monitor>>(HttpStatus.NOT_IMPLEMENTED);
+        UpdateMonitorRequest request = UpdateMonitorRequest.newBuilder()
+            .setMonitor(requestedMonitor).build();
+        UpdateMonitorResponse response = monitorService.getMonitor(request);
+
+        if (response.getMonitor().getSensor() == null) {
+          System.out.println("ERROR - Monitor not found");
+          throw new ApiException(HttpStatus.BAD_REQUEST.value(),
+              "Monitor not found. Metric: " + response.getMonitor().getMetric());
+        }
+        List<Monitor> result = new ArrayList();
+        result.add(monitorConverter.applyBack(response.getMonitor()));
+        return new ResponseEntity<List<Monitor>>(result, HttpStatus.OK);
+      } catch (ResponseException re) {
+        log.error("Error while searching:", re);
+        throw new ApiException(re.code(), re.getMessage());
       } catch (Exception e) {
-        log.error("Couldn't serialize response for content type application/json", e);
+        log.error("Error while searching: ", e);
         return new ResponseEntity<List<Monitor>>(HttpStatus.INTERNAL_SERVER_ERROR);
       }
     }
-
     return new ResponseEntity<List<Monitor>>(HttpStatus.NOT_IMPLEMENTED);
   }
 
