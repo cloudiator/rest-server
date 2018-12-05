@@ -127,9 +127,6 @@ public class MonitorsApiController implements MonitorsApi {
         return new ResponseEntity<List<Monitor>>(result, HttpStatus.OK);
       } catch (ResponseException re) {
         throw new ApiException(re.code(), re.getMessage());
-      } catch (Exception e) {
-        log.error("Couldn't serialize response for content type application/json", e);
-        return new ResponseEntity<List<Monitor>>(HttpStatus.INTERNAL_SERVER_ERROR);
       }
     }
     return new ResponseEntity<List<Monitor>>(HttpStatus.NOT_IMPLEMENTED);

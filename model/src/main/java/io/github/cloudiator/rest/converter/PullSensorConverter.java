@@ -4,8 +4,6 @@ import de.uniulm.omi.cloudiator.util.TwoWayConverter;
 import io.github.cloudiator.rest.model.Interval;
 import io.github.cloudiator.rest.model.Interval.UnitEnum;
 import io.github.cloudiator.rest.model.PullSensor;
-import java.util.HashMap;
-import java.util.Map;
 import org.cloudiator.messages.entities.MonitorEntities;
 import org.cloudiator.messages.entities.MonitorEntities.Unit;
 
