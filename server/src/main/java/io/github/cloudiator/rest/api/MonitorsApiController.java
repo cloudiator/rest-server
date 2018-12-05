@@ -88,17 +88,10 @@ public class MonitorsApiController implements MonitorsApi {
     if (accept != null && accept.contains("application/json")) {
       final String userId = UserInfo.of(request).tenant();
       try {
-        MonitorEntities.Monitor delMonitor = MonitorEntities.Monitor.newBuilder()
-            .setMetric(metric)
-            .clearDatasink()
-            .clearTarget()
-            .clearSensor()
-            .clearTags()
-            .build();
 
         DeleteMonitorRequest request = DeleteMonitorRequest.newBuilder()
             .setUserId(userId)
-            .setMonitor(delMonitor)
+            .setMetric(metric)
             .build();
         DeleteMonitorResponse response = monitorService.deleteMonitor(request);
 
