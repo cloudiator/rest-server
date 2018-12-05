@@ -16,18 +16,18 @@ public class SensorConverter implements TwoWayConverter<Sensor, MonitorEntities.
   public Sensor applyBack(MonitorEntities.Sensor kafkaSensor) {
     Sensor result;
     switch (kafkaSensor.getSensorCase()) {
-
       case PULLSENSOR:
         result = pullSensorConverter.applyBack(kafkaSensor.getPullsensor());
+        result.setType("PullSensor");
         break;
       case PUSHSENSOR:
         result = pushSensorConverter.applyBack(kafkaSensor.getPushsensor());
         break;
+
       case SENSOR_NOT_SET:
       default:
         throw new AssertionError("Sensor is invalid: " + kafkaSensor.getSensorCase());
     }
-
     return result;
   }
 
