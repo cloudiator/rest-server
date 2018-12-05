@@ -20,9 +20,9 @@ public class MonitorConverter implements TwoWayConverter<Monitor, MonitorEntitie
   @Override
   public Monitor applyBack(MonitorEntities.Monitor kafkamonitor) {
     Monitor restmonitor = new Monitor()
-        .metric(kafkamonitor.getMetric())
+        .metric(kafkamonitor.getMetric());
     //Sensor
-        .sensor(sensorConverter.applyBack(kafkamonitor.getSensor()));
+    restmonitor.setSensor(sensorConverter.applyBack(kafkamonitor.getSensor()));
     //Targets
     if (!kafkamonitor.getTargetList().isEmpty()) {
       for (MonitorEntities.MonitoringTarget monTarg : kafkamonitor.getTargetList()) {
@@ -32,10 +32,8 @@ public class MonitorConverter implements TwoWayConverter<Monitor, MonitorEntitie
       }
     }
     //Sinks
-    if (!kafkamonitor.getDatasinkList().isEmpty()) {
-      for (MonitorEntities.Sink sink : kafkamonitor.getDatasinkList()) {
-        restmonitor.addSinksItem(sinkConverter.applyBack(sink));
-      }
+    for (MonitorEntities.Sink sink : kafkamonitor.getDatasinkList()) {
+      restmonitor.addSinksItem(sinkConverter.applyBack(sink));
     }
     //Tags
     if (!kafkamonitor.getTagsList().isEmpty()) {
@@ -51,9 +49,7 @@ public class MonitorConverter implements TwoWayConverter<Monitor, MonitorEntitie
   public MonitorEntities.Monitor apply(Monitor restmonitor) {
     //from REST to protobuf
     MonitorEntities.Monitor.Builder builder = MonitorEntities.Monitor.newBuilder()
-        .setMetric(restmonitor.getMetric())
-    //Sensor
-        .setSensor(sensorConverter.apply(restmonitor.getSensor()));
+        .setMetric(restmonitor.getMetric());
     //Targets
     if (!restmonitor.getTargets().isEmpty()) {
       for (MonitoringTarget monTarg : restmonitor.getTargets()) {
@@ -62,6 +58,8 @@ public class MonitorConverter implements TwoWayConverter<Monitor, MonitorEntitie
     } else {
       builder.clearTarget();
     }
+    //Sensor
+    builder.setSensor(sensorConverter.apply(restmonitor.getSensor()));
     //Sinks
     if (!restmonitor.getSinks().isEmpty()) {
       for (DataSink sink : restmonitor.getSinks()) {
