@@ -72,8 +72,7 @@ public class MonitorsApiController implements MonitorsApi {
         throw new ApiException(HttpStatus.BAD_REQUEST.value(), ex.getMessage());
       } catch (ResponseException e) {
         log.error("Error while creating Monitor: ", e);
-        System.out.println("PRoblem: " + e.getMessage());
-        return new ResponseEntity<Monitor>(HttpStatus.INTERNAL_SERVER_ERROR);
+        throw new ApiException(e.code(), e.getMessage());
       }
     }
 
@@ -99,6 +98,9 @@ public class MonitorsApiController implements MonitorsApi {
         }
 
         return new ResponseEntity(HttpStatus.OK);
+      } catch (ResponseException e) {
+        log.error("Error while deleting Monitor: ", e);
+        throw new ApiException(e.code(), e.getMessage());
       } catch (Exception e) {
         log.error("Couldn't serialize response for content type application/json", e);
         return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -125,6 +127,7 @@ public class MonitorsApiController implements MonitorsApi {
                 Collectors.toList());
         return new ResponseEntity<List<Monitor>>(result, HttpStatus.OK);
       } catch (ResponseException re) {
+        log.error("Error while searching(multi): ", re);
         throw new ApiException(re.code(), re.getMessage());
       }
     }
@@ -156,10 +159,10 @@ public class MonitorsApiController implements MonitorsApi {
         result.add(monitorConverter.applyBack(response.getMonitor()));
         return new ResponseEntity<List<Monitor>>(result, HttpStatus.OK);
       } catch (ResponseException re) {
-        log.error("Error while searching:", re);
+        log.error("Error while searching(single):", re);
         throw new ApiException(re.code(), re.getMessage());
       } catch (Exception e) {
-        log.error("Error while searching: ", e);
+        log.error("Error while searching(single): ", e);
         return new ResponseEntity<List<Monitor>>(HttpStatus.INTERNAL_SERVER_ERROR);
       }
     }
