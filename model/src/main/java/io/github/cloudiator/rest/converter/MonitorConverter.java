@@ -21,11 +21,14 @@ public class MonitorConverter implements TwoWayConverter<Monitor, MonitorEntitie
   public Monitor applyBack(MonitorEntities.Monitor kafkamonitor) {
     Monitor restmonitor = new Monitor()
         .metric(kafkamonitor.getMetric())
+    //Sensor
         .sensor(sensorConverter.applyBack(kafkamonitor.getSensor()));
     //Targets
     if (!kafkamonitor.getTargetList().isEmpty()) {
       for (MonitorEntities.MonitoringTarget monTarg : kafkamonitor.getTargetList()) {
-        restmonitor.addTargetsItem(monitorTargetConverter.applyBack(monTarg));
+        if (monTarg != null) {
+          restmonitor.addTargetsItem(monitorTargetConverter.applyBack(monTarg));
+        }
       }
     }
     //Sinks
@@ -49,6 +52,7 @@ public class MonitorConverter implements TwoWayConverter<Monitor, MonitorEntitie
     //from REST to protobuf
     MonitorEntities.Monitor.Builder builder = MonitorEntities.Monitor.newBuilder()
         .setMetric(restmonitor.getMetric())
+    //Sensor
         .setSensor(sensorConverter.apply(restmonitor.getSensor()));
     //Targets
     if (!restmonitor.getTargets().isEmpty()) {
