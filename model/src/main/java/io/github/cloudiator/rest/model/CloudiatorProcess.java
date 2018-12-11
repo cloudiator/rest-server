@@ -1,16 +1,14 @@
 package io.github.cloudiator.rest.model;
 
-import java.util.Objects;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonValue;
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import java.util.Objects;
+import javax.validation.constraints.NotNull;
 import org.springframework.validation.annotation.Validated;
-import javax.validation.Valid;
-import javax.validation.constraints.*;
 
 /**
  * CloudiatorProcess
@@ -26,39 +24,8 @@ public class CloudiatorProcess   {
   @JsonProperty("id")
   private String id = null;
 
-  /**
-   * Gets or Sets processType
-   */
-  public enum ProcessTypeEnum {
-    SINGLE("SINGLE"),
-    
-    CLUSTER("CLUSTER");
-
-    private String value;
-
-    ProcessTypeEnum(String value) {
-      this.value = value;
-    }
-
-    @Override
-    @JsonValue
-    public String toString() {
-      return String.valueOf(value);
-    }
-
-    @JsonCreator
-    public static ProcessTypeEnum fromValue(String text) {
-      for (ProcessTypeEnum b : ProcessTypeEnum.values()) {
-        if (String.valueOf(b.value).equals(text)) {
-          return b;
-        }
-      }
-      return null;
-    }
-  }
-
   @JsonProperty("processType")
-  private ProcessTypeEnum processType = null;
+  private String processType = null;
 
   /**
    * Gets or Sets type
@@ -121,7 +88,7 @@ public class CloudiatorProcess   {
     this.id = id;
   }
 
-  public CloudiatorProcess processType(ProcessTypeEnum processType) {
+  public CloudiatorProcess processType(String processType) {
     this.processType = processType;
     return this;
   }
@@ -134,11 +101,11 @@ public class CloudiatorProcess   {
   @NotNull
 
 
-  public ProcessTypeEnum getProcessType() {
+  public String getProcessType() {
     return processType;
   }
 
-  public void setProcessType(ProcessTypeEnum processType) {
+  public void setProcessType(String processType) {
     this.processType = processType;
   }
 

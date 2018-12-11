@@ -69,7 +69,6 @@ public class ProcessApiController implements ProcessApi {
 
       final String tenant = UserInfo.of(request).tenant();
 
-      process.setNodeGroup(idEncoder.decode(process.getNodeGroup()));
 
       final CreateProcessRequest createProcessRequest = CreateProcessRequest.newBuilder()
           .setUserId(tenant).setProcess(PROCESS_NEW_CONVERTER.apply(process)).build();
@@ -181,14 +180,6 @@ public class ProcessApiController implements ProcessApi {
         final ProcessQueryResponse processQueryResponse = processService
             .queryProcesses(builder.build());
 
-        //TODO: needs to be refactored for Single and Cluster Process
-        /*
-        return new ResponseEntity<>(
-            processQueryResponse.getProcessesList().stream().map(PROCESS_CONVERTER::applyBack).map(
-                (Function<Process, Process>) input -> input.nodeGroup(idEncoder.encode(input.getNodeGroup())))
-                .collect(
-                    Collectors.toList()), HttpStatus.OK);
-                    */
 
         return new ResponseEntity<>(
             processQueryResponse.getProcessesList().stream().map(PROCESS_CONVERTER::applyBack)
