@@ -72,7 +72,7 @@ public class QueueService {
     }
   }
 
-  private <T> QueueItem<T> putEntry(QueueItem<T> queueItem) {
+  private synchronized <T> QueueItem<T> putEntry(QueueItem<T> queueItem) {
     if (table.get(queueItem.getUserId()) == null) {
       this.table.put(queueItem.getUserId(), new HashMap<>());
     }
@@ -105,7 +105,7 @@ public class QueueService {
 
     if (table.get(userId) != null) {
       for (Entry<String, QueueItem> entry : table.get(userId).entrySet()) {
-        queueList.add(entry.getValue().getQueue());
+        queueList.add(retrieve(userId, entry.getKey()));
       }
     }
 
@@ -113,7 +113,7 @@ public class QueueService {
   }
 
   @Nullable
-  private Queue retrieve(String userId, String id) {
+  private synchronized Queue retrieve(String userId, String id) {
     if (table.get(userId) == null) {
       return null;
     }
