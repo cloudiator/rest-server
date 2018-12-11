@@ -3,7 +3,6 @@ package io.github.cloudiator.rest.converter;
 
 import de.uniulm.omi.cloudiator.util.TwoWayConverter;
 import io.github.cloudiator.rest.model.CloudiatorProcess;
-import io.github.cloudiator.rest.model.CloudiatorProcess.ProcessTypeEnum;
 import io.github.cloudiator.rest.model.ClusterProcess;
 import io.github.cloudiator.rest.model.SingleProcess;
 import org.cloudiator.messages.entities.ProcessEntities;
@@ -13,8 +12,6 @@ import org.cloudiator.messages.entities.ProcessEntities.ProcessType;
 public class ProcessConverter implements TwoWayConverter<CloudiatorProcess, ProcessEntities.Process> {
 
   public final static ProcessConverter INSTANCE = new ProcessConverter();
-  private static final String SINGLE_PROCESS_TYPE = "singleProcess";
-  private static final String CLUSTER_PROCESS_TYPE = "clusterProcess";
 
   private ProcessConverter() {
   }
@@ -26,7 +23,7 @@ public class ProcessConverter implements TwoWayConverter<CloudiatorProcess, Proc
       case NODE:
         SingleProcess singleProcess = new SingleProcess();
         singleProcess.setId(process.getId());
-        singleProcess.setProcessType(ProcessTypeEnum.SINGLE);
+        singleProcess.setProcessType(SingleProcess.class.getSimpleName());
         singleProcess.setNode(process.getNode());
         singleProcess.setSchedule(process.getSchedule());
         singleProcess.setTask(process.getTask());
@@ -35,7 +32,7 @@ public class ProcessConverter implements TwoWayConverter<CloudiatorProcess, Proc
       case NODEGROUP:
         ClusterProcess clusterProcess = new ClusterProcess();
         clusterProcess.setId(process.getId());
-        clusterProcess.setProcessType(ProcessTypeEnum.CLUSTER);
+        clusterProcess.setProcessType(ClusterProcess.class.getSimpleName());
         clusterProcess.setNodeGroup(process.getNodeGroup());
         clusterProcess.setSchedule(process.getSchedule());
         clusterProcess.setTask(process.getTask());
@@ -57,14 +54,17 @@ public class ProcessConverter implements TwoWayConverter<CloudiatorProcess, Proc
         .setTask(process.getTask())
         .setType(ProcessTypeConverter.INSTANCE.apply(process.getType()));
 
-    switch (process.getProcessType()){
-      case SINGLE:
-        SingleProcess singleProcess = (SingleProcess)process;
-        processBuilder.setNode(singleProcess.getNode());
-      case CLUSTER:
-        ClusterProcess clusterProcess = (ClusterProcess) process;
-        processBuilder.setNodeGroup(clusterProcess.getNodeGroup());
 
+    if(process.getProcessType().equals(SingleProcess.class.getSimpleName())){
+
+      SingleProcess singleProcess = (SingleProcess)process;
+      processBuilder.setNode(singleProcess.getNode());
+
+    }else if(process.getProcessType().equals(ClusterProcess.class.getSimpleName())){
+      ClusterProcess clusterProcess = (ClusterProcess) process;
+      processBuilder.setNodeGroup(clusterProcess.getNodeGroup());
+    }else {
+      throw new IllegalStateException("Unsupported CloudiatorProcess type: " + process.getProcessType().getClass().getSimpleName());
     }
 
     return  processBuilder.build();
