@@ -6,6 +6,8 @@ import org.cloudiator.messages.entities.FaasEntities;
 
 public class FunctionConverter implements TwoWayConverter<Function, FaasEntities.Function> {
 
+  private final RuntimeConverter runtimeConverter = new RuntimeConverter();
+
   @Override
   public Function applyBack(FaasEntities.Function function) {
     Function result = new Function();
@@ -13,6 +15,7 @@ public class FunctionConverter implements TwoWayConverter<Function, FaasEntities
     result.setCloudId(function.getCloudId());
     result.setLocationId(function.getLocationId());
     result.setMemory(function.getMemory());
+    result.setRuntime(runtimeConverter.applyBack(function.getRuntime()));
     result.setStackId(function.getStackId());
     return result;
   }
@@ -24,6 +27,7 @@ public class FunctionConverter implements TwoWayConverter<Function, FaasEntities
         .setCloudId(function.getCloudId())
         .setLocationId(function.getLocationId())
         .setMemory(function.getMemory())
+        .setRuntime(runtimeConverter.apply(function.getRuntime()))
         .setStackId(function.getStackId())
         .build();
   }

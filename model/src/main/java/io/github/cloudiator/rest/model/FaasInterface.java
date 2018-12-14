@@ -29,18 +29,12 @@ public class FaasInterface extends TaskInterface  {
   @JsonProperty("handler")
   private String handler = null;
 
-  @JsonProperty("runtime")
-  private String runtime = null;
-
   @JsonProperty("triggers")
   @Valid
   private List<Trigger> triggers = null;
 
   @JsonProperty("timeout")
   private Integer timeout = 6;
-
-  @JsonProperty("memory")
-  private Integer memory = 1024;
 
   @JsonProperty("functionEnvironment")
   private java.util.Map functionEnvironment = null;
@@ -105,26 +99,6 @@ public class FaasInterface extends TaskInterface  {
     this.handler = handler;
   }
 
-  public FaasInterface runtime(String runtime) {
-    this.runtime = runtime;
-    return this;
-  }
-
-  /**
-   * Code language. 
-   * @return runtime
-  **/
-  @ApiModelProperty(value = "Code language. ")
-
-
-  public String getRuntime() {
-    return runtime;
-  }
-
-  public void setRuntime(String runtime) {
-    this.runtime = runtime;
-  }
-
   public FaasInterface triggers(List<Trigger> triggers) {
     this.triggers = triggers;
     return this;
@@ -162,40 +136,17 @@ public class FaasInterface extends TaskInterface  {
   /**
    * Allowed time in seconds for function to finish its task. 
    * minimum: 1
-   * maximum: 600
    * @return timeout
   **/
   @ApiModelProperty(value = "Allowed time in seconds for function to finish its task. ")
 
-@Min(1) @Max(600) 
+@Min(1)
   public Integer getTimeout() {
     return timeout;
   }
 
   public void setTimeout(Integer timeout) {
     this.timeout = timeout;
-  }
-
-  public FaasInterface memory(Integer memory) {
-    this.memory = memory;
-    return this;
-  }
-
-  /**
-   * Memory (in megabytes) available to function. CPU is allocated proportionally. 
-   * minimum: 128
-   * maximum: 3008
-   * @return memory
-  **/
-  @ApiModelProperty(value = "Memory (in megabytes) available to function. CPU is allocated proportionally. ")
-
-@Min(128) @Max(3008) 
-  public Integer getMemory() {
-    return memory;
-  }
-
-  public void setMemory(Integer memory) {
-    this.memory = memory;
   }
 
   public FaasInterface functionEnvironment(java.util.Map functionEnvironment) {
@@ -232,17 +183,15 @@ public class FaasInterface extends TaskInterface  {
     return Objects.equals(this.functionName, faasInterface.functionName) &&
         Objects.equals(this.sourceCodeUrl, faasInterface.sourceCodeUrl) &&
         Objects.equals(this.handler, faasInterface.handler) &&
-        Objects.equals(this.runtime, faasInterface.runtime) &&
         Objects.equals(this.triggers, faasInterface.triggers) &&
         Objects.equals(this.timeout, faasInterface.timeout) &&
-        Objects.equals(this.memory, faasInterface.memory) &&
         Objects.equals(this.functionEnvironment, faasInterface.functionEnvironment) &&
         super.equals(o);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(functionName, sourceCodeUrl, handler, runtime, triggers, timeout, memory, functionEnvironment, super.hashCode());
+    return Objects.hash(functionName, sourceCodeUrl, handler, triggers, timeout, functionEnvironment, super.hashCode());
   }
 
   @Override
@@ -253,10 +202,8 @@ public class FaasInterface extends TaskInterface  {
     sb.append("    functionName: ").append(toIndentedString(functionName)).append("\n");
     sb.append("    sourceCodeUrl: ").append(toIndentedString(sourceCodeUrl)).append("\n");
     sb.append("    handler: ").append(toIndentedString(handler)).append("\n");
-    sb.append("    runtime: ").append(toIndentedString(runtime)).append("\n");
     sb.append("    triggers: ").append(toIndentedString(triggers)).append("\n");
     sb.append("    timeout: ").append(toIndentedString(timeout)).append("\n");
-    sb.append("    memory: ").append(toIndentedString(memory)).append("\n");
     sb.append("    functionEnvironment: ").append(toIndentedString(functionEnvironment)).append("\n");
     sb.append("}");
     return sb.toString();

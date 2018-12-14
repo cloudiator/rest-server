@@ -17,9 +17,7 @@ public class FaasInterfaceConverter implements
         .functionName(taskInterface.getFunctionName())
         .sourceCodeUrl(taskInterface.getSourceCodeUrl())
         .handler(taskInterface.getHandler())
-        .runtime(taskInterface.getRuntime())
         .timeout(taskInterface.getTimeout())
-        .memory(taskInterface.getMemory())
         .triggers(taskInterface
             .getTriggersList()
             .stream()
@@ -34,9 +32,7 @@ public class FaasInterfaceConverter implements
         .setFunctionName(faasInterface.getFunctionName())
         .setSourceCodeUrl(faasInterface.getSourceCodeUrl())
         .setHandler(faasInterface.getHandler())
-        .setRuntime(faasInterface.getRuntime())
         .setTimeout(faasInterface.getTimeout())
-        .setMemory(faasInterface.getMemory())
         .addAllTriggers(faasInterface
             .getTriggers()
             .stream()
