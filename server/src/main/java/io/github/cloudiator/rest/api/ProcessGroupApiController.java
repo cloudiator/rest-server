@@ -1,26 +1,24 @@
 package io.github.cloudiator.rest.api;
 
-import io.github.cloudiator.rest.model.Error;
-import io.github.cloudiator.rest.model.ProcessGroup;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.swagger.annotations.*;
+import io.github.cloudiator.rest.UserInfo;
+import io.github.cloudiator.rest.converter.ProcessGroupConverter;
+import io.github.cloudiator.rest.model.ProcessGroup;
+import io.swagger.annotations.ApiParam;
+import java.util.List;
+import java.util.stream.Collectors;
+import javax.servlet.http.HttpServletRequest;
+import org.cloudiator.messages.Process.ProcessGroupQueryMessage;
+import org.cloudiator.messages.Process.ProcessGroupQueryResponse;
+import org.cloudiator.messaging.ResponseException;
+import org.cloudiator.messaging.services.ProcessService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.multipart.MultipartFile;
-
-import javax.validation.constraints.*;
-import javax.validation.Valid;
-import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
-import java.util.List;
 
 @Controller
 public class ProcessGroupApiController implements ProcessGroupApi {
@@ -31,6 +29,13 @@ public class ProcessGroupApiController implements ProcessGroupApi {
 
     private final HttpServletRequest request;
 
+    @Autowired
+    private ProcessService processService;
+
+
+    private final ProcessGroupConverter processGroupConverter = new ProcessGroupConverter();
+
+
     @org.springframework.beans.factory.annotation.Autowired
     public ProcessGroupApiController(ObjectMapper objectMapper, HttpServletRequest request) {
         this.objectMapper = objectMapper;
@@ -40,28 +45,53 @@ public class ProcessGroupApiController implements ProcessGroupApi {
     public ResponseEntity<List<ProcessGroup>> findProcessGroups() {
         String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
-            try {
-                return new ResponseEntity<List<ProcessGroup>>(objectMapper.readValue("[ {  \"processes\" : [ {    \"schedule\" : \"schedule\",    \"task\" : \"task\",    \"id\" : \"id\",    \"processType\" : \"processType\",    \"type\" : \"LANCE\"  }, {    \"schedule\" : \"schedule\",    \"task\" : \"task\",    \"id\" : \"id\",    \"processType\" : \"processType\",    \"type\" : \"LANCE\"  } ],  \"id\" : \"id\"}, {  \"processes\" : [ {    \"schedule\" : \"schedule\",    \"task\" : \"task\",    \"id\" : \"id\",    \"processType\" : \"processType\",    \"type\" : \"LANCE\"  }, {    \"schedule\" : \"schedule\",    \"task\" : \"task\",    \"id\" : \"id\",    \"processType\" : \"processType\",    \"type\" : \"LANCE\"  } ],  \"id\" : \"id\"} ]", List.class), HttpStatus.NOT_IMPLEMENTED);
-            } catch (IOException e) {
-                log.error("Couldn't serialize response for content type application/json", e);
-                return new ResponseEntity<List<ProcessGroup>>(HttpStatus.INTERNAL_SERVER_ERROR);
-            }
-        }
 
-        return new ResponseEntity<List<ProcessGroup>>(HttpStatus.NOT_IMPLEMENTED);
+            final String tenant = UserInfo.of(request).tenant();
+
+            try {
+                final ProcessGroupQueryResponse processQueryResponse = processService
+                    .queryProcessGroups(ProcessGroupQueryMessage.newBuilder().setUserId(tenant).build());
+
+                return new ResponseEntity<>(
+                    processQueryResponse.getProcessGroupsList().stream().map(processGroupConverter::applyBack)
+                        .collect(
+                            Collectors.toList()), HttpStatus.OK);
+
+
+            } catch (ResponseException e) {
+                throw new ApiException(e.code(), e.getMessage());
+            }
+
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
     }
 
     public ResponseEntity<ProcessGroup> getProcessGroup(@ApiParam(value = "Unique identifier of the resource",required=true) @PathVariable("id") String id) {
         String accept = request.getHeader("Accept");
         if (accept != null && accept.contains("application/json")) {
-            try {
-                return new ResponseEntity<ProcessGroup>(objectMapper.readValue("{  \"processes\" : [ {    \"schedule\" : \"schedule\",    \"task\" : \"task\",    \"id\" : \"id\",    \"processType\" : \"processType\",    \"type\" : \"LANCE\"  }, {    \"schedule\" : \"schedule\",    \"task\" : \"task\",    \"id\" : \"id\",    \"processType\" : \"processType\",    \"type\" : \"LANCE\"  } ],  \"id\" : \"id\"}", ProcessGroup.class), HttpStatus.NOT_IMPLEMENTED);
-            } catch (IOException e) {
-                log.error("Couldn't serialize response for content type application/json", e);
-                return new ResponseEntity<ProcessGroup>(HttpStatus.INTERNAL_SERVER_ERROR);
-            }
-        }
 
+            final String tenant = UserInfo.of(request).tenant();
+
+            try {
+                final ProcessGroupQueryResponse processGroupQueryResponse = processService.queryProcessGroups(
+                    ProcessGroupQueryMessage.newBuilder().setUserId(tenant).setProcessGroupId(id).build());
+
+                if (processGroupQueryResponse.getProcessGroupsCount() == 0) {
+                    return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+                } else if (processGroupQueryResponse.getProcessGroupsCount() > 1) {
+                    return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+                }
+
+                return new ResponseEntity<>(
+                    processGroupConverter.applyBack(processGroupQueryResponse.getProcessGroups(0)), HttpStatus.OK);
+
+
+            } catch (ResponseException e) {
+                throw new ApiException(e.code(), e.getMessage());
+            }
+
+
+        }
         return new ResponseEntity<ProcessGroup>(HttpStatus.NOT_IMPLEMENTED);
     }
 
