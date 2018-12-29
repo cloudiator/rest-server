@@ -3,7 +3,7 @@
 set -x
 
 DEFAULT_KAFKA_GROUP_ID="restServer"
-DEFAULT_KAFKA_RESPONSE_TIMEOUT=30000
+DEFAULT_KAFKA_RESPONSE_TIMEOUT=20000
 
 env_required() {
   echo "EnvironmentVariable $1 is required."
