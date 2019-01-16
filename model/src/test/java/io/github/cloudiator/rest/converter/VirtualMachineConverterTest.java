@@ -12,6 +12,7 @@ import io.github.cloudiator.rest.model.OperatingSystem;
 import io.github.cloudiator.rest.model.OperatingSystemArchitecture;
 import io.github.cloudiator.rest.model.OperatingSystemFamily;
 import io.github.cloudiator.rest.model.VirtualMachine;
+import java.math.BigDecimal;
 import org.cloudiator.messages.entities.CommonEntities;
 import org.cloudiator.messages.entities.IaasEntities;
 import org.hamcrest.Matchers;
@@ -105,11 +106,11 @@ public class VirtualMachineConverterTest {
     this.restOperatingSystem = new OperatingSystem()
         .operatingSystemArchitecture(OperatingSystemArchitecture.AMD64)
         .operatingSystemFamily(OperatingSystemFamily.UBUNTU)
-        .operatingSystemVersion("1.test");
+        .operatingSystemVersion(BigDecimal.valueOf(1404));
     this.iaasOperatingSystem = CommonEntities.OperatingSystem.newBuilder()
         .setOperatingSystemArchitecture(CommonEntities.OperatingSystemArchitecture.AMD64)
         .setOperatingSystemFamily(CommonEntities.OperatingSystemFamily.UBUNTU)
-        .setOperatingSystemVersion("1.test").build();
+        .setOperatingSystemVersion(1404).build();
     this.restImage = new Image()
         .id("32chars-long_testID_forImageTest")
         .name("ImageName")

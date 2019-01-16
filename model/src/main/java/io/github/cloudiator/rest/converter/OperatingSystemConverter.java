@@ -5,6 +5,7 @@ import io.github.cloudiator.rest.model.OperatingSystem;
 import io.github.cloudiator.rest.model.OperatingSystemArchitecture;
 import io.github.cloudiator.rest.model.OperatingSystemFamily;
 import io.github.cloudiator.rest.model.OperatingSystemType;
+import java.math.BigDecimal;
 import org.cloudiator.messages.entities.CommonEntities;
 
 
@@ -26,7 +27,7 @@ public class OperatingSystemConverter implements
         .operatingSystemArchitecture(
             osaConverter.applyBack(operatingSystem.getOperatingSystemArchitecture()))
         .operatingSystemFamily(osfConverter.applyBack(operatingSystem.getOperatingSystemFamily()))
-        .operatingSystemVersion(operatingSystem.getOperatingSystemVersion());
+        .operatingSystemVersion(BigDecimal.valueOf(operatingSystem.getOperatingSystemVersion()));
   }
 
   @Override
@@ -38,7 +39,7 @@ public class OperatingSystemConverter implements
         .setOperatingSystemArchitecture(
             osaConverter.apply(operatingSystem.getOperatingSystemArchitecture()))
         .setOperatingSystemFamily(osfConverter.apply(operatingSystem.getOperatingSystemFamily()))
-        .setOperatingSystemVersion(operatingSystem.getOperatingSystemVersion()).build();
+        .setOperatingSystemVersion(operatingSystem.getOperatingSystemVersion().intValue()).build();
   }
 
 

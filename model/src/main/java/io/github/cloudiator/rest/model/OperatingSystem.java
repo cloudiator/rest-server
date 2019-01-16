@@ -7,6 +7,7 @@ import io.github.cloudiator.rest.model.OperatingSystemArchitecture;
 import io.github.cloudiator.rest.model.OperatingSystemFamily;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import java.math.BigDecimal;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -25,7 +26,7 @@ public class OperatingSystem   {
   private OperatingSystemArchitecture operatingSystemArchitecture = null;
 
   @JsonProperty("operatingSystemVersion")
-  private String operatingSystemVersion = null;
+  private BigDecimal operatingSystemVersion = null;
 
   public OperatingSystem operatingSystemFamily(OperatingSystemFamily operatingSystemFamily) {
     this.operatingSystemFamily = operatingSystemFamily;
@@ -69,7 +70,7 @@ public class OperatingSystem   {
     this.operatingSystemArchitecture = operatingSystemArchitecture;
   }
 
-  public OperatingSystem operatingSystemVersion(String operatingSystemVersion) {
+  public OperatingSystem operatingSystemVersion(BigDecimal operatingSystemVersion) {
     this.operatingSystemVersion = operatingSystemVersion;
     return this;
   }
@@ -78,14 +79,15 @@ public class OperatingSystem   {
    * Version of the OS
    * @return operatingSystemVersion
   **/
-  @ApiModelProperty(example = "16.04 LTS", value = "Version of the OS")
+  @ApiModelProperty(example = "1604.0", value = "Version of the OS")
 
+  @Valid
 
-  public String getOperatingSystemVersion() {
+  public BigDecimal getOperatingSystemVersion() {
     return operatingSystemVersion;
   }
 
-  public void setOperatingSystemVersion(String operatingSystemVersion) {
+  public void setOperatingSystemVersion(BigDecimal operatingSystemVersion) {
     this.operatingSystemVersion = operatingSystemVersion;
   }
 
