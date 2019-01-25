@@ -25,6 +25,7 @@ public class DataSink   {
     
     INFLUX("INFLUX");
 
+
     private String value;
 
     TypeEnum(String value) {
