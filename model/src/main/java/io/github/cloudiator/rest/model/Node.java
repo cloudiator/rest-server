@@ -37,9 +37,15 @@ public class Node   {
    * The state the node is currently in. 
    */
   public enum StateEnum {
-    OK("OK"),
+    CREATED("CREATED"),
     
-    ERROR("ERROR");
+    FAILED("FAILED"),
+    
+    RUNNING("RUNNING"),
+    
+    ERROR("ERROR"),
+    
+    DELETED("DELETED");
 
     private String value;
 

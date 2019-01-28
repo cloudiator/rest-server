@@ -4,6 +4,7 @@ import com.google.common.base.Strings;
 import de.uniulm.omi.cloudiator.util.TwoWayConverter;
 import io.github.cloudiator.rest.model.IpAddress;
 import io.github.cloudiator.rest.model.Node;
+import io.github.cloudiator.rest.model.Node.StateEnum;
 import org.cloudiator.messages.NodeEntities;
 import org.cloudiator.messages.NodeEntities.NodeState;
 
@@ -28,6 +29,7 @@ public class NodeConverter implements TwoWayConverter<Node, NodeEntities.Node> {
     rest.setNodeType(nodeTypeConverter.applyBack(node.getNodeType()));
     rest.setLoginCredential(loginCredentialConverter.applyBack(node.getLoginCredential()));
     rest.setNodeProperties(nodePropertiesConverter.applyBack(node.getNodeProperties()));
+    rest.setState(NodeStateConverter.INSTANCE.apply(node.getState()));
 
     if (!Strings.isNullOrEmpty(node.getDiagnostic())) {
       rest.setDiagnostic(node.getDiagnostic());
@@ -49,6 +51,7 @@ public class NodeConverter implements TwoWayConverter<Node, NodeEntities.Node> {
     NodeEntities.Node.Builder builder = NodeEntities.Node.newBuilder();
 
     builder
+        .setState(NodeStateConverter.INSTANCE.applyBack(node.getState()))
         .setId(node.getId())
         .setOriginId(node.getOriginId())
         .setUserId(node.getUserId())
@@ -71,4 +74,52 @@ public class NodeConverter implements TwoWayConverter<Node, NodeEntities.Node> {
 
     return builder.build();
   }
+
+  private static final class NodeStateConverter implements
+      TwoWayConverter<NodeState, Node.StateEnum> {
+
+    private static final NodeStateConverter INSTANCE = new NodeStateConverter();
+
+    private NodeStateConverter() {
+
+    }
+
+    @Override
+    public NodeState applyBack(StateEnum stateEnum) {
+      switch (stateEnum) {
+        case FAILED:
+          return NodeState.NODE_STATE_FAILED;
+        case ERROR:
+          return NodeState.NODE_STATE_ERROR;
+        case CREATED:
+          return NodeState.NODE_STATE_CREATED;
+        case DELETED:
+          return NodeState.NODE_STATE_DELETED;
+        case RUNNING:
+          return NodeState.NODE_STATE_RUNNING;
+        default:
+          throw new AssertionError("Unknown node state " + stateEnum);
+      }
+    }
+
+    @Override
+    public StateEnum apply(NodeState nodeState) {
+      switch (nodeState) {
+        case NODE_STATE_RUNNING:
+          return StateEnum.RUNNING;
+        case NODE_STATE_FAILED:
+          return StateEnum.FAILED;
+        case NODE_STATE_ERROR:
+          return StateEnum.ERROR;
+        case NODE_STATE_CREATED:
+          return StateEnum.CREATED;
+        case NODE_STATE_DELETED:
+          return StateEnum.DELETED;
+        case UNRECOGNIZED:
+        default:
+          throw new AssertionError("Illegal or unknown node state " + nodeState);
+      }
+    }
+  }
+
 }
