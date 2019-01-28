@@ -5,8 +5,6 @@ import de.uniulm.omi.cloudiator.util.TwoWayConverter;
 import io.github.cloudiator.rest.model.CloudiatorProcess;
 import io.github.cloudiator.rest.model.ClusterProcess;
 import io.github.cloudiator.rest.model.SingleProcess;
-import io.github.cloudiator.util.Base64IdEncoder;
-import io.github.cloudiator.util.IdEncoder;
 import org.cloudiator.messages.entities.ProcessEntities;
 import org.cloudiator.messages.entities.ProcessEntities.Process.Builder;
 import org.cloudiator.messages.entities.ProcessEntities.ProcessType;
@@ -17,7 +15,6 @@ public class ProcessConverter implements
   public final static ProcessConverter INSTANCE = new ProcessConverter();
   private static final String SINGLE_PROCESS_TYPE = "singleProcess";
   private static final String CLUSTER_PROCESS_TYPE = "clusterProcess";
-  private final IdEncoder idEncoder = Base64IdEncoder.create();
 
   private ProcessConverter() {
   }
@@ -30,7 +27,7 @@ public class ProcessConverter implements
         SingleProcess singleProcess = new SingleProcess();
         singleProcess.setId(process.getId());
         singleProcess.setProcessType(SingleProcess.class.getSimpleName());
-        singleProcess.setNode(idEncoder.encode(process.getNode()));
+        singleProcess.setNode(process.getNode());
         singleProcess.setSchedule(process.getSchedule());
         singleProcess.setTask(process.getTask());
         singleProcess.setType(ProcessTypeConverter.INSTANCE.applyBack(process.getType()));
@@ -64,7 +61,7 @@ public class ProcessConverter implements
     if (process.getProcessType().equals(SingleProcess.class.getSimpleName())) {
 
       SingleProcess singleProcess = (SingleProcess) process;
-      processBuilder.setNode(idEncoder.decode(singleProcess.getNode()));
+      processBuilder.setNode(singleProcess.getNode());
 
     } else if (process.getProcessType().equals(ClusterProcess.class.getSimpleName())) {
       ClusterProcess clusterProcess = (ClusterProcess) process;

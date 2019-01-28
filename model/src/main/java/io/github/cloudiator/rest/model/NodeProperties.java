@@ -12,9 +12,9 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * attributes defining a node
+ * Attributes defining this node
  */
-@ApiModel(description = "attributes defining a node")
+@ApiModel(description = "Attributes defining this node")
 @Validated
 
 public class NodeProperties   {
@@ -42,10 +42,10 @@ public class NodeProperties   {
   }
 
   /**
-   * Get providerId
+   * Id of the provider where this node is managed. For virtual machines this e.g. the id of the cloud. 
    * @return providerId
   **/
-  @ApiModelProperty(value = "")
+  @ApiModelProperty(value = "Id of the provider where this node is managed. For virtual machines this e.g. the id of the cloud. ")
 
 
   public String getProviderId() {
@@ -62,10 +62,10 @@ public class NodeProperties   {
   }
 
   /**
-   * Get numberOfCores
+   * Number of cores the node has. 
    * @return numberOfCores
   **/
-  @ApiModelProperty(value = "")
+  @ApiModelProperty(value = "Number of cores the node has. ")
 
 
   public Integer getNumberOfCores() {
@@ -82,10 +82,10 @@ public class NodeProperties   {
   }
 
   /**
-   * Get memory
+   * Amount of RAM this node has (in MB). 
    * @return memory
   **/
-  @ApiModelProperty(value = "")
+  @ApiModelProperty(value = "Amount of RAM this node has (in MB). ")
 
 
   public Long getMemory() {
@@ -102,10 +102,10 @@ public class NodeProperties   {
   }
 
   /**
-   * Get disk
+   * Amount of disk space this node has (in GB). 
    * @return disk
   **/
-  @ApiModelProperty(value = "")
+  @ApiModelProperty(value = "Amount of disk space this node has (in GB). ")
 
 
   public Float getDisk() {
@@ -122,10 +122,10 @@ public class NodeProperties   {
   }
 
   /**
-   * Get operatingSystem
+   * Operating system of this node. 
    * @return operatingSystem
   **/
-  @ApiModelProperty(value = "")
+  @ApiModelProperty(value = "Operating system of this node. ")
 
   @Valid
 
@@ -143,10 +143,10 @@ public class NodeProperties   {
   }
 
   /**
-   * Get geoLocation
+   * Geographical location this node resides in. 
    * @return geoLocation
   **/
-  @ApiModelProperty(value = "")
+  @ApiModelProperty(value = "Geographical location this node resides in. ")
 
   @Valid
 

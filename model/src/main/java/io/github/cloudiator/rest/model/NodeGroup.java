@@ -13,8 +13,9 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * NodeGroup
+ * A logical group of multiple nodes. 
  */
+@ApiModel(description = "A logical group of multiple nodes. ")
 @Validated
 
 public class NodeGroup   {
@@ -31,10 +32,10 @@ public class NodeGroup   {
   }
 
   /**
-   * Get id
+   * Unique identifier of the node group. 
    * @return id
   **/
-  @ApiModelProperty(value = "")
+  @ApiModelProperty(value = "Unique identifier of the node group. ")
 
 
   public String getId() {
@@ -59,10 +60,10 @@ public class NodeGroup   {
   }
 
   /**
-   * Get nodes
+   * An array of multiple nodes belonging to this group. 
    * @return nodes
   **/
-  @ApiModelProperty(value = "")
+  @ApiModelProperty(value = "An array of multiple nodes belonging to this group. ")
 
   @Valid
 

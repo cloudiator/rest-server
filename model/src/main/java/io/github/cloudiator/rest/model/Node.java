@@ -21,14 +21,20 @@ import javax.validation.constraints.*;
 @Validated
 
 public class Node   {
-  @JsonProperty("nodeId")
-  private String nodeId = null;
+  @JsonProperty("id")
+  private String id = null;
+
+  @JsonProperty("originId")
+  private String originId = null;
+
+  @JsonProperty("userId")
+  private String userId = null;
 
   @JsonProperty("name")
   private String name = null;
 
   /**
-   * Gets or Sets state
+   * The state the node is currently in. 
    */
   public enum StateEnum {
     OK("OK"),
@@ -65,7 +71,7 @@ public class Node   {
   private LoginCredential loginCredential = null;
 
   /**
-   * Gets or Sets nodeType
+   * The type of this node. 
    */
   public enum NodeTypeEnum {
     UNKNOWN_TYPE("UNKNOWN_TYPE"),
@@ -111,24 +117,73 @@ public class Node   {
   @JsonProperty("nodeProperties")
   private NodeProperties nodeProperties = null;
 
-  public Node nodeId(String nodeId) {
-    this.nodeId = nodeId;
+  @JsonProperty("reason")
+  private String reason = null;
+
+  @JsonProperty("diagnostic")
+  private String diagnostic = null;
+
+  @JsonProperty("nodeCandidate")
+  private String nodeCandidate = null;
+
+  public Node id(String id) {
+    this.id = id;
     return this;
   }
 
   /**
-   * Get nodeId
-   * @return nodeId
+   * Unique identifier of this node. 
+   * @return id
   **/
-  @ApiModelProperty(value = "")
+  @ApiModelProperty(value = "Unique identifier of this node. ")
 
 
-  public String getNodeId() {
-    return nodeId;
+  public String getId() {
+    return id;
   }
 
-  public void setNodeId(String nodeId) {
-    this.nodeId = nodeId;
+  public void setId(String id) {
+    this.id = id;
+  }
+
+  public Node originId(String originId) {
+    this.originId = originId;
+    return this;
+  }
+
+  /**
+   * Original id of this node. Is present of the node was created e.g. at a cloud provider. 
+   * @return originId
+  **/
+  @ApiModelProperty(value = "Original id of this node. Is present of the node was created e.g. at a cloud provider. ")
+
+
+  public String getOriginId() {
+    return originId;
+  }
+
+  public void setOriginId(String originId) {
+    this.originId = originId;
+  }
+
+  public Node userId(String userId) {
+    this.userId = userId;
+    return this;
+  }
+
+  /**
+   * User id of the owner of this node. 
+   * @return userId
+  **/
+  @ApiModelProperty(value = "User id of the owner of this node. ")
+
+
+  public String getUserId() {
+    return userId;
+  }
+
+  public void setUserId(String userId) {
+    this.userId = userId;
   }
 
   public Node name(String name) {
@@ -137,10 +192,10 @@ public class Node   {
   }
 
   /**
-   * Get name
+   * Human-readable name for the node. 
    * @return name
   **/
-  @ApiModelProperty(value = "")
+  @ApiModelProperty(value = "Human-readable name for the node. ")
 
 
   public String getName() {
@@ -157,10 +212,10 @@ public class Node   {
   }
 
   /**
-   * Get state
+   * The state the node is currently in. 
    * @return state
   **/
-  @ApiModelProperty(value = "")
+  @ApiModelProperty(value = "The state the node is currently in. ")
 
 
   public StateEnum getState() {
@@ -198,10 +253,10 @@ public class Node   {
   }
 
   /**
-   * Get nodeType
+   * The type of this node. 
    * @return nodeType
   **/
-  @ApiModelProperty(value = "")
+  @ApiModelProperty(value = "The type of this node. ")
 
 
   public NodeTypeEnum getNodeType() {
@@ -226,10 +281,10 @@ public class Node   {
   }
 
   /**
-   * Get ipAddresses
+   * The public/private ip addresses under which this node is reachable. 
    * @return ipAddresses
   **/
-  @ApiModelProperty(value = "")
+  @ApiModelProperty(value = "The public/private ip addresses under which this node is reachable. ")
 
   @Valid
 
@@ -247,10 +302,10 @@ public class Node   {
   }
 
   /**
-   * Get nodeProperties
+   * Further properties of this node. 
    * @return nodeProperties
   **/
-  @ApiModelProperty(value = "")
+  @ApiModelProperty(value = "Further properties of this node. ")
 
   @Valid
 
@@ -260,6 +315,66 @@ public class Node   {
 
   public void setNodeProperties(NodeProperties nodeProperties) {
     this.nodeProperties = nodeProperties;
+  }
+
+  public Node reason(String reason) {
+    this.reason = reason;
+    return this;
+  }
+
+  /**
+   * Reason this node was created 
+   * @return reason
+  **/
+  @ApiModelProperty(value = "Reason this node was created ")
+
+
+  public String getReason() {
+    return reason;
+  }
+
+  public void setReason(String reason) {
+    this.reason = reason;
+  }
+
+  public Node diagnostic(String diagnostic) {
+    this.diagnostic = diagnostic;
+    return this;
+  }
+
+  /**
+   * Diagnostic information about the node state 
+   * @return diagnostic
+  **/
+  @ApiModelProperty(value = "Diagnostic information about the node state ")
+
+
+  public String getDiagnostic() {
+    return diagnostic;
+  }
+
+  public void setDiagnostic(String diagnostic) {
+    this.diagnostic = diagnostic;
+  }
+
+  public Node nodeCandidate(String nodeCandidate) {
+    this.nodeCandidate = nodeCandidate;
+    return this;
+  }
+
+  /**
+   * The node candidate this node was created from if applicable. 
+   * @return nodeCandidate
+  **/
+  @ApiModelProperty(value = "The node candidate this node was created from if applicable. ")
+
+
+  public String getNodeCandidate() {
+    return nodeCandidate;
+  }
+
+  public void setNodeCandidate(String nodeCandidate) {
+    this.nodeCandidate = nodeCandidate;
   }
 
 
@@ -272,18 +387,23 @@ public class Node   {
       return false;
     }
     Node node = (Node) o;
-    return Objects.equals(this.nodeId, node.nodeId) &&
+    return Objects.equals(this.id, node.id) &&
+        Objects.equals(this.originId, node.originId) &&
+        Objects.equals(this.userId, node.userId) &&
         Objects.equals(this.name, node.name) &&
         Objects.equals(this.state, node.state) &&
         Objects.equals(this.loginCredential, node.loginCredential) &&
         Objects.equals(this.nodeType, node.nodeType) &&
         Objects.equals(this.ipAddresses, node.ipAddresses) &&
-        Objects.equals(this.nodeProperties, node.nodeProperties);
+        Objects.equals(this.nodeProperties, node.nodeProperties) &&
+        Objects.equals(this.reason, node.reason) &&
+        Objects.equals(this.diagnostic, node.diagnostic) &&
+        Objects.equals(this.nodeCandidate, node.nodeCandidate);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(nodeId, name, state, loginCredential, nodeType, ipAddresses, nodeProperties);
+    return Objects.hash(id, originId, userId, name, state, loginCredential, nodeType, ipAddresses, nodeProperties, reason, diagnostic, nodeCandidate);
   }
 
   @Override
@@ -291,13 +411,18 @@ public class Node   {
     StringBuilder sb = new StringBuilder();
     sb.append("class Node {\n");
     
-    sb.append("    nodeId: ").append(toIndentedString(nodeId)).append("\n");
+    sb.append("    id: ").append(toIndentedString(id)).append("\n");
+    sb.append("    originId: ").append(toIndentedString(originId)).append("\n");
+    sb.append("    userId: ").append(toIndentedString(userId)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
     sb.append("    state: ").append(toIndentedString(state)).append("\n");
     sb.append("    loginCredential: ").append(toIndentedString(loginCredential)).append("\n");
     sb.append("    nodeType: ").append(toIndentedString(nodeType)).append("\n");
     sb.append("    ipAddresses: ").append(toIndentedString(ipAddresses)).append("\n");
     sb.append("    nodeProperties: ").append(toIndentedString(nodeProperties)).append("\n");
+    sb.append("    reason: ").append(toIndentedString(reason)).append("\n");
+    sb.append("    diagnostic: ").append(toIndentedString(diagnostic)).append("\n");
+    sb.append("    nodeCandidate: ").append(toIndentedString(nodeCandidate)).append("\n");
     sb.append("}");
     return sb.toString();
   }
