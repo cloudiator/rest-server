@@ -41,7 +41,9 @@ public class CloudiatorProcess   {
     
     ERROR("ERROR"),
     
-    DELETED("DELETED");
+    DELETED("DELETED"),
+    
+    FINISHED("FINISHED");
 
     private String value;
 

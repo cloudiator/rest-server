@@ -23,7 +23,11 @@ public class DataSink   {
   public enum TypeEnum {
     KAIROS_DB("KAIROS_DB"),
     
-    INFLUX("INFLUX");
+    INFLUX("INFLUX"),
+    
+    CLI("CLI"),
+    
+    JMS("JMS");
 
     private String value;
 

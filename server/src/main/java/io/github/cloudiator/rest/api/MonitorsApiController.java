@@ -149,4 +149,9 @@ public class MonitorsApiController implements MonitorsApi {
     return new ResponseEntity<List<Monitor>>(HttpStatus.NOT_IMPLEMENTED);
   }
 
+  @Override
+  public ResponseEntity<Monitor> updateMonitor(String metric, Monitor monitor) {
+    return null;
+  }
+
 }
