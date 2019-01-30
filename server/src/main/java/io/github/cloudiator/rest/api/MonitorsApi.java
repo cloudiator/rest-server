@@ -69,4 +69,16 @@ public interface MonitorsApi {
         method = RequestMethod.GET)
     ResponseEntity<List<Monitor>> getMonitor(@ApiParam(value = "Unique identifier of a monitor",required=true) @PathVariable("metric") String metric);
 
+
+    @ApiOperation(value = "", nickname = "updateMonitor", notes = "Updating a monitor ", response = Monitor.class, authorizations = {
+        @Authorization(value = "ApiKeyAuth")
+    }, tags={ "monitoring", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "OK ", response = Monitor.class) })
+    @RequestMapping(value = "/monitors/{metric}",
+        produces = { "application/json" }, 
+        consumes = { "application/json" },
+        method = RequestMethod.PUT)
+    ResponseEntity<Monitor> updateMonitor(@ApiParam(value = "Unique identifier of a monitor",required=true) @PathVariable("metric") String metric,@ApiParam(value = "Monitor to be updated " ,required=true )  @Valid @RequestBody Monitor monitor);
+
 }

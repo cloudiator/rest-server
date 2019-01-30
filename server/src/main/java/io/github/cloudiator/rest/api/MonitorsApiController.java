@@ -113,12 +113,12 @@ public class MonitorsApiController implements MonitorsApi {
   public ResponseEntity<List<Monitor>> findMonitors() {
     String accept = request.getHeader("Accept");
     if (accept != null && accept.contains("application/json")) {
+      List<Monitor> result = new ArrayList<Monitor>();
       try {
 
         MonitorQueryRequest monitorQueryRequest = MonitorQueryRequest.newBuilder()
             .setUserId(UserInfo.of(request).tenant()).build();
 
-        List<Monitor> result = new ArrayList<>();
         MonitorQueryResponse monitorQueryResponse = monitorService
             .findMonitors(monitorQueryRequest);
 
@@ -167,6 +167,11 @@ public class MonitorsApiController implements MonitorsApi {
       }
     }
     return new ResponseEntity<List<Monitor>>(HttpStatus.NOT_IMPLEMENTED);
+  }
+
+  @Override
+  public ResponseEntity<Monitor> updateMonitor(String metric, Monitor monitor) {
+    return null;
   }
 
 }

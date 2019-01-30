@@ -1,14 +1,16 @@
 package io.github.cloudiator.rest.model;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
+import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonValue;
+import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.util.Objects;
-import javax.validation.constraints.NotNull;
 import org.springframework.validation.annotation.Validated;
+import javax.validation.Valid;
+import javax.validation.constraints.*;
 
 /**
  * CloudiatorProcess
@@ -26,6 +28,48 @@ public class CloudiatorProcess   {
 
   @JsonProperty("processType")
   private String processType = null;
+
+  /**
+   * Gets or Sets state
+   */
+  public enum StateEnum {
+    CREATED("CREATED"),
+    
+    FAILED("FAILED"),
+    
+    RUNNING("RUNNING"),
+    
+    ERROR("ERROR"),
+    
+    DELETED("DELETED"),
+    
+    FINISHED("FINISHED");
+
+    private String value;
+
+    StateEnum(String value) {
+      this.value = value;
+    }
+
+    @Override
+    @JsonValue
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    @JsonCreator
+    public static StateEnum fromValue(String text) {
+      for (StateEnum b : StateEnum.values()) {
+        if (String.valueOf(b.value).equals(text)) {
+          return b;
+        }
+      }
+      return null;
+    }
+  }
+
+  @JsonProperty("state")
+  private StateEnum state = null;
 
   /**
    * Gets or Sets type
@@ -109,6 +153,26 @@ public class CloudiatorProcess   {
     this.processType = processType;
   }
 
+  public CloudiatorProcess state(StateEnum state) {
+    this.state = state;
+    return this;
+  }
+
+  /**
+   * Get state
+   * @return state
+  **/
+  @ApiModelProperty(value = "")
+
+
+  public StateEnum getState() {
+    return state;
+  }
+
+  public void setState(StateEnum state) {
+    this.state = state;
+  }
+
   public CloudiatorProcess type(TypeEnum type) {
     this.type = type;
     return this;
@@ -184,6 +248,7 @@ public class CloudiatorProcess   {
     CloudiatorProcess cloudiatorProcess = (CloudiatorProcess) o;
     return Objects.equals(this.id, cloudiatorProcess.id) &&
         Objects.equals(this.processType, cloudiatorProcess.processType) &&
+        Objects.equals(this.state, cloudiatorProcess.state) &&
         Objects.equals(this.type, cloudiatorProcess.type) &&
         Objects.equals(this.schedule, cloudiatorProcess.schedule) &&
         Objects.equals(this.task, cloudiatorProcess.task);
@@ -191,7 +256,7 @@ public class CloudiatorProcess   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, processType, type, schedule, task);
+    return Objects.hash(id, processType, state, type, schedule, task);
   }
 
   @Override
@@ -201,6 +266,7 @@ public class CloudiatorProcess   {
     
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    processType: ").append(toIndentedString(processType)).append("\n");
+    sb.append("    state: ").append(toIndentedString(state)).append("\n");
     sb.append("    type: ").append(toIndentedString(type)).append("\n");
     sb.append("    schedule: ").append(toIndentedString(schedule)).append("\n");
     sb.append("    task: ").append(toIndentedString(task)).append("\n");

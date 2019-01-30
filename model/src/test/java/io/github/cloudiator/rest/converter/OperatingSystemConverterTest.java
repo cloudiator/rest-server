@@ -5,6 +5,7 @@ import static org.junit.Assert.assertThat;
 import io.github.cloudiator.rest.model.OperatingSystem;
 import io.github.cloudiator.rest.model.OperatingSystemArchitecture;
 import io.github.cloudiator.rest.model.OperatingSystemFamily;
+import java.math.BigDecimal;
 import org.cloudiator.messages.entities.CommonEntities;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -18,11 +19,11 @@ public class OperatingSystemConverterTest {
 
   public OperatingSystemConverterTest() {
     this.restOperatingSystem = new OperatingSystem()
-        .operatingSystemVersion("Test.0")
+        .operatingSystemVersion(BigDecimal.valueOf(1404))
         .operatingSystemFamily(OperatingSystemFamily.UBUNTU)
         .operatingSystemArchitecture(OperatingSystemArchitecture.AMD64);
     this.iaasOperatingSystem = CommonEntities.OperatingSystem.newBuilder()
-        .setOperatingSystemVersion("Test.0")
+        .setOperatingSystemVersion(1404)
         .setOperatingSystemFamily(CommonEntities.OperatingSystemFamily.UBUNTU)
         .setOperatingSystemArchitecture(CommonEntities.OperatingSystemArchitecture.AMD64).build();
   }

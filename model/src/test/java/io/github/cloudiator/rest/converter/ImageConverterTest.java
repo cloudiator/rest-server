@@ -7,6 +7,7 @@ import io.github.cloudiator.rest.model.Location;
 import io.github.cloudiator.rest.model.OperatingSystem;
 import io.github.cloudiator.rest.model.OperatingSystemArchitecture;
 import io.github.cloudiator.rest.model.OperatingSystemFamily;
+import java.math.BigDecimal;
 import org.cloudiator.messages.entities.CommonEntities;
 import org.cloudiator.messages.entities.IaasEntities;
 import org.hamcrest.Matchers;
@@ -30,11 +31,11 @@ public class ImageConverterTest {
     this.iaasOperatingSystem = CommonEntities.OperatingSystem.newBuilder()
         .setOperatingSystemArchitecture(CommonEntities.OperatingSystemArchitecture.AMD64)
         .setOperatingSystemFamily(CommonEntities.OperatingSystemFamily.UBUNTU)
-        .setOperatingSystemVersion("Test.0").build();
+        .setOperatingSystemVersion(1404).build();
     this.restOperatingSystem = new OperatingSystem()
         .operatingSystemArchitecture(OperatingSystemArchitecture.AMD64)
         .operatingSystemFamily(OperatingSystemFamily.UBUNTU)
-        .operatingSystemVersion("Test.0");
+        .operatingSystemVersion(BigDecimal.valueOf(1404));
     //Location
     this.iaasLocation = IaasEntities.Location.newBuilder()
         .setId("32chars-long_testID_for_UnitTest")

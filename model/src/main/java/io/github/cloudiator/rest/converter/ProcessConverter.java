@@ -9,9 +9,12 @@ import org.cloudiator.messages.entities.ProcessEntities;
 import org.cloudiator.messages.entities.ProcessEntities.Process.Builder;
 import org.cloudiator.messages.entities.ProcessEntities.ProcessType;
 
-public class ProcessConverter implements TwoWayConverter<CloudiatorProcess, ProcessEntities.Process> {
+public class ProcessConverter implements
+    TwoWayConverter<CloudiatorProcess, ProcessEntities.Process> {
 
   public final static ProcessConverter INSTANCE = new ProcessConverter();
+  private static final String SINGLE_PROCESS_TYPE = "singleProcess";
+  private static final String CLUSTER_PROCESS_TYPE = "clusterProcess";
 
   private ProcessConverter() {
   }
@@ -19,7 +22,7 @@ public class ProcessConverter implements TwoWayConverter<CloudiatorProcess, Proc
   @Override
   public CloudiatorProcess applyBack(ProcessEntities.Process process) {
 
-    switch (process.getRunsOnCase()){
+    switch (process.getRunsOnCase()) {
       case NODE:
         SingleProcess singleProcess = new SingleProcess();
         singleProcess.setId(process.getId());
@@ -39,10 +42,11 @@ public class ProcessConverter implements TwoWayConverter<CloudiatorProcess, Proc
         clusterProcess.setType(ProcessTypeConverter.INSTANCE.applyBack(process.getType()));
         return clusterProcess;
       case RUNSON_NOT_SET:
-        throw  new IllegalStateException("RUNSON not set for process message with id: " + process.getId());
+        throw new IllegalStateException(
+            "RUNSON not set for process message with id: " + process.getId());
     }
 
-   return null;
+    return null;
   }
 
   @Override
@@ -54,23 +58,24 @@ public class ProcessConverter implements TwoWayConverter<CloudiatorProcess, Proc
         .setTask(process.getTask())
         .setType(ProcessTypeConverter.INSTANCE.apply(process.getType()));
 
+    if (process.getProcessType().equals(SingleProcess.class.getSimpleName())) {
 
-    if(process.getProcessType().equals(SingleProcess.class.getSimpleName())){
-
-      SingleProcess singleProcess = (SingleProcess)process;
+      SingleProcess singleProcess = (SingleProcess) process;
       processBuilder.setNode(singleProcess.getNode());
 
-    }else if(process.getProcessType().equals(ClusterProcess.class.getSimpleName())){
+    } else if (process.getProcessType().equals(ClusterProcess.class.getSimpleName())) {
       ClusterProcess clusterProcess = (ClusterProcess) process;
       processBuilder.setNodeGroup(clusterProcess.getNodeGroup());
-    }else {
-      throw new IllegalStateException("Unsupported CloudiatorProcess type: " + process.getProcessType().getClass().getSimpleName());
+    } else {
+      throw new IllegalStateException(
+          "Unsupported CloudiatorProcess type: " + process.getProcessType().getClass()
+              .getSimpleName());
     }
 
-    return  processBuilder.build();
-
+    return processBuilder.build();
 
   }
+
 
   private static class ProcessTypeConverter implements
       TwoWayConverter<CloudiatorProcess.TypeEnum, ProcessEntities.ProcessType> {

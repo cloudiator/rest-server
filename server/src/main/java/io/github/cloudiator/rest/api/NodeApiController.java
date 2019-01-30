@@ -12,8 +12,6 @@ import io.github.cloudiator.rest.model.NodeRequest;
 import io.github.cloudiator.rest.model.Queue;
 import io.github.cloudiator.rest.queue.QueueService;
 import io.github.cloudiator.rest.queue.QueueService.QueueItem;
-import io.github.cloudiator.util.Base64IdEncoder;
-import io.github.cloudiator.util.IdEncoder;
 import io.swagger.annotations.ApiParam;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -45,7 +43,6 @@ public class NodeApiController implements NodeApi {
   private static final Logger log = LoggerFactory.getLogger(PlatformApiController.class);
   private final ObjectMapper objectMapper;
   private final HttpServletRequest request;
-  private final IdEncoder idEncoder = Base64IdEncoder.create();
 
   @org.springframework.beans.factory.annotation.Autowired
   public NodeApiController(ObjectMapper objectMapper, HttpServletRequest request) {
@@ -113,13 +110,11 @@ public class NodeApiController implements NodeApi {
         throw new ApiException(400, "Id is null or empty");
       }
 
-      final String decodedId = idEncoder.decode(id);
-
       final String tenant = UserInfo.of(request).tenant();
       final QueueItem<NodeDeleteResponseMessage> queueItem = queueService
           .queueCallback(tenant);
 
-      NodeDeleteMessage nodeDeleteMessage = NodeDeleteMessage.newBuilder().setNodeId(decodedId)
+      NodeDeleteMessage nodeDeleteMessage = NodeDeleteMessage.newBuilder().setNodeId(id)
           .setUserId(tenant).build();
 
       nodeService.deleteNodeAsync(nodeDeleteMessage, queueItem.getCallback());
@@ -162,8 +157,6 @@ public class NodeApiController implements NodeApi {
   public ResponseEntity<Node> getNode(
       @ApiParam(value = "Unique identifier of the resource", required = true) @PathVariable("id") final String id) {
 
-    final String decodedId = idEncoder.decode(id);
-
     String accept = request.getHeader("Accept");
     if (accept != null && accept.contains("application/json")) {
 
@@ -172,7 +165,7 @@ public class NodeApiController implements NodeApi {
       try {
         final NodeQueryResponse nodeQueryResponse = nodeService
             .queryNodes(
-                NodeQueryMessage.newBuilder().setUserId(tenant).setNodeId(decodedId).build());
+                NodeQueryMessage.newBuilder().setUserId(tenant).setNodeId(id).build());
 
         if (nodeQueryResponse.getNodesCount() == 0) {
           return new ResponseEntity<>(HttpStatus.NOT_FOUND);

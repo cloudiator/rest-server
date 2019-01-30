@@ -10,8 +10,6 @@ import io.github.cloudiator.rest.model.CloudiatorProcessNew;
 import io.github.cloudiator.rest.model.Queue;
 import io.github.cloudiator.rest.queue.QueueService;
 import io.github.cloudiator.rest.queue.QueueService.QueueItem;
-import io.github.cloudiator.util.Base64IdEncoder;
-import io.github.cloudiator.util.IdEncoder;
 import io.swagger.annotations.ApiParam;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -47,7 +45,6 @@ public class ProcessApiController implements ProcessApi {
 
   private static final ProcessNewConverter PROCESS_NEW_CONVERTER = ProcessNewConverter.INSTANCE;
   private static final ProcessConverter PROCESS_CONVERTER = ProcessConverter.INSTANCE;
-  private final IdEncoder idEncoder = Base64IdEncoder.create();
 
   private final ProcessService processService;
 
@@ -69,13 +66,12 @@ public class ProcessApiController implements ProcessApi {
 
       final String tenant = UserInfo.of(request).tenant();
 
-
       final CreateProcessRequest createProcessRequest = CreateProcessRequest.newBuilder()
           .setUserId(tenant).setProcess(PROCESS_NEW_CONVERTER.apply(process)).build();
 
       final QueueItem<ProcessCreatedResponse> queueItem = queueService
           .queueCallback(tenant,
-              processCreatedResponse -> "process/" + processCreatedResponse.getProcessGroup()
+              processCreatedResponse -> "processGroup/" + processCreatedResponse.getProcessGroup()
                   .getId());
 
       processService.createProcessAsync(createProcessRequest, queueItem.getCallback());
