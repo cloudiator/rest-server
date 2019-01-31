@@ -4,16 +4,19 @@ package io.github.cloudiator.rest.converter;
 import com.google.common.base.Strings;
 import de.uniulm.omi.cloudiator.util.TwoWayConverter;
 import io.github.cloudiator.rest.model.CloudiatorProcess;
+import io.github.cloudiator.rest.model.CloudiatorProcess.StateEnum;
 import io.github.cloudiator.rest.model.ClusterProcess;
 import io.github.cloudiator.rest.model.SingleProcess;
 import org.cloudiator.messages.entities.ProcessEntities;
 import org.cloudiator.messages.entities.ProcessEntities.Process.Builder;
+import org.cloudiator.messages.entities.ProcessEntities.ProcessState;
 import org.cloudiator.messages.entities.ProcessEntities.ProcessType;
 
 public class ProcessConverter implements
     TwoWayConverter<CloudiatorProcess, ProcessEntities.Process> {
 
   public final static ProcessConverter INSTANCE = new ProcessConverter();
+  public final static ProcessStateConverter PROCESS_STATE_CONVERTER = new ProcessStateConverter();
   private static final String SINGLE_PROCESS_TYPE = "singleProcess";
   private static final String CLUSTER_PROCESS_TYPE = "clusterProcess";
 
@@ -33,6 +36,7 @@ public class ProcessConverter implements
         singleProcess.setTask(process.getTask());
         singleProcess.setType(ProcessTypeConverter.INSTANCE.applyBack(process.getType()));
         singleProcess.setOwner(process.getUserId());
+        singleProcess.setState(PROCESS_STATE_CONVERTER.applyBack(process.getState()));
 
         if (!Strings.isNullOrEmpty(process.getReason())) {
           singleProcess.setReason(process.getReason());
@@ -52,6 +56,7 @@ public class ProcessConverter implements
         clusterProcess.setTask(process.getTask());
         clusterProcess.setType(ProcessTypeConverter.INSTANCE.applyBack(process.getType()));
         clusterProcess.setOwner(process.getUserId());
+        clusterProcess.setState(PROCESS_STATE_CONVERTER.applyBack(process.getState()));
 
         if (!Strings.isNullOrEmpty(process.getReason())) {
           clusterProcess.setReason(process.getReason());
@@ -78,7 +83,8 @@ public class ProcessConverter implements
         .setSchedule(process.getSchedule())
         .setTask(process.getTask())
         .setUserId(process.getOwner())
-        .setType(ProcessTypeConverter.INSTANCE.apply(process.getType()));
+        .setType(ProcessTypeConverter.INSTANCE.apply(process.getType()))
+        .setState(PROCESS_STATE_CONVERTER.apply(process.getState()));
 
     if (!Strings.isNullOrEmpty(process.getDiagnostic())) {
       processBuilder.setDiagnostic(process.getDiagnostic());
@@ -106,6 +112,50 @@ public class ProcessConverter implements
 
   }
 
+  private static class ProcessStateConverter implements
+      TwoWayConverter<CloudiatorProcess.StateEnum, ProcessEntities.ProcessState> {
+
+    @Override
+    public StateEnum applyBack(ProcessState processState) {
+      switch (processState) {
+        case PROCESS_STATE_FINISHED:
+          return StateEnum.FINISHED;
+        case PROCESS_STATE_RUNNING:
+          return StateEnum.RUNNING;
+        case PROCESS_STATE_DELETED:
+          return StateEnum.DELETED;
+        case PROCESS_STATE_CREATED:
+          return StateEnum.CREATED;
+        case PROCESS_STATE_ERROR:
+          return StateEnum.ERROR;
+        case PROCESS_STATE_FAILED:
+          return StateEnum.FAILED;
+        case UNRECOGNIZED:
+        default:
+          throw new AssertionError("Unknown process state " + processState);
+      }
+    }
+
+    @Override
+    public ProcessState apply(StateEnum stateEnum) {
+      switch (stateEnum) {
+        case FAILED:
+          return ProcessState.PROCESS_STATE_FAILED;
+        case ERROR:
+          return ProcessState.PROCESS_STATE_ERROR;
+        case CREATED:
+          return ProcessState.PROCESS_STATE_CREATED;
+        case DELETED:
+          return ProcessState.PROCESS_STATE_DELETED;
+        case RUNNING:
+          return ProcessState.PROCESS_STATE_RUNNING;
+        case FINISHED:
+          return ProcessState.PROCESS_STATE_FINISHED;
+        default:
+          throw new AssertionError("Unknown process state " + stateEnum);
+      }
+    }
+  }
 
   private static class ProcessTypeConverter implements
       TwoWayConverter<CloudiatorProcess.TypeEnum, ProcessEntities.ProcessType> {
