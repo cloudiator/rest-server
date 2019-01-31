@@ -8,7 +8,8 @@ import org.cloudiator.messages.entities.ProcessEntities.ProcessGroup.Builder;
 /**
  * Created by Daniel Seybold on 22.11.2018.
  */
-public class ProcessGroupConverter implements TwoWayConverter<ProcessGroup, ProcessEntities.ProcessGroup> {
+public class ProcessGroupConverter implements
+    TwoWayConverter<ProcessGroup, ProcessEntities.ProcessGroup> {
 
   private final ProcessConverter processConverter = ProcessConverter.INSTANCE;
 
@@ -17,8 +18,11 @@ public class ProcessGroupConverter implements TwoWayConverter<ProcessGroup, Proc
 
     ProcessGroup rest = new ProcessGroup();
     rest.setId(processGroup.getId());
+    rest.setOwner(processGroup.getUserId());
+    rest.schedule(processGroup.getScheduleId());
 
-    processGroup.getProcessList().stream().map(processConverter::applyBack).forEach(rest::addProcessesItem);
+    processGroup.getProcessList().stream().map(processConverter::applyBack)
+        .forEach(rest::addProcessesItem);
 
     return rest;
   }
@@ -28,8 +32,10 @@ public class ProcessGroupConverter implements TwoWayConverter<ProcessGroup, Proc
 
     final Builder builder = ProcessEntities.ProcessGroup.newBuilder();
     builder.setId(processGroup.getId());
+    builder.setUserId(processGroup.getOwner());
+    builder.setScheduleId(processGroup.getSchedule());
 
-    processGroup.getProcesses().stream().map(processConverter::apply).forEach(builder::addProcess);
+    processGroup.getProcesses().stream().map(processConverter).forEach(builder::addProcess);
 
     return builder.build();
   }
