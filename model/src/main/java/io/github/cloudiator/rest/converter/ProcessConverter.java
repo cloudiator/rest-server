@@ -1,6 +1,7 @@
 package io.github.cloudiator.rest.converter;
 
 
+import com.google.common.base.Strings;
 import de.uniulm.omi.cloudiator.util.TwoWayConverter;
 import io.github.cloudiator.rest.model.CloudiatorProcess;
 import io.github.cloudiator.rest.model.ClusterProcess;
@@ -31,6 +32,16 @@ public class ProcessConverter implements
         singleProcess.setSchedule(process.getSchedule());
         singleProcess.setTask(process.getTask());
         singleProcess.setType(ProcessTypeConverter.INSTANCE.applyBack(process.getType()));
+        singleProcess.setOwner(process.getUserId());
+
+        if (!Strings.isNullOrEmpty(process.getReason())) {
+          singleProcess.setReason(process.getReason());
+        }
+
+        if (!Strings.isNullOrEmpty(process.getDiagnostic())) {
+          singleProcess.setDiagnostic(process.getDiagnostic());
+        }
+
         return singleProcess;
       case NODEGROUP:
         ClusterProcess clusterProcess = new ClusterProcess();
@@ -40,10 +51,20 @@ public class ProcessConverter implements
         clusterProcess.setSchedule(process.getSchedule());
         clusterProcess.setTask(process.getTask());
         clusterProcess.setType(ProcessTypeConverter.INSTANCE.applyBack(process.getType()));
+        clusterProcess.setOwner(process.getUserId());
+
+        if (!Strings.isNullOrEmpty(process.getReason())) {
+          clusterProcess.setReason(process.getReason());
+        }
+
+        if (!Strings.isNullOrEmpty(process.getDiagnostic())) {
+          clusterProcess.setDiagnostic(process.getDiagnostic());
+        }
+
         return clusterProcess;
       case RUNSON_NOT_SET:
-        throw new IllegalStateException(
-            "RUNSON not set for process message with id: " + process.getId());
+        throw new AssertionError(
+            "RUN_SON not set for process message with id: " + process.getId());
     }
 
     return null;
@@ -56,7 +77,16 @@ public class ProcessConverter implements
         .setId(process.getId())
         .setSchedule(process.getSchedule())
         .setTask(process.getTask())
+        .setUserId(process.getOwner())
         .setType(ProcessTypeConverter.INSTANCE.apply(process.getType()));
+
+    if (!Strings.isNullOrEmpty(process.getDiagnostic())) {
+      processBuilder.setDiagnostic(process.getDiagnostic());
+    }
+
+    if (!Strings.isNullOrEmpty(process.getReason())) {
+      processBuilder.setReason(process.getReason());
+    }
 
     if (process.getProcessType().equals(SingleProcess.class.getSimpleName())) {
 
@@ -67,7 +97,7 @@ public class ProcessConverter implements
       ClusterProcess clusterProcess = (ClusterProcess) process;
       processBuilder.setNodeGroup(clusterProcess.getNodeGroup());
     } else {
-      throw new IllegalStateException(
+      throw new AssertionError(
           "Unsupported CloudiatorProcess type: " + process.getProcessType().getClass()
               .getSimpleName());
     }

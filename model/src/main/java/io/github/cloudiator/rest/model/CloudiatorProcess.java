@@ -111,6 +111,15 @@ public class CloudiatorProcess   {
   @JsonProperty("task")
   private String task = null;
 
+  @JsonProperty("diagnostic")
+  private String diagnostic = null;
+
+  @JsonProperty("reason")
+  private String reason = null;
+
+  @JsonProperty("owner")
+  private String owner = null;
+
   public CloudiatorProcess id(String id) {
     this.id = id;
     return this;
@@ -162,7 +171,8 @@ public class CloudiatorProcess   {
    * Get state
    * @return state
   **/
-  @ApiModelProperty(value = "")
+  @ApiModelProperty(required = true, value = "")
+  @NotNull
 
 
   public StateEnum getState() {
@@ -236,6 +246,66 @@ public class CloudiatorProcess   {
     this.task = task;
   }
 
+  public CloudiatorProcess diagnostic(String diagnostic) {
+    this.diagnostic = diagnostic;
+    return this;
+  }
+
+  /**
+   * Diagnostic information about this process
+   * @return diagnostic
+  **/
+  @ApiModelProperty(value = "Diagnostic information about this process")
+
+
+  public String getDiagnostic() {
+    return diagnostic;
+  }
+
+  public void setDiagnostic(String diagnostic) {
+    this.diagnostic = diagnostic;
+  }
+
+  public CloudiatorProcess reason(String reason) {
+    this.reason = reason;
+    return this;
+  }
+
+  /**
+   * Reason this process was created
+   * @return reason
+  **/
+  @ApiModelProperty(value = "Reason this process was created")
+
+
+  public String getReason() {
+    return reason;
+  }
+
+  public void setReason(String reason) {
+    this.reason = reason;
+  }
+
+  public CloudiatorProcess owner(String owner) {
+    this.owner = owner;
+    return this;
+  }
+
+  /**
+   * The user this process was created for
+   * @return owner
+  **/
+  @ApiModelProperty(value = "The user this process was created for")
+
+
+  public String getOwner() {
+    return owner;
+  }
+
+  public void setOwner(String owner) {
+    this.owner = owner;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -251,12 +321,15 @@ public class CloudiatorProcess   {
         Objects.equals(this.state, cloudiatorProcess.state) &&
         Objects.equals(this.type, cloudiatorProcess.type) &&
         Objects.equals(this.schedule, cloudiatorProcess.schedule) &&
-        Objects.equals(this.task, cloudiatorProcess.task);
+        Objects.equals(this.task, cloudiatorProcess.task) &&
+        Objects.equals(this.diagnostic, cloudiatorProcess.diagnostic) &&
+        Objects.equals(this.reason, cloudiatorProcess.reason) &&
+        Objects.equals(this.owner, cloudiatorProcess.owner);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, processType, state, type, schedule, task);
+    return Objects.hash(id, processType, state, type, schedule, task, diagnostic, reason, owner);
   }
 
   @Override
@@ -270,6 +343,9 @@ public class CloudiatorProcess   {
     sb.append("    type: ").append(toIndentedString(type)).append("\n");
     sb.append("    schedule: ").append(toIndentedString(schedule)).append("\n");
     sb.append("    task: ").append(toIndentedString(task)).append("\n");
+    sb.append("    diagnostic: ").append(toIndentedString(diagnostic)).append("\n");
+    sb.append("    reason: ").append(toIndentedString(reason)).append("\n");
+    sb.append("    owner: ").append(toIndentedString(owner)).append("\n");
     sb.append("}");
     return sb.toString();
   }
