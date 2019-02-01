@@ -60,6 +60,9 @@ public class Schedule   {
   @JsonProperty("id")
   private String id = null;
 
+  @JsonProperty("owner")
+  private String owner = null;
+
   @JsonProperty("processes")
   @Valid
   private List<CloudiatorProcess> processes = null;
@@ -124,6 +127,26 @@ public class Schedule   {
     this.id = id;
   }
 
+  public Schedule owner(String owner) {
+    this.owner = owner;
+    return this;
+  }
+
+  /**
+   * Get owner
+   * @return owner
+  **/
+  @ApiModelProperty(value = "")
+
+
+  public String getOwner() {
+    return owner;
+  }
+
+  public void setOwner(String owner) {
+    this.owner = owner;
+  }
+
   public Schedule processes(List<CloudiatorProcess> processes) {
     this.processes = processes;
     return this;
@@ -166,12 +189,13 @@ public class Schedule   {
     return Objects.equals(this.job, schedule.job) &&
         Objects.equals(this.instantiation, schedule.instantiation) &&
         Objects.equals(this.id, schedule.id) &&
+        Objects.equals(this.owner, schedule.owner) &&
         Objects.equals(this.processes, schedule.processes);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(job, instantiation, id, processes);
+    return Objects.hash(job, instantiation, id, owner, processes);
   }
 
   @Override
@@ -182,6 +206,7 @@ public class Schedule   {
     sb.append("    job: ").append(toIndentedString(job)).append("\n");
     sb.append("    instantiation: ").append(toIndentedString(instantiation)).append("\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
+    sb.append("    owner: ").append(toIndentedString(owner)).append("\n");
     sb.append("    processes: ").append(toIndentedString(processes)).append("\n");
     sb.append("}");
     return sb.toString();

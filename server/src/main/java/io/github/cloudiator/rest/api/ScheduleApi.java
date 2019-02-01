@@ -41,7 +41,7 @@ public interface ScheduleApi {
 
     @ApiOperation(value = "", nickname = "deleteSchedule", notes = "Deletes the schedule identified by the given id and all corresponding processes and nodes. ", response = Queue.class, authorizations = {
         @Authorization(value = "ApiKeyAuth")
-    }, tags={ "job", })
+    }, tags={ "process", })
     @ApiResponses(value = { 
         @ApiResponse(code = 202, message = "ACCEPTED", response = Queue.class) })
     @RequestMapping(value = "/schedule/{id}",
@@ -70,5 +70,16 @@ public interface ScheduleApi {
         produces = { "application/json" }, 
         method = RequestMethod.GET)
     ResponseEntity<List<Schedule>> getSchedules();
+
+
+    @ApiOperation(value = "", nickname = "scheduleGraph", notes = "Returns a json graph representation usable by cyctoscape.js ", response = Object.class, authorizations = {
+        @Authorization(value = "ApiKeyAuth")
+    }, tags={ "process", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "See js.cyctoscape.org ", response = Object.class) })
+    @RequestMapping(value = "/schedule/{id}/graph",
+        produces = { "application/json" }, 
+        method = RequestMethod.GET)
+    ResponseEntity<Object> scheduleGraph(@ApiParam(value = "Unique identifier of the resource",required=true) @PathVariable("id") String id);
 
 }
