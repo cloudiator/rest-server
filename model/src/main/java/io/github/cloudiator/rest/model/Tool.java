@@ -28,7 +28,9 @@ public enum Tool {
   
   DLMS_AGENT("DLMS_AGENT"),
   
-  ALLUXIO_CLIENT("ALLUXIO_CLIENT");
+  ALLUXIO_CLIENT("ALLUXIO_CLIENT"),
+
+  EMS_CLIENT("EMS_CLIENT");
 
   private String value;
 
