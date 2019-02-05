@@ -19,6 +19,8 @@ import org.cloudiator.messages.Process.CreateScheduleRequest;
 import org.cloudiator.messages.Process.DeleteScheduleRequest;
 import org.cloudiator.messages.Process.ScheduleCreatedResponse;
 import org.cloudiator.messages.Process.ScheduleDeleteResponse;
+import org.cloudiator.messages.Process.ScheduleGraphRequest;
+import org.cloudiator.messages.Process.ScheduleGraphResponse;
 import org.cloudiator.messages.Process.ScheduleQueryRequest;
 import org.cloudiator.messages.Process.ScheduleQueryResponse;
 import org.cloudiator.messaging.ResponseException;
@@ -146,7 +148,7 @@ public class ScheduleApiController implements ScheduleApi {
     return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
   }
 
-
+  @Override
   public ResponseEntity<List<Schedule>> getSchedules() {
     String accept = request.getHeader("Accept");
     if (accept != null && accept.contains("application/json")) {
@@ -166,6 +168,34 @@ public class ScheduleApiController implements ScheduleApi {
       }
     }
 
+    return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+  }
+
+  @Override
+  public ResponseEntity<Object> scheduleGraph(
+      @ApiParam(value = "Unique identifier of the resource", required = true) @PathVariable("id") String id) {
+    String accept = request.getHeader("Accept");
+
+    if (accept != null && accept.contains("application/json")) {
+
+      final String tenant = UserInfo.of(request).tenant();
+
+      if (Strings.isNullOrEmpty(id)) {
+        throw new ApiException(400, "id is null or empty");
+      }
+
+      try {
+
+        final ScheduleGraphResponse graph = processService
+            .graph(ScheduleGraphRequest.newBuilder().setUserId(tenant).setScheduleId(id).build());
+
+        return new ResponseEntity<>(graph.getJson(), HttpStatus.OK);
+
+      } catch (ResponseException e) {
+        throw new ApiException(e.code(), e.getMessage());
+      }
+
+    }
     return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
   }
 

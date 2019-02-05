@@ -18,7 +18,7 @@ public class JobConverter implements TwoWayConverter<Job, JobEntities.Job> {
   @Override
   public Job applyBack(JobEntities.Job job) {
     Job result = new Job()
-        .name(job.getName()).id(job.getId());
+        .name(job.getName()).id(job.getId()).owner(job.getUserId());
     if (!job.getTasksList().isEmpty()) {
       for (TaskEntities.Task task : job.getTasksList()) {
         result.addTasksItem(taskConverter.applyBack(task));
@@ -41,7 +41,7 @@ public class JobConverter implements TwoWayConverter<Job, JobEntities.Job> {
   @Override
   public JobEntities.Job apply(Job job) {
     JobEntities.Job.Builder result = JobEntities.Job.newBuilder()
-        .setName(job.getName()).setId(job.getId());
+        .setName(job.getName()).setId(job.getId()).setUserId(job.getOwner());
     if (job.getTasks() != null) {
       for (Task task : job.getTasks()) {
         result.addTasks(taskConverter.apply(task));

@@ -184,6 +184,7 @@ public class JobConverterTest {
     final UUID uuid = UUID.randomUUID();
     this.restJob = new Job()
         .id(uuid.toString())
+        .owner("admin")
         .name("TestJob")
         .addCommunicationsItem(new Communication()
             .portProvided("ProvidedPort").portRequired("RequiredPort"))
@@ -192,6 +193,7 @@ public class JobConverterTest {
         .addTasksItem(restTask);
     this.iaasJob = JobEntities.Job.newBuilder()
         .setId(uuid.toString())
+        .setUserId("admin")
         .setName("TestJob")
         .addCommunications(JobEntities.Communication.newBuilder()
             .setPortProvided("ProvidedPort").setPortRequired("RequiredPort"))
