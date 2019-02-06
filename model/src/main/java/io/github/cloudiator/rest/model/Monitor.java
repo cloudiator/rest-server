@@ -4,7 +4,6 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.github.cloudiator.rest.model.DataSink;
-import io.github.cloudiator.rest.model.MonitoringTag;
 import io.github.cloudiator.rest.model.MonitoringTarget;
 import io.github.cloudiator.rest.model.Sensor;
 import io.swagger.annotations.ApiModel;
@@ -36,8 +35,7 @@ public class Monitor   {
   private List<DataSink> sinks = null;
 
   @JsonProperty("tags")
-  @Valid
-  private List<MonitoringTag> tags = null;
+  private java.util.Map tags = null;
 
   public Monitor metric(String metric) {
     this.metric = metric;
@@ -139,32 +137,24 @@ public class Monitor   {
     this.sinks = sinks;
   }
 
-  public Monitor tags(List<MonitoringTag> tags) {
+  public Monitor tags(java.util.Map tags) {
     this.tags = tags;
     return this;
   }
 
-  public Monitor addTagsItem(MonitoringTag tagsItem) {
-    if (this.tags == null) {
-      this.tags = new ArrayList<MonitoringTag>();
-    }
-    this.tags.add(tagsItem);
-    return this;
-  }
-
   /**
-   * Get tags
+   * MonitoringTags as key-value map
    * @return tags
   **/
-  @ApiModelProperty(value = "")
+  @ApiModelProperty(value = "MonitoringTags as key-value map")
 
   @Valid
 
-  public List<MonitoringTag> getTags() {
+  public java.util.Map getTags() {
     return tags;
   }
 
-  public void setTags(List<MonitoringTag> tags) {
+  public void setTags(java.util.Map tags) {
     this.tags = tags;
   }
 
