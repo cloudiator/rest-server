@@ -10,6 +10,9 @@ import io.github.cloudiator.rest.model.MonitoringTarget;
 import io.github.cloudiator.rest.model.PushSensor;
 import io.github.cloudiator.rest.model.Sensor;
 import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 import org.cloudiator.messages.entities.MonitorEntities;
 import org.cloudiator.messages.entities.MonitorEntities.SinkType;
 import org.cloudiator.messages.entities.MonitorEntities.TargetType;
@@ -29,10 +32,8 @@ public class MonitorConverterTest {
   private final MonitorEntities.Sink kafkaSink1;
   private final MonitorEntities.Sink kafkaSink2;
   //Tags
-  private final MonitoringTag restTag1;
-  private final MonitoringTag restTag2;
-  private final MonitorEntities.MonitoringTag kafkaTag1;
-  private final MonitorEntities.MonitoringTag kafkaTag2;
+  private final Map<String, String> restTagMap;
+  private final Map<String, String> kafkaTagMap;
   //Targets
   private final MonitoringTarget restTarget1;
   private final MonitoringTarget restTarget2;
@@ -64,12 +65,12 @@ public class MonitorConverterTest {
         .putAllConfiguration(Collections.singletonMap("DataSink2Key", "DataSink2Value"))
         .build();
     //Tags
-    this.restTag1 = new MonitoringTag().key("Tag1Key").value("Tag1Value");
-    this.restTag2 = new MonitoringTag().key("Tag2Key").value("Tag2Value");
-    this.kafkaTag1 = MonitorEntities.MonitoringTag.newBuilder()
-        .setKey("Tag1Key").setValue("Tag1Value").build();
-    this.kafkaTag2 = MonitorEntities.MonitoringTag.newBuilder()
-        .setKey("Tag2Key").setValue("Tag2Value").build();
+    this.restTagMap = new HashMap<>();
+    this.kafkaTagMap = new HashMap<>();
+    restTagMap.put("Tag1Key", "Tag1Value");
+    kafkaTagMap.put("Tag1Key", "Tag1Value");
+    restTagMap.put("Tag2Key", "Tag2Value");
+    kafkaTagMap.put("Tag2Key", "Tag2Value");
 
     //Targets
     this.restTarget1 = new MonitoringTarget()
@@ -90,14 +91,14 @@ public class MonitorConverterTest {
         .metric("TestMetric")
         .sensor(restPushSensor)
         .addSinksItem(restSink1).addSinksItem(restSink2)
-        .addTagsItem(restTag1).addTagsItem(restTag2)
-        .addTargetsItem(restTarget1).addTargetsItem(restTarget2);
+        .addTargetsItem(restTarget1).addTargetsItem(restTarget2)
+        .tags(restTagMap);
     this.kafkaMonitor = MonitorEntities.Monitor.newBuilder()
         .setMetric("TestMetric")
         .setSensor(kafkaPushSensor)
         .addDatasink(kafkaSink1).addDatasink(kafkaSink2)
-        .addTags(kafkaTag1).addTags(kafkaTag2)
-        .addTarget(kafkaTarget1).addTarget(kafkaTarget2).build();
+        .addTarget(kafkaTarget1).addTarget(kafkaTarget2)
+        .putAllTags(kafkaTagMap).build();
 
   }
 

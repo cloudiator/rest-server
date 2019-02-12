@@ -5,6 +5,8 @@ import io.github.cloudiator.rest.model.DataSink;
 import io.github.cloudiator.rest.model.Monitor;
 import io.github.cloudiator.rest.model.MonitoringTag;
 import io.github.cloudiator.rest.model.MonitoringTarget;
+import java.util.HashMap;
+import java.util.Map;
 import org.cloudiator.messages.entities.MonitorEntities;
 
 /**
@@ -36,11 +38,11 @@ public class MonitorConverter implements TwoWayConverter<Monitor, MonitorEntitie
       restmonitor.addSinksItem(sinkConverter.applyBack(sink));
     }
     //Tags
-    if (!kafkamonitor.getTagsList().isEmpty()) {
-      for (MonitorEntities.MonitoringTag tag : kafkamonitor.getTagsList()) {
-        restmonitor.addTagsItem(monitorTagConverter.applyBack(tag));
-      }
+    Map<String, String> tags = new HashMap<>();
+    if (!kafkamonitor.getTagsMap().isEmpty()) {
+      tags.putAll(kafkamonitor.getTagsMap());
     }
+    restmonitor.setTags(tags);
 
     return restmonitor;
   }
@@ -70,9 +72,7 @@ public class MonitorConverter implements TwoWayConverter<Monitor, MonitorEntitie
     }
     //Tags
     if (!restmonitor.getTags().isEmpty()) {
-      for (MonitoringTag tag : restmonitor.getTags()) {
-        builder.addTags(monitorTagConverter.apply(tag));
-      }
+      builder.putAllTags(restmonitor.getTags());
     } else {
       builder.clearTags();
     }
