@@ -29,6 +29,8 @@ public class ToolConverter implements TwoWayConverter<Tool, InstallationEntities
         return Tool.DLMS_AGENT;
       case ALLUXIO_CLIENT:
         return Tool.ALLUXIO_CLIENT;
+      case EMS_CLIENT:
+        return Tool.EMS_CLIENT;
       case UNRECOGNIZED:
       default:
         throw new AssertionError("Unrecognized toolType " + tool);
@@ -57,6 +59,8 @@ public class ToolConverter implements TwoWayConverter<Tool, InstallationEntities
         return InstallationEntities.Tool.ALLUXIO_CLIENT;
       case DLMS_AGENT:
         return InstallationEntities.Tool.DLMS_AGENT;
+      case EMS_CLIENT:
+        return InstallationEntities.Tool.EMS_CLIENT;
       default:
         throw new AssertionError("Unrecognized toolType " + tool);
     }
