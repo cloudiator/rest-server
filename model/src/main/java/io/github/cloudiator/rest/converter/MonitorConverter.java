@@ -3,7 +3,6 @@ package io.github.cloudiator.rest.converter;
 import de.uniulm.omi.cloudiator.util.TwoWayConverter;
 import io.github.cloudiator.rest.model.DataSink;
 import io.github.cloudiator.rest.model.Monitor;
-import io.github.cloudiator.rest.model.MonitoringTag;
 import io.github.cloudiator.rest.model.MonitoringTarget;
 import java.util.HashMap;
 import java.util.Map;
@@ -16,7 +15,6 @@ public class MonitorConverter implements TwoWayConverter<Monitor, MonitorEntitie
 
   private final MonitorTargetConverter monitorTargetConverter = new MonitorTargetConverter();
   private final SensorConverter sensorConverter = new SensorConverter();
-  private final MonitorTagConverter monitorTagConverter = new MonitorTagConverter();
   private final DataSinkConverter sinkConverter = new DataSinkConverter();
 
   @Override
