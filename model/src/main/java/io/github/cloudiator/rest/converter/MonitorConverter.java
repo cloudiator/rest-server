@@ -69,7 +69,7 @@ public class MonitorConverter implements TwoWayConverter<Monitor, MonitorEntitie
       builder.clearDatasink();
     }
     //Tags
-    if (!restmonitor.getTags().isEmpty()) {
+    if (restmonitor.getTags() != null) {
       builder.putAllTags(restmonitor.getTags());
     } else {
       builder.clearTags();
