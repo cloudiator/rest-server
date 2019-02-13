@@ -37,10 +37,10 @@ public class MonitorConverter implements TwoWayConverter<Monitor, MonitorEntitie
     }
     //Tags
     Map<String, String> tags = new HashMap<>();
-    if (!kafkamonitor.getTagsMap().isEmpty()) {
-      tags.putAll(kafkamonitor.getTagsMap());
-    }
     restmonitor.setTags(tags);
+    if (!kafkamonitor.getTagsMap().isEmpty()) {
+      restmonitor.setTags(kafkamonitor.getTagsMap());
+    }
 
     return restmonitor;
   }
@@ -70,9 +70,10 @@ public class MonitorConverter implements TwoWayConverter<Monitor, MonitorEntitie
     }
     //Tags
     if (restmonitor.getTags() != null) {
-      builder.putAllTags(restmonitor.getTags());
-    } else {
       builder.clearTags();
+    }
+    if (!restmonitor.getTags().isEmpty()) {
+      builder.putAllTags(restmonitor.getTags());
     }
 
     return builder.build();
