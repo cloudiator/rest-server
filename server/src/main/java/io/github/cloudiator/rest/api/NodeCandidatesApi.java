@@ -38,4 +38,16 @@ public interface NodeCandidatesApi {
         method = RequestMethod.POST)
     ResponseEntity<List<NodeCandidate>> findNodeCandidates(@ApiParam(value = "Node Request "  )  @Valid @RequestBody List<Requirement> nodeRequirements);
 
+
+    @ApiOperation(value = "", nickname = "getNodeCanidate", notes = "Returns the node candidate with the given id if it exists. ", response = NodeCandidate.class, authorizations = {
+        @Authorization(value = "ApiKeyAuth")
+    }, tags={ "matchmaking", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "The node candidate identified with the id ", response = NodeCandidate.class) })
+    @RequestMapping(value = "/nodeCandidates/{id}",
+        produces = { "application/json" }, 
+        consumes = { "application/json" },
+        method = RequestMethod.GET)
+    ResponseEntity<NodeCandidate> getNodeCandidate(@ApiParam(value = "Unique identifier of the resource",required=true) @PathVariable("id") String id);
+
 }

@@ -5,8 +5,7 @@
  */
 package io.github.cloudiator.rest.api;
 
-import io.github.cloudiator.rest.model.NodeRequirements;
-import io.github.cloudiator.rest.model.Queue;
+import io.github.cloudiator.rest.model.Solution;
 import io.swagger.annotations.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -23,18 +22,18 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 import java.util.List;
 
-@Api(value = "matchmaking", description = "the matchmaking API")
-public interface MatchmakingApi {
+@Api(value = "solution", description = "the solution API")
+public interface SolutionApi {
 
-    @ApiOperation(value = "", nickname = "solveMatchmaking", notes = "Solves a matchmaking problem", response = Queue.class, authorizations = {
+    @ApiOperation(value = "", nickname = "getSolution", notes = "Returns a solution of the matchmaking process (if it is still available) ", response = Solution.class, authorizations = {
         @Authorization(value = "ApiKeyAuth")
     }, tags={ "matchmaking", })
     @ApiResponses(value = { 
-        @ApiResponse(code = 202, message = "ACCEPTED", response = Queue.class) })
-    @RequestMapping(value = "/matchmaking",
+        @ApiResponse(code = 200, message = "The solution identified with the id ", response = Solution.class) })
+    @RequestMapping(value = "/solution/{id}",
         produces = { "application/json" }, 
         consumes = { "application/json" },
-        method = RequestMethod.PUT)
-    ResponseEntity<Queue> solveMatchmaking(@ApiParam(value = "The requirements with respect to nodes" ,required=true )  @Valid @RequestBody NodeRequirements nodeRequirements);
+        method = RequestMethod.GET)
+    ResponseEntity<Solution> getSolution(@ApiParam(value = "Unique identifier of the resource",required=true) @PathVariable("id") String id);
 
 }

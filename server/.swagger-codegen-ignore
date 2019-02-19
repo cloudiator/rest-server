@@ -65,6 +65,8 @@ src/main/java/io/github/cloudiator/rest/api/SecureStoreApiController.java
 src/main/java/io/github/cloudiator/rest/api/YamlApiController.java
 src/main/java/io/github/cloudiator/rest/api/ProcessGroupApiController.java
 
+src/main/java/io/github/cloudiator/rest/api/SolutionApiController.java
+
 
 # Ignore Exceptionhandling
 src/main/java/io/github/cloudiator/rest/api/ApiException.java

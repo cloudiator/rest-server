@@ -19,6 +19,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 
 @Controller
@@ -64,6 +65,44 @@ public class NodeCandidatesApiController implements NodeCandidatesApi {
         return new ResponseEntity<>(
             candidatesList.stream().map(NODE_CANDIDATE_CONVERTER::applyBack)
                 .collect(Collectors.toList()), HttpStatus.OK);
+      } catch (ResponseException e) {
+        return new ResponseEntity<>(HttpStatus.valueOf(e.code()));
+      } catch (Exception e) {
+        log.error("Couldn't serialize response for content type application/json", e);
+        return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+      }
+    }
+    return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
+  }
+
+  @Override
+  public ResponseEntity<NodeCandidate> getNodeCandidate(
+      @ApiParam(value = "Unique identifier of the resource", required = true) @PathVariable("id") String id) {
+    String accept = request.getHeader("Accept");
+    if (accept != null && accept.contains("application/json")) {
+      try {
+
+        if (id == null) {
+          return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+
+        final NodeCandidateRequestMessage.Builder builder =
+            NodeCandidateRequestMessage.newBuilder()
+                .setUserId(UserInfo.of(request).tenant()).setId(id);
+
+        final List<MatchmakingEntities.NodeCandidate> candidatesList =
+            matchmakingService.requestNodes(builder.build()).getCandidatesList();
+
+        if (candidatesList.size() == 0) {
+          throw new ApiException(404, String.format("Could not find candidate with id %s.", id));
+        }
+
+        if (candidatesList.size() > 1) {
+          throw new ApiException(500, String.format("Found multiple candidates with id %s.", id));
+        }
+
+        return new ResponseEntity<>(NODE_CANDIDATE_CONVERTER.applyBack(candidatesList.get(0)),
+            HttpStatus.OK);
       } catch (ResponseException e) {
         return new ResponseEntity<>(HttpStatus.valueOf(e.code()));
       } catch (Exception e) {
