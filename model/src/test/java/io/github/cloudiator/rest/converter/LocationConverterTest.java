@@ -5,6 +5,7 @@ import static org.junit.Assert.assertThat;
 import io.github.cloudiator.rest.model.Location;
 import org.cloudiator.messages.entities.CommonEntities;
 import org.cloudiator.messages.entities.IaasEntities;
+import org.cloudiator.messages.entities.IaasEntities.DiscoveryItemState;
 import org.hamcrest.Matchers;
 import org.junit.Test;
 
@@ -23,12 +24,15 @@ public class LocationConverterTest {
         .setLocationScope(CommonEntities.LocationScope.PROVIDER)
         .setProviderId("TestProvider")
         .setIsAssignable(true)
-        .clearParent().build();
+        .clearParent()
+        .setState(DiscoveryItemState.DISCOVERY_NEW)
+        .build();
     this.restParentLocation = new Location()
         .id("32chars-long_testID_for_UnitTest")
         .name("TestName")
         .locationScope(Location.LocationScopeEnum.PROVIDER)
         .providerId("TestProvider")
+        .state(io.github.cloudiator.rest.model.DiscoveryItemState.NEW)
         .isAssignable(true);
     this.iaasLocation = IaasEntities.Location.newBuilder()
         .setId("32chars-long_testID_for_UnitTest")
@@ -36,6 +40,7 @@ public class LocationConverterTest {
         .setLocationScope(CommonEntities.LocationScope.PROVIDER)
         .setProviderId("TestProvider")
         .setIsAssignable(true)
+        .setState(DiscoveryItemState.DISCOVERY_NEW)
         .setParent(iaasParentLocation).build();
     this.restLocation = new Location()
         .id("32chars-long_testID_for_UnitTest")
@@ -43,7 +48,8 @@ public class LocationConverterTest {
         .locationScope(Location.LocationScopeEnum.PROVIDER)
         .providerId("TestProvider")
         .parent(restParentLocation)
-        .isAssignable(true);
+        .isAssignable(true)
+        .state(io.github.cloudiator.rest.model.DiscoveryItemState.NEW);
   }
 
   @Test

@@ -4,6 +4,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import io.github.cloudiator.rest.model.DiscoveryItemState;
 import io.github.cloudiator.rest.model.GeoLocation;
 import io.github.cloudiator.rest.model.Location;
 import io.swagger.annotations.ApiModel;
@@ -74,6 +75,9 @@ public class Location   {
 
   @JsonProperty("parent")
   private Location parent = null;
+
+  @JsonProperty("state")
+  private DiscoveryItemState state = null;
 
   public Location id(String id) {
     this.id = id;
@@ -222,6 +226,27 @@ public class Location   {
     this.parent = parent;
   }
 
+  public Location state(DiscoveryItemState state) {
+    this.state = state;
+    return this;
+  }
+
+  /**
+   * Get state
+   * @return state
+  **/
+  @ApiModelProperty(value = "")
+
+  @Valid
+
+  public DiscoveryItemState getState() {
+    return state;
+  }
+
+  public void setState(DiscoveryItemState state) {
+    this.state = state;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -238,12 +263,13 @@ public class Location   {
         Objects.equals(this.locationScope, location.locationScope) &&
         Objects.equals(this.isAssignable, location.isAssignable) &&
         Objects.equals(this.geoLocation, location.geoLocation) &&
-        Objects.equals(this.parent, location.parent);
+        Objects.equals(this.parent, location.parent) &&
+        Objects.equals(this.state, location.state);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, name, providerId, locationScope, isAssignable, geoLocation, parent);
+    return Objects.hash(id, name, providerId, locationScope, isAssignable, geoLocation, parent, state);
   }
 
   @Override
@@ -258,6 +284,7 @@ public class Location   {
     sb.append("    isAssignable: ").append(toIndentedString(isAssignable)).append("\n");
     sb.append("    geoLocation: ").append(toIndentedString(geoLocation)).append("\n");
     sb.append("    parent: ").append(toIndentedString(parent)).append("\n");
+    sb.append("    state: ").append(toIndentedString(state)).append("\n");
     sb.append("}");
     return sb.toString();
   }

@@ -2,6 +2,7 @@ package io.github.cloudiator.rest.converter;
 
 import static org.junit.Assert.assertThat;
 
+import io.github.cloudiator.rest.model.DiscoveryItemState;
 import io.github.cloudiator.rest.model.Hardware;
 import io.github.cloudiator.rest.model.Image;
 import io.github.cloudiator.rest.model.IpAddress;
@@ -65,14 +66,16 @@ public class VirtualMachineConverterTest {
         .name("HardwareLocationName")
         .locationScope(Location.LocationScopeEnum.PROVIDER)
         .providerId("HardwareLocationProviderId")
-        .isAssignable(true);
+        .isAssignable(true)
+        .state(DiscoveryItemState.NEW);
     this.iaasHardwareLocation = IaasEntities.Location.newBuilder()
         .setId("32chars-long_testID_for_Location")
         .setName("HardwareLocationName")
         .setLocationScope(CommonEntities.LocationScope.PROVIDER)
         .setProviderId("HardwareLocationProviderId")
         .setIsAssignable(true)
-        .clearParent().build();
+        .clearParent()
+        .setState(IaasEntities.DiscoveryItemState.DISCOVERY_NEW).build();
     this.restHardware = new Hardware()
         .name("HardwareName")
         .id("32chars-long_testID_for_Hardware")
@@ -80,7 +83,8 @@ public class VirtualMachineConverterTest {
         .disk(100d)
         .ram(2048L)
         .providerId("HardwareProvider")
-        .location(restHardwareLocation);
+        .location(restHardwareLocation)
+        .state(DiscoveryItemState.NEW);
     this.iaasHardware = IaasEntities.HardwareFlavor.newBuilder()
         .setId("32chars-long_testID_for_Hardware")
         .setName("HardwareName")
@@ -88,20 +92,23 @@ public class VirtualMachineConverterTest {
         .setDisk(100d)
         .setRam(2048)
         .setProviderId("HardwareProvider")
-        .setLocation(iaasHardwareLocation).build();
+        .setLocation(iaasHardwareLocation)
+        .setState(IaasEntities.DiscoveryItemState.DISCOVERY_NEW).build();
 
     this.restImageLocation = new Location()
         .id("32char-long_ID_for_ImageLocation")
         .name("ImageLocationName")
         .locationScope(Location.LocationScopeEnum.PROVIDER)
         .providerId("ImageLocationProviderId")
-        .isAssignable(true);
+        .isAssignable(true)
+        .state(DiscoveryItemState.NEW);
     this.iaasImageLocation = IaasEntities.Location.newBuilder()
         .setId("32char-long_ID_for_ImageLocation")
         .setName("ImageLocationName")
         .setLocationScope(CommonEntities.LocationScope.PROVIDER)
         .setProviderId("ImageLocationProviderId")
         .setIsAssignable(true)
+        .setState(IaasEntities.DiscoveryItemState.DISCOVERY_NEW)
         .clearParent().build();
     this.restOperatingSystem = new OperatingSystem()
         .operatingSystemArchitecture(OperatingSystemArchitecture.AMD64)
@@ -116,19 +123,23 @@ public class VirtualMachineConverterTest {
         .name("ImageName")
         .providerId("ImageProviderId")
         .location(restImageLocation)
-        .operatingSystem(restOperatingSystem);
+        .operatingSystem(restOperatingSystem)
+        .state(DiscoveryItemState.NEW);
     this.iaasImage = IaasEntities.Image.newBuilder()
         .setId("32chars-long_testID_forImageTest")
         .setName("ImageName")
         .setProviderId("ImageProviderId")
         .setLocation(iaasImageLocation)
-        .setOperationSystem(iaasOperatingSystem).build();
+        .setOperationSystem(iaasOperatingSystem)
+        .setState(IaasEntities.DiscoveryItemState.DISCOVERY_NEW)
+        .build();
 
     this.restLocation = new Location()
         .id("32char-long_lvl1Test_Location_ID")
         .name("LocationName")
         .locationScope(Location.LocationScopeEnum.PROVIDER)
         .providerId("LocationProviderId")
+        .state(DiscoveryItemState.NEW)
         .isAssignable(true);
     this.iaasLocation = IaasEntities.Location.newBuilder()
         .setId("32char-long_lvl1Test_Location_ID")
@@ -136,6 +147,7 @@ public class VirtualMachineConverterTest {
         .setLocationScope(CommonEntities.LocationScope.PROVIDER)
         .setProviderId("LocationProviderId")
         .setIsAssignable(true)
+        .setState(IaasEntities.DiscoveryItemState.DISCOVERY_NEW)
         .clearParent().build();
 
     this.restVirtualMachine = new VirtualMachine()

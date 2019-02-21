@@ -11,6 +11,7 @@ import org.cloudiator.messages.entities.IaasEntities.HardwareFlavor;
 public class HardwareConverter implements TwoWayConverter<Hardware, HardwareFlavor> {
 
   private final LocationConverter locationConverter = new LocationConverter();
+  private static final DiscoveryItemStateConverter DISCOVERY_ITEM_STATE_CONVERTER = DiscoveryItemStateConverter.INSTANCE;
 
 
   @Override
@@ -22,8 +23,9 @@ public class HardwareConverter implements TwoWayConverter<Hardware, HardwareFlav
     result.setDisk(hardwareFlavor.getDisk());
     result.setProviderId(hardwareFlavor.getProviderId());
     result.setRam(hardwareFlavor.getRam());
+    result.setState(DISCOVERY_ITEM_STATE_CONVERTER.apply(hardwareFlavor.getState()));
 
-    if(hardwareFlavor.hasLocation()) {
+    if (hardwareFlavor.hasLocation()) {
       result.setLocation(locationConverter.applyBack(hardwareFlavor.getLocation()));
     }
 
@@ -38,6 +40,7 @@ public class HardwareConverter implements TwoWayConverter<Hardware, HardwareFlav
     builder.setCores(hardware.getCores());
     builder.setProviderId(hardware.getProviderId());
     builder.setRam(hardware.getRam());
+    builder.setState(DISCOVERY_ITEM_STATE_CONVERTER.applyBack(hardware.getState()));
     if (hardware.getDisk() != null) {
       builder.setDisk(hardware.getDisk());
     } else {

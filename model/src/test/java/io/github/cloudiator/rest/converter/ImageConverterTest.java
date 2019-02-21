@@ -10,6 +10,7 @@ import io.github.cloudiator.rest.model.OperatingSystemFamily;
 import java.math.BigDecimal;
 import org.cloudiator.messages.entities.CommonEntities;
 import org.cloudiator.messages.entities.IaasEntities;
+import org.cloudiator.messages.entities.IaasEntities.DiscoveryItemState;
 import org.hamcrest.Matchers;
 import org.junit.Test;
 
@@ -42,14 +43,17 @@ public class ImageConverterTest {
         .setName("TestName")
         .setProviderId("TestProvider")
         .setLocationScope(CommonEntities.LocationScope.PROVIDER)
-        .setIsAssignable(true).clearParent().build();
+        .setIsAssignable(true).clearParent()
+        .setState(DiscoveryItemState.DISCOVERY_NEW).build();
 
     this.restLocation = new Location()
         .id("32chars-long_testID_for_UnitTest")
         .name("TestName")
         .providerId("TestProvider")
         .locationScope(Location.LocationScopeEnum.PROVIDER)
-        .isAssignable(true);
+        .isAssignable(true)
+        .state(io.github.cloudiator.rest.model.DiscoveryItemState.NEW)
+    ;
     //Image
     this.iaasImage = IaasEntities.Image.newBuilder()
         .setId("32chars-long_testID_for_UnitTest")
@@ -57,13 +61,15 @@ public class ImageConverterTest {
         .setOperationSystem(iaasOperatingSystem)
         .setProviderId("TestProvider")
         .setLocation(iaasLocation)
+        .setState(DiscoveryItemState.DISCOVERY_NEW)
         .build();
     this.restImage = new Image()
         .id("32chars-long_testID_for_UnitTest")
         .name("TestName")
         .operatingSystem(restOperatingSystem)
         .providerId("TestProvider")
-        .location(restLocation);
+        .location(restLocation)
+        .state(io.github.cloudiator.rest.model.DiscoveryItemState.NEW);
   }
 
 

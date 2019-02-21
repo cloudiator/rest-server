@@ -3,6 +3,7 @@ package io.github.cloudiator.rest.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import io.github.cloudiator.rest.model.DiscoveryItemState;
 import io.github.cloudiator.rest.model.Location;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -37,6 +38,9 @@ public class Hardware   {
 
   @JsonProperty("location")
   private Location location = null;
+
+  @JsonProperty("state")
+  private DiscoveryItemState state = null;
 
   public Hardware id(String id) {
     this.id = id;
@@ -184,6 +188,28 @@ public class Hardware   {
     this.location = location;
   }
 
+  public Hardware state(DiscoveryItemState state) {
+    this.state = state;
+    return this;
+  }
+
+  /**
+   * Get state
+   * @return state
+  **/
+  @ApiModelProperty(required = true, value = "")
+  @NotNull
+
+  @Valid
+
+  public DiscoveryItemState getState() {
+    return state;
+  }
+
+  public void setState(DiscoveryItemState state) {
+    this.state = state;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -200,12 +226,13 @@ public class Hardware   {
         Objects.equals(this.cores, hardware.cores) &&
         Objects.equals(this.ram, hardware.ram) &&
         Objects.equals(this.disk, hardware.disk) &&
-        Objects.equals(this.location, hardware.location);
+        Objects.equals(this.location, hardware.location) &&
+        Objects.equals(this.state, hardware.state);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, name, providerId, cores, ram, disk, location);
+    return Objects.hash(id, name, providerId, cores, ram, disk, location, state);
   }
 
   @Override
@@ -220,6 +247,7 @@ public class Hardware   {
     sb.append("    ram: ").append(toIndentedString(ram)).append("\n");
     sb.append("    disk: ").append(toIndentedString(disk)).append("\n");
     sb.append("    location: ").append(toIndentedString(location)).append("\n");
+    sb.append("    state: ").append(toIndentedString(state)).append("\n");
     sb.append("}");
     return sb.toString();
   }

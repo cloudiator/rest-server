@@ -39,7 +39,7 @@ public interface NodeCandidatesApi {
     ResponseEntity<List<NodeCandidate>> findNodeCandidates(@ApiParam(value = "Node Request "  )  @Valid @RequestBody List<Requirement> nodeRequirements);
 
 
-    @ApiOperation(value = "", nickname = "getNodeCanidate", notes = "Returns the node candidate with the given id if it exists. ", response = NodeCandidate.class, authorizations = {
+    @ApiOperation(value = "", nickname = "getNodeCandidate", notes = "Returns the node candidate with the given id if it exists. ", response = NodeCandidate.class, authorizations = {
         @Authorization(value = "ApiKeyAuth")
     }, tags={ "matchmaking", })
     @ApiResponses(value = { 

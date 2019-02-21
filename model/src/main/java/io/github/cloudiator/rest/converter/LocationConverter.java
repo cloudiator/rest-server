@@ -12,6 +12,7 @@ public class LocationConverter implements TwoWayConverter<Location, IaasEntities
 
   private static final LocationScopeConverter LOCATION_SCOPE_CONVERTER = new LocationScopeConverter();
   private static final GeoLocationConverter GEO_LOCATION_CONVERTER = new GeoLocationConverter();
+  private static final DiscoveryItemStateConverter DISCOVERY_ITEM_STATE_CONVERTER = DiscoveryItemStateConverter.INSTANCE;
 
   @Override
   public Location applyBack(IaasEntities.Location location) {
@@ -24,6 +25,7 @@ public class LocationConverter implements TwoWayConverter<Location, IaasEntities
     result.setProviderId(location.getProviderId());
     result.setLocationScope(LOCATION_SCOPE_CONVERTER.applyBack(location.getLocationScope()));
     result.setIsAssignable(location.getIsAssignable());
+    result.state(DISCOVERY_ITEM_STATE_CONVERTER.apply(location.getState()));
     if (location.hasParent()) {
       result.setParent(applyBack(location.getParent()));
     }
@@ -42,6 +44,7 @@ public class LocationConverter implements TwoWayConverter<Location, IaasEntities
     builder.setProviderId(location.getProviderId());
     builder.setLocationScope(LOCATION_SCOPE_CONVERTER.apply(location.getLocationScope()));
     builder.setIsAssignable(location.isIsAssignable());
+    builder.setState(DISCOVERY_ITEM_STATE_CONVERTER.applyBack(location.getState()));
 
     if (location.getParent() != null) {
       builder.setParent(apply(location.getParent()));

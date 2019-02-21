@@ -11,6 +11,7 @@ public class ImageConverter implements TwoWayConverter<Image, IaasEntities.Image
 
   private final OperatingSystemConverter operatingSystemConverter = new OperatingSystemConverter();
   private final LocationConverter locationConverter = new LocationConverter();
+  private static final DiscoveryItemStateConverter DISCOVERY_ITEM_STATE_CONVERTER = DiscoveryItemStateConverter.INSTANCE;
 
 
   @Override
@@ -21,6 +22,7 @@ public class ImageConverter implements TwoWayConverter<Image, IaasEntities.Image
     result.setName(image.getName());
     result.setProviderId(image.getProviderId());
     result.setOperatingSystem(operatingSystemConverter.applyBack(image.getOperationSystem()));
+    result.setState(DISCOVERY_ITEM_STATE_CONVERTER.apply(image.getState()));
 
     if (image.hasLocation()) {
       result.setLocation(locationConverter.applyBack(image.getLocation()));
@@ -32,6 +34,7 @@ public class ImageConverter implements TwoWayConverter<Image, IaasEntities.Image
   @Override
   public IaasEntities.Image apply(Image image) {
     IaasEntities.Image.Builder builder = IaasEntities.Image.newBuilder();
+    builder.setState(DISCOVERY_ITEM_STATE_CONVERTER.applyBack(image.getState()));
 
     if ((image.getId() != null) || (!image.getId().isEmpty())) {
       builder.setId(image.getId());
