@@ -24,6 +24,7 @@ public class HardwareConverter implements TwoWayConverter<Hardware, HardwareFlav
     result.setProviderId(hardwareFlavor.getProviderId());
     result.setRam(hardwareFlavor.getRam());
     result.setState(DISCOVERY_ITEM_STATE_CONVERTER.apply(hardwareFlavor.getState()));
+    result.owner(hardwareFlavor.getUserId());
 
     if (hardwareFlavor.hasLocation()) {
       result.setLocation(locationConverter.applyBack(hardwareFlavor.getLocation()));
@@ -41,6 +42,7 @@ public class HardwareConverter implements TwoWayConverter<Hardware, HardwareFlav
     builder.setProviderId(hardware.getProviderId());
     builder.setRam(hardware.getRam());
     builder.setState(DISCOVERY_ITEM_STATE_CONVERTER.applyBack(hardware.getState()));
+    builder.setUserId(hardware.getOwner());
     if (hardware.getDisk() != null) {
       builder.setDisk(hardware.getDisk());
     } else {

@@ -1,9 +1,9 @@
 package io.github.cloudiator.rest.converter;
 
 import de.uniulm.omi.cloudiator.util.TwoWayConverter;
+import io.github.cloudiator.rest.model.IpAddress;
 import io.github.cloudiator.rest.model.VirtualMachine;
 import org.cloudiator.messages.entities.IaasEntities;
-import io.github.cloudiator.rest.model.IpAddress;
 
 /**
  * Created by volker on 29.05.17.
@@ -23,6 +23,7 @@ public class VirtualMachineConverter implements
     vm.setImage(imageConverter.applyBack(virtualMachine.getImage()));
     vm.setLocation(locationConverter.applyBack(virtualMachine.getLocation()));
     vm.setId(virtualMachine.getId());
+    vm.setOwner(virtualMachine.getUserId());
     for (IaasEntities.IpAddress ipAddress : virtualMachine.getIpAddressesList()) {
       vm.addIpaddressesItem(ipAddressConverter.applyBack(ipAddress));
     }
@@ -33,6 +34,8 @@ public class VirtualMachineConverter implements
   @Override
   public IaasEntities.VirtualMachine apply(VirtualMachine virtualMachine) {
     IaasEntities.VirtualMachine.Builder builder = IaasEntities.VirtualMachine.newBuilder();
+    builder.setUserId(virtualMachine.getOwner());
+
     if (virtualMachine.getHardware() != null) {
       builder.setHardware(hardwareConverter.apply(virtualMachine.getHardware()));
     } else {

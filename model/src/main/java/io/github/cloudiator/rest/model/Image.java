@@ -37,6 +37,9 @@ public class Image   {
   @JsonProperty("state")
   private DiscoveryItemState state = null;
 
+  @JsonProperty("owner")
+  private String owner = null;
+
   public Image id(String id) {
     this.id = id;
     return this;
@@ -164,6 +167,26 @@ public class Image   {
     this.state = state;
   }
 
+  public Image owner(String owner) {
+    this.owner = owner;
+    return this;
+  }
+
+  /**
+   * Get owner
+   * @return owner
+  **/
+  @ApiModelProperty(value = "")
+
+
+  public String getOwner() {
+    return owner;
+  }
+
+  public void setOwner(String owner) {
+    this.owner = owner;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -179,12 +202,13 @@ public class Image   {
         Objects.equals(this.providerId, image.providerId) &&
         Objects.equals(this.operatingSystem, image.operatingSystem) &&
         Objects.equals(this.location, image.location) &&
-        Objects.equals(this.state, image.state);
+        Objects.equals(this.state, image.state) &&
+        Objects.equals(this.owner, image.owner);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, name, providerId, operatingSystem, location, state);
+    return Objects.hash(id, name, providerId, operatingSystem, location, state, owner);
   }
 
   @Override
@@ -198,6 +222,7 @@ public class Image   {
     sb.append("    operatingSystem: ").append(toIndentedString(operatingSystem)).append("\n");
     sb.append("    location: ").append(toIndentedString(location)).append("\n");
     sb.append("    state: ").append(toIndentedString(state)).append("\n");
+    sb.append("    owner: ").append(toIndentedString(owner)).append("\n");
     sb.append("}");
     return sb.toString();
   }

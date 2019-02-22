@@ -79,6 +79,9 @@ public class Location   {
   @JsonProperty("state")
   private DiscoveryItemState state = null;
 
+  @JsonProperty("owner")
+  private String owner = null;
+
   public Location id(String id) {
     this.id = id;
     return this;
@@ -247,6 +250,26 @@ public class Location   {
     this.state = state;
   }
 
+  public Location owner(String owner) {
+    this.owner = owner;
+    return this;
+  }
+
+  /**
+   * Get owner
+   * @return owner
+  **/
+  @ApiModelProperty(value = "")
+
+
+  public String getOwner() {
+    return owner;
+  }
+
+  public void setOwner(String owner) {
+    this.owner = owner;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -264,12 +287,13 @@ public class Location   {
         Objects.equals(this.isAssignable, location.isAssignable) &&
         Objects.equals(this.geoLocation, location.geoLocation) &&
         Objects.equals(this.parent, location.parent) &&
-        Objects.equals(this.state, location.state);
+        Objects.equals(this.state, location.state) &&
+        Objects.equals(this.owner, location.owner);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, name, providerId, locationScope, isAssignable, geoLocation, parent, state);
+    return Objects.hash(id, name, providerId, locationScope, isAssignable, geoLocation, parent, state, owner);
   }
 
   @Override
@@ -285,6 +309,7 @@ public class Location   {
     sb.append("    geoLocation: ").append(toIndentedString(geoLocation)).append("\n");
     sb.append("    parent: ").append(toIndentedString(parent)).append("\n");
     sb.append("    state: ").append(toIndentedString(state)).append("\n");
+    sb.append("    owner: ").append(toIndentedString(owner)).append("\n");
     sb.append("}");
     return sb.toString();
   }
