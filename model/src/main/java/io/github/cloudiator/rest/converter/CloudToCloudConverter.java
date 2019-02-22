@@ -34,6 +34,7 @@ public class CloudToCloudConverter implements TwoWayConverter<Cloud, IaasEntitie
       result.setDiagnostic(cloud.getDiagnostic());
     }
     result.setState(cloudStateConverter.apply(cloud.getState()));
+    result.setOwner(cloud.getUserId());
 
     return result;
   }
@@ -43,6 +44,8 @@ public class CloudToCloudConverter implements TwoWayConverter<Cloud, IaasEntitie
     IaasEntities.Cloud.Builder builder = IaasEntities.Cloud.newBuilder();
 
     builder.setId(cloud.getId());
+    builder.setUserId(cloud.getOwner());
+
     if (cloud.getEndpoint() != null) {
       builder.setEndpoint(cloud.getEndpoint());
     } else {
