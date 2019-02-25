@@ -37,9 +37,7 @@ public class Node   {
    * The state the node is currently in. 
    */
   public enum StateEnum {
-    CREATED("CREATED"),
-    
-    FAILED("FAILED"),
+    PENDING("PENDING"),
     
     RUNNING("RUNNING"),
     
