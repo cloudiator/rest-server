@@ -92,7 +92,7 @@ public class MonitorsApiController implements MonitorsApi {
         DeleteMonitorRequest request = DeleteMonitorRequest.newBuilder()
             .setUserId(userId)
             .setMetric(metric)
-            
+
             .build();
         DeleteMonitorResponse response = monitorService.deleteMonitor(request);
 
