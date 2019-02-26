@@ -3,6 +3,7 @@ package io.github.cloudiator.rest.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 import io.github.cloudiator.rest.model.Hardware;
 import io.github.cloudiator.rest.model.Image;
 import io.github.cloudiator.rest.model.IpAddress;
@@ -43,6 +44,40 @@ public class VirtualMachine   {
 
   @JsonProperty("owner")
   private String owner = null;
+
+  /**
+   * Gets or Sets state
+   */
+  public enum StateEnum {
+    RUNNING("RUNNING"),
+    
+    ERROR("ERROR");
+
+    private String value;
+
+    StateEnum(String value) {
+      this.value = value;
+    }
+
+    @Override
+    @JsonValue
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    @JsonCreator
+    public static StateEnum fromValue(String text) {
+      for (StateEnum b : StateEnum.values()) {
+        if (String.valueOf(b.value).equals(text)) {
+          return b;
+        }
+      }
+      return null;
+    }
+  }
+
+  @JsonProperty("state")
+  private StateEnum state = null;
 
   public VirtualMachine image(Image image) {
     this.image = image;
@@ -197,6 +232,26 @@ public class VirtualMachine   {
     this.owner = owner;
   }
 
+  public VirtualMachine state(StateEnum state) {
+    this.state = state;
+    return this;
+  }
+
+  /**
+   * Get state
+   * @return state
+  **/
+  @ApiModelProperty(value = "")
+
+
+  public StateEnum getState() {
+    return state;
+  }
+
+  public void setState(StateEnum state) {
+    this.state = state;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -213,12 +268,13 @@ public class VirtualMachine   {
         Objects.equals(this.id, virtualMachine.id) &&
         Objects.equals(this.ipaddresses, virtualMachine.ipaddresses) &&
         Objects.equals(this.logincredential, virtualMachine.logincredential) &&
-        Objects.equals(this.owner, virtualMachine.owner);
+        Objects.equals(this.owner, virtualMachine.owner) &&
+        Objects.equals(this.state, virtualMachine.state);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(image, hardware, location, id, ipaddresses, logincredential, owner);
+    return Objects.hash(image, hardware, location, id, ipaddresses, logincredential, owner, state);
   }
 
   @Override
@@ -233,6 +289,7 @@ public class VirtualMachine   {
     sb.append("    ipaddresses: ").append(toIndentedString(ipaddresses)).append("\n");
     sb.append("    logincredential: ").append(toIndentedString(logincredential)).append("\n");
     sb.append("    owner: ").append(toIndentedString(owner)).append("\n");
+    sb.append("    state: ").append(toIndentedString(state)).append("\n");
     sb.append("}");
     return sb.toString();
   }
