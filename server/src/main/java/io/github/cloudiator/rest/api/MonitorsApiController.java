@@ -2,6 +2,7 @@ package io.github.cloudiator.rest.api;
 
 import io.github.cloudiator.rest.UserInfo;
 import io.github.cloudiator.rest.converter.MonitorConverter;
+import io.github.cloudiator.rest.converter.MonitorTargetConverter;
 import io.github.cloudiator.rest.model.Monitor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.cloudiator.rest.model.MonitoringTarget;
@@ -16,6 +17,8 @@ import org.cloudiator.messages.Monitor.MonitorQueryRequest;
 import org.cloudiator.messages.Monitor.MonitorQueryResponse;
 import org.cloudiator.messages.Monitor.UpdateMonitorRequest;
 import org.cloudiator.messages.Monitor.UpdateMonitorResponse;
+import org.cloudiator.messages.Monitor.GetMonitorRequest;
+import org.cloudiator.messages.Monitor.GetMonitorResponse;
 import org.cloudiator.messages.entities.MonitorEntities;
 import org.cloudiator.messaging.ResponseException;
 import org.cloudiator.messaging.services.MonitorService;
@@ -44,6 +47,8 @@ public class MonitorsApiController implements MonitorsApi {
   private final HttpServletRequest request;
 
   final MonitorConverter monitorConverter;
+
+  private final MonitorTargetConverter targetConverter = MonitorTargetConverter.INSTANCE;
 
   @org.springframework.beans.factory.annotation.Autowired
   public MonitorsApiController(ObjectMapper objectMapper, HttpServletRequest request) {
@@ -92,7 +97,7 @@ public class MonitorsApiController implements MonitorsApi {
         DeleteMonitorRequest request = DeleteMonitorRequest.newBuilder()
             .setUserId(userId)
             .setMetric(metric)
-
+            .setTarget(targetConverter.apply(target))
             .build();
         DeleteMonitorResponse response = monitorService.deleteMonitor(request);
 
@@ -139,43 +144,38 @@ public class MonitorsApiController implements MonitorsApi {
   }
 
   @Override
-  public ResponseEntity<List<Monitor>> getMonitor(String metric, MonitoringTarget target) {
-    return null;
-  }
-
-
-  public ResponseEntity<List<Monitor>> getMonitor(
-      @ApiParam(value = "Unique identifier of a monitor", required = true) @PathVariable("metric") String metric) {
+  public ResponseEntity<Monitor> getMonitor(
+      @ApiParam(value = "Unique identifier of a monitor", required = true) @PathVariable("metric") String metric,
+      @Valid @RequestBody MonitoringTarget target) {
     String accept = request.getHeader("Accept");
     if (accept != null && accept.contains("application/json")) {
       final String userId = UserInfo.of(request).tenant();
       try {
-        MonitorEntities.Monitor requestedMonitor = MonitorEntities.Monitor.newBuilder()
-            .clear()
+
+        GetMonitorRequest request = GetMonitorRequest.newBuilder()
+            .setUserId(userId)
             .setMetric(metric)
+            .setTarget(targetConverter.apply(target))
             .build();
+        GetMonitorResponse response = monitorService.getMonitor(request);
 
-        UpdateMonitorRequest request = UpdateMonitorRequest.newBuilder()
-            .setMonitor(requestedMonitor).build();
-        UpdateMonitorResponse response = monitorService.getMonitor(request);
-
-        if (response.getMonitor().getSensor() == null) {
+        if (response.getMonitor() == null) {
           System.out.println("ERROR - Monitor not found");
           throw new ApiException(HttpStatus.BAD_REQUEST.value(),
               "Monitor not found. Metric: " + response.getMonitor().getMetric());
         }
-        List<Monitor> result = new ArrayList();
-        result.add(monitorConverter.applyBack(response.getMonitor()));
-        return new ResponseEntity<List<Monitor>>(result, HttpStatus.OK);
+
+        Monitor result = monitorConverter.applyBack(response.getMonitor());
+        return new ResponseEntity<Monitor>(result, HttpStatus.OK);
       } catch (ResponseException re) {
         log.error("Error while searching(single):", re);
         throw new ApiException(re.code(), re.getMessage());
       } catch (Exception e) {
         log.error("Error while searching(single): ", e);
-        return new ResponseEntity<List<Monitor>>(HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<Monitor>(HttpStatus.INTERNAL_SERVER_ERROR);
       }
     }
-    return new ResponseEntity<List<Monitor>>(HttpStatus.NOT_IMPLEMENTED);
+    return new ResponseEntity<Monitor>(HttpStatus.NOT_IMPLEMENTED);
   }
 
   @Override

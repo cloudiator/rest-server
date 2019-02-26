@@ -60,15 +60,15 @@ public interface MonitorsApi {
     ResponseEntity<List<Monitor>> findMonitors();
 
 
-    @ApiOperation(value = "", nickname = "getMonitor", notes = "Retrieves the monitor with the given metric name ", response = Monitor.class, responseContainer = "List", authorizations = {
+    @ApiOperation(value = "", nickname = "getMonitor", notes = "Retrieves the monitor with the given metric name ", response = Monitor.class, authorizations = {
         @Authorization(value = "ApiKeyAuth")
     }, tags={ "monitoring", })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "OK", response = Monitor.class, responseContainer = "List") })
+        @ApiResponse(code = 200, message = "OK ", response = Monitor.class) })
     @RequestMapping(value = "/monitors/{metric}",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<List<Monitor>> getMonitor(@ApiParam(value = "Unique identifier of a monitor",required=true) @PathVariable("metric") String metric,@ApiParam(value = "Target of the Monitor " ,required=true )  @Valid @RequestBody MonitoringTarget target);
+    ResponseEntity<Monitor> getMonitor(@ApiParam(value = "Unique identifier of a monitor",required=true) @PathVariable("metric") String metric,@ApiParam(value = "Target of the Monitor " ,required=true )  @Valid @RequestBody MonitoringTarget target);
 
 
     @ApiOperation(value = "", nickname = "updateMonitor", notes = "Updating a monitor ", response = Monitor.class, authorizations = {
