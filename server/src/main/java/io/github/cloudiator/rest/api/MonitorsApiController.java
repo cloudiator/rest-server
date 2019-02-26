@@ -4,6 +4,7 @@ import io.github.cloudiator.rest.UserInfo;
 import io.github.cloudiator.rest.converter.MonitorConverter;
 import io.github.cloudiator.rest.model.Monitor;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.github.cloudiator.rest.model.MonitoringTarget;
 import io.swagger.annotations.*;
 import java.util.ArrayList;
 import java.util.stream.Collectors;
@@ -79,8 +80,10 @@ public class MonitorsApiController implements MonitorsApi {
     return new ResponseEntity<Monitor>(HttpStatus.NOT_IMPLEMENTED);
   }
 
+  @Override
   public ResponseEntity<Void> deleteMonitor(
-      @ApiParam(value = "Unique identifier of a monitor", required = true) @PathVariable("metric") String metric) {
+      @ApiParam(value = "Unique identifier of a monitor", required = true) @PathVariable("metric") String metric,
+      @Valid @RequestBody MonitoringTarget target) {
     String accept = request.getHeader("Accept");
     if (accept != null && accept.contains("application/json")) {
       final String userId = UserInfo.of(request).tenant();
@@ -89,6 +92,7 @@ public class MonitorsApiController implements MonitorsApi {
         DeleteMonitorRequest request = DeleteMonitorRequest.newBuilder()
             .setUserId(userId)
             .setMetric(metric)
+            
             .build();
         DeleteMonitorResponse response = monitorService.deleteMonitor(request);
 
@@ -132,6 +136,11 @@ public class MonitorsApiController implements MonitorsApi {
       }
     }
     return new ResponseEntity<List<Monitor>>(HttpStatus.NOT_IMPLEMENTED);
+  }
+
+  @Override
+  public ResponseEntity<List<Monitor>> getMonitor(String metric, MonitoringTarget target) {
+    return null;
   }
 
 
