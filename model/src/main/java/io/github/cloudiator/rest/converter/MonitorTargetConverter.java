@@ -13,6 +13,8 @@ import org.cloudiator.messages.entities.MonitorEntities.TargetType;
 public class MonitorTargetConverter implements
     TwoWayConverter<MonitoringTarget, MonitorEntities.MonitoringTarget> {
 
+  public static final MonitorTargetConverter INSTANCE = new MonitorTargetConverter();
+
   private final MonitorTargetTypeConverter typeConverter = new MonitorTargetTypeConverter();
 
 
