@@ -7,6 +7,8 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import io.github.cloudiator.rest.model.CloudiatorProcess;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import java.util.ArrayList;
+import java.util.List;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -17,28 +19,34 @@ import javax.validation.constraints.*;
 @Validated
 
 public class ClusterProcess extends CloudiatorProcess  {
-  @JsonProperty("nodeGroup")
-  private String nodeGroup = null;
+  @JsonProperty("nodes")
+  @Valid
+  private List<String> nodes = new ArrayList<String>();
 
-  public ClusterProcess nodeGroup(String nodeGroup) {
-    this.nodeGroup = nodeGroup;
+  public ClusterProcess nodes(List<String> nodes) {
+    this.nodes = nodes;
+    return this;
+  }
+
+  public ClusterProcess addNodesItem(String nodesItem) {
+    this.nodes.add(nodesItem);
     return this;
   }
 
   /**
-   * The id of the nodeGroup this process is hosted on.
-   * @return nodeGroup
+   * A list of node identifiers this process is hosted on.
+   * @return nodes
   **/
-  @ApiModelProperty(required = true, value = "The id of the nodeGroup this process is hosted on.")
+  @ApiModelProperty(required = true, value = "A list of node identifiers this process is hosted on.")
   @NotNull
 
 
-  public String getNodeGroup() {
-    return nodeGroup;
+  public List<String> getNodes() {
+    return nodes;
   }
 
-  public void setNodeGroup(String nodeGroup) {
-    this.nodeGroup = nodeGroup;
+  public void setNodes(List<String> nodes) {
+    this.nodes = nodes;
   }
 
 
@@ -51,13 +59,13 @@ public class ClusterProcess extends CloudiatorProcess  {
       return false;
     }
     ClusterProcess clusterProcess = (ClusterProcess) o;
-    return Objects.equals(this.nodeGroup, clusterProcess.nodeGroup) &&
+    return Objects.equals(this.nodes, clusterProcess.nodes) &&
         super.equals(o);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(nodeGroup, super.hashCode());
+    return Objects.hash(nodes, super.hashCode());
   }
 
   @Override
@@ -65,7 +73,7 @@ public class ClusterProcess extends CloudiatorProcess  {
     StringBuilder sb = new StringBuilder();
     sb.append("class ClusterProcess {\n");
     sb.append("    ").append(toIndentedString(super.toString())).append("\n");
-    sb.append("    nodeGroup: ").append(toIndentedString(nodeGroup)).append("\n");
+    sb.append("    nodes: ").append(toIndentedString(nodes)).append("\n");
     sb.append("}");
     return sb.toString();
   }
