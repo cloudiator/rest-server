@@ -52,6 +52,8 @@ public class OperatingSystemConverter implements
       builder.setOperatingSystemVersion(
           OperatingSystemVersion.newBuilder()
               .setVersion(operatingSystem.getOperatingSystemVersion().intValue()).build());
+    }else{
+      builder.clearOperatingSystemVersion();
     }
 
     return builder.build();
