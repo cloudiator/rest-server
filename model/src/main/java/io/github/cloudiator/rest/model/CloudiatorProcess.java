@@ -33,9 +33,7 @@ public class CloudiatorProcess   {
    * Gets or Sets state
    */
   public enum StateEnum {
-    CREATED("CREATED"),
-    
-    FAILED("FAILED"),
+    PENDING("PENDING"),
     
     RUNNING("RUNNING"),
     

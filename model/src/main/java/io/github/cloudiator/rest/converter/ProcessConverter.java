@@ -126,12 +126,10 @@ public class ProcessConverter implements
           return StateEnum.RUNNING;
         case PROCESS_STATE_DELETED:
           return StateEnum.DELETED;
-        case PROCESS_STATE_CREATED:
-          return StateEnum.CREATED;
+        case PROCESS_STATE_PENDING:
+          return StateEnum.PENDING;
         case PROCESS_STATE_ERROR:
           return StateEnum.ERROR;
-        case PROCESS_STATE_FAILED:
-          return StateEnum.FAILED;
         case UNRECOGNIZED:
         default:
           throw new AssertionError("Unknown process state " + processState);
@@ -141,12 +139,10 @@ public class ProcessConverter implements
     @Override
     public ProcessState apply(StateEnum stateEnum) {
       switch (stateEnum) {
-        case FAILED:
-          return ProcessState.PROCESS_STATE_FAILED;
+        case PENDING:
+          return ProcessState.PROCESS_STATE_PENDING;
         case ERROR:
           return ProcessState.PROCESS_STATE_ERROR;
-        case CREATED:
-          return ProcessState.PROCESS_STATE_CREATED;
         case DELETED:
           return ProcessState.PROCESS_STATE_DELETED;
         case RUNNING:
