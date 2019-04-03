@@ -4,6 +4,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.github.cloudiator.rest.model.Communication;
+import io.github.cloudiator.rest.model.Optimization;
 import io.github.cloudiator.rest.model.Requirement;
 import io.github.cloudiator.rest.model.Task;
 import io.swagger.annotations.ApiModel;
@@ -35,6 +36,9 @@ public class JobNew   {
   @JsonProperty("requirements")
   @Valid
   private List<Requirement> requirements = null;
+
+  @JsonProperty("optimization")
+  private Optimization optimization = null;
 
   public JobNew name(String name) {
     this.name = name;
@@ -144,6 +148,27 @@ public class JobNew   {
     this.requirements = requirements;
   }
 
+  public JobNew optimization(Optimization optimization) {
+    this.optimization = optimization;
+    return this;
+  }
+
+  /**
+   * Get optimization
+   * @return optimization
+  **/
+  @ApiModelProperty(value = "")
+
+  @Valid
+
+  public Optimization getOptimization() {
+    return optimization;
+  }
+
+  public void setOptimization(Optimization optimization) {
+    this.optimization = optimization;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -157,12 +182,13 @@ public class JobNew   {
     return Objects.equals(this.name, jobNew.name) &&
         Objects.equals(this.tasks, jobNew.tasks) &&
         Objects.equals(this.communications, jobNew.communications) &&
-        Objects.equals(this.requirements, jobNew.requirements);
+        Objects.equals(this.requirements, jobNew.requirements) &&
+        Objects.equals(this.optimization, jobNew.optimization);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, tasks, communications, requirements);
+    return Objects.hash(name, tasks, communications, requirements, optimization);
   }
 
   @Override
@@ -174,6 +200,7 @@ public class JobNew   {
     sb.append("    tasks: ").append(toIndentedString(tasks)).append("\n");
     sb.append("    communications: ").append(toIndentedString(communications)).append("\n");
     sb.append("    requirements: ").append(toIndentedString(requirements)).append("\n");
+    sb.append("    optimization: ").append(toIndentedString(optimization)).append("\n");
     sb.append("}");
     return sb.toString();
   }

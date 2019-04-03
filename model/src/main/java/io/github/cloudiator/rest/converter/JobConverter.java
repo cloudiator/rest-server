@@ -14,6 +14,7 @@ public class JobConverter implements TwoWayConverter<Job, JobEntities.Job> {
   private final CommunicationConverter communicationConverter = new CommunicationConverter();
   private final TaskConverter taskConverter = new TaskConverter();
   private final RequirementConverter requirementConverter = new RequirementConverter();
+  private final OptimizationConverter optimizationConverter = OptimizationConverter.INSTANCE;
 
   @Override
   public Job applyBack(JobEntities.Job job) {
@@ -33,6 +34,10 @@ public class JobConverter implements TwoWayConverter<Job, JobEntities.Job> {
       for (CommonEntities.Requirement req : job.getRequirementsList()) {
         result.addRequirementsItem(requirementConverter.applyBack(req));
       }
+    }
+
+    if (job.hasOptimization()) {
+      result.setOptimization(optimizationConverter.applyBack(job.getOptimization()));
     }
 
     return result;
@@ -56,6 +61,10 @@ public class JobConverter implements TwoWayConverter<Job, JobEntities.Job> {
       for (Requirement req : job.getRequirements()) {
         result.addRequirements(requirementConverter.apply(req));
       }
+    }
+
+    if (job.getOptimization() != null) {
+      result.setOptimization(optimizationConverter.apply(job.getOptimization()));
     }
 
     return result.build();
