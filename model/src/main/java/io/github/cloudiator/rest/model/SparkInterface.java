@@ -3,6 +3,7 @@ package io.github.cloudiator.rest.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 import io.github.cloudiator.rest.model.TaskInterface;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -34,6 +35,40 @@ public class SparkInterface extends TaskInterface  {
 
   @JsonProperty("sparkConfiguration")
   private java.util.Map sparkConfiguration = null;
+
+  /**
+   * Gets or Sets processMapping
+   */
+  public enum ProcessMappingEnum {
+    SINGLE("SINGLE"),
+    
+    CLUSTER("CLUSTER");
+
+    private String value;
+
+    ProcessMappingEnum(String value) {
+      this.value = value;
+    }
+
+    @Override
+    @JsonValue
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    @JsonCreator
+    public static ProcessMappingEnum fromValue(String text) {
+      for (ProcessMappingEnum b : ProcessMappingEnum.values()) {
+        if (String.valueOf(b.value).equals(text)) {
+          return b;
+        }
+      }
+      return null;
+    }
+  }
+
+  @JsonProperty("processMapping")
+  private ProcessMappingEnum processMapping = null;
 
   public SparkInterface file(String file) {
     this.file = file;
@@ -145,6 +180,26 @@ public class SparkInterface extends TaskInterface  {
     this.sparkConfiguration = sparkConfiguration;
   }
 
+  public SparkInterface processMapping(ProcessMappingEnum processMapping) {
+    this.processMapping = processMapping;
+    return this;
+  }
+
+  /**
+   * Get processMapping
+   * @return processMapping
+  **/
+  @ApiModelProperty(value = "")
+
+
+  public ProcessMappingEnum getProcessMapping() {
+    return processMapping;
+  }
+
+  public void setProcessMapping(ProcessMappingEnum processMapping) {
+    this.processMapping = processMapping;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -160,12 +215,13 @@ public class SparkInterface extends TaskInterface  {
         Objects.equals(this.arguments, sparkInterface.arguments) &&
         Objects.equals(this.sparkArguments, sparkInterface.sparkArguments) &&
         Objects.equals(this.sparkConfiguration, sparkInterface.sparkConfiguration) &&
+        Objects.equals(this.processMapping, sparkInterface.processMapping) &&
         super.equals(o);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(file, className, arguments, sparkArguments, sparkConfiguration, super.hashCode());
+    return Objects.hash(file, className, arguments, sparkArguments, sparkConfiguration, processMapping, super.hashCode());
   }
 
   @Override
@@ -178,6 +234,7 @@ public class SparkInterface extends TaskInterface  {
     sb.append("    arguments: ").append(toIndentedString(arguments)).append("\n");
     sb.append("    sparkArguments: ").append(toIndentedString(sparkArguments)).append("\n");
     sb.append("    sparkConfiguration: ").append(toIndentedString(sparkConfiguration)).append("\n");
+    sb.append("    processMapping: ").append(toIndentedString(processMapping)).append("\n");
     sb.append("}");
     return sb.toString();
   }

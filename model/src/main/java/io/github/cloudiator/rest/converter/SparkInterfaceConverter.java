@@ -9,6 +9,8 @@ import org.cloudiator.messages.entities.TaskEntities.SparkInterface.Builder;
 public class SparkInterfaceConverter implements
     TwoWayConverter<SparkInterface, TaskEntities.SparkInterface> {
 
+  private static final ProcessMappingConverter PROCESS_MAPPING_CONVERTER = new ProcessMappingConverter();
+
   @Override
   public SparkInterface applyBack(TaskEntities.SparkInterface sparkInterface) {
     SparkInterface ret = new SparkInterface();
@@ -19,6 +21,7 @@ public class SparkInterfaceConverter implements
     ret.setArguments(sparkInterface.getArgumentsList());
     ret.setSparkArguments(sparkInterface.getSparkArgumentsMap());
     ret.setSparkConfiguration(sparkInterface.getSparkConfigurationMap());
+    ret.setProcessMapping(PROCESS_MAPPING_CONVERTER.applyBack(sparkInterface.getProcessMapping()));
 
     return ret;
   }
@@ -43,6 +46,8 @@ public class SparkInterfaceConverter implements
     if (sparkInterface.getSparkConfiguration() != null) {
       builder.putAllSparkConfiguration(sparkInterface.getSparkConfiguration());
     }
+
+    builder.setProcessMapping(PROCESS_MAPPING_CONVERTER.apply(sparkInterface.getProcessMapping()));
 
     return builder.build();
   }
