@@ -4,8 +4,8 @@ import de.uniulm.omi.cloudiator.util.TwoWayConverter;
 import io.github.cloudiator.rest.model.Interval;
 import io.github.cloudiator.rest.model.Interval.UnitEnum;
 import io.github.cloudiator.rest.model.PullSensor;
+import org.cloudiator.messages.entities.CommonEntities;
 import org.cloudiator.messages.entities.MonitorEntities;
-import org.cloudiator.messages.entities.MonitorEntities.Unit;
 
 
 public class PullSensorConverter implements
@@ -26,8 +26,8 @@ public class PullSensorConverter implements
   public MonitorEntities.PullSensor apply(PullSensor restSensor) {
     MonitorEntities.PullSensor.Builder result = MonitorEntities.PullSensor.newBuilder()
         .setClassName(restSensor.getClassName())
-        .setInterval(MonitorEntities.Interval.newBuilder()
-            .setUnit(Unit.valueOf(restSensor.getInterval().getUnit().name()))
+        .setInterval(CommonEntities.Interval.newBuilder()
+            .setUnit(CommonEntities.Unit.valueOf(restSensor.getInterval().getUnit().name()))
             .setPeriod(restSensor.getInterval().getPeriod()).build());
     if (!restSensor.getConfiguration().isEmpty()) {
       result.putAllConfiguration(restSensor.getConfiguration());

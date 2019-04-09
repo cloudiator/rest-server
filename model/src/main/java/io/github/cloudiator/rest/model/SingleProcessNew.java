@@ -3,6 +3,7 @@ package io.github.cloudiator.rest.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import io.github.cloudiator.rest.model.CloudiatorProcessNew;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.validation.annotation.Validated;
@@ -10,12 +11,11 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * A process represents a task running on a node
+ * SingleProcessNew
  */
-@ApiModel(description = "A process represents a task running on a node")
 @Validated
 
-public class CloudiatorProcessNew   {
+public class SingleProcessNew   {
   @JsonProperty("schedule")
   private String schedule = null;
 
@@ -25,7 +25,10 @@ public class CloudiatorProcessNew   {
   @JsonProperty("lifecycleInterface")
   private String lifecycleInterface = null;
 
-  public CloudiatorProcessNew schedule(String schedule) {
+  @JsonProperty("node")
+  private String node = null;
+
+  public SingleProcessNew schedule(String schedule) {
     this.schedule = schedule;
     return this;
   }
@@ -46,7 +49,7 @@ public class CloudiatorProcessNew   {
     this.schedule = schedule;
   }
 
-  public CloudiatorProcessNew task(String task) {
+  public SingleProcessNew task(String task) {
     this.task = task;
     return this;
   }
@@ -67,7 +70,7 @@ public class CloudiatorProcessNew   {
     this.task = task;
   }
 
-  public CloudiatorProcessNew lifecycleInterface(String lifecycleInterface) {
+  public SingleProcessNew lifecycleInterface(String lifecycleInterface) {
     this.lifecycleInterface = lifecycleInterface;
     return this;
   }
@@ -88,6 +91,27 @@ public class CloudiatorProcessNew   {
     this.lifecycleInterface = lifecycleInterface;
   }
 
+  public SingleProcessNew node(String node) {
+    this.node = node;
+    return this;
+  }
+
+  /**
+   * The id of the node this process is hosted on.
+   * @return node
+  **/
+  @ApiModelProperty(required = true, value = "The id of the node this process is hosted on.")
+  @NotNull
+
+
+  public String getNode() {
+    return node;
+  }
+
+  public void setNode(String node) {
+    this.node = node;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -97,25 +121,27 @@ public class CloudiatorProcessNew   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    CloudiatorProcessNew cloudiatorProcessNew = (CloudiatorProcessNew) o;
-    return Objects.equals(this.schedule, cloudiatorProcessNew.schedule) &&
-        Objects.equals(this.task, cloudiatorProcessNew.task) &&
-        Objects.equals(this.lifecycleInterface, cloudiatorProcessNew.lifecycleInterface);
+    SingleProcessNew singleProcessNew = (SingleProcessNew) o;
+    return Objects.equals(this.schedule, singleProcessNew.schedule) &&
+        Objects.equals(this.task, singleProcessNew.task) &&
+        Objects.equals(this.lifecycleInterface, singleProcessNew.lifecycleInterface) &&
+        Objects.equals(this.node, singleProcessNew.node);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(schedule, task, lifecycleInterface);
+    return Objects.hash(schedule, task, lifecycleInterface, node);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class CloudiatorProcessNew {\n");
+    sb.append("class SingleProcessNew {\n");
     
     sb.append("    schedule: ").append(toIndentedString(schedule)).append("\n");
     sb.append("    task: ").append(toIndentedString(task)).append("\n");
     sb.append("    lifecycleInterface: ").append(toIndentedString(lifecycleInterface)).append("\n");
+    sb.append("    node: ").append(toIndentedString(node)).append("\n");
     sb.append("}");
     return sb.toString();
   }

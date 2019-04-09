@@ -21,7 +21,7 @@ import javax.validation.constraints.*;
 public class ClusterProcess extends CloudiatorProcess  {
   @JsonProperty("nodes")
   @Valid
-  private List<String> nodes = new ArrayList<String>();
+  private List<String> nodes = null;
 
   public ClusterProcess nodes(List<String> nodes) {
     this.nodes = nodes;
@@ -29,16 +29,18 @@ public class ClusterProcess extends CloudiatorProcess  {
   }
 
   public ClusterProcess addNodesItem(String nodesItem) {
+    if (this.nodes == null) {
+      this.nodes = new ArrayList<String>();
+    }
     this.nodes.add(nodesItem);
     return this;
   }
 
   /**
-   * A list of node identifiers this process is hosted on.
+   * A list of node identifiers defining the cluster the process is hosted on.
    * @return nodes
   **/
-  @ApiModelProperty(required = true, value = "A list of node identifiers this process is hosted on.")
-  @NotNull
+  @ApiModelProperty(value = "A list of node identifiers defining the cluster the process is hosted on.")
 
 
   public List<String> getNodes() {

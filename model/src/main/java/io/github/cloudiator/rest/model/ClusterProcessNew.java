@@ -3,19 +3,21 @@ package io.github.cloudiator.rest.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import io.github.cloudiator.rest.model.CloudiatorProcessNew;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import java.util.ArrayList;
+import java.util.List;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * A process represents a task running on a node
+ * ClusterProcessNew
  */
-@ApiModel(description = "A process represents a task running on a node")
 @Validated
 
-public class CloudiatorProcessNew   {
+public class ClusterProcessNew   {
   @JsonProperty("schedule")
   private String schedule = null;
 
@@ -25,7 +27,11 @@ public class CloudiatorProcessNew   {
   @JsonProperty("lifecycleInterface")
   private String lifecycleInterface = null;
 
-  public CloudiatorProcessNew schedule(String schedule) {
+  @JsonProperty("nodes")
+  @Valid
+  private List<String> nodes = new ArrayList<String>();
+
+  public ClusterProcessNew schedule(String schedule) {
     this.schedule = schedule;
     return this;
   }
@@ -46,7 +52,7 @@ public class CloudiatorProcessNew   {
     this.schedule = schedule;
   }
 
-  public CloudiatorProcessNew task(String task) {
+  public ClusterProcessNew task(String task) {
     this.task = task;
     return this;
   }
@@ -67,7 +73,7 @@ public class CloudiatorProcessNew   {
     this.task = task;
   }
 
-  public CloudiatorProcessNew lifecycleInterface(String lifecycleInterface) {
+  public ClusterProcessNew lifecycleInterface(String lifecycleInterface) {
     this.lifecycleInterface = lifecycleInterface;
     return this;
   }
@@ -88,6 +94,32 @@ public class CloudiatorProcessNew   {
     this.lifecycleInterface = lifecycleInterface;
   }
 
+  public ClusterProcessNew nodes(List<String> nodes) {
+    this.nodes = nodes;
+    return this;
+  }
+
+  public ClusterProcessNew addNodesItem(String nodesItem) {
+    this.nodes.add(nodesItem);
+    return this;
+  }
+
+  /**
+   * A list of node identifiers defining the cluster the process is hosted on.
+   * @return nodes
+  **/
+  @ApiModelProperty(required = true, value = "A list of node identifiers defining the cluster the process is hosted on.")
+  @NotNull
+
+
+  public List<String> getNodes() {
+    return nodes;
+  }
+
+  public void setNodes(List<String> nodes) {
+    this.nodes = nodes;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -97,25 +129,27 @@ public class CloudiatorProcessNew   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    CloudiatorProcessNew cloudiatorProcessNew = (CloudiatorProcessNew) o;
-    return Objects.equals(this.schedule, cloudiatorProcessNew.schedule) &&
-        Objects.equals(this.task, cloudiatorProcessNew.task) &&
-        Objects.equals(this.lifecycleInterface, cloudiatorProcessNew.lifecycleInterface);
+    ClusterProcessNew clusterProcessNew = (ClusterProcessNew) o;
+    return Objects.equals(this.schedule, clusterProcessNew.schedule) &&
+        Objects.equals(this.task, clusterProcessNew.task) &&
+        Objects.equals(this.lifecycleInterface, clusterProcessNew.lifecycleInterface) &&
+        Objects.equals(this.nodes, clusterProcessNew.nodes);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(schedule, task, lifecycleInterface);
+    return Objects.hash(schedule, task, lifecycleInterface, nodes);
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class CloudiatorProcessNew {\n");
+    sb.append("class ClusterProcessNew {\n");
     
     sb.append("    schedule: ").append(toIndentedString(schedule)).append("\n");
     sb.append("    task: ").append(toIndentedString(task)).append("\n");
     sb.append("    lifecycleInterface: ").append(toIndentedString(lifecycleInterface)).append("\n");
+    sb.append("    nodes: ").append(toIndentedString(nodes)).append("\n");
     sb.append("}");
     return sb.toString();
   }

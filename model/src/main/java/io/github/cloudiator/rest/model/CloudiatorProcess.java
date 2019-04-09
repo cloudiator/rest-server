@@ -127,8 +127,7 @@ public class CloudiatorProcess   {
    * Get id
    * @return id
   **/
-  @ApiModelProperty(required = true, value = "")
-  @NotNull
+  @ApiModelProperty(value = "")
 
 
   public String getId() {
@@ -148,8 +147,7 @@ public class CloudiatorProcess   {
    * Get processType
    * @return processType
   **/
-  @ApiModelProperty(required = true, value = "")
-  @NotNull
+  @ApiModelProperty(value = "")
 
 
   public String getProcessType() {
@@ -169,8 +167,7 @@ public class CloudiatorProcess   {
    * Get state
    * @return state
   **/
-  @ApiModelProperty(required = true, value = "")
-  @NotNull
+  @ApiModelProperty(value = "")
 
 
   public StateEnum getState() {
@@ -190,8 +187,7 @@ public class CloudiatorProcess   {
    * Get type
    * @return type
   **/
-  @ApiModelProperty(required = true, value = "")
-  @NotNull
+  @ApiModelProperty(value = "")
 
 
   public TypeEnum getType() {
@@ -211,8 +207,7 @@ public class CloudiatorProcess   {
    * The id of the schedule this process belongs to.
    * @return schedule
   **/
-  @ApiModelProperty(required = true, value = "The id of the schedule this process belongs to.")
-  @NotNull
+  @ApiModelProperty(value = "The id of the schedule this process belongs to.")
 
 
   public String getSchedule() {
@@ -232,8 +227,7 @@ public class CloudiatorProcess   {
    * The id of the task that is instantiated by this process.
    * @return task
   **/
-  @ApiModelProperty(required = true, value = "The id of the task that is instantiated by this process.")
-  @NotNull
+  @ApiModelProperty(value = "The id of the task that is instantiated by this process.")
 
 
   public String getTask() {

@@ -29,8 +29,7 @@ public class SingleProcess extends CloudiatorProcess  {
    * The id of the node this process is hosted on.
    * @return node
   **/
-  @ApiModelProperty(required = true, value = "The id of the node this process is hosted on.")
-  @NotNull
+  @ApiModelProperty(value = "The id of the node this process is hosted on.")
 
 
   public String getNode() {
