@@ -8,7 +8,7 @@ import io.github.cloudiator.rest.model.CloudiatorProcess.StateEnum;
 import io.github.cloudiator.rest.model.ClusterProcess;
 import io.github.cloudiator.rest.model.SingleProcess;
 import org.cloudiator.messages.entities.ProcessEntities;
-import org.cloudiator.messages.entities.ProcessEntities.NodeGroup;
+import org.cloudiator.messages.entities.ProcessEntities.NodeCluster;
 import org.cloudiator.messages.entities.ProcessEntities.Process.Builder;
 import org.cloudiator.messages.entities.ProcessEntities.ProcessState;
 import org.cloudiator.messages.entities.ProcessEntities.ProcessType;
@@ -48,11 +48,11 @@ public class ProcessConverter implements
         }
 
         return singleProcess;
-      case NODES:
+      case CLUSTER:
         ClusterProcess clusterProcess = new ClusterProcess();
         clusterProcess.setId(process.getId());
         clusterProcess.setProcessType(ClusterProcess.class.getSimpleName());
-        clusterProcess.setNodes(process.getNodes().getNodesList());
+        clusterProcess.setNodes(process.getCluster().getNodesList());
         clusterProcess.setSchedule(process.getSchedule());
         clusterProcess.setTask(process.getTask());
         clusterProcess.setType(ProcessTypeConverter.INSTANCE.applyBack(process.getType()));
@@ -103,7 +103,8 @@ public class ProcessConverter implements
     } else if (process.getProcessType().equals(ClusterProcess.class.getSimpleName())) {
       ClusterProcess clusterProcess = (ClusterProcess) process;
       processBuilder
-          .setNodes(NodeGroup.newBuilder().addAllNodes(clusterProcess.getNodes()).build());
+          .setCluster(
+              NodeCluster.newBuilder().addAllNodes(clusterProcess.getNodes()).build());
     } else {
       throw new AssertionError(
           "Unsupported CloudiatorProcess type: " + process.getProcessType().getClass()
