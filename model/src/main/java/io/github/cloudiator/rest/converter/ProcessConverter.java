@@ -39,6 +39,10 @@ public class ProcessConverter implements
         singleProcess.setOwner(process.getUserId());
         singleProcess.setState(PROCESS_STATE_CONVERTER.applyBack(process.getState()));
 
+        if(!Strings.isNullOrEmpty(process.getOriginId())) {
+          singleProcess.setOriginId(process.getOriginId());
+        }
+
         if (!Strings.isNullOrEmpty(process.getReason())) {
           singleProcess.setReason(process.getReason());
         }
@@ -58,6 +62,10 @@ public class ProcessConverter implements
         clusterProcess.setType(ProcessTypeConverter.INSTANCE.applyBack(process.getType()));
         clusterProcess.setOwner(process.getUserId());
         clusterProcess.setState(PROCESS_STATE_CONVERTER.applyBack(process.getState()));
+
+        if(!Strings.isNullOrEmpty(process.getOriginId())) {
+          clusterProcess.setOriginId(process.getOriginId());
+        }
 
         if (!Strings.isNullOrEmpty(process.getReason())) {
           clusterProcess.setReason(process.getReason());
@@ -86,6 +94,10 @@ public class ProcessConverter implements
         .setUserId(process.getOwner())
         .setType(ProcessTypeConverter.INSTANCE.apply(process.getType()))
         .setState(PROCESS_STATE_CONVERTER.apply(process.getState()));
+
+    if (!Strings.isNullOrEmpty(process.getOriginId())) {
+      processBuilder.setOriginId(process.getOriginId());
+    }
 
     if (!Strings.isNullOrEmpty(process.getDiagnostic())) {
       processBuilder.setDiagnostic(process.getDiagnostic());

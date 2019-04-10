@@ -26,6 +26,9 @@ public class CloudiatorProcess   {
   @JsonProperty("id")
   private String id = null;
 
+  @JsonProperty("originId")
+  private String originId = null;
+
   @JsonProperty("processType")
   private String processType = null;
 
@@ -136,6 +139,26 @@ public class CloudiatorProcess   {
 
   public void setId(String id) {
     this.id = id;
+  }
+
+  public CloudiatorProcess originId(String originId) {
+    this.originId = originId;
+    return this;
+  }
+
+  /**
+   * Get originId
+   * @return originId
+  **/
+  @ApiModelProperty(value = "")
+
+
+  public String getOriginId() {
+    return originId;
+  }
+
+  public void setOriginId(String originId) {
+    this.originId = originId;
   }
 
   public CloudiatorProcess processType(String processType) {
@@ -309,6 +332,7 @@ public class CloudiatorProcess   {
     }
     CloudiatorProcess cloudiatorProcess = (CloudiatorProcess) o;
     return Objects.equals(this.id, cloudiatorProcess.id) &&
+        Objects.equals(this.originId, cloudiatorProcess.originId) &&
         Objects.equals(this.processType, cloudiatorProcess.processType) &&
         Objects.equals(this.state, cloudiatorProcess.state) &&
         Objects.equals(this.type, cloudiatorProcess.type) &&
@@ -321,7 +345,7 @@ public class CloudiatorProcess   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, processType, state, type, schedule, task, diagnostic, reason, owner);
+    return Objects.hash(id, originId, processType, state, type, schedule, task, diagnostic, reason, owner);
   }
 
   @Override
@@ -330,6 +354,7 @@ public class CloudiatorProcess   {
     sb.append("class CloudiatorProcess {\n");
     
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
+    sb.append("    originId: ").append(toIndentedString(originId)).append("\n");
     sb.append("    processType: ").append(toIndentedString(processType)).append("\n");
     sb.append("    state: ").append(toIndentedString(state)).append("\n");
     sb.append("    type: ").append(toIndentedString(type)).append("\n");
