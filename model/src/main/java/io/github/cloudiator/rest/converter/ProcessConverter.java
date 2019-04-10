@@ -39,7 +39,7 @@ public class ProcessConverter implements
         singleProcess.setOwner(process.getUserId());
         singleProcess.setState(PROCESS_STATE_CONVERTER.applyBack(process.getState()));
 
-        if(!Strings.isNullOrEmpty(process.getOriginId())) {
+        if (!Strings.isNullOrEmpty(process.getOriginId())) {
           singleProcess.setOriginId(process.getOriginId());
         }
 
@@ -63,7 +63,7 @@ public class ProcessConverter implements
         clusterProcess.setOwner(process.getUserId());
         clusterProcess.setState(PROCESS_STATE_CONVERTER.applyBack(process.getState()));
 
-        if(!Strings.isNullOrEmpty(process.getOriginId())) {
+        if (!Strings.isNullOrEmpty(process.getOriginId())) {
           clusterProcess.setOriginId(process.getOriginId());
         }
 
@@ -180,6 +180,10 @@ public class ProcessConverter implements
           return CloudiatorProcess.TypeEnum.LANCE;
         case SPARK:
           return CloudiatorProcess.TypeEnum.SPARK;
+        case FAAS:
+          return CloudiatorProcess.TypeEnum.FAAS;
+        case UNKNOWN:
+          return CloudiatorProcess.TypeEnum.UNKNOWN;
         case UNRECOGNIZED:
         default:
           throw new AssertionError("Unknown processType: " + processType);
@@ -193,6 +197,10 @@ public class ProcessConverter implements
           return ProcessType.SPARK;
         case LANCE:
           return ProcessType.LANCE;
+        case FAAS:
+          return ProcessType.FAAS;
+        case UNKNOWN:
+          return ProcessType.UNKNOWN;
         default:
           throw new AssertionError("Unknown typeEnum: " + typeEnum);
       }

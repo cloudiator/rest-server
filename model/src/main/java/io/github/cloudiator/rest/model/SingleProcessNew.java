@@ -15,81 +15,9 @@ import javax.validation.constraints.*;
  */
 @Validated
 
-public class SingleProcessNew   {
-  @JsonProperty("schedule")
-  private String schedule = null;
-
-  @JsonProperty("task")
-  private String task = null;
-
-  @JsonProperty("lifecycleInterface")
-  private String lifecycleInterface = null;
-
+public class SingleProcessNew extends CloudiatorProcessNew  {
   @JsonProperty("node")
   private String node = null;
-
-  public SingleProcessNew schedule(String schedule) {
-    this.schedule = schedule;
-    return this;
-  }
-
-  /**
-   * The id of the schedule this process belongs to.
-   * @return schedule
-  **/
-  @ApiModelProperty(required = true, value = "The id of the schedule this process belongs to.")
-  @NotNull
-
-
-  public String getSchedule() {
-    return schedule;
-  }
-
-  public void setSchedule(String schedule) {
-    this.schedule = schedule;
-  }
-
-  public SingleProcessNew task(String task) {
-    this.task = task;
-    return this;
-  }
-
-  /**
-   * The id of the task that is instantiated by this process.
-   * @return task
-  **/
-  @ApiModelProperty(required = true, value = "The id of the task that is instantiated by this process.")
-  @NotNull
-
-
-  public String getTask() {
-    return task;
-  }
-
-  public void setTask(String task) {
-    this.task = task;
-  }
-
-  public SingleProcessNew lifecycleInterface(String lifecycleInterface) {
-    this.lifecycleInterface = lifecycleInterface;
-    return this;
-  }
-
-  /**
-   * The lifecycle interface used for running the process.
-   * @return lifecycleInterface
-  **/
-  @ApiModelProperty(required = true, value = "The lifecycle interface used for running the process.")
-  @NotNull
-
-
-  public String getLifecycleInterface() {
-    return lifecycleInterface;
-  }
-
-  public void setLifecycleInterface(String lifecycleInterface) {
-    this.lifecycleInterface = lifecycleInterface;
-  }
 
   public SingleProcessNew node(String node) {
     this.node = node;
@@ -122,25 +50,20 @@ public class SingleProcessNew   {
       return false;
     }
     SingleProcessNew singleProcessNew = (SingleProcessNew) o;
-    return Objects.equals(this.schedule, singleProcessNew.schedule) &&
-        Objects.equals(this.task, singleProcessNew.task) &&
-        Objects.equals(this.lifecycleInterface, singleProcessNew.lifecycleInterface) &&
-        Objects.equals(this.node, singleProcessNew.node);
+    return Objects.equals(this.node, singleProcessNew.node) &&
+        super.equals(o);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(schedule, task, lifecycleInterface, node);
+    return Objects.hash(node, super.hashCode());
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class SingleProcessNew {\n");
-    
-    sb.append("    schedule: ").append(toIndentedString(schedule)).append("\n");
-    sb.append("    task: ").append(toIndentedString(task)).append("\n");
-    sb.append("    lifecycleInterface: ").append(toIndentedString(lifecycleInterface)).append("\n");
+    sb.append("    ").append(toIndentedString(super.toString())).append("\n");
     sb.append("    node: ").append(toIndentedString(node)).append("\n");
     sb.append("}");
     return sb.toString();

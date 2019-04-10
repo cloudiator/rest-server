@@ -17,82 +17,10 @@ import javax.validation.constraints.*;
  */
 @Validated
 
-public class ClusterProcessNew   {
-  @JsonProperty("schedule")
-  private String schedule = null;
-
-  @JsonProperty("task")
-  private String task = null;
-
-  @JsonProperty("lifecycleInterface")
-  private String lifecycleInterface = null;
-
+public class ClusterProcessNew extends CloudiatorProcessNew  {
   @JsonProperty("nodes")
   @Valid
   private List<String> nodes = new ArrayList<String>();
-
-  public ClusterProcessNew schedule(String schedule) {
-    this.schedule = schedule;
-    return this;
-  }
-
-  /**
-   * The id of the schedule this process belongs to.
-   * @return schedule
-  **/
-  @ApiModelProperty(required = true, value = "The id of the schedule this process belongs to.")
-  @NotNull
-
-
-  public String getSchedule() {
-    return schedule;
-  }
-
-  public void setSchedule(String schedule) {
-    this.schedule = schedule;
-  }
-
-  public ClusterProcessNew task(String task) {
-    this.task = task;
-    return this;
-  }
-
-  /**
-   * The id of the task that is instantiated by this process.
-   * @return task
-  **/
-  @ApiModelProperty(required = true, value = "The id of the task that is instantiated by this process.")
-  @NotNull
-
-
-  public String getTask() {
-    return task;
-  }
-
-  public void setTask(String task) {
-    this.task = task;
-  }
-
-  public ClusterProcessNew lifecycleInterface(String lifecycleInterface) {
-    this.lifecycleInterface = lifecycleInterface;
-    return this;
-  }
-
-  /**
-   * The lifecycle interface used for running the process.
-   * @return lifecycleInterface
-  **/
-  @ApiModelProperty(required = true, value = "The lifecycle interface used for running the process.")
-  @NotNull
-
-
-  public String getLifecycleInterface() {
-    return lifecycleInterface;
-  }
-
-  public void setLifecycleInterface(String lifecycleInterface) {
-    this.lifecycleInterface = lifecycleInterface;
-  }
 
   public ClusterProcessNew nodes(List<String> nodes) {
     this.nodes = nodes;
@@ -130,25 +58,20 @@ public class ClusterProcessNew   {
       return false;
     }
     ClusterProcessNew clusterProcessNew = (ClusterProcessNew) o;
-    return Objects.equals(this.schedule, clusterProcessNew.schedule) &&
-        Objects.equals(this.task, clusterProcessNew.task) &&
-        Objects.equals(this.lifecycleInterface, clusterProcessNew.lifecycleInterface) &&
-        Objects.equals(this.nodes, clusterProcessNew.nodes);
+    return Objects.equals(this.nodes, clusterProcessNew.nodes) &&
+        super.equals(o);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(schedule, task, lifecycleInterface, nodes);
+    return Objects.hash(nodes, super.hashCode());
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
     sb.append("class ClusterProcessNew {\n");
-    
-    sb.append("    schedule: ").append(toIndentedString(schedule)).append("\n");
-    sb.append("    task: ").append(toIndentedString(task)).append("\n");
-    sb.append("    lifecycleInterface: ").append(toIndentedString(lifecycleInterface)).append("\n");
+    sb.append("    ").append(toIndentedString(super.toString())).append("\n");
     sb.append("    nodes: ").append(toIndentedString(nodes)).append("\n");
     sb.append("}");
     return sb.toString();

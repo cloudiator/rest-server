@@ -78,7 +78,11 @@ public class CloudiatorProcess   {
   public enum TypeEnum {
     LANCE("LANCE"),
     
-    SPARK("SPARK");
+    SPARK("SPARK"),
+    
+    FAAS("FAAS"),
+    
+    UNKNOWN("UNKNOWN");
 
     private String value;
 
