@@ -47,10 +47,13 @@ public class TaskConverter implements TwoWayConverter<Task, TaskEntities.Task> {
     switch (task.getBehaviourCase()) {
       case SERVICE:
         result.setBehaviour(SERVICE_BEHAVIOUR_CONVERTER.applyBack(task.getService()));
+        break;
       case PERIODIC:
         result.setBehaviour(PERIODIC_BEHAVIOUR_CONVERTER.applyBack(task.getPeriodic()));
+        break;
+      default:
       case BEHAVIOUR_NOT_SET:
-        throw new IllegalStateException("Behaviour case not set.");
+        throw new AssertionError("Unknown behaviour case " + task.getBehaviourCase());
     }
 
     return result;
@@ -99,7 +102,7 @@ public class TaskConverter implements TwoWayConverter<Task, TaskEntities.Task> {
 
     @Override
     public ServiceBehaviour applyBack(TaskEntities.ServiceBehaviour serviceBehaviour) {
-      return new ServiceBehaviour().restart(serviceBehaviour.getRestart());
+      return (ServiceBehaviour) new ServiceBehaviour().restart(serviceBehaviour.getRestart()).type(ServiceBehaviour.class.getSimpleName());
     }
 
     @Override
@@ -118,9 +121,9 @@ public class TaskConverter implements TwoWayConverter<Task, TaskEntities.Task> {
     @Override
     public PeriodicBehaviour applyBack(TaskEntities.PeriodicBehaviour periodicBehaviour) {
 
-      return new PeriodicBehaviour().collisionHandling(
+      return (PeriodicBehaviour) new PeriodicBehaviour().collisionHandling(
           COLLISION_HANDLING_CONVERTER.applyBack(periodicBehaviour.getCollisionHandling()))
-          .interval(INTERVAL_CONVERTER.applyBack(periodicBehaviour.getInterval()));
+          .interval(INTERVAL_CONVERTER.applyBack(periodicBehaviour.getInterval())).type(PeriodicBehaviour.class.getSimpleName());
     }
 
     @Override
