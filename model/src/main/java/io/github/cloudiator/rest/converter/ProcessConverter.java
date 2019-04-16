@@ -78,7 +78,7 @@ public class ProcessConverter implements
         return clusterProcess;
       case RUNSON_NOT_SET:
         throw new AssertionError(
-            "RUN_SON not set for process message with id: " + process.getId());
+            "RUNS_ON not set for process message with id: " + process.getId());
     }
 
     return null;
