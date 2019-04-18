@@ -67,6 +67,48 @@ public class Schedule   {
   @Valid
   private List<CloudiatorProcess> processes = null;
 
+  /**
+   * Gets or Sets state
+   */
+  public enum StateEnum {
+    PENDING("PENDING"),
+    
+    RUNNING("RUNNING"),
+    
+    ERROR("ERROR"),
+    
+    RESTORING("RESTORING"),
+    
+    DELETED("DELETED"),
+    
+    MANUAL("MANUAL");
+
+    private String value;
+
+    StateEnum(String value) {
+      this.value = value;
+    }
+
+    @Override
+    @JsonValue
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    @JsonCreator
+    public static StateEnum fromValue(String text) {
+      for (StateEnum b : StateEnum.values()) {
+        if (String.valueOf(b.value).equals(text)) {
+          return b;
+        }
+      }
+      return null;
+    }
+  }
+
+  @JsonProperty("state")
+  private StateEnum state = null;
+
   public Schedule job(String job) {
     this.job = job;
     return this;
@@ -176,6 +218,26 @@ public class Schedule   {
     this.processes = processes;
   }
 
+  public Schedule state(StateEnum state) {
+    this.state = state;
+    return this;
+  }
+
+  /**
+   * Get state
+   * @return state
+  **/
+  @ApiModelProperty(value = "")
+
+
+  public StateEnum getState() {
+    return state;
+  }
+
+  public void setState(StateEnum state) {
+    this.state = state;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -190,12 +252,13 @@ public class Schedule   {
         Objects.equals(this.instantiation, schedule.instantiation) &&
         Objects.equals(this.id, schedule.id) &&
         Objects.equals(this.owner, schedule.owner) &&
-        Objects.equals(this.processes, schedule.processes);
+        Objects.equals(this.processes, schedule.processes) &&
+        Objects.equals(this.state, schedule.state);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(job, instantiation, id, owner, processes);
+    return Objects.hash(job, instantiation, id, owner, processes, state);
   }
 
   @Override
@@ -208,6 +271,7 @@ public class Schedule   {
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    owner: ").append(toIndentedString(owner)).append("\n");
     sb.append("    processes: ").append(toIndentedString(processes)).append("\n");
+    sb.append("    state: ").append(toIndentedString(state)).append("\n");
     sb.append("}");
     return sb.toString();
   }
