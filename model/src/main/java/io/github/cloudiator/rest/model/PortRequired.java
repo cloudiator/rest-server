@@ -17,31 +17,8 @@ import javax.validation.constraints.*;
 @Validated
 
 public class PortRequired extends Port  {
-  @JsonProperty("updateAction")
-  private String updateAction = null;
-
   @JsonProperty("isMandatory")
   private Boolean isMandatory = null;
-
-  public PortRequired updateAction(String updateAction) {
-    this.updateAction = updateAction;
-    return this;
-  }
-
-  /**
-   * A script that is executed if a new instance of a downstream task is available. 
-   * @return updateAction
-  **/
-  @ApiModelProperty(value = "A script that is executed if a new instance of a downstream task is available. ")
-
-
-  public String getUpdateAction() {
-    return updateAction;
-  }
-
-  public void setUpdateAction(String updateAction) {
-    this.updateAction = updateAction;
-  }
 
   public PortRequired isMandatory(Boolean isMandatory) {
     this.isMandatory = isMandatory;
@@ -74,14 +51,13 @@ public class PortRequired extends Port  {
       return false;
     }
     PortRequired portRequired = (PortRequired) o;
-    return Objects.equals(this.updateAction, portRequired.updateAction) &&
-        Objects.equals(this.isMandatory, portRequired.isMandatory) &&
+    return Objects.equals(this.isMandatory, portRequired.isMandatory) &&
         super.equals(o);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(updateAction, isMandatory, super.hashCode());
+    return Objects.hash(isMandatory, super.hashCode());
   }
 
   @Override
@@ -89,7 +65,6 @@ public class PortRequired extends Port  {
     StringBuilder sb = new StringBuilder();
     sb.append("class PortRequired {\n");
     sb.append("    ").append(toIndentedString(super.toString())).append("\n");
-    sb.append("    updateAction: ").append(toIndentedString(updateAction)).append("\n");
     sb.append("    isMandatory: ").append(toIndentedString(isMandatory)).append("\n");
     sb.append("}");
     return sb.toString();
