@@ -116,6 +116,9 @@ public class CloudiatorProcess   {
   @JsonProperty("task")
   private String task = null;
 
+  @JsonProperty("taskInterface")
+  private String taskInterface = null;
+
   @JsonProperty("diagnostic")
   private String diagnostic = null;
 
@@ -265,6 +268,26 @@ public class CloudiatorProcess   {
     this.task = task;
   }
 
+  public CloudiatorProcess taskInterface(String taskInterface) {
+    this.taskInterface = taskInterface;
+    return this;
+  }
+
+  /**
+   * The task interface used for running the process.
+   * @return taskInterface
+  **/
+  @ApiModelProperty(value = "The task interface used for running the process.")
+
+
+  public String getTaskInterface() {
+    return taskInterface;
+  }
+
+  public void setTaskInterface(String taskInterface) {
+    this.taskInterface = taskInterface;
+  }
+
   public CloudiatorProcess diagnostic(String diagnostic) {
     this.diagnostic = diagnostic;
     return this;
@@ -342,6 +365,7 @@ public class CloudiatorProcess   {
         Objects.equals(this.type, cloudiatorProcess.type) &&
         Objects.equals(this.schedule, cloudiatorProcess.schedule) &&
         Objects.equals(this.task, cloudiatorProcess.task) &&
+        Objects.equals(this.taskInterface, cloudiatorProcess.taskInterface) &&
         Objects.equals(this.diagnostic, cloudiatorProcess.diagnostic) &&
         Objects.equals(this.reason, cloudiatorProcess.reason) &&
         Objects.equals(this.owner, cloudiatorProcess.owner);
@@ -349,7 +373,7 @@ public class CloudiatorProcess   {
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, originId, processType, state, type, schedule, task, diagnostic, reason, owner);
+    return Objects.hash(id, originId, processType, state, type, schedule, task, taskInterface, diagnostic, reason, owner);
   }
 
   @Override
@@ -364,6 +388,7 @@ public class CloudiatorProcess   {
     sb.append("    type: ").append(toIndentedString(type)).append("\n");
     sb.append("    schedule: ").append(toIndentedString(schedule)).append("\n");
     sb.append("    task: ").append(toIndentedString(task)).append("\n");
+    sb.append("    taskInterface: ").append(toIndentedString(taskInterface)).append("\n");
     sb.append("    diagnostic: ").append(toIndentedString(diagnostic)).append("\n");
     sb.append("    reason: ").append(toIndentedString(reason)).append("\n");
     sb.append("    owner: ").append(toIndentedString(owner)).append("\n");
