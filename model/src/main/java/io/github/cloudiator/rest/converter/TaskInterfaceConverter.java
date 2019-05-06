@@ -3,6 +3,7 @@ package io.github.cloudiator.rest.converter;
 import de.uniulm.omi.cloudiator.util.TwoWayConverter;
 import io.github.cloudiator.rest.model.DockerInterface;
 import io.github.cloudiator.rest.model.FaasInterface;
+import io.github.cloudiator.rest.model.HdfsInterface;
 import io.github.cloudiator.rest.model.LanceInterface;
 import io.github.cloudiator.rest.model.PlatformInterface;
 import io.github.cloudiator.rest.model.SparkInterface;
@@ -17,6 +18,7 @@ public class TaskInterfaceConverter implements
   private static final PlatformInterfaceConverter platformInterfaceConverter = new PlatformInterfaceConverter();
   private static final FaasInterfaceConverter FAAS_INTERFACE_CONVERTER = new FaasInterfaceConverter();
   private static final SparkInterfaceConverter SPARK_INTERFACE_CONVERTER = new SparkInterfaceConverter();
+  private static final HdfsInterfaceConverter HDFS_INTERFACE_CONVERTER = new HdfsInterfaceConverter();
 
   @Override
   public TaskInterface applyBack(TaskEntities.TaskInterface taskInterface) {
@@ -37,6 +39,10 @@ public class TaskInterfaceConverter implements
       case SPARKINTERFACE:
         result = SPARK_INTERFACE_CONVERTER.applyBack(taskInterface.getSparkInterface());
         result.setType(taskInterface.getSparkInterface().getClass().getSimpleName());
+        break;
+      case HDFSINTERFACE:
+        result = HDFS_INTERFACE_CONVERTER.applyBack(taskInterface.getHdfsInterface());
+        result.setType(taskInterface.getHdfsInterface().getClass().getSimpleName());
         break;
       case TASKINTERFACE_NOT_SET:
       default:
@@ -60,7 +66,9 @@ public class TaskInterfaceConverter implements
       throw new AssertionError("Not implemented!");
     } else if (taskInterface instanceof FaasInterface) {
       result.setFaasInterface(FAAS_INTERFACE_CONVERTER.apply((FaasInterface) taskInterface));
-    } else {
+    } else if (taskInterface instanceof HdfsInterface) {
+      result.setHdfsInterface(HDFS_INTERFACE_CONVERTER.apply((HdfsInterface) taskInterface));
+    }else {
       throw new AssertionError(
           "InterfaceType not known: " + taskInterface.getClass().getSimpleName());
     }

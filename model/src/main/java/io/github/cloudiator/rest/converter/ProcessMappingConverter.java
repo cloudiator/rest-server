@@ -1,21 +1,19 @@
 package io.github.cloudiator.rest.converter;
 
 import de.uniulm.omi.cloudiator.util.TwoWayConverter;
-import io.github.cloudiator.rest.model.SparkInterface.ProcessMappingEnum;
-import org.cloudiator.messages.entities.TaskEntities;
 import org.cloudiator.messages.entities.TaskEntities.ProcessMapping;
 
 public class ProcessMappingConverter implements
-    TwoWayConverter<ProcessMappingEnum, TaskEntities.ProcessMapping> {
+    TwoWayConverter<io.github.cloudiator.rest.model.ProcessMapping, ProcessMapping> {
 
   @Override
-  public ProcessMappingEnum applyBack(ProcessMapping processMapping) {
+  public io.github.cloudiator.rest.model.ProcessMapping applyBack(ProcessMapping processMapping) {
 
     switch (processMapping) {
       case SINGLE:
-        return ProcessMappingEnum.SINGLE;
+        return io.github.cloudiator.rest.model.ProcessMapping.SINGLE;
       case CLUSTER:
-        return ProcessMappingEnum.CLUSTER;
+        return io.github.cloudiator.rest.model.ProcessMapping.CLUSTER;
       case UNRECOGNIZED:
       default:
         throw new AssertionError("Unknown process mapping " + processMapping);
@@ -24,7 +22,7 @@ public class ProcessMappingConverter implements
   }
 
   @Override
-  public ProcessMapping apply(ProcessMappingEnum processMappingEnum) {
+  public ProcessMapping apply(io.github.cloudiator.rest.model.ProcessMapping processMappingEnum) {
     switch (processMappingEnum) {
       case CLUSTER:
         return ProcessMapping.CLUSTER;

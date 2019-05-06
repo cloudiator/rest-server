@@ -3,7 +3,7 @@ package io.github.cloudiator.rest.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
+import io.github.cloudiator.rest.model.ProcessMapping;
 import io.github.cloudiator.rest.model.TaskInterface;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -36,39 +36,8 @@ public class SparkInterface extends TaskInterface  {
   @JsonProperty("sparkConfiguration")
   private java.util.Map sparkConfiguration = null;
 
-  /**
-   * Gets or Sets processMapping
-   */
-  public enum ProcessMappingEnum {
-    SINGLE("SINGLE"),
-    
-    CLUSTER("CLUSTER");
-
-    private String value;
-
-    ProcessMappingEnum(String value) {
-      this.value = value;
-    }
-
-    @Override
-    @JsonValue
-    public String toString() {
-      return String.valueOf(value);
-    }
-
-    @JsonCreator
-    public static ProcessMappingEnum fromValue(String text) {
-      for (ProcessMappingEnum b : ProcessMappingEnum.values()) {
-        if (String.valueOf(b.value).equals(text)) {
-          return b;
-        }
-      }
-      return null;
-    }
-  }
-
   @JsonProperty("processMapping")
-  private ProcessMappingEnum processMapping = null;
+  private ProcessMapping processMapping = null;
 
   public SparkInterface file(String file) {
     this.file = file;
@@ -180,7 +149,7 @@ public class SparkInterface extends TaskInterface  {
     this.sparkConfiguration = sparkConfiguration;
   }
 
-  public SparkInterface processMapping(ProcessMappingEnum processMapping) {
+  public SparkInterface processMapping(ProcessMapping processMapping) {
     this.processMapping = processMapping;
     return this;
   }
@@ -191,12 +160,13 @@ public class SparkInterface extends TaskInterface  {
   **/
   @ApiModelProperty(value = "")
 
+  @Valid
 
-  public ProcessMappingEnum getProcessMapping() {
+  public ProcessMapping getProcessMapping() {
     return processMapping;
   }
 
-  public void setProcessMapping(ProcessMappingEnum processMapping) {
+  public void setProcessMapping(ProcessMapping processMapping) {
     this.processMapping = processMapping;
   }
 
