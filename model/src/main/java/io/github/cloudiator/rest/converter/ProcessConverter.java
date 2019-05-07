@@ -7,6 +7,7 @@ import io.github.cloudiator.rest.model.CloudiatorProcess;
 import io.github.cloudiator.rest.model.CloudiatorProcess.StateEnum;
 import io.github.cloudiator.rest.model.ClusterProcess;
 import io.github.cloudiator.rest.model.SingleProcess;
+import java.util.stream.Collectors;
 import org.cloudiator.messages.entities.ProcessEntities;
 import org.cloudiator.messages.entities.ProcessEntities.NodeCluster;
 import org.cloudiator.messages.entities.ProcessEntities.Process.Builder;
@@ -20,6 +21,7 @@ public class ProcessConverter implements
   public final static ProcessStateConverter PROCESS_STATE_CONVERTER = new ProcessStateConverter();
   private static final String SINGLE_PROCESS_TYPE = "singleProcess";
   private static final String CLUSTER_PROCESS_TYPE = "clusterProcess";
+  private static final IpAddressConverter IP_ADDRESS_CONVERTER = new IpAddressConverter();
 
   private ProcessConverter() {
   }
@@ -39,6 +41,9 @@ public class ProcessConverter implements
         singleProcess.setOwner(process.getUserId());
         singleProcess.setState(PROCESS_STATE_CONVERTER.applyBack(process.getState()));
         singleProcess.setTaskInterface(process.getTaskInterface());
+        singleProcess.setIpAddresses(
+            process.getIpAddressesList().stream().map(IP_ADDRESS_CONVERTER::applyBack).collect(
+                Collectors.toList()));
 
         if (!Strings.isNullOrEmpty(process.getOriginId())) {
           singleProcess.setOriginId(process.getOriginId());
@@ -50,6 +55,10 @@ public class ProcessConverter implements
 
         if (!Strings.isNullOrEmpty(process.getDiagnostic())) {
           singleProcess.setDiagnostic(process.getDiagnostic());
+        }
+
+        if (!Strings.isNullOrEmpty(process.getEndpoint())) {
+          singleProcess.setEndpoint(process.getEndpoint());
         }
 
         return singleProcess;
@@ -64,6 +73,9 @@ public class ProcessConverter implements
         clusterProcess.setOwner(process.getUserId());
         clusterProcess.setState(PROCESS_STATE_CONVERTER.applyBack(process.getState()));
         clusterProcess.setTaskInterface(process.getTaskInterface());
+        clusterProcess.setIpAddresses(
+            process.getIpAddressesList().stream().map(IP_ADDRESS_CONVERTER::applyBack).collect(
+                Collectors.toList()));
 
         if (!Strings.isNullOrEmpty(process.getOriginId())) {
           clusterProcess.setOriginId(process.getOriginId());
@@ -75,6 +87,10 @@ public class ProcessConverter implements
 
         if (!Strings.isNullOrEmpty(process.getDiagnostic())) {
           clusterProcess.setDiagnostic(process.getDiagnostic());
+        }
+
+        if (!Strings.isNullOrEmpty(process.getEndpoint())) {
+          clusterProcess.setEndpoint(process.getEndpoint());
         }
 
         return clusterProcess;
@@ -96,7 +112,9 @@ public class ProcessConverter implements
         .setUserId(process.getOwner())
         .setType(ProcessTypeConverter.INSTANCE.apply(process.getType()))
         .setState(PROCESS_STATE_CONVERTER.apply(process.getState()))
-        .setTaskInterface(process.getTaskInterface());
+        .setTaskInterface(process.getTaskInterface())
+        .addAllIpAddresses(process.getIpAddresses().stream().map(IP_ADDRESS_CONVERTER)
+            .collect(Collectors.toSet()));
 
     if (!Strings.isNullOrEmpty(process.getOriginId())) {
       processBuilder.setOriginId(process.getOriginId());
@@ -108,6 +126,10 @@ public class ProcessConverter implements
 
     if (!Strings.isNullOrEmpty(process.getReason())) {
       processBuilder.setReason(process.getReason());
+    }
+
+    if (!Strings.isNullOrEmpty(process.getEndpoint())) {
+      processBuilder.setEndpoint(process.getEndpoint());
     }
 
     if (process.getProcessType().equals(SingleProcess.class.getSimpleName())) {

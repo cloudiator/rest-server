@@ -23,6 +23,9 @@ public class DockerInterface extends TaskInterface  {
   @JsonProperty("environment")
   private java.util.Map environment = null;
 
+  @JsonProperty("updateAction")
+  private String updateAction = null;
+
   public DockerInterface dockerImage(String dockerImage) {
     this.dockerImage = dockerImage;
     return this;
@@ -64,6 +67,26 @@ public class DockerInterface extends TaskInterface  {
     this.environment = environment;
   }
 
+  public DockerInterface updateAction(String updateAction) {
+    this.updateAction = updateAction;
+    return this;
+  }
+
+  /**
+   * An (optional) update action for updating the communication. 
+   * @return updateAction
+  **/
+  @ApiModelProperty(value = "An (optional) update action for updating the communication. ")
+
+
+  public String getUpdateAction() {
+    return updateAction;
+  }
+
+  public void setUpdateAction(String updateAction) {
+    this.updateAction = updateAction;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -76,12 +99,13 @@ public class DockerInterface extends TaskInterface  {
     DockerInterface dockerInterface = (DockerInterface) o;
     return Objects.equals(this.dockerImage, dockerInterface.dockerImage) &&
         Objects.equals(this.environment, dockerInterface.environment) &&
+        Objects.equals(this.updateAction, dockerInterface.updateAction) &&
         super.equals(o);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(dockerImage, environment, super.hashCode());
+    return Objects.hash(dockerImage, environment, updateAction, super.hashCode());
   }
 
   @Override
@@ -91,6 +115,7 @@ public class DockerInterface extends TaskInterface  {
     sb.append("    ").append(toIndentedString(super.toString())).append("\n");
     sb.append("    dockerImage: ").append(toIndentedString(dockerImage)).append("\n");
     sb.append("    environment: ").append(toIndentedString(environment)).append("\n");
+    sb.append("    updateAction: ").append(toIndentedString(updateAction)).append("\n");
     sb.append("}");
     return sb.toString();
   }
