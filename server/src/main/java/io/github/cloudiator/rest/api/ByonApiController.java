@@ -94,10 +94,21 @@ public class ByonApiController implements ByonApi {
         throw new ApiException(404, "Id is null or empty");
       }
 
-      //If node is allocated -> cannot be removed
-      if(checkAllocated(id)) {
+      List<ByonNode> nodes = getNodesById(id);
+
+      if(nodes.size() > 1) {
+        log.error(String.format("Byon with id: %s found multiple times, while"
+            + "trying to delete it.", id));
+      }
+
+      if(nodes.size() == 0) {
          throw new ApiException(404, String.format("Byon with id: %s cannot be +"
-             + "deleted as it is allocated at the moment.", id));
+             + "deleted as it cannot be found.", id));
+      }
+
+      if(nodes.get(0).isAllocated()) {
+        throw new ApiException(404, String.format("Byon with id: %s cannot be +"
+            + "deleted as it is allocated at the moment.", id));
       }
 
       final QueueItem<ByonNodeRemovedResponse> queueItem = queueService
@@ -121,30 +132,25 @@ public class ByonApiController implements ByonApi {
     String accept = request.getHeader("Accept");
     if (accept != null && accept.contains("application/json")) {
 
-      ByonNodeQueryRequest queryRequest = ByonNodeQueryRequest.newBuilder()
-          .setFilter(QueryFilter.ALL).build();
-      List<ByonNode> byonNodes = queryByonNodes(queryRequest);
+      List<ByonNode> byonNodes = queryByonNodes();
       return new ResponseEntity<>(byonNodes, HttpStatus.OK);
     }
 
     return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
   }
 
-  private boolean checkAllocated(String id) {
-    ByonNodeQueryRequest queryRequest = ByonNodeQueryRequest.newBuilder()
-        .setFilter(QueryFilter.ALLOCATED).build();
-    List<ByonNode> byonNodes = queryByonNodes(queryRequest);
-    List<ByonNode> byonNodesFiltered = byonNodes.stream().filter(
-        node -> node.getId() == id)
-        .collect((Collectors.toList()));
-
-    return (byonNodesFiltered.size() == 1);
+  private List<ByonNode> getNodesById(String id) {
+    List<ByonNode> nodes = queryByonNodes();
+    return nodes.stream().filter(byonNode -> byonNode.getId() == id)
+        .collect(Collectors.toList());
   }
 
-  private List<ByonNode> queryByonNodes(ByonNodeQueryRequest queryMessage) {
+  private List<ByonNode> queryByonNodes() {
+    ByonNodeQueryRequest queryRequest = ByonNodeQueryRequest.newBuilder()
+        .setFilter(QueryFilter.ALL).build();
     ByonNodeQueryResponse response;
     try {
-      response = byonService.findByonNodes(queryMessage);
+      response = byonService.findByonNodes(queryRequest);
     } catch (ResponseException e) {
       log.error("Response Error", e);
       throw new ApiException(e.code(), e.getMessage());
