@@ -18,12 +18,12 @@ import javax.validation.constraints.*;
 @Validated
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type", visible = true )
 @JsonSubTypes({
-  @JsonSubTypes.Type(value = SparkInterface.class, name = "SparkInterface"),
-  @JsonSubTypes.Type(value = HdfsInterface.class, name = "HdfsInterface"),
   @JsonSubTypes.Type(value = FaasInterface.class, name = "FaasInterface"),
-  @JsonSubTypes.Type(value = PlatformInterface.class, name = "PlatformInterface"),
   @JsonSubTypes.Type(value = DockerInterface.class, name = "DockerInterface"),
   @JsonSubTypes.Type(value = LanceInterface.class, name = "LanceInterface"),
+  @JsonSubTypes.Type(value = SparkInterface.class, name = "SparkInterface"),
+  @JsonSubTypes.Type(value = HdfsInterface.class, name = "HdfsInterface"),
+  @JsonSubTypes.Type(value = PlatformInterface.class, name = "PlatformInterface"),
 })
 
 public class TaskInterface   {

@@ -6,6 +6,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import io.github.cloudiator.rest.model.IpAddress;
 import io.github.cloudiator.rest.model.LoginCredential;
+import io.github.cloudiator.rest.model.NewNode;
 import io.github.cloudiator.rest.model.NodeProperties;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -16,11 +17,34 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * Node
+ * Representation of a node used by Cloudiator
  */
+@ApiModel(description = "Representation of a node used by Cloudiator")
 @Validated
 
 public class Node   {
+  @JsonProperty("name")
+  private String name = null;
+
+  @JsonProperty("loginCredential")
+  private LoginCredential loginCredential = null;
+
+  @JsonProperty("ipAddresses")
+  @Valid
+  private List<IpAddress> ipAddresses = null;
+
+  @JsonProperty("nodeProperties")
+  private NodeProperties nodeProperties = null;
+
+  @JsonProperty("reason")
+  private String reason = null;
+
+  @JsonProperty("diagnostic")
+  private String diagnostic = null;
+
+  @JsonProperty("nodeCandidate")
+  private String nodeCandidate = null;
+
   @JsonProperty("id")
   private String id = null;
 
@@ -29,50 +53,6 @@ public class Node   {
 
   @JsonProperty("userId")
   private String userId = null;
-
-  @JsonProperty("name")
-  private String name = null;
-
-  /**
-   * The state the node is currently in. 
-   */
-  public enum StateEnum {
-    PENDING("PENDING"),
-    
-    RUNNING("RUNNING"),
-    
-    ERROR("ERROR"),
-    
-    DELETED("DELETED");
-
-    private String value;
-
-    StateEnum(String value) {
-      this.value = value;
-    }
-
-    @Override
-    @JsonValue
-    public String toString() {
-      return String.valueOf(value);
-    }
-
-    @JsonCreator
-    public static StateEnum fromValue(String text) {
-      for (StateEnum b : StateEnum.values()) {
-        if (String.valueOf(b.value).equals(text)) {
-          return b;
-        }
-      }
-      return null;
-    }
-  }
-
-  @JsonProperty("state")
-  private StateEnum state = null;
-
-  @JsonProperty("loginCredential")
-  private LoginCredential loginCredential = null;
 
   /**
    * The type of this node. 
@@ -114,81 +94,43 @@ public class Node   {
   @JsonProperty("nodeType")
   private NodeTypeEnum nodeType = null;
 
-  @JsonProperty("ipAddresses")
-  @Valid
-  private List<IpAddress> ipAddresses = null;
-
-  @JsonProperty("nodeProperties")
-  private NodeProperties nodeProperties = null;
-
-  @JsonProperty("reason")
-  private String reason = null;
-
-  @JsonProperty("diagnostic")
-  private String diagnostic = null;
-
-  @JsonProperty("nodeCandidate")
-  private String nodeCandidate = null;
-
-  public Node id(String id) {
-    this.id = id;
-    return this;
-  }
-
   /**
-   * Unique identifier of this node. 
-   * @return id
-  **/
-  @ApiModelProperty(value = "Unique identifier of this node. ")
+   * The state the node is currently in. 
+   */
+  public enum StateEnum {
+    PENDING("PENDING"),
+    
+    RUNNING("RUNNING"),
+    
+    ERROR("ERROR"),
+    
+    DELETED("DELETED");
 
+    private String value;
 
-  public String getId() {
-    return id;
+    StateEnum(String value) {
+      this.value = value;
+    }
+
+    @Override
+    @JsonValue
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    @JsonCreator
+    public static StateEnum fromValue(String text) {
+      for (StateEnum b : StateEnum.values()) {
+        if (String.valueOf(b.value).equals(text)) {
+          return b;
+        }
+      }
+      return null;
+    }
   }
 
-  public void setId(String id) {
-    this.id = id;
-  }
-
-  public Node originId(String originId) {
-    this.originId = originId;
-    return this;
-  }
-
-  /**
-   * Original id of this node. Is present of the node was created e.g. at a cloud provider. 
-   * @return originId
-  **/
-  @ApiModelProperty(value = "Original id of this node. Is present of the node was created e.g. at a cloud provider. ")
-
-
-  public String getOriginId() {
-    return originId;
-  }
-
-  public void setOriginId(String originId) {
-    this.originId = originId;
-  }
-
-  public Node userId(String userId) {
-    this.userId = userId;
-    return this;
-  }
-
-  /**
-   * User id of the owner of this node. 
-   * @return userId
-  **/
-  @ApiModelProperty(value = "User id of the owner of this node. ")
-
-
-  public String getUserId() {
-    return userId;
-  }
-
-  public void setUserId(String userId) {
-    this.userId = userId;
-  }
+  @JsonProperty("state")
+  private StateEnum state = null;
 
   public Node name(String name) {
     this.name = name;
@@ -210,26 +152,6 @@ public class Node   {
     this.name = name;
   }
 
-  public Node state(StateEnum state) {
-    this.state = state;
-    return this;
-  }
-
-  /**
-   * The state the node is currently in. 
-   * @return state
-  **/
-  @ApiModelProperty(value = "The state the node is currently in. ")
-
-
-  public StateEnum getState() {
-    return state;
-  }
-
-  public void setState(StateEnum state) {
-    this.state = state;
-  }
-
   public Node loginCredential(LoginCredential loginCredential) {
     this.loginCredential = loginCredential;
     return this;
@@ -249,26 +171,6 @@ public class Node   {
 
   public void setLoginCredential(LoginCredential loginCredential) {
     this.loginCredential = loginCredential;
-  }
-
-  public Node nodeType(NodeTypeEnum nodeType) {
-    this.nodeType = nodeType;
-    return this;
-  }
-
-  /**
-   * The type of this node. 
-   * @return nodeType
-  **/
-  @ApiModelProperty(value = "The type of this node. ")
-
-
-  public NodeTypeEnum getNodeType() {
-    return nodeType;
-  }
-
-  public void setNodeType(NodeTypeEnum nodeType) {
-    this.nodeType = nodeType;
   }
 
   public Node ipAddresses(List<IpAddress> ipAddresses) {
@@ -381,6 +283,106 @@ public class Node   {
     this.nodeCandidate = nodeCandidate;
   }
 
+  public Node id(String id) {
+    this.id = id;
+    return this;
+  }
+
+  /**
+   * Unique identifier of this node. 
+   * @return id
+  **/
+  @ApiModelProperty(value = "Unique identifier of this node. ")
+
+
+  public String getId() {
+    return id;
+  }
+
+  public void setId(String id) {
+    this.id = id;
+  }
+
+  public Node originId(String originId) {
+    this.originId = originId;
+    return this;
+  }
+
+  /**
+   * Original id of this node. Is present of the node was created e.g. at a cloud provider. 
+   * @return originId
+  **/
+  @ApiModelProperty(value = "Original id of this node. Is present of the node was created e.g. at a cloud provider. ")
+
+
+  public String getOriginId() {
+    return originId;
+  }
+
+  public void setOriginId(String originId) {
+    this.originId = originId;
+  }
+
+  public Node userId(String userId) {
+    this.userId = userId;
+    return this;
+  }
+
+  /**
+   * User id of the owner of this node. 
+   * @return userId
+  **/
+  @ApiModelProperty(value = "User id of the owner of this node. ")
+
+
+  public String getUserId() {
+    return userId;
+  }
+
+  public void setUserId(String userId) {
+    this.userId = userId;
+  }
+
+  public Node nodeType(NodeTypeEnum nodeType) {
+    this.nodeType = nodeType;
+    return this;
+  }
+
+  /**
+   * The type of this node. 
+   * @return nodeType
+  **/
+  @ApiModelProperty(value = "The type of this node. ")
+
+
+  public NodeTypeEnum getNodeType() {
+    return nodeType;
+  }
+
+  public void setNodeType(NodeTypeEnum nodeType) {
+    this.nodeType = nodeType;
+  }
+
+  public Node state(StateEnum state) {
+    this.state = state;
+    return this;
+  }
+
+  /**
+   * The state the node is currently in. 
+   * @return state
+  **/
+  @ApiModelProperty(value = "The state the node is currently in. ")
+
+
+  public StateEnum getState() {
+    return state;
+  }
+
+  public void setState(StateEnum state) {
+    this.state = state;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -391,23 +393,23 @@ public class Node   {
       return false;
     }
     Node node = (Node) o;
-    return Objects.equals(this.id, node.id) &&
-        Objects.equals(this.originId, node.originId) &&
-        Objects.equals(this.userId, node.userId) &&
-        Objects.equals(this.name, node.name) &&
-        Objects.equals(this.state, node.state) &&
+    return Objects.equals(this.name, node.name) &&
         Objects.equals(this.loginCredential, node.loginCredential) &&
-        Objects.equals(this.nodeType, node.nodeType) &&
         Objects.equals(this.ipAddresses, node.ipAddresses) &&
         Objects.equals(this.nodeProperties, node.nodeProperties) &&
         Objects.equals(this.reason, node.reason) &&
         Objects.equals(this.diagnostic, node.diagnostic) &&
-        Objects.equals(this.nodeCandidate, node.nodeCandidate);
+        Objects.equals(this.nodeCandidate, node.nodeCandidate) &&
+        Objects.equals(this.id, node.id) &&
+        Objects.equals(this.originId, node.originId) &&
+        Objects.equals(this.userId, node.userId) &&
+        Objects.equals(this.nodeType, node.nodeType) &&
+        Objects.equals(this.state, node.state);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, originId, userId, name, state, loginCredential, nodeType, ipAddresses, nodeProperties, reason, diagnostic, nodeCandidate);
+    return Objects.hash(name, loginCredential, ipAddresses, nodeProperties, reason, diagnostic, nodeCandidate, id, originId, userId, nodeType, state);
   }
 
   @Override
@@ -415,18 +417,18 @@ public class Node   {
     StringBuilder sb = new StringBuilder();
     sb.append("class Node {\n");
     
-    sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    originId: ").append(toIndentedString(originId)).append("\n");
-    sb.append("    userId: ").append(toIndentedString(userId)).append("\n");
     sb.append("    name: ").append(toIndentedString(name)).append("\n");
-    sb.append("    state: ").append(toIndentedString(state)).append("\n");
     sb.append("    loginCredential: ").append(toIndentedString(loginCredential)).append("\n");
-    sb.append("    nodeType: ").append(toIndentedString(nodeType)).append("\n");
     sb.append("    ipAddresses: ").append(toIndentedString(ipAddresses)).append("\n");
     sb.append("    nodeProperties: ").append(toIndentedString(nodeProperties)).append("\n");
     sb.append("    reason: ").append(toIndentedString(reason)).append("\n");
     sb.append("    diagnostic: ").append(toIndentedString(diagnostic)).append("\n");
     sb.append("    nodeCandidate: ").append(toIndentedString(nodeCandidate)).append("\n");
+    sb.append("    id: ").append(toIndentedString(id)).append("\n");
+    sb.append("    originId: ").append(toIndentedString(originId)).append("\n");
+    sb.append("    userId: ").append(toIndentedString(userId)).append("\n");
+    sb.append("    nodeType: ").append(toIndentedString(nodeType)).append("\n");
+    sb.append("    state: ").append(toIndentedString(state)).append("\n");
     sb.append("}");
     return sb.toString();
   }

@@ -49,5 +49,8 @@
 
   <bean id="monitorService" factory-bean="serviceFactory" factory-method="createMonitorService"/>
 
+  <bean id="byonService" factory-bean="serviceFactory"
+    factory-method="createByonService"/>
+
 </beans>
 

@@ -19,8 +19,8 @@ import javax.validation.constraints.*;
 @Validated
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type", visible = true )
 @JsonSubTypes({
-  @JsonSubTypes.Type(value = AttributeOptimization.class, name = "AttributeOptimization"),
   @JsonSubTypes.Type(value = OCLOptimization.class, name = "OCLOptimization"),
+  @JsonSubTypes.Type(value = AttributeOptimization.class, name = "AttributeOptimization"),
 })
 
 public class Optimization   {
