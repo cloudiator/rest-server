@@ -11,6 +11,7 @@ public class SparkInterfaceConverter implements
 
   private static final ProcessMappingConverter PROCESS_MAPPING_CONVERTER = new ProcessMappingConverter();
 
+
   @Override
   public SparkInterface applyBack(TaskEntities.SparkInterface sparkInterface) {
     SparkInterface ret = new SparkInterface();
@@ -22,6 +23,7 @@ public class SparkInterfaceConverter implements
     ret.setSparkArguments(sparkInterface.getSparkArgumentsMap());
     ret.setSparkConfiguration(sparkInterface.getSparkConfigurationMap());
     ret.setProcessMapping(PROCESS_MAPPING_CONVERTER.applyBack(sparkInterface.getProcessMapping()));
+
 
     return ret;
   }
@@ -51,4 +53,6 @@ public class SparkInterfaceConverter implements
 
     return builder.build();
   }
+
+
 }
