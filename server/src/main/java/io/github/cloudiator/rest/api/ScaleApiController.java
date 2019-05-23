@@ -28,60 +28,63 @@ import org.springframework.web.bind.annotation.RequestBody;
 @Controller
 public class ScaleApiController implements ScaleApi {
 
-    private static final Logger log = LoggerFactory.getLogger(ScaleApiController.class);
+  private static final Logger log = LoggerFactory.getLogger(ScaleApiController.class);
 
-    private final ObjectMapper objectMapper;
+  private final ObjectMapper objectMapper;
 
-    private final HttpServletRequest request;
+  private final HttpServletRequest request;
 
-    private static final NodeConverter NODE_CONVERTER = new NodeConverter();
+  private static final NodeConverter NODE_CONVERTER = new NodeConverter();
 
-    private final ProcessService processService;
-    private final QueueService queueService;
+  private final ProcessService processService;
+  private final QueueService queueService;
 
-    @org.springframework.beans.factory.annotation.Autowired
-    public ScaleApiController(ObjectMapper objectMapper, HttpServletRequest request,ProcessService processService, QueueService queueService) {
-        this.objectMapper = objectMapper;
-        this.request = request;
-        this.processService = processService;
-        this.queueService = queueService;
-    }
+  @org.springframework.beans.factory.annotation.Autowired
+  public ScaleApiController(ObjectMapper objectMapper, HttpServletRequest request,
+      ProcessService processService, QueueService queueService) {
+    this.objectMapper = objectMapper;
+    this.request = request;
+    this.processService = processService;
+    this.queueService = queueService;
+  }
 
-    public ResponseEntity<Queue> triggerScale(@ApiParam(value = "Scaling action to be executed " ,required=true )  @Valid @RequestBody Scale scale) {
-        String accept = request.getHeader("Accept");
-        if (accept != null && accept.contains("application/json")) {
+  public ResponseEntity<Queue> triggerScale(
+      @ApiParam(value = "Scaling action to be executed ", required = true) @Valid @RequestBody Scale scale) {
+    String accept = request.getHeader("Accept");
+    if (accept != null && accept.contains("application/json")) {
 
+      final String tenant = UserInfo.of(request).tenant();
 
-                final String tenant = UserInfo.of(request).tenant();
-
-                List<Node> nodes = new ArrayList<>();
-                for (io.github.cloudiator.rest.model.Node node: scale.getNodes()) {
-                    nodes.add(NODE_CONVERTER.apply(node));
-                }
-
-                Nodes messageNodes = Nodes.newBuilder().addAllNodes(nodes).build();
-
-                final ScaleRequest scaleRequest = ScaleRequest.newBuilder()
-                    .setUserId(tenant)
-                    .setScheduleId(scale.getSchedule())
-                    .setTaskId(scale.getTask())
-                    .setNodes(messageNodes)
-                    .build();
-
-                final QueueItem<ScaleResponse> queueItem = queueService
-                    .queueCallback(tenant,
-                        processCreatedResponse -> "schedule/" + scale.getSchedule());
-
-                processService.createScaleRequestAsync(scaleRequest,queueItem.getCallback());
-
-                final HttpHeaders httpHeaders = new HttpHeaders();
-                httpHeaders.add(HttpHeaders.LOCATION, queueItem.getQueueLocation());
-
-                return new ResponseEntity<>(queueItem.getQueue(), httpHeaders, HttpStatus.ACCEPTED);
-
+      List<Node> nodes = new ArrayList<>();
+      if (scale.getNodes() != null) {
+        for (io.github.cloudiator.rest.model.Node node : scale.getNodes()) {
+          nodes.add(NODE_CONVERTER.apply(node));
         }
+      }
 
-        return new ResponseEntity<Queue>(HttpStatus.NOT_IMPLEMENTED);
+      Nodes messageNodes = Nodes.newBuilder().addAllNodes(nodes).build();
+
+      final ScaleRequest scaleRequest = ScaleRequest.newBuilder()
+          .setUserId(tenant)
+          .setScheduleId(scale.getSchedule())
+          .setTaskId(scale.getTask())
+          .setNodes(messageNodes)
+          .build();
+
+      final QueueItem<ScaleResponse> queueItem = queueService
+          .queueCallback(tenant,
+              processCreatedResponse -> "schedule/" + scale.getSchedule());
+
+      processService.createScaleRequestAsync(scaleRequest, queueItem.getCallback());
+
+      final HttpHeaders httpHeaders = new HttpHeaders();
+      httpHeaders.add(HttpHeaders.LOCATION, queueItem.getQueueLocation());
+
+      return new ResponseEntity<>(queueItem.getQueue(), httpHeaders, HttpStatus.ACCEPTED);
+
     }
+
+    return new ResponseEntity<Queue>(HttpStatus.NOT_IMPLEMENTED);
+  }
 
 }
