@@ -6,8 +6,11 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.JsonValue;
+import io.github.cloudiator.rest.model.IpAddress;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
+import java.util.ArrayList;
+import java.util.List;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -26,6 +29,9 @@ public class CloudiatorProcess   {
   @JsonProperty("id")
   private String id = null;
 
+  @JsonProperty("originId")
+  private String originId = null;
+
   @JsonProperty("processType")
   private String processType = null;
 
@@ -33,9 +39,7 @@ public class CloudiatorProcess   {
    * Gets or Sets state
    */
   public enum StateEnum {
-    CREATED("CREATED"),
-    
-    FAILED("FAILED"),
+    PENDING("PENDING"),
     
     RUNNING("RUNNING"),
     
@@ -77,7 +81,11 @@ public class CloudiatorProcess   {
   public enum TypeEnum {
     LANCE("LANCE"),
     
-    SPARK("SPARK");
+    SPARK("SPARK"),
+    
+    FAAS("FAAS"),
+    
+    UNKNOWN("UNKNOWN");
 
     private String value;
 
@@ -111,6 +119,9 @@ public class CloudiatorProcess   {
   @JsonProperty("task")
   private String task = null;
 
+  @JsonProperty("taskInterface")
+  private String taskInterface = null;
+
   @JsonProperty("diagnostic")
   private String diagnostic = null;
 
@@ -119,6 +130,13 @@ public class CloudiatorProcess   {
 
   @JsonProperty("owner")
   private String owner = null;
+
+  @JsonProperty("ipAddresses")
+  @Valid
+  private List<IpAddress> ipAddresses = null;
+
+  @JsonProperty("endpoint")
+  private String endpoint = null;
 
   public CloudiatorProcess id(String id) {
     this.id = id;
@@ -129,8 +147,7 @@ public class CloudiatorProcess   {
    * Get id
    * @return id
   **/
-  @ApiModelProperty(required = true, value = "")
-  @NotNull
+  @ApiModelProperty(value = "")
 
 
   public String getId() {
@@ -139,6 +156,26 @@ public class CloudiatorProcess   {
 
   public void setId(String id) {
     this.id = id;
+  }
+
+  public CloudiatorProcess originId(String originId) {
+    this.originId = originId;
+    return this;
+  }
+
+  /**
+   * Get originId
+   * @return originId
+  **/
+  @ApiModelProperty(value = "")
+
+
+  public String getOriginId() {
+    return originId;
+  }
+
+  public void setOriginId(String originId) {
+    this.originId = originId;
   }
 
   public CloudiatorProcess processType(String processType) {
@@ -150,8 +187,7 @@ public class CloudiatorProcess   {
    * Get processType
    * @return processType
   **/
-  @ApiModelProperty(required = true, value = "")
-  @NotNull
+  @ApiModelProperty(value = "")
 
 
   public String getProcessType() {
@@ -171,8 +207,7 @@ public class CloudiatorProcess   {
    * Get state
    * @return state
   **/
-  @ApiModelProperty(required = true, value = "")
-  @NotNull
+  @ApiModelProperty(value = "")
 
 
   public StateEnum getState() {
@@ -192,8 +227,7 @@ public class CloudiatorProcess   {
    * Get type
    * @return type
   **/
-  @ApiModelProperty(required = true, value = "")
-  @NotNull
+  @ApiModelProperty(value = "")
 
 
   public TypeEnum getType() {
@@ -213,8 +247,7 @@ public class CloudiatorProcess   {
    * The id of the schedule this process belongs to.
    * @return schedule
   **/
-  @ApiModelProperty(required = true, value = "The id of the schedule this process belongs to.")
-  @NotNull
+  @ApiModelProperty(value = "The id of the schedule this process belongs to.")
 
 
   public String getSchedule() {
@@ -234,8 +267,7 @@ public class CloudiatorProcess   {
    * The id of the task that is instantiated by this process.
    * @return task
   **/
-  @ApiModelProperty(required = true, value = "The id of the task that is instantiated by this process.")
-  @NotNull
+  @ApiModelProperty(value = "The id of the task that is instantiated by this process.")
 
 
   public String getTask() {
@@ -244,6 +276,26 @@ public class CloudiatorProcess   {
 
   public void setTask(String task) {
     this.task = task;
+  }
+
+  public CloudiatorProcess taskInterface(String taskInterface) {
+    this.taskInterface = taskInterface;
+    return this;
+  }
+
+  /**
+   * The task interface used for running the process.
+   * @return taskInterface
+  **/
+  @ApiModelProperty(value = "The task interface used for running the process.")
+
+
+  public String getTaskInterface() {
+    return taskInterface;
+  }
+
+  public void setTaskInterface(String taskInterface) {
+    this.taskInterface = taskInterface;
   }
 
   public CloudiatorProcess diagnostic(String diagnostic) {
@@ -306,6 +358,55 @@ public class CloudiatorProcess   {
     this.owner = owner;
   }
 
+  public CloudiatorProcess ipAddresses(List<IpAddress> ipAddresses) {
+    this.ipAddresses = ipAddresses;
+    return this;
+  }
+
+  public CloudiatorProcess addIpAddressesItem(IpAddress ipAddressesItem) {
+    if (this.ipAddresses == null) {
+      this.ipAddresses = new ArrayList<IpAddress>();
+    }
+    this.ipAddresses.add(ipAddressesItem);
+    return this;
+  }
+
+  /**
+   * The public/private ip addresses under which this process is reachable. 
+   * @return ipAddresses
+  **/
+  @ApiModelProperty(value = "The public/private ip addresses under which this process is reachable. ")
+
+  @Valid
+
+  public List<IpAddress> getIpAddresses() {
+    return ipAddresses;
+  }
+
+  public void setIpAddresses(List<IpAddress> ipAddresses) {
+    this.ipAddresses = ipAddresses;
+  }
+
+  public CloudiatorProcess endpoint(String endpoint) {
+    this.endpoint = endpoint;
+    return this;
+  }
+
+  /**
+   * The endpoint where this process is reachable. 
+   * @return endpoint
+  **/
+  @ApiModelProperty(value = "The endpoint where this process is reachable. ")
+
+
+  public String getEndpoint() {
+    return endpoint;
+  }
+
+  public void setEndpoint(String endpoint) {
+    this.endpoint = endpoint;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -317,19 +418,23 @@ public class CloudiatorProcess   {
     }
     CloudiatorProcess cloudiatorProcess = (CloudiatorProcess) o;
     return Objects.equals(this.id, cloudiatorProcess.id) &&
+        Objects.equals(this.originId, cloudiatorProcess.originId) &&
         Objects.equals(this.processType, cloudiatorProcess.processType) &&
         Objects.equals(this.state, cloudiatorProcess.state) &&
         Objects.equals(this.type, cloudiatorProcess.type) &&
         Objects.equals(this.schedule, cloudiatorProcess.schedule) &&
         Objects.equals(this.task, cloudiatorProcess.task) &&
+        Objects.equals(this.taskInterface, cloudiatorProcess.taskInterface) &&
         Objects.equals(this.diagnostic, cloudiatorProcess.diagnostic) &&
         Objects.equals(this.reason, cloudiatorProcess.reason) &&
-        Objects.equals(this.owner, cloudiatorProcess.owner);
+        Objects.equals(this.owner, cloudiatorProcess.owner) &&
+        Objects.equals(this.ipAddresses, cloudiatorProcess.ipAddresses) &&
+        Objects.equals(this.endpoint, cloudiatorProcess.endpoint);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, processType, state, type, schedule, task, diagnostic, reason, owner);
+    return Objects.hash(id, originId, processType, state, type, schedule, task, taskInterface, diagnostic, reason, owner, ipAddresses, endpoint);
   }
 
   @Override
@@ -338,14 +443,18 @@ public class CloudiatorProcess   {
     sb.append("class CloudiatorProcess {\n");
     
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
+    sb.append("    originId: ").append(toIndentedString(originId)).append("\n");
     sb.append("    processType: ").append(toIndentedString(processType)).append("\n");
     sb.append("    state: ").append(toIndentedString(state)).append("\n");
     sb.append("    type: ").append(toIndentedString(type)).append("\n");
     sb.append("    schedule: ").append(toIndentedString(schedule)).append("\n");
     sb.append("    task: ").append(toIndentedString(task)).append("\n");
+    sb.append("    taskInterface: ").append(toIndentedString(taskInterface)).append("\n");
     sb.append("    diagnostic: ").append(toIndentedString(diagnostic)).append("\n");
     sb.append("    reason: ").append(toIndentedString(reason)).append("\n");
     sb.append("    owner: ").append(toIndentedString(owner)).append("\n");
+    sb.append("    ipAddresses: ").append(toIndentedString(ipAddresses)).append("\n");
+    sb.append("    endpoint: ").append(toIndentedString(endpoint)).append("\n");
     sb.append("}");
     return sb.toString();
   }

@@ -7,7 +7,9 @@ import io.github.cloudiator.rest.model.CloudiatorProcess;
 import io.github.cloudiator.rest.model.CloudiatorProcess.StateEnum;
 import io.github.cloudiator.rest.model.ClusterProcess;
 import io.github.cloudiator.rest.model.SingleProcess;
+import java.util.stream.Collectors;
 import org.cloudiator.messages.entities.ProcessEntities;
+import org.cloudiator.messages.entities.ProcessEntities.NodeCluster;
 import org.cloudiator.messages.entities.ProcessEntities.Process.Builder;
 import org.cloudiator.messages.entities.ProcessEntities.ProcessState;
 import org.cloudiator.messages.entities.ProcessEntities.ProcessType;
@@ -19,6 +21,7 @@ public class ProcessConverter implements
   public final static ProcessStateConverter PROCESS_STATE_CONVERTER = new ProcessStateConverter();
   private static final String SINGLE_PROCESS_TYPE = "singleProcess";
   private static final String CLUSTER_PROCESS_TYPE = "clusterProcess";
+  private static final IpAddressConverter IP_ADDRESS_CONVERTER = new IpAddressConverter();
 
   private ProcessConverter() {
   }
@@ -37,6 +40,14 @@ public class ProcessConverter implements
         singleProcess.setType(ProcessTypeConverter.INSTANCE.applyBack(process.getType()));
         singleProcess.setOwner(process.getUserId());
         singleProcess.setState(PROCESS_STATE_CONVERTER.applyBack(process.getState()));
+        singleProcess.setTaskInterface(process.getTaskInterface());
+        singleProcess.setIpAddresses(
+            process.getIpAddressesList().stream().map(IP_ADDRESS_CONVERTER::applyBack).collect(
+                Collectors.toList()));
+
+        if (!Strings.isNullOrEmpty(process.getOriginId())) {
+          singleProcess.setOriginId(process.getOriginId());
+        }
 
         if (!Strings.isNullOrEmpty(process.getReason())) {
           singleProcess.setReason(process.getReason());
@@ -46,17 +57,29 @@ public class ProcessConverter implements
           singleProcess.setDiagnostic(process.getDiagnostic());
         }
 
+        if (!Strings.isNullOrEmpty(process.getEndpoint())) {
+          singleProcess.setEndpoint(process.getEndpoint());
+        }
+
         return singleProcess;
-      case NODEGROUP:
+      case CLUSTER:
         ClusterProcess clusterProcess = new ClusterProcess();
         clusterProcess.setId(process.getId());
         clusterProcess.setProcessType(ClusterProcess.class.getSimpleName());
-        clusterProcess.setNodeGroup(process.getNodeGroup());
+        clusterProcess.setNodes(process.getCluster().getNodesList());
         clusterProcess.setSchedule(process.getSchedule());
         clusterProcess.setTask(process.getTask());
         clusterProcess.setType(ProcessTypeConverter.INSTANCE.applyBack(process.getType()));
         clusterProcess.setOwner(process.getUserId());
         clusterProcess.setState(PROCESS_STATE_CONVERTER.applyBack(process.getState()));
+        clusterProcess.setTaskInterface(process.getTaskInterface());
+        clusterProcess.setIpAddresses(
+            process.getIpAddressesList().stream().map(IP_ADDRESS_CONVERTER::applyBack).collect(
+                Collectors.toList()));
+
+        if (!Strings.isNullOrEmpty(process.getOriginId())) {
+          clusterProcess.setOriginId(process.getOriginId());
+        }
 
         if (!Strings.isNullOrEmpty(process.getReason())) {
           clusterProcess.setReason(process.getReason());
@@ -66,10 +89,14 @@ public class ProcessConverter implements
           clusterProcess.setDiagnostic(process.getDiagnostic());
         }
 
+        if (!Strings.isNullOrEmpty(process.getEndpoint())) {
+          clusterProcess.setEndpoint(process.getEndpoint());
+        }
+
         return clusterProcess;
       case RUNSON_NOT_SET:
         throw new AssertionError(
-            "RUN_SON not set for process message with id: " + process.getId());
+            "RUNS_ON not set for process message with id: " + process.getId());
     }
 
     return null;
@@ -84,7 +111,14 @@ public class ProcessConverter implements
         .setTask(process.getTask())
         .setUserId(process.getOwner())
         .setType(ProcessTypeConverter.INSTANCE.apply(process.getType()))
-        .setState(PROCESS_STATE_CONVERTER.apply(process.getState()));
+        .setState(PROCESS_STATE_CONVERTER.apply(process.getState()))
+        .setTaskInterface(process.getTaskInterface())
+        .addAllIpAddresses(process.getIpAddresses().stream().map(IP_ADDRESS_CONVERTER)
+            .collect(Collectors.toSet()));
+
+    if (!Strings.isNullOrEmpty(process.getOriginId())) {
+      processBuilder.setOriginId(process.getOriginId());
+    }
 
     if (!Strings.isNullOrEmpty(process.getDiagnostic())) {
       processBuilder.setDiagnostic(process.getDiagnostic());
@@ -94,6 +128,10 @@ public class ProcessConverter implements
       processBuilder.setReason(process.getReason());
     }
 
+    if (!Strings.isNullOrEmpty(process.getEndpoint())) {
+      processBuilder.setEndpoint(process.getEndpoint());
+    }
+
     if (process.getProcessType().equals(SingleProcess.class.getSimpleName())) {
 
       SingleProcess singleProcess = (SingleProcess) process;
@@ -101,7 +139,9 @@ public class ProcessConverter implements
 
     } else if (process.getProcessType().equals(ClusterProcess.class.getSimpleName())) {
       ClusterProcess clusterProcess = (ClusterProcess) process;
-      processBuilder.setNodeGroup(clusterProcess.getNodeGroup());
+      processBuilder
+          .setCluster(
+              NodeCluster.newBuilder().addAllNodes(clusterProcess.getNodes()).build());
     } else {
       throw new AssertionError(
           "Unsupported CloudiatorProcess type: " + process.getProcessType().getClass()
@@ -124,12 +164,10 @@ public class ProcessConverter implements
           return StateEnum.RUNNING;
         case PROCESS_STATE_DELETED:
           return StateEnum.DELETED;
-        case PROCESS_STATE_CREATED:
-          return StateEnum.CREATED;
+        case PROCESS_STATE_PENDING:
+          return StateEnum.PENDING;
         case PROCESS_STATE_ERROR:
           return StateEnum.ERROR;
-        case PROCESS_STATE_FAILED:
-          return StateEnum.FAILED;
         case UNRECOGNIZED:
         default:
           throw new AssertionError("Unknown process state " + processState);
@@ -139,12 +177,10 @@ public class ProcessConverter implements
     @Override
     public ProcessState apply(StateEnum stateEnum) {
       switch (stateEnum) {
-        case FAILED:
-          return ProcessState.PROCESS_STATE_FAILED;
+        case PENDING:
+          return ProcessState.PROCESS_STATE_PENDING;
         case ERROR:
           return ProcessState.PROCESS_STATE_ERROR;
-        case CREATED:
-          return ProcessState.PROCESS_STATE_CREATED;
         case DELETED:
           return ProcessState.PROCESS_STATE_DELETED;
         case RUNNING:
@@ -169,6 +205,10 @@ public class ProcessConverter implements
           return CloudiatorProcess.TypeEnum.LANCE;
         case SPARK:
           return CloudiatorProcess.TypeEnum.SPARK;
+        case FAAS:
+          return CloudiatorProcess.TypeEnum.FAAS;
+        case UNKNOWN:
+          return CloudiatorProcess.TypeEnum.UNKNOWN;
         case UNRECOGNIZED:
         default:
           throw new AssertionError("Unknown processType: " + processType);
@@ -182,6 +222,10 @@ public class ProcessConverter implements
           return ProcessType.SPARK;
         case LANCE:
           return ProcessType.LANCE;
+        case FAAS:
+          return ProcessType.FAAS;
+        case UNKNOWN:
+          return ProcessType.UNKNOWN;
         default:
           throw new AssertionError("Unknown typeEnum: " + typeEnum);
       }

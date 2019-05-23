@@ -9,17 +9,17 @@ import javax.validation.constraints.*;
 import com.fasterxml.jackson.annotation.JsonCreator;
 
 /**
- * Gets or Sets TaskType
+ * Gets or Sets ProcessMapping
  */
-public enum TaskType {
+public enum ProcessMapping {
   
-  BATCH("BATCH"),
+  SINGLE("SINGLE"),
   
-  SERVICE("SERVICE");
+  CLUSTER("CLUSTER");
 
   private String value;
 
-  TaskType(String value) {
+  ProcessMapping(String value) {
     this.value = value;
   }
 
@@ -30,8 +30,8 @@ public enum TaskType {
   }
 
   @JsonCreator
-  public static TaskType fromValue(String text) {
-    for (TaskType b : TaskType.values()) {
+  public static ProcessMapping fromValue(String text) {
+    for (ProcessMapping b : ProcessMapping.values()) {
       if (String.valueOf(b.value).equals(text)) {
         return b;
       }

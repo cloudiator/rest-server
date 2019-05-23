@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.github.cloudiator.rest.model.Communication;
 import io.github.cloudiator.rest.model.JobNew;
+import io.github.cloudiator.rest.model.Optimization;
 import io.github.cloudiator.rest.model.Requirement;
 import io.github.cloudiator.rest.model.Task;
 import io.swagger.annotations.ApiModel;
@@ -36,6 +37,9 @@ public class Job   {
   @JsonProperty("requirements")
   @Valid
   private List<Requirement> requirements = null;
+
+  @JsonProperty("optimization")
+  private Optimization optimization = null;
 
   @JsonProperty("id")
   private String id = null;
@@ -151,6 +155,27 @@ public class Job   {
     this.requirements = requirements;
   }
 
+  public Job optimization(Optimization optimization) {
+    this.optimization = optimization;
+    return this;
+  }
+
+  /**
+   * Get optimization
+   * @return optimization
+  **/
+  @ApiModelProperty(value = "")
+
+  @Valid
+
+  public Optimization getOptimization() {
+    return optimization;
+  }
+
+  public void setOptimization(Optimization optimization) {
+    this.optimization = optimization;
+  }
+
   public Job id(String id) {
     this.id = id;
     return this;
@@ -205,13 +230,14 @@ public class Job   {
         Objects.equals(this.tasks, job.tasks) &&
         Objects.equals(this.communications, job.communications) &&
         Objects.equals(this.requirements, job.requirements) &&
+        Objects.equals(this.optimization, job.optimization) &&
         Objects.equals(this.id, job.id) &&
         Objects.equals(this.owner, job.owner);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, tasks, communications, requirements, id, owner);
+    return Objects.hash(name, tasks, communications, requirements, optimization, id, owner);
   }
 
   @Override
@@ -223,6 +249,7 @@ public class Job   {
     sb.append("    tasks: ").append(toIndentedString(tasks)).append("\n");
     sb.append("    communications: ").append(toIndentedString(communications)).append("\n");
     sb.append("    requirements: ").append(toIndentedString(requirements)).append("\n");
+    sb.append("    optimization: ").append(toIndentedString(optimization)).append("\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
     sb.append("    owner: ").append(toIndentedString(owner)).append("\n");
     sb.append("}");

@@ -2,9 +2,8 @@ package io.github.cloudiator.rest.converter;
 
 import de.uniulm.omi.cloudiator.util.TwoWayConverter;
 import io.github.cloudiator.rest.model.FaasInterface;
-import org.cloudiator.messages.entities.TaskEntities;
-
 import java.util.stream.Collectors;
+import org.cloudiator.messages.entities.TaskEntities;
 
 public class FaasInterfaceConverter implements
     TwoWayConverter<FaasInterface, TaskEntities.FaasInterface> {

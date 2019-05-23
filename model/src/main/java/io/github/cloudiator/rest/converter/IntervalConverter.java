@@ -3,16 +3,15 @@ package io.github.cloudiator.rest.converter;
 import de.uniulm.omi.cloudiator.util.TwoWayConverter;
 import io.github.cloudiator.rest.model.Interval;
 import io.github.cloudiator.rest.model.Interval.UnitEnum;
-import org.cloudiator.messages.entities.MonitorEntities;
-import org.cloudiator.messages.entities.MonitorEntities.Unit;
+import org.cloudiator.messages.entities.CommonEntities;
 
-public class IntervalConverter implements TwoWayConverter<Interval, MonitorEntities.Interval> {
+public class IntervalConverter implements TwoWayConverter<Interval, CommonEntities.Interval> {
 
   private final UnitConverter unitConverter = new UnitConverter();
 
 
   @Override
-  public Interval applyBack(MonitorEntities.Interval kafkaInterval) {
+  public Interval applyBack(CommonEntities.Interval kafkaInterval) {
     Interval result = new Interval()
         .period(kafkaInterval.getPeriod())
         .unit(unitConverter.applyBack(kafkaInterval.getUnit()));
@@ -21,8 +20,8 @@ public class IntervalConverter implements TwoWayConverter<Interval, MonitorEntit
   }
 
   @Override
-  public MonitorEntities.Interval apply(Interval restInterval) {
-    MonitorEntities.Interval.Builder result = MonitorEntities.Interval.newBuilder()
+  public CommonEntities.Interval apply(Interval restInterval) {
+    CommonEntities.Interval.Builder result = CommonEntities.Interval.newBuilder()
         .setPeriod(restInterval.getPeriod())
         .setUnit(unitConverter.apply(restInterval.getUnit()));
 
@@ -30,10 +29,10 @@ public class IntervalConverter implements TwoWayConverter<Interval, MonitorEntit
   }
 
 
-  private class UnitConverter implements TwoWayConverter<UnitEnum, MonitorEntities.Unit> {
+  private class UnitConverter implements TwoWayConverter<UnitEnum, CommonEntities.Unit> {
 
     @Override
-    public UnitEnum applyBack(Unit kafkaunit) {
+    public UnitEnum applyBack(CommonEntities.Unit kafkaunit) {
       switch (kafkaunit) {
         case DAYS:
           return UnitEnum.DAYS;
@@ -56,22 +55,22 @@ public class IntervalConverter implements TwoWayConverter<Interval, MonitorEntit
     }
 
     @Override
-    public Unit apply(UnitEnum restunitEnum) {
+    public CommonEntities.Unit apply(UnitEnum restunitEnum) {
       switch (restunitEnum) {
         case DAYS:
-          return Unit.DAYS;
+          return CommonEntities.Unit.DAYS;
         case HOURS:
-          return Unit.HOURS;
+          return CommonEntities.Unit.HOURS;
         case MINUTES:
-          return Unit.MINUTES;
+          return CommonEntities.Unit.MINUTES;
         case SECONDS:
-          return Unit.SECONDS;
+          return CommonEntities.Unit.SECONDS;
         case MILLISECONDS:
-          return Unit.MILLISECONDS;
+          return CommonEntities.Unit.MILLISECONDS;
         case MICROSECONDS:
-          return Unit.MICROSECONDS;
+          return CommonEntities.Unit.MICROSECONDS;
         case NANOSECONDS:
-          return Unit.NANOSECONDS;
+          return CommonEntities.Unit.NANOSECONDS;
         default:
           throw new AssertionError("unkown UnitType " + restunitEnum);
       }

@@ -71,7 +71,7 @@ public class ProcessApiController implements ProcessApi {
 
       final QueueItem<ProcessCreatedResponse> queueItem = queueService
           .queueCallback(tenant,
-              processCreatedResponse -> "processGroup/" + processCreatedResponse.getProcessGroup()
+              processCreatedResponse -> "process/" + processCreatedResponse.getProcess()
                   .getId());
 
       processService.createProcessAsync(createProcessRequest, queueItem.getCallback());

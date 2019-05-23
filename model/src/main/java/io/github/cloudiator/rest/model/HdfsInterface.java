@@ -3,43 +3,43 @@ package io.github.cloudiator.rest.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
-import io.github.cloudiator.rest.model.CloudiatorProcess;
-import io.github.cloudiator.rest.model.IpAddress;
+import io.github.cloudiator.rest.model.ProcessMapping;
+import io.github.cloudiator.rest.model.TaskInterface;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
-import java.util.List;
 import org.springframework.validation.annotation.Validated;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * SingleProcess
+ * Subtype of TaskInterface. Describes how to deploy a Task to Hdfs. 
  */
+@ApiModel(description = "Subtype of TaskInterface. Describes how to deploy a Task to Hdfs. ")
 @Validated
 
-public class SingleProcess extends CloudiatorProcess  {
-  @JsonProperty("node")
-  private String node = null;
+public class HdfsInterface extends TaskInterface  {
+  @JsonProperty("processMapping")
+  private ProcessMapping processMapping = null;
 
-  public SingleProcess node(String node) {
-    this.node = node;
+  public HdfsInterface processMapping(ProcessMapping processMapping) {
+    this.processMapping = processMapping;
     return this;
   }
 
   /**
-   * The id of the node this process is hosted on.
-   * @return node
+   * Get processMapping
+   * @return processMapping
   **/
-  @ApiModelProperty(value = "The id of the node this process is hosted on.")
+  @ApiModelProperty(value = "")
 
+  @Valid
 
-  public String getNode() {
-    return node;
+  public ProcessMapping getProcessMapping() {
+    return processMapping;
   }
 
-  public void setNode(String node) {
-    this.node = node;
+  public void setProcessMapping(ProcessMapping processMapping) {
+    this.processMapping = processMapping;
   }
 
 
@@ -51,22 +51,22 @@ public class SingleProcess extends CloudiatorProcess  {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    SingleProcess singleProcess = (SingleProcess) o;
-    return Objects.equals(this.node, singleProcess.node) &&
+    HdfsInterface hdfsInterface = (HdfsInterface) o;
+    return Objects.equals(this.processMapping, hdfsInterface.processMapping) &&
         super.equals(o);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(node, super.hashCode());
+    return Objects.hash(processMapping, super.hashCode());
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class SingleProcess {\n");
+    sb.append("class HdfsInterface {\n");
     sb.append("    ").append(toIndentedString(super.toString())).append("\n");
-    sb.append("    node: ").append(toIndentedString(node)).append("\n");
+    sb.append("    processMapping: ").append(toIndentedString(processMapping)).append("\n");
     sb.append("}");
     return sb.toString();
   }

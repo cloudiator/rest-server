@@ -3,7 +3,7 @@ package io.github.cloudiator.rest.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.github.cloudiator.rest.model.Node;
+import io.github.cloudiator.rest.model.CloudiatorProcessNew;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
@@ -13,65 +13,38 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * A logical group of multiple nodes. 
+ * ClusterProcessNew
  */
-@ApiModel(description = "A logical group of multiple nodes. ")
 @Validated
 
-public class NodeGroup   {
-  @JsonProperty("id")
-  private String id = null;
-
+public class ClusterProcessNew extends CloudiatorProcessNew  {
   @JsonProperty("nodes")
   @Valid
-  private List<Node> nodes = null;
+  private List<String> nodes = new ArrayList<String>();
 
-  public NodeGroup id(String id) {
-    this.id = id;
-    return this;
-  }
-
-  /**
-   * Unique identifier of the node group. 
-   * @return id
-  **/
-  @ApiModelProperty(value = "Unique identifier of the node group. ")
-
-
-  public String getId() {
-    return id;
-  }
-
-  public void setId(String id) {
-    this.id = id;
-  }
-
-  public NodeGroup nodes(List<Node> nodes) {
+  public ClusterProcessNew nodes(List<String> nodes) {
     this.nodes = nodes;
     return this;
   }
 
-  public NodeGroup addNodesItem(Node nodesItem) {
-    if (this.nodes == null) {
-      this.nodes = new ArrayList<Node>();
-    }
+  public ClusterProcessNew addNodesItem(String nodesItem) {
     this.nodes.add(nodesItem);
     return this;
   }
 
   /**
-   * An array of multiple nodes belonging to this group. 
+   * A list of node identifiers defining the cluster the process is hosted on.
    * @return nodes
   **/
-  @ApiModelProperty(value = "An array of multiple nodes belonging to this group. ")
+  @ApiModelProperty(required = true, value = "A list of node identifiers defining the cluster the process is hosted on.")
+  @NotNull
 
-  @Valid
 
-  public List<Node> getNodes() {
+  public List<String> getNodes() {
     return nodes;
   }
 
-  public void setNodes(List<Node> nodes) {
+  public void setNodes(List<String> nodes) {
     this.nodes = nodes;
   }
 
@@ -84,22 +57,21 @@ public class NodeGroup   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    NodeGroup nodeGroup = (NodeGroup) o;
-    return Objects.equals(this.id, nodeGroup.id) &&
-        Objects.equals(this.nodes, nodeGroup.nodes);
+    ClusterProcessNew clusterProcessNew = (ClusterProcessNew) o;
+    return Objects.equals(this.nodes, clusterProcessNew.nodes) &&
+        super.equals(o);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, nodes);
+    return Objects.hash(nodes, super.hashCode());
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class NodeGroup {\n");
-    
-    sb.append("    id: ").append(toIndentedString(id)).append("\n");
+    sb.append("class ClusterProcessNew {\n");
+    sb.append("    ").append(toIndentedString(super.toString())).append("\n");
     sb.append("    nodes: ").append(toIndentedString(nodes)).append("\n");
     sb.append("}");
     return sb.toString();

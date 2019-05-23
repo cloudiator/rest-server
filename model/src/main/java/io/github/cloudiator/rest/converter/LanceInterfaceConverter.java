@@ -124,6 +124,10 @@ public class LanceInterfaceConverter implements
       result.shutdown(lanceInterface.getShutdown());
     }
 
+    if (!Strings.isNullOrEmpty(lanceInterface.getPortUpdateAction())) {
+      result.setUpdateAction(lanceInterface.getPortUpdateAction());
+    }
+
     if (Strings.isNullOrEmpty(lanceInterface.getStart())) {
       result.setStart(null);
     } else {
@@ -208,6 +212,10 @@ public class LanceInterfaceConverter implements
       result.setShutdown(lanceInterface.getShutdown());
     } else {
       result.clearShutdown();
+    }
+
+    if (lanceInterface.getUpdateAction() != null) {
+      result.setPortUpdateAction(lanceInterface.getUpdateAction());
     }
 
     return result.build();

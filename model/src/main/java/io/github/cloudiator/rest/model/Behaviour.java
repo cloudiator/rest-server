@@ -12,34 +12,30 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * Represents an interface 
+ * Represents the runtime behaviour of a task 
  */
-@ApiModel(description = "Represents an interface ")
+@ApiModel(description = "Represents the runtime behaviour of a task ")
 @Validated
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type", visible = true )
 @JsonSubTypes({
-  @JsonSubTypes.Type(value = SparkInterface.class, name = "SparkInterface"),
-  @JsonSubTypes.Type(value = HdfsInterface.class, name = "HdfsInterface"),
-  @JsonSubTypes.Type(value = FaasInterface.class, name = "FaasInterface"),
-  @JsonSubTypes.Type(value = PlatformInterface.class, name = "PlatformInterface"),
-  @JsonSubTypes.Type(value = DockerInterface.class, name = "DockerInterface"),
-  @JsonSubTypes.Type(value = LanceInterface.class, name = "LanceInterface"),
+  @JsonSubTypes.Type(value = ServiceBehaviour.class, name = "ServiceBehaviour"),
+  @JsonSubTypes.Type(value = PeriodicBehaviour.class, name = "PeriodicBehaviour"),
 })
 
-public class TaskInterface   {
+public class Behaviour   {
   @JsonProperty("type")
   private String type = null;
 
-  public TaskInterface type(String type) {
+  public Behaviour type(String type) {
     this.type = type;
     return this;
   }
 
   /**
-   * Discriminator for polymorphism. 
+   * Discriminator for polymorphism 
    * @return type
   **/
-  @ApiModelProperty(required = true, value = "Discriminator for polymorphism. ")
+  @ApiModelProperty(required = true, value = "Discriminator for polymorphism ")
   @NotNull
 
 
@@ -60,8 +56,8 @@ public class TaskInterface   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    TaskInterface taskInterface = (TaskInterface) o;
-    return Objects.equals(this.type, taskInterface.type);
+    Behaviour behaviour = (Behaviour) o;
+    return Objects.equals(this.type, behaviour.type);
   }
 
   @Override
@@ -72,7 +68,7 @@ public class TaskInterface   {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class TaskInterface {\n");
+    sb.append("class Behaviour {\n");
     
     sb.append("    type: ").append(toIndentedString(type)).append("\n");
     sb.append("}");

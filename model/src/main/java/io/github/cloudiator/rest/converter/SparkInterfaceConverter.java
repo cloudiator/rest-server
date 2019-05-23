@@ -3,15 +3,14 @@ package io.github.cloudiator.rest.converter;
 import com.google.common.base.Strings;
 import de.uniulm.omi.cloudiator.util.TwoWayConverter;
 import io.github.cloudiator.rest.model.SparkInterface;
-import io.github.cloudiator.rest.model.SparkInterface.DeployModeEnum;
 import org.cloudiator.messages.entities.TaskEntities;
-import org.cloudiator.messages.entities.TaskEntities.DeployMode;
 import org.cloudiator.messages.entities.TaskEntities.SparkInterface.Builder;
 
 public class SparkInterfaceConverter implements
     TwoWayConverter<SparkInterface, TaskEntities.SparkInterface> {
 
-  private static final DeployModeConverter DEPLOY_MODE_CONVERTER = new DeployModeConverter();
+  private static final ProcessMappingConverter PROCESS_MAPPING_CONVERTER = new ProcessMappingConverter();
+
 
   @Override
   public SparkInterface applyBack(TaskEntities.SparkInterface sparkInterface) {
@@ -23,8 +22,8 @@ public class SparkInterfaceConverter implements
     ret.setArguments(sparkInterface.getArgumentsList());
     ret.setSparkArguments(sparkInterface.getSparkArgumentsMap());
     ret.setSparkConfiguration(sparkInterface.getSparkConfigurationMap());
+    ret.setProcessMapping(PROCESS_MAPPING_CONVERTER.applyBack(sparkInterface.getProcessMapping()));
 
-    ret.setDeployMode(DEPLOY_MODE_CONVERTER.applyBack(sparkInterface.getDeployMode()));
 
     return ret;
   }
@@ -50,44 +49,10 @@ public class SparkInterfaceConverter implements
       builder.putAllSparkConfiguration(sparkInterface.getSparkConfiguration());
     }
 
-    builder.setDeployMode(DEPLOY_MODE_CONVERTER.apply(sparkInterface.getDeployMode()));
-
+    builder.setProcessMapping(PROCESS_MAPPING_CONVERTER.apply(sparkInterface.getProcessMapping()));
 
     return builder.build();
   }
 
 
-  private static class DeployModeConverter implements
-      TwoWayConverter<DeployModeEnum, TaskEntities.DeployMode> {
-
-
-    @Override
-    public DeployModeEnum applyBack(DeployMode deployMode) {
-      switch (deployMode) {
-
-        case SCALE:
-          return DeployModeEnum.SCALE;
-        case SUBMIT:
-          return DeployModeEnum.SUBMIT;
-        case SCALE_SUBMIT:
-          return DeployModeEnum.SCALE_SUBMIT;
-        default:
-          throw new AssertionError("Unrecognized deploy mode on message side: " + deployMode);
-      }
-    }
-
-    @Override
-    public DeployMode apply(DeployModeEnum deployModeEnum) {
-      switch (deployModeEnum) {
-        case SCALE:
-          return DeployMode.SCALE;
-        case SUBMIT:
-          return DeployMode.SUBMIT;
-        case SCALE_SUBMIT:
-          return DeployMode.SCALE_SUBMIT;
-        default:
-          throw new AssertionError("Unrecognized deploy mode on REST side: " + deployModeEnum);
-      }
-    }
-  }
 }

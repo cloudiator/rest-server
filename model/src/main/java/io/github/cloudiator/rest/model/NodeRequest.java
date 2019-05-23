@@ -4,7 +4,6 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import io.github.cloudiator.rest.model.NodeCandidate;
-import io.github.cloudiator.rest.model.NodeRequirements;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.validation.annotation.Validated;
@@ -12,17 +11,14 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * A request to start a node. May either contain requirements or a candidate. If requirements are passed, the matchmaking logic is used to derive the most suitable node candidate otherwise the given node candidate is used. If a node candidate is given, this one will be always prefered above the requirements. 
+ * A request to start a node. 
  */
-@ApiModel(description = "A request to start a node. May either contain requirements or a candidate. If requirements are passed, the matchmaking logic is used to derive the most suitable node candidate otherwise the given node candidate is used. If a node candidate is given, this one will be always prefered above the requirements. ")
+@ApiModel(description = "A request to start a node. ")
 @Validated
 
 public class NodeRequest   {
   @JsonProperty("groupName")
   private String groupName = null;
-
-  @JsonProperty("requirements")
-  private NodeRequirements requirements = null;
 
   @JsonProperty("nodeCandidate")
   private NodeCandidate nodeCandidate = null;
@@ -45,27 +41,6 @@ public class NodeRequest   {
 
   public void setGroupName(String groupName) {
     this.groupName = groupName;
-  }
-
-  public NodeRequest requirements(NodeRequirements requirements) {
-    this.requirements = requirements;
-    return this;
-  }
-
-  /**
-   * Get requirements
-   * @return requirements
-  **/
-  @ApiModelProperty(value = "")
-
-  @Valid
-
-  public NodeRequirements getRequirements() {
-    return requirements;
-  }
-
-  public void setRequirements(NodeRequirements requirements) {
-    this.requirements = requirements;
   }
 
   public NodeRequest nodeCandidate(NodeCandidate nodeCandidate) {
@@ -100,13 +75,12 @@ public class NodeRequest   {
     }
     NodeRequest nodeRequest = (NodeRequest) o;
     return Objects.equals(this.groupName, nodeRequest.groupName) &&
-        Objects.equals(this.requirements, nodeRequest.requirements) &&
         Objects.equals(this.nodeCandidate, nodeRequest.nodeCandidate);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(groupName, requirements, nodeCandidate);
+    return Objects.hash(groupName, nodeCandidate);
   }
 
   @Override
@@ -115,7 +89,6 @@ public class NodeRequest   {
     sb.append("class NodeRequest {\n");
     
     sb.append("    groupName: ").append(toIndentedString(groupName)).append("\n");
-    sb.append("    requirements: ").append(toIndentedString(requirements)).append("\n");
     sb.append("    nodeCandidate: ").append(toIndentedString(nodeCandidate)).append("\n");
     sb.append("}");
     return sb.toString();

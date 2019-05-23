@@ -69,18 +69,15 @@ public class NodeApiController implements NodeApi {
       final String tenant = UserInfo.of(request).tenant();
       final QueueItem<NodeRequestResponse> queueItem = queueService
           .queueCallback(tenant,
-              nodeRequestResponse -> "nodeGroup/" + nodeRequestResponse.getNodeGroup().getId());
+              nodeRequestResponse -> "node/" + nodeRequestResponse.getNode().getId());
 
       Builder builder = NodeRequestMessage.newBuilder()
           .setUserId(tenant);
 
-      if (nodeRequest.getNodeCandidate() != null) {
-        builder.setNodeCandidate(nodeCandidateConverter.apply(nodeRequest.getNodeCandidate()));
-      } else if (nodeRequest.getRequirements() != null) {
-        builder.setRequirements(nodeRequirementsConverter.apply(nodeRequest.getRequirements()));
-      } else {
-        throw new ApiException(400, "Neither node candidate nor requirements are set.");
+      if (nodeRequest.getNodeCandidate() == null) {
+        throw new ApiException(400, "Node candidate is mandatory.");
       }
+      builder.setNodeCandidate(nodeCandidateConverter.apply(nodeRequest.getNodeCandidate()));
 
       if (nodeRequest.getGroupName() != null) {
         builder.setGroupName(nodeRequest.getGroupName());
@@ -88,7 +85,7 @@ public class NodeApiController implements NodeApi {
 
       final NodeRequestMessage nodeRequestMessage = builder.build();
 
-      nodeService.createNodesAsync(nodeRequestMessage, queueItem.getCallback());
+      nodeService.createNodeAsync(nodeRequestMessage, queueItem.getCallback());
 
       final HttpHeaders httpHeaders = new HttpHeaders();
       httpHeaders.add(HttpHeaders.LOCATION, queueItem.getQueueLocation());

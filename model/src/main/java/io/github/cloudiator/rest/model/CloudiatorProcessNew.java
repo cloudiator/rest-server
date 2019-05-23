@@ -3,6 +3,8 @@ package io.github.cloudiator.rest.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.validation.annotation.Validated;
@@ -14,16 +16,44 @@ import javax.validation.constraints.*;
  */
 @ApiModel(description = "A process represents a task running on a node")
 @Validated
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "processType", visible = true )
+@JsonSubTypes({
+  @JsonSubTypes.Type(value = ClusterProcessNew.class, name = "ClusterProcessNew"),
+  @JsonSubTypes.Type(value = SingleProcessNew.class, name = "SingleProcessNew"),
+})
 
 public class CloudiatorProcessNew   {
+  @JsonProperty("processType")
+  private String processType = null;
+
   @JsonProperty("schedule")
   private String schedule = null;
 
   @JsonProperty("task")
   private String task = null;
 
-  @JsonProperty("nodeGroup")
-  private String nodeGroup = null;
+  @JsonProperty("taskInterface")
+  private String taskInterface = null;
+
+  public CloudiatorProcessNew processType(String processType) {
+    this.processType = processType;
+    return this;
+  }
+
+  /**
+   * Get processType
+   * @return processType
+  **/
+  @ApiModelProperty(value = "")
+
+
+  public String getProcessType() {
+    return processType;
+  }
+
+  public void setProcessType(String processType) {
+    this.processType = processType;
+  }
 
   public CloudiatorProcessNew schedule(String schedule) {
     this.schedule = schedule;
@@ -67,25 +97,25 @@ public class CloudiatorProcessNew   {
     this.task = task;
   }
 
-  public CloudiatorProcessNew nodeGroup(String nodeGroup) {
-    this.nodeGroup = nodeGroup;
+  public CloudiatorProcessNew taskInterface(String taskInterface) {
+    this.taskInterface = taskInterface;
     return this;
   }
 
   /**
-   * The id of the nodeGroup this process is hosted on.
-   * @return nodeGroup
+   * The task interface used for running the process.
+   * @return taskInterface
   **/
-  @ApiModelProperty(required = true, value = "The id of the nodeGroup this process is hosted on.")
+  @ApiModelProperty(required = true, value = "The task interface used for running the process.")
   @NotNull
 
 
-  public String getNodeGroup() {
-    return nodeGroup;
+  public String getTaskInterface() {
+    return taskInterface;
   }
 
-  public void setNodeGroup(String nodeGroup) {
-    this.nodeGroup = nodeGroup;
+  public void setTaskInterface(String taskInterface) {
+    this.taskInterface = taskInterface;
   }
 
 
@@ -98,14 +128,15 @@ public class CloudiatorProcessNew   {
       return false;
     }
     CloudiatorProcessNew cloudiatorProcessNew = (CloudiatorProcessNew) o;
-    return Objects.equals(this.schedule, cloudiatorProcessNew.schedule) &&
+    return Objects.equals(this.processType, cloudiatorProcessNew.processType) &&
+        Objects.equals(this.schedule, cloudiatorProcessNew.schedule) &&
         Objects.equals(this.task, cloudiatorProcessNew.task) &&
-        Objects.equals(this.nodeGroup, cloudiatorProcessNew.nodeGroup);
+        Objects.equals(this.taskInterface, cloudiatorProcessNew.taskInterface);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(schedule, task, nodeGroup);
+    return Objects.hash(processType, schedule, task, taskInterface);
   }
 
   @Override
@@ -113,9 +144,10 @@ public class CloudiatorProcessNew   {
     StringBuilder sb = new StringBuilder();
     sb.append("class CloudiatorProcessNew {\n");
     
+    sb.append("    processType: ").append(toIndentedString(processType)).append("\n");
     sb.append("    schedule: ").append(toIndentedString(schedule)).append("\n");
     sb.append("    task: ").append(toIndentedString(task)).append("\n");
-    sb.append("    nodeGroup: ").append(toIndentedString(nodeGroup)).append("\n");
+    sb.append("    taskInterface: ").append(toIndentedString(taskInterface)).append("\n");
     sb.append("}");
     return sb.toString();
   }

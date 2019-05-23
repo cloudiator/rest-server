@@ -2,17 +2,26 @@ package io.github.cloudiator.rest.converter;
 
 
 import de.uniulm.omi.cloudiator.util.TwoWayConverter;
-import io.github.cloudiator.rest.model.*;
+import io.github.cloudiator.rest.model.PeriodicBehaviour;
+import io.github.cloudiator.rest.model.PeriodicBehaviour.CollisionHandlingEnum;
+import io.github.cloudiator.rest.model.Port;
+import io.github.cloudiator.rest.model.Requirement;
+import io.github.cloudiator.rest.model.ServiceBehaviour;
+import io.github.cloudiator.rest.model.Task;
+import io.github.cloudiator.rest.model.TaskInterface;
 import org.cloudiator.messages.entities.CommonEntities;
 import org.cloudiator.messages.entities.TaskEntities;
+import org.cloudiator.messages.entities.TaskEntities.CollisionHandling;
 
 
 public class TaskConverter implements TwoWayConverter<Task, TaskEntities.Task> {
 
-  private final PortConverter portConverter = new PortConverter();
-  private final RequirementConverter requirementConverter = new RequirementConverter();
-  private final TaskInterfaceConverter interfaceConverter = new TaskInterfaceConverter();
-  private final OptimizationConverter optimizationConverter = OptimizationConverter.INSTANCE;
+  private static final PortConverter PORT_CONVERTER = new PortConverter();
+  private static final RequirementConverter REQUIREMENT_CONVERTER = new RequirementConverter();
+  private static final TaskInterfaceConverter INTERFACE_CONVERTER = new TaskInterfaceConverter();
+  private static final OptimizationConverter OPTIMIZATION_CONVERTER = OptimizationConverter.INSTANCE;
+  private static final ServiceBehaviourConverter SERVICE_BEHAVIOUR_CONVERTER = new ServiceBehaviourConverter();
+  private static final PeriodicBehaviourConverter PERIODIC_BEHAVIOUR_CONVERTER = new PeriodicBehaviourConverter();
 
   @Override
   public Task applyBack(TaskEntities.Task task) {
@@ -20,31 +29,31 @@ public class TaskConverter implements TwoWayConverter<Task, TaskEntities.Task> {
         .name(task.getName());
 
     for (TaskEntities.Port port : task.getPortsList()) {
-      result.addPortsItem(portConverter.applyBack(port));
+      result.addPortsItem(PORT_CONVERTER.applyBack(port));
     }
 
     for (CommonEntities.Requirement req : task.getRequirementsList()) {
-      result.addRequirementsItem(requirementConverter.applyBack(req));
+      result.addRequirementsItem(REQUIREMENT_CONVERTER.applyBack(req));
     }
 
     if (task.hasOptimization()) {
-      result.setOptimization(optimizationConverter.applyBack(task.getOptimization()));
+      result.setOptimization(OPTIMIZATION_CONVERTER.applyBack(task.getOptimization()));
     }
 
     for (TaskEntities.TaskInterface tInterface : task.getInterfacesList()) {
-      result.addInterfacesItem(interfaceConverter.applyBack(tInterface));
+      result.addInterfacesItem(INTERFACE_CONVERTER.applyBack(tInterface));
     }
 
-    switch (task.getTaskType()) {
-      case BATCH:
-        result.setTaskType(TaskType.BATCH);
-        break;
+    switch (task.getBehaviourCase()) {
       case SERVICE:
-        result.setTaskType(TaskType.SERVICE);
+        result.setBehaviour(SERVICE_BEHAVIOUR_CONVERTER.applyBack(task.getService()));
         break;
-      case UNRECOGNIZED:
+      case PERIODIC:
+        result.setBehaviour(PERIODIC_BEHAVIOUR_CONVERTER.applyBack(task.getPeriodic()));
+        break;
       default:
-        throw new AssertionError("TaskType unrecognized: " + task.getTaskType());
+      case BEHAVIOUR_NOT_SET:
+        throw new AssertionError("Unknown behaviour case " + task.getBehaviourCase());
     }
 
     return result;
@@ -57,35 +66,104 @@ public class TaskConverter implements TwoWayConverter<Task, TaskEntities.Task> {
 
     if (task.getPorts() != null) {
       for (Port port : task.getPorts()) {
-        result.addPorts(portConverter.apply(port));
+        result.addPorts(PORT_CONVERTER.apply(port));
       }
     }
 
     if (task.getRequirements() != null) {
       for (Requirement req : task.getRequirements()) {
-        result.addRequirements(requirementConverter.apply(req));
+        result.addRequirements(REQUIREMENT_CONVERTER.apply(req));
       }
     }
 
     if (task.getOptimization() != null) {
-      result.setOptimization(optimizationConverter.apply(task.getOptimization()));
+      result.setOptimization(OPTIMIZATION_CONVERTER.apply(task.getOptimization()));
     }
 
     for (TaskInterface tInterface : task.getInterfaces()) {
-      result.addInterfaces(interfaceConverter.apply(tInterface));
+      result.addInterfaces(INTERFACE_CONVERTER.apply(tInterface));
     }
 
-    switch (task.getTaskType()) {
-      case BATCH:
-        result.setTaskType(TaskEntities.TaskType.BATCH);
-        break;
-      case SERVICE:
-        result.setTaskType(TaskEntities.TaskType.SERVICE);
-        break;
-      default:
-        throw new AssertionError("TaskType unknown: " + task.getTaskType());
+    if (task.getBehaviour() instanceof PeriodicBehaviour) {
+      result
+          .setPeriodic(PERIODIC_BEHAVIOUR_CONVERTER.apply((PeriodicBehaviour) task.getBehaviour()));
+    } else if (task.getBehaviour() instanceof ServiceBehaviour) {
+      result.setService(SERVICE_BEHAVIOUR_CONVERTER.apply((ServiceBehaviour) task.getBehaviour()));
+    } else {
+      throw new AssertionError(
+          "Illegal behaviour type " + task.getBehaviour().getClass().getName());
     }
 
     return result.build();
+  }
+
+  private static class ServiceBehaviourConverter implements
+      TwoWayConverter<ServiceBehaviour, TaskEntities.ServiceBehaviour> {
+
+    @Override
+    public ServiceBehaviour applyBack(TaskEntities.ServiceBehaviour serviceBehaviour) {
+      return (ServiceBehaviour) new ServiceBehaviour().restart(serviceBehaviour.getRestart()).type(ServiceBehaviour.class.getSimpleName());
+    }
+
+    @Override
+    public TaskEntities.ServiceBehaviour apply(ServiceBehaviour serviceBehaviour) {
+      return TaskEntities.ServiceBehaviour.newBuilder().setRestart(serviceBehaviour.isRestart())
+          .build();
+    }
+  }
+
+  private static class PeriodicBehaviourConverter implements
+      TwoWayConverter<PeriodicBehaviour, TaskEntities.PeriodicBehaviour> {
+
+    private static final IntervalConverter INTERVAL_CONVERTER = new IntervalConverter();
+    private static final CollisionHandlingConverter COLLISION_HANDLING_CONVERTER = new CollisionHandlingConverter();
+
+    @Override
+    public PeriodicBehaviour applyBack(TaskEntities.PeriodicBehaviour periodicBehaviour) {
+
+      return (PeriodicBehaviour) new PeriodicBehaviour().collisionHandling(
+          COLLISION_HANDLING_CONVERTER.applyBack(periodicBehaviour.getCollisionHandling()))
+          .interval(INTERVAL_CONVERTER.applyBack(periodicBehaviour.getInterval())).type(PeriodicBehaviour.class.getSimpleName());
+    }
+
+    @Override
+    public TaskEntities.PeriodicBehaviour apply(PeriodicBehaviour periodicBehaviour) {
+      return TaskEntities.PeriodicBehaviour.newBuilder().setCollisionHandling(
+          COLLISION_HANDLING_CONVERTER.apply(periodicBehaviour.getCollisionHandling()))
+          .setInterval(INTERVAL_CONVERTER.apply(periodicBehaviour.getInterval())).build();
+    }
+  }
+
+  private static class CollisionHandlingConverter implements
+      TwoWayConverter<CollisionHandlingEnum, TaskEntities.CollisionHandling> {
+
+    @Override
+    public CollisionHandlingEnum applyBack(CollisionHandling collisionHandling) {
+      switch (collisionHandling) {
+        case SKIP:
+          return CollisionHandlingEnum.SKIP;
+        case CANCEL:
+          return CollisionHandlingEnum.CANCEL;
+        case PARALLEL:
+          return CollisionHandlingEnum.PARALLEL;
+        case UNRECOGNIZED:
+        default:
+          throw new AssertionError("Unknown collision handling " + collisionHandling);
+      }
+    }
+
+    @Override
+    public CollisionHandling apply(CollisionHandlingEnum collisionHandlingEnum) {
+      switch (collisionHandlingEnum) {
+        case PARALLEL:
+          return CollisionHandling.PARALLEL;
+        case CANCEL:
+          return CollisionHandling.CANCEL;
+        case SKIP:
+          return CollisionHandling.SKIP;
+        default:
+          throw new AssertionError("Unknown collision handling " + collisionHandlingEnum);
+      }
+    }
   }
 }

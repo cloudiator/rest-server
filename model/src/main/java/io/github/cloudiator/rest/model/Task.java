@@ -3,11 +3,11 @@ package io.github.cloudiator.rest.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import io.github.cloudiator.rest.model.Behaviour;
 import io.github.cloudiator.rest.model.Optimization;
 import io.github.cloudiator.rest.model.Port;
 import io.github.cloudiator.rest.model.Requirement;
 import io.github.cloudiator.rest.model.TaskInterface;
-import io.github.cloudiator.rest.model.TaskType;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
@@ -41,8 +41,8 @@ public class Task   {
   @Valid
   private List<Requirement> requirements = null;
 
-  @JsonProperty("taskType")
-  private TaskType taskType = null;
+  @JsonProperty("behaviour")
+  private Behaviour behaviour = null;
 
   public Task name(String name) {
     this.name = name;
@@ -173,26 +173,26 @@ public class Task   {
     this.requirements = requirements;
   }
 
-  public Task taskType(TaskType taskType) {
-    this.taskType = taskType;
+  public Task behaviour(Behaviour behaviour) {
+    this.behaviour = behaviour;
     return this;
   }
 
   /**
-   * Get taskType
-   * @return taskType
+   * Get behaviour
+   * @return behaviour
   **/
   @ApiModelProperty(required = true, value = "")
   @NotNull
 
   @Valid
 
-  public TaskType getTaskType() {
-    return taskType;
+  public Behaviour getBehaviour() {
+    return behaviour;
   }
 
-  public void setTaskType(TaskType taskType) {
-    this.taskType = taskType;
+  public void setBehaviour(Behaviour behaviour) {
+    this.behaviour = behaviour;
   }
 
 
@@ -210,12 +210,12 @@ public class Task   {
         Objects.equals(this.interfaces, task.interfaces) &&
         Objects.equals(this.optimization, task.optimization) &&
         Objects.equals(this.requirements, task.requirements) &&
-        Objects.equals(this.taskType, task.taskType);
+        Objects.equals(this.behaviour, task.behaviour);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, ports, interfaces, optimization, requirements, taskType);
+    return Objects.hash(name, ports, interfaces, optimization, requirements, behaviour);
   }
 
   @Override
@@ -228,7 +228,7 @@ public class Task   {
     sb.append("    interfaces: ").append(toIndentedString(interfaces)).append("\n");
     sb.append("    optimization: ").append(toIndentedString(optimization)).append("\n");
     sb.append("    requirements: ").append(toIndentedString(requirements)).append("\n");
-    sb.append("    taskType: ").append(toIndentedString(taskType)).append("\n");
+    sb.append("    behaviour: ").append(toIndentedString(behaviour)).append("\n");
     sb.append("}");
     return sb.toString();
   }

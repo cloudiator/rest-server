@@ -45,8 +45,8 @@ public class ScaleApiController implements ScaleApi {
                     .setUserId(tenant)
                     .setScheduleId(scale.getSchedule())
                     .setTaskId(scale.getTask())
-                    .setNodes(NODE_CONVERTER.apply())
-
+                    //.setNodes(NODE_CONVERTER.apply())
+                    .build();
 
                 return new ResponseEntity<Queue>(objectMapper.readValue("{  \"start\" : \"2000-01-23T04:56:07.000+00:00\",  \"diagnosis\" : \"diagnosis\",  \"end\" : \"2000-01-23T04:56:07.000+00:00\",  \"location\" : \"location\",  \"id\" : \"id\",  \"status\" : { }}", Queue.class), HttpStatus.NOT_IMPLEMENTED);
             } catch (IOException e) {

@@ -40,7 +40,6 @@ src/main/java/io/github/cloudiator/rest/api/ImagesApiController.java
 src/main/java/io/github/cloudiator/rest/api/JobsApiController.java
 src/main/java/io/github/cloudiator/rest/api/LocationsApiController.java
 src/main/java/io/github/cloudiator/rest/api/NodeApiController.java
-src/main/java/io/github/cloudiator/rest/api/NodeGroupApiController.java
 src/main/java/io/github/cloudiator/rest/api/FunctionApiController.java
 src/main/java/io/github/cloudiator/rest/api/MatchmakingApiController.java
 src/main/java/io/github/cloudiator/rest/api/VmApiController.java
@@ -66,6 +65,8 @@ src/main/java/io/github/cloudiator/rest/api/YamlApiController.java
 src/main/java/io/github/cloudiator/rest/api/ProcessGroupApiController.java
 
 src/main/java/io/github/cloudiator/rest/api/SolutionApiController.java
+
+src/main/java/io/github/cloudiator/rest/api/DiscoveryApiController.java
 
 
 # Ignore Exceptionhandling

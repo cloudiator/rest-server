@@ -3,7 +3,7 @@ package io.github.cloudiator.rest.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonValue;
+import io.github.cloudiator.rest.model.ProcessMapping;
 import io.github.cloudiator.rest.model.TaskInterface;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -36,41 +36,10 @@ public class SparkInterface extends TaskInterface  {
   @JsonProperty("sparkConfiguration")
   private java.util.Map sparkConfiguration = null;
 
-  /**
-   * defines the deploy mode of the Spark job, SUBMIT only deploys the Spark application to an existing cluster, | SCALE adds additional workers to the cluster, | SCALE_SUBMIT adds first additional workers to the cluster and submits the job after the workers are added 
-   */
-  public enum DeployModeEnum {
-    SCALE("SCALE"),
-    
-    SUBMIT("SUBMIT"),
-    
-    SCALE_SUBMIT("SCALE_SUBMIT");
 
-    private String value;
+  @JsonProperty("processMapping")
+  private ProcessMapping processMapping = null;
 
-    DeployModeEnum(String value) {
-      this.value = value;
-    }
-
-    @Override
-    @JsonValue
-    public String toString() {
-      return String.valueOf(value);
-    }
-
-    @JsonCreator
-    public static DeployModeEnum fromValue(String text) {
-      for (DeployModeEnum b : DeployModeEnum.values()) {
-        if (String.valueOf(b.value).equals(text)) {
-          return b;
-        }
-      }
-      return null;
-    }
-  }
-
-  @JsonProperty("deployMode")
-  private DeployModeEnum deployMode = null;
 
   public SparkInterface file(String file) {
     this.file = file;
@@ -181,25 +150,27 @@ public class SparkInterface extends TaskInterface  {
   public void setSparkConfiguration(java.util.Map sparkConfiguration) {
     this.sparkConfiguration = sparkConfiguration;
   }
+  public SparkInterface processMapping(ProcessMapping processMapping) {
+    this.processMapping = processMapping;
 
-  public SparkInterface deployMode(DeployModeEnum deployMode) {
-    this.deployMode = deployMode;
     return this;
   }
 
   /**
-   * defines the deploy mode of the Spark job, SUBMIT only deploys the Spark application to an existing cluster, | SCALE adds additional workers to the cluster, | SCALE_SUBMIT adds first additional workers to the cluster and submits the job after the workers are added 
-   * @return deployMode
+   * Get processMapping
+   * @return processMapping
   **/
-  @ApiModelProperty(value = "defines the deploy mode of the Spark job, SUBMIT only deploys the Spark application to an existing cluster, | SCALE adds additional workers to the cluster, | SCALE_SUBMIT adds first additional workers to the cluster and submits the job after the workers are added ")
+  @ApiModelProperty(value = "")
 
+  @Valid
 
-  public DeployModeEnum getDeployMode() {
-    return deployMode;
+  public ProcessMapping getProcessMapping() {
+    return processMapping;
   }
 
-  public void setDeployMode(DeployModeEnum deployMode) {
-    this.deployMode = deployMode;
+  public void setProcessMapping(ProcessMapping processMapping) {
+    this.processMapping = processMapping;
+
   }
 
 
@@ -217,13 +188,13 @@ public class SparkInterface extends TaskInterface  {
         Objects.equals(this.arguments, sparkInterface.arguments) &&
         Objects.equals(this.sparkArguments, sparkInterface.sparkArguments) &&
         Objects.equals(this.sparkConfiguration, sparkInterface.sparkConfiguration) &&
-        Objects.equals(this.deployMode, sparkInterface.deployMode) &&
+        Objects.equals(this.processMapping, sparkInterface.processMapping) &&
         super.equals(o);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(file, className, arguments, sparkArguments, sparkConfiguration, deployMode, super.hashCode());
+    return Objects.hash(file, className, arguments, sparkArguments, sparkConfiguration, processMapping, super.hashCode());
   }
 
   @Override
@@ -236,7 +207,7 @@ public class SparkInterface extends TaskInterface  {
     sb.append("    arguments: ").append(toIndentedString(arguments)).append("\n");
     sb.append("    sparkArguments: ").append(toIndentedString(sparkArguments)).append("\n");
     sb.append("    sparkConfiguration: ").append(toIndentedString(sparkConfiguration)).append("\n");
-    sb.append("    deployMode: ").append(toIndentedString(deployMode)).append("\n");
+    sb.append("    processMapping: ").append(toIndentedString(processMapping)).append("\n");
     sb.append("}");
     return sb.toString();
   }

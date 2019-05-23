@@ -87,12 +87,10 @@ public class NodeConverter implements TwoWayConverter<Node, NodeEntities.Node> {
     @Override
     public NodeState applyBack(StateEnum stateEnum) {
       switch (stateEnum) {
-        case FAILED:
-          return NodeState.NODE_STATE_FAILED;
+        case PENDING:
+          return NodeState.NODE_STATE_PENDING;
         case ERROR:
           return NodeState.NODE_STATE_ERROR;
-        case CREATED:
-          return NodeState.NODE_STATE_CREATED;
         case DELETED:
           return NodeState.NODE_STATE_DELETED;
         case RUNNING:
@@ -107,12 +105,10 @@ public class NodeConverter implements TwoWayConverter<Node, NodeEntities.Node> {
       switch (nodeState) {
         case NODE_STATE_RUNNING:
           return StateEnum.RUNNING;
-        case NODE_STATE_FAILED:
-          return StateEnum.FAILED;
+        case NODE_STATE_PENDING:
+          return StateEnum.PENDING;
         case NODE_STATE_ERROR:
           return StateEnum.ERROR;
-        case NODE_STATE_CREATED:
-          return StateEnum.CREATED;
         case NODE_STATE_DELETED:
           return StateEnum.DELETED;
         case UNRECOGNIZED:
