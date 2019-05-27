@@ -36,10 +36,8 @@ public class SparkInterface extends TaskInterface  {
   @JsonProperty("sparkConfiguration")
   private java.util.Map sparkConfiguration = null;
 
-
   @JsonProperty("processMapping")
   private ProcessMapping processMapping = null;
-
 
   public SparkInterface file(String file) {
     this.file = file;
@@ -150,9 +148,9 @@ public class SparkInterface extends TaskInterface  {
   public void setSparkConfiguration(java.util.Map sparkConfiguration) {
     this.sparkConfiguration = sparkConfiguration;
   }
+
   public SparkInterface processMapping(ProcessMapping processMapping) {
     this.processMapping = processMapping;
-
     return this;
   }
 
@@ -170,7 +168,6 @@ public class SparkInterface extends TaskInterface  {
 
   public void setProcessMapping(ProcessMapping processMapping) {
     this.processMapping = processMapping;
-
   }
 
 

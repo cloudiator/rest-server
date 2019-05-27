@@ -8,14 +8,11 @@ import io.github.cloudiator.rest.model.Scale;
 import io.github.cloudiator.rest.queue.QueueService;
 import io.github.cloudiator.rest.queue.QueueService.QueueItem;
 import io.swagger.annotations.ApiParam;
-import java.util.ArrayList;
-import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
-import org.cloudiator.messages.NodeEntities.Node;
 import org.cloudiator.messages.Process.ScaleRequest;
 import org.cloudiator.messages.Process.ScaleResponse;
-import org.cloudiator.messages.entities.ProcessEntities.Nodes;
+import org.cloudiator.messages.entities.ProcessEntities.NodeCluster;
 import org.cloudiator.messaging.services.ProcessService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -55,20 +52,11 @@ public class ScaleApiController implements ScaleApi {
 
       final String tenant = UserInfo.of(request).tenant();
 
-      List<Node> nodes = new ArrayList<>();
-      if (scale.getNodes() != null) {
-        for (io.github.cloudiator.rest.model.Node node : scale.getNodes()) {
-          nodes.add(NODE_CONVERTER.apply(node));
-        }
-      }
-
-      Nodes messageNodes = Nodes.newBuilder().addAllNodes(nodes).build();
-
       final ScaleRequest scaleRequest = ScaleRequest.newBuilder()
           .setUserId(tenant)
           .setScheduleId(scale.getSchedule())
           .setTaskId(scale.getTask())
-          .setNodes(messageNodes)
+          .setNodeCluster(NodeCluster.newBuilder().addAllNodes(scale.getNodes()).build())
           .build();
 
       final QueueItem<ScaleResponse> queueItem = queueService
