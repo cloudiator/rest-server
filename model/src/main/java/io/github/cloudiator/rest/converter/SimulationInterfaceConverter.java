@@ -43,7 +43,8 @@ public class SimulationInterfaceConverter implements
       switch (distribution.getDistributionCase()) {
         case NORMALDISTRIBUTION:
           return new NormalDistribution().mean(distribution.getNormalDistribution().getMean())
-              .stdDev(distribution.getNormalDistribution().getStdDev());
+              .stdDev(distribution.getNormalDistribution().getStdDev())
+              .type(NormalDistribution.class.getSimpleName());
         case DISTRIBUTION_NOT_SET:
         default:
           throw new AssertionError(

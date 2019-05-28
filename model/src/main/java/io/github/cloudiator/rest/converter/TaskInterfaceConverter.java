@@ -48,6 +48,7 @@ public class TaskInterfaceConverter implements
       case SIMULATIONINTERFACE:
         result = SIMULATION_INTERFACE_CONVERTER.applyBack(taskInterface.getSimulationInterface());
         result.setType(taskInterface.getSimulationInterface().getClass().getSimpleName());
+        break;
       case TASKINTERFACE_NOT_SET:
       default:
         throw new AssertionError(
