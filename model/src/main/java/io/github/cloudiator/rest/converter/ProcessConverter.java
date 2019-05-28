@@ -207,6 +207,8 @@ public class ProcessConverter implements
           return CloudiatorProcess.TypeEnum.SPARK;
         case FAAS:
           return CloudiatorProcess.TypeEnum.FAAS;
+        case SIMULATION:
+          return CloudiatorProcess.TypeEnum.SIMULATION;
         case UNKNOWN:
           return CloudiatorProcess.TypeEnum.UNKNOWN;
         case UNRECOGNIZED:
@@ -224,6 +226,8 @@ public class ProcessConverter implements
           return ProcessType.LANCE;
         case FAAS:
           return ProcessType.FAAS;
+        case SIMULATION:
+          return ProcessType.SIMULATION;
         case UNKNOWN:
           return ProcessType.UNKNOWN;
         default:
