@@ -6,6 +6,7 @@ import io.github.cloudiator.rest.model.FaasInterface;
 import io.github.cloudiator.rest.model.HdfsInterface;
 import io.github.cloudiator.rest.model.LanceInterface;
 import io.github.cloudiator.rest.model.PlatformInterface;
+import io.github.cloudiator.rest.model.SimulationInterface;
 import io.github.cloudiator.rest.model.SparkInterface;
 import io.github.cloudiator.rest.model.TaskInterface;
 import org.cloudiator.messages.entities.TaskEntities;
@@ -15,10 +16,10 @@ public class TaskInterfaceConverter implements
 
   private static final DockerInterfaceConverter DOCKER_INTERFACE_CONVERTER = new DockerInterfaceConverter();
   private static final LanceInterfaceConverter LANCE_INTERFACE_CONVERTER = new LanceInterfaceConverter();
-  private static final PlatformInterfaceConverter platformInterfaceConverter = new PlatformInterfaceConverter();
   private static final FaasInterfaceConverter FAAS_INTERFACE_CONVERTER = new FaasInterfaceConverter();
   private static final SparkInterfaceConverter SPARK_INTERFACE_CONVERTER = new SparkInterfaceConverter();
   private static final HdfsInterfaceConverter HDFS_INTERFACE_CONVERTER = new HdfsInterfaceConverter();
+  private static final SimulationInterfaceConverter SIMULATION_INTERFACE_CONVERTER = new SimulationInterfaceConverter();
 
   @Override
   public TaskInterface applyBack(TaskEntities.TaskInterface taskInterface) {
@@ -44,6 +45,9 @@ public class TaskInterfaceConverter implements
         result = HDFS_INTERFACE_CONVERTER.applyBack(taskInterface.getHdfsInterface());
         result.setType(taskInterface.getHdfsInterface().getClass().getSimpleName());
         break;
+      case SIMULATIONINTERFACE:
+        result = SIMULATION_INTERFACE_CONVERTER.applyBack(taskInterface.getSimulationInterface());
+        result.setType(taskInterface.getSimulationInterface().getClass().getSimpleName());
       case TASKINTERFACE_NOT_SET:
       default:
         throw new AssertionError(
@@ -68,7 +72,9 @@ public class TaskInterfaceConverter implements
       result.setFaasInterface(FAAS_INTERFACE_CONVERTER.apply((FaasInterface) taskInterface));
     } else if (taskInterface instanceof HdfsInterface) {
       result.setHdfsInterface(HDFS_INTERFACE_CONVERTER.apply((HdfsInterface) taskInterface));
-    }else {
+    } else if (taskInterface instanceof SimulationInterface) {
+      result.setSimulationInterface(SIMULATION_INTERFACE_CONVERTER.apply((SimulationInterface) taskInterface));
+    } else {
       throw new AssertionError(
           "InterfaceType not known: " + taskInterface.getClass().getSimpleName());
     }

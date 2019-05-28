@@ -12,31 +12,28 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * polymorphic Superclass, only subtypes are allowed
+ * Distribution
  */
-@ApiModel(description = "polymorphic Superclass, only subtypes are allowed")
 @Validated
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type", visible = true )
 @JsonSubTypes({
-  @JsonSubTypes.Type(value = OclRequirement.class, name = "OclRequirement"),
-  @JsonSubTypes.Type(value = IdentifierRequirement.class, name = "IdentifierRequirement"),
-  @JsonSubTypes.Type(value = AttributeRequirement.class, name = "AttributeRequirement"),
+  @JsonSubTypes.Type(value = NormalDistribution.class, name = "NormalDistribution"),
 })
 
-public class Requirement   {
+public class Distribution   {
   @JsonProperty("type")
   private String type = null;
 
-  public Requirement type(String type) {
+  public Distribution type(String type) {
     this.type = type;
     return this;
   }
 
   /**
-   * Get type
+   * Discriminator for polymorphism. 
    * @return type
   **/
-  @ApiModelProperty(required = true, value = "")
+  @ApiModelProperty(required = true, value = "Discriminator for polymorphism. ")
   @NotNull
 
 
@@ -57,8 +54,8 @@ public class Requirement   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    Requirement requirement = (Requirement) o;
-    return Objects.equals(this.type, requirement.type);
+    Distribution distribution = (Distribution) o;
+    return Objects.equals(this.type, distribution.type);
   }
 
   @Override
@@ -69,7 +66,7 @@ public class Requirement   {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class Requirement {\n");
+    sb.append("class Distribution {\n");
     
     sb.append("    type: ").append(toIndentedString(type)).append("\n");
     sb.append("}");
