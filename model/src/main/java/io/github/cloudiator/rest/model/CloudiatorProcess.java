@@ -85,6 +85,8 @@ public class CloudiatorProcess   {
     
     FAAS("FAAS"),
     
+    SIMULATION("SIMULATION"),
+    
     UNKNOWN("UNKNOWN");
 
     private String value;

@@ -3,7 +3,6 @@ package io.github.cloudiator.rest.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.github.cloudiator.rest.model.Node;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
@@ -27,7 +26,7 @@ public class Scale   {
 
   @JsonProperty("nodes")
   @Valid
-  private List<Node> nodes = null;
+  private List<String> nodes = null;
 
   public Scale schedule(String schedule) {
     this.schedule = schedule;
@@ -69,32 +68,31 @@ public class Scale   {
     this.task = task;
   }
 
-  public Scale nodes(List<Node> nodes) {
+  public Scale nodes(List<String> nodes) {
     this.nodes = nodes;
     return this;
   }
 
-  public Scale addNodesItem(Node nodesItem) {
+  public Scale addNodesItem(String nodesItem) {
     if (this.nodes == null) {
-      this.nodes = new ArrayList<Node>();
+      this.nodes = new ArrayList<String>();
     }
     this.nodes.add(nodesItem);
     return this;
   }
 
   /**
-   * An optional list of nodes
+   * An optional list of nodes for the scaling process
    * @return nodes
   **/
-  @ApiModelProperty(value = "An optional list of nodes")
+  @ApiModelProperty(value = "An optional list of nodes for the scaling process")
 
-  @Valid
 
-  public List<Node> getNodes() {
+  public List<String> getNodes() {
     return nodes;
   }
 
-  public void setNodes(List<Node> nodes) {
+  public void setNodes(List<String> nodes) {
     this.nodes = nodes;
   }
 

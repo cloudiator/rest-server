@@ -12,26 +12,19 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * Represents an interface 
+ * Distribution
  */
-@ApiModel(description = "Represents an interface ")
 @Validated
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type", visible = true )
 @JsonSubTypes({
-  @JsonSubTypes.Type(value = FaasInterface.class, name = "FaasInterface"),
-  @JsonSubTypes.Type(value = DockerInterface.class, name = "DockerInterface"),
-  @JsonSubTypes.Type(value = LanceInterface.class, name = "LanceInterface"),
-  @JsonSubTypes.Type(value = SparkInterface.class, name = "SparkInterface"),
-  @JsonSubTypes.Type(value = HdfsInterface.class, name = "HdfsInterface"),
-  @JsonSubTypes.Type(value = SimulationInterface.class, name = "SimulationInterface"),
-  @JsonSubTypes.Type(value = PlatformInterface.class, name = "PlatformInterface"),
+  @JsonSubTypes.Type(value = NormalDistribution.class, name = "NormalDistribution"),
 })
 
-public class TaskInterface   {
+public class Distribution   {
   @JsonProperty("type")
   private String type = null;
 
-  public TaskInterface type(String type) {
+  public Distribution type(String type) {
     this.type = type;
     return this;
   }
@@ -61,8 +54,8 @@ public class TaskInterface   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    TaskInterface taskInterface = (TaskInterface) o;
-    return Objects.equals(this.type, taskInterface.type);
+    Distribution distribution = (Distribution) o;
+    return Objects.equals(this.type, distribution.type);
   }
 
   @Override
@@ -73,7 +66,7 @@ public class TaskInterface   {
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class TaskInterface {\n");
+    sb.append("class Distribution {\n");
     
     sb.append("    type: ").append(toIndentedString(type)).append("\n");
     sb.append("}");
