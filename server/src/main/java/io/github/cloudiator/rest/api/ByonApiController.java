@@ -1,6 +1,7 @@
 package io.github.cloudiator.rest.api;
 
 import com.google.common.base.Strings;
+import io.github.cloudiator.rest.UserInfo;
 import io.github.cloudiator.rest.converter.ByonConverter;
 import io.github.cloudiator.rest.converter.NewNodeConverter;
 import io.github.cloudiator.rest.model.ByonNode;
@@ -42,8 +43,6 @@ import java.util.List;
 @Controller
 public class ByonApiController implements ByonApi {
 
-  //todo: Implement UserlessQueueService to get rid of this workaround
-  private static final String tmpUserId = UUID.randomUUID().toString();
   private static final Logger log = LoggerFactory.getLogger(ByonApiController.class);
   private static final NewNodeConverter NEW_NODE_CONVERTER = new NewNodeConverter();
   private static final ByonConverter BYON_CONVERTER = new ByonConverter();
@@ -66,14 +65,15 @@ public class ByonApiController implements ByonApi {
     String accept = request.getHeader("Accept");
     if (accept != null && accept.contains("application/json")) {
 
+      final String tenant = UserInfo.of(request).tenant();
       final QueueItem<ByonNodeAddedResponse> queueItem = queueService
-          .queueCallback(tmpUserId,
+          .queueCallback(tenant,
               byonNodeAddedResponse -> "byon/" + byonNodeAddedResponse.getByonNode().getId());
 
       Byon.ByonNode byonNode = NEW_NODE_CONVERTER.apply(newNode);
       Byon.ByonData data = byonNode.getNodeData();
       AddByonNodeRequest byonRequest = AddByonNodeRequest.newBuilder()
-          .setByonRequest(data).build();
+          .setByonRequest(data).setUserId(tenant).build();
 
       byonService.addByonNodeAsync(byonRequest, queueItem.getCallback());
 
@@ -94,28 +94,12 @@ public class ByonApiController implements ByonApi {
         throw new ApiException(404, "Id is null or empty");
       }
 
-      List<ByonNode> nodes = getNodesById(id);
-
-      if(nodes.size() > 1) {
-        log.error(String.format("Byon with id: %s found multiple times, while"
-            + "trying to delete it.", id));
-      }
-
-      if(nodes.size() == 0) {
-         throw new ApiException(404, String.format("Byon with id: %s cannot be +"
-             + "deleted as it cannot be found.", id));
-      }
-
-      if(nodes.get(0).isAllocated()) {
-        throw new ApiException(404, String.format("Byon with id: %s cannot be +"
-            + "deleted as it is allocated at the moment.", id));
-      }
-
+      final String tenant = UserInfo.of(request).tenant();
       final QueueItem<ByonNodeRemovedResponse> queueItem = queueService
-          .queueCallback(tmpUserId);
+          .queueCallback(tenant);
 
       RemoveByonNodeRequest byonRequest = RemoveByonNodeRequest.newBuilder().setId(id)
-          .build();
+          .setUserId(tenant).build();
 
       byonService.removeByonNodeAsync(byonRequest, queueItem.getCallback());
 
@@ -129,34 +113,27 @@ public class ByonApiController implements ByonApi {
   }
 
   public ResponseEntity<List<ByonNode>> findByons() {
+
     String accept = request.getHeader("Accept");
+
+    final String tenant = UserInfo.of(request).tenant();
+
     if (accept != null && accept.contains("application/json")) {
 
-      List<ByonNode> byonNodes = queryByonNodes();
-      return new ResponseEntity<>(byonNodes, HttpStatus.OK);
+      try {
+        final ByonNodeQueryRequest queryRequest = ByonNodeQueryRequest.newBuilder()
+            .setUserId(tenant)
+            .setFilter(QueryFilter.ALL).build();
+        ByonNodeQueryResponse response = byonService.findByonNodes(queryRequest);
+        List<ByonNode> byonNodes = response.getByonNodeList().stream()
+            .map(BYON_CONVERTER::applyBack).collect(Collectors.toList());
+        return new ResponseEntity<>(byonNodes, HttpStatus.OK);
+      } catch (ResponseException e) {
+        log.error("Response Error", e);
+        throw new ApiException(e.code(), e.getMessage());
+      }
     }
 
     return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
-  }
-
-  private List<ByonNode> getNodesById(String id) {
-    List<ByonNode> nodes = queryByonNodes();
-    return nodes.stream().filter(byonNode -> byonNode.getId() == id)
-        .collect(Collectors.toList());
-  }
-
-  private List<ByonNode> queryByonNodes() {
-    ByonNodeQueryRequest queryRequest = ByonNodeQueryRequest.newBuilder()
-        .setFilter(QueryFilter.ALL).build();
-    ByonNodeQueryResponse response;
-    try {
-      response = byonService.findByonNodes(queryRequest);
-    } catch (ResponseException e) {
-      log.error("Response Error", e);
-      throw new ApiException(e.code(), e.getMessage());
-    }
-
-    return response.getByonNodeList().stream()
-        .map(BYON_CONVERTER::applyBack).collect(Collectors.toList());
   }
 }

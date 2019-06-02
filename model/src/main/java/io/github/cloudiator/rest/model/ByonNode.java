@@ -47,6 +47,9 @@ public class ByonNode   {
   @JsonProperty("id")
   private String id = null;
 
+  @JsonProperty("userId")
+  private String userId = null;
+
   @JsonProperty("allocated")
   private Boolean allocated = null;
 
@@ -221,6 +224,26 @@ public class ByonNode   {
     this.id = id;
   }
 
+  public ByonNode userId(String userId) {
+    this.userId = userId;
+    return this;
+  }
+
+  /**
+   * User id of the owner of this node. 
+   * @return userId
+  **/
+  @ApiModelProperty(value = "User id of the owner of this node. ")
+
+
+  public String getUserId() {
+    return userId;
+  }
+
+  public void setUserId(String userId) {
+    this.userId = userId;
+  }
+
   public ByonNode allocated(Boolean allocated) {
     this.allocated = allocated;
     return this;
@@ -259,12 +282,13 @@ public class ByonNode   {
         Objects.equals(this.diagnostic, byonNode.diagnostic) &&
         Objects.equals(this.nodeCandidate, byonNode.nodeCandidate) &&
         Objects.equals(this.id, byonNode.id) &&
+        Objects.equals(this.userId, byonNode.userId) &&
         Objects.equals(this.allocated, byonNode.allocated);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(name, loginCredential, ipAddresses, nodeProperties, reason, diagnostic, nodeCandidate, id, allocated);
+    return Objects.hash(name, loginCredential, ipAddresses, nodeProperties, reason, diagnostic, nodeCandidate, id, userId, allocated);
   }
 
   @Override
@@ -280,6 +304,7 @@ public class ByonNode   {
     sb.append("    diagnostic: ").append(toIndentedString(diagnostic)).append("\n");
     sb.append("    nodeCandidate: ").append(toIndentedString(nodeCandidate)).append("\n");
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
+    sb.append("    userId: ").append(toIndentedString(userId)).append("\n");
     sb.append("    allocated: ").append(toIndentedString(allocated)).append("\n");
     sb.append("}");
     return sb.toString();
