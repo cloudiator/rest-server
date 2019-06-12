@@ -3,6 +3,7 @@ package io.github.cloudiator.rest.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import java.util.ArrayList;
@@ -23,6 +24,40 @@ public class Scale   {
 
   @JsonProperty("task")
   private String task = null;
+
+  /**
+   * Gets or Sets scaleDirection
+   */
+  public enum ScaleDirectionEnum {
+    IN("SCALE_IN"),
+    
+    OUT("SCALE_OUT");
+
+    private String value;
+
+    ScaleDirectionEnum(String value) {
+      this.value = value;
+    }
+
+    @Override
+    @JsonValue
+    public String toString() {
+      return String.valueOf(value);
+    }
+
+    @JsonCreator
+    public static ScaleDirectionEnum fromValue(String text) {
+      for (ScaleDirectionEnum b : ScaleDirectionEnum.values()) {
+        if (String.valueOf(b.value).equals(text)) {
+          return b;
+        }
+      }
+      return null;
+    }
+  }
+
+  @JsonProperty("scaleDirection")
+  private ScaleDirectionEnum scaleDirection = null;
 
   @JsonProperty("nodes")
   @Valid
@@ -68,6 +103,26 @@ public class Scale   {
     this.task = task;
   }
 
+  public Scale scaleDirection(ScaleDirectionEnum scaleDirection) {
+    this.scaleDirection = scaleDirection;
+    return this;
+  }
+
+  /**
+   * Get scaleDirection
+   * @return scaleDirection
+  **/
+  @ApiModelProperty(value = "")
+
+
+  public ScaleDirectionEnum getScaleDirection() {
+    return scaleDirection;
+  }
+
+  public void setScaleDirection(ScaleDirectionEnum scaleDirection) {
+    this.scaleDirection = scaleDirection;
+  }
+
   public Scale nodes(List<String> nodes) {
     this.nodes = nodes;
     return this;
@@ -108,12 +163,13 @@ public class Scale   {
     Scale scale = (Scale) o;
     return Objects.equals(this.schedule, scale.schedule) &&
         Objects.equals(this.task, scale.task) &&
+        Objects.equals(this.scaleDirection, scale.scaleDirection) &&
         Objects.equals(this.nodes, scale.nodes);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(schedule, task, nodes);
+    return Objects.hash(schedule, task, scaleDirection, nodes);
   }
 
   @Override
@@ -123,6 +179,7 @@ public class Scale   {
     
     sb.append("    schedule: ").append(toIndentedString(schedule)).append("\n");
     sb.append("    task: ").append(toIndentedString(task)).append("\n");
+    sb.append("    scaleDirection: ").append(toIndentedString(scaleDirection)).append("\n");
     sb.append("    nodes: ").append(toIndentedString(nodes)).append("\n");
     sb.append("}");
     return sb.toString();

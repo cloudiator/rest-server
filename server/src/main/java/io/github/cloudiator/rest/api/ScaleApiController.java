@@ -13,6 +13,7 @@ import javax.validation.Valid;
 import org.cloudiator.messages.Process.ScaleRequest;
 import org.cloudiator.messages.Process.ScaleResponse;
 import org.cloudiator.messages.entities.ProcessEntities.NodeCluster;
+import org.cloudiator.messages.entities.ProcessEntities.ScaleDirection;
 import org.cloudiator.messaging.services.ProcessService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -57,6 +58,7 @@ public class ScaleApiController implements ScaleApi {
           .setScheduleId(scale.getSchedule())
           .setTaskId(scale.getTask())
           .setNodeCluster(NodeCluster.newBuilder().addAllNodes(scale.getNodes()).build())
+          .setScaleDirection(ScaleDirection.valueOf(scale.getScaleDirection().name()))
           .build();
 
       final QueueItem<ScaleResponse> queueItem = queueService
