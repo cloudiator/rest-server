@@ -8,6 +8,7 @@ import io.github.cloudiator.rest.model.Scale;
 import io.github.cloudiator.rest.queue.QueueService;
 import io.github.cloudiator.rest.queue.QueueService.QueueItem;
 import io.swagger.annotations.ApiParam;
+import java.util.ArrayList;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import org.cloudiator.messages.Process.ScaleRequest;
@@ -52,6 +53,10 @@ public class ScaleApiController implements ScaleApi {
     if (accept != null && accept.contains("application/json")) {
 
       final String tenant = UserInfo.of(request).tenant();
+
+      if (scale.getNodes() == null) {
+        scale.setNodes(new ArrayList<>());
+      }
 
       final ScaleRequest scaleRequest = ScaleRequest.newBuilder()
           .setUserId(tenant)
