@@ -63,7 +63,7 @@ public class ScaleApiController implements ScaleApi {
           .setScheduleId(scale.getSchedule())
           .setTaskId(scale.getTask())
           .setNodeCluster(NodeCluster.newBuilder().addAllNodes(scale.getNodes()).build())
-          .setScaleDirection(ScaleDirection.valueOf(scale.getScaleDirection().name()))
+          .setScaleDirection(ScaleDirection.valueOf(scale.getScaleDirection().toString()))
           .build();
 
       final QueueItem<ScaleResponse> queueItem = queueService
