@@ -22,11 +22,14 @@ public class NewNodeConverter implements OneWayConverter<NewNode, Byon.ByonNode>
         .setName(newNode.getName())
         .setLoginCredentials(loginCredentialConverter.apply(newNode.getLoginCredential()))
         .setProperties(nodePropertiesConverter.apply(newNode.getNodeProperties()))
-        .setNodeCandidate(newNode.getNodeCandidate())
         .setAllocated(false);
 
     for (IpAddress ipAddress : newNode.getIpAddresses()) {
       dataBuilder.addIpAddress(ipAddressConverter.apply(ipAddress));
+    }
+
+    if (newNode.getNodeCandidate() != null) {
+      dataBuilder.setNodeCandidate(newNode.getNodeCandidate());
     }
 
     if (newNode.getReason() != null) {
