@@ -8,11 +8,13 @@ import io.github.cloudiator.rest.model.Scale;
 import io.github.cloudiator.rest.queue.QueueService;
 import io.github.cloudiator.rest.queue.QueueService.QueueItem;
 import io.swagger.annotations.ApiParam;
+import java.util.ArrayList;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import org.cloudiator.messages.Process.ScaleRequest;
 import org.cloudiator.messages.Process.ScaleResponse;
 import org.cloudiator.messages.entities.ProcessEntities.NodeCluster;
+import org.cloudiator.messages.entities.ProcessEntities.ScaleDirection;
 import org.cloudiator.messaging.services.ProcessService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -52,11 +54,16 @@ public class ScaleApiController implements ScaleApi {
 
       final String tenant = UserInfo.of(request).tenant();
 
+      if (scale.getNodes() == null) {
+        scale.setNodes(new ArrayList<>());
+      }
+
       final ScaleRequest scaleRequest = ScaleRequest.newBuilder()
           .setUserId(tenant)
           .setScheduleId(scale.getSchedule())
           .setTaskId(scale.getTask())
           .setNodeCluster(NodeCluster.newBuilder().addAllNodes(scale.getNodes()).build())
+          .setScaleDirection(ScaleDirection.valueOf(scale.getScaleDirection().toString()))
           .build();
 
       final QueueItem<ScaleResponse> queueItem = queueService
