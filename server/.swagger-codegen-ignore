@@ -69,6 +69,7 @@ src/main/java/io/github/cloudiator/rest/api/SolutionApiController.java
 src/main/java/io/github/cloudiator/rest/api/DiscoveryApiController.java
 
 src/main/java/io/github/cloudiator/rest/api/ScaleApiController.java
+src/main/java/io/github/cloudiator/rest/api/ByonApiController.java
 
 
 # Ignore Exceptionhandling
