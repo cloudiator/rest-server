@@ -71,6 +71,8 @@ public class OperatingSystemConverter implements
           return OperatingSystemArchitecture.I386;
         case UNKOWN_OS_ARCH:
           return OperatingSystemArchitecture.UNKOWN;
+        case ARM:
+          return OperatingSystemArchitecture.ARM;
         default:
           throw new AssertionError("corrupt OS-Architecture " + operatingSystemArchitecture);
       }
@@ -86,6 +88,8 @@ public class OperatingSystemConverter implements
           return CommonEntities.OperatingSystemArchitecture.I386;
         case UNKOWN:
           return CommonEntities.OperatingSystemArchitecture.UNKOWN_OS_ARCH;
+        case ARM:
+          return CommonEntities.OperatingSystemArchitecture.ARM;
         default:
           throw new AssertionError("corrupt OS-Architecture " + operatingSystemArchitecture);
       }
