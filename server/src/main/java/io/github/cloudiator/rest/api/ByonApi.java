@@ -5,7 +5,10 @@
  */
 package io.github.cloudiator.rest.api;
 
-import io.github.cloudiator.rest.model.Node;
+import io.github.cloudiator.rest.model.ByonNode;
+import io.github.cloudiator.rest.model.Error;
+import io.github.cloudiator.rest.model.NewNode;
+import io.github.cloudiator.rest.model.Queue;
 import io.swagger.annotations.*;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -25,15 +28,38 @@ import java.util.List;
 @Api(value = "byon", description = "the byon API")
 public interface ByonApi {
 
-    @ApiOperation(value = "", nickname = "addBYON", notes = "Registers an already existing node for usage", response = Node.class, authorizations = {
+    @ApiOperation(value = "", nickname = "addByon", notes = "Registers an already existing node for usage", response = Queue.class, authorizations = {
         @Authorization(value = "ApiKeyAuth")
     }, tags={ "node", })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "OK", response = Node.class) })
+        @ApiResponse(code = 200, message = "OK", response = Queue.class) })
     @RequestMapping(value = "/byon",
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.POST)
-    ResponseEntity<Node> addBYON(@ApiParam(value = "Node to be registered" ,required=true )  @Valid @RequestBody Node node);
+    ResponseEntity<Queue> addByon(@ApiParam(value = "Node to be registered" ,required=true )  @Valid @RequestBody NewNode newNode);
+
+
+    @ApiOperation(value = "", nickname = "deleteByon", notes = "Deletes the already existing node from cloudiator, if not allocated.", response = Queue.class, authorizations = {
+        @Authorization(value = "ApiKeyAuth")
+    }, tags={ "node", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 202, message = "OK ", response = Queue.class),
+        @ApiResponse(code = 404, message = "Item not found", response = Error.class) })
+    @RequestMapping(value = "/byon/{id}",
+        produces = { "application/json" }, 
+        method = RequestMethod.DELETE)
+    ResponseEntity<Queue> deleteByon(@ApiParam(value = "Unique identifier of the resource",required=true) @PathVariable("id") String id);
+
+
+    @ApiOperation(value = "", nickname = "findByons", notes = "Retrieve all BYONs the current user has access to", response = ByonNode.class, responseContainer = "List", authorizations = {
+        @Authorization(value = "ApiKeyAuth")
+    }, tags={ "node", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "OK", response = ByonNode.class, responseContainer = "List") })
+    @RequestMapping(value = "/byon",
+        produces = { "application/json" }, 
+        method = RequestMethod.GET)
+    ResponseEntity<List<ByonNode>> findByons();
 
 }

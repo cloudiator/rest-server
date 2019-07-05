@@ -88,4 +88,7 @@ public class ServiceFactory {
     return INJECTOR.getInstance(MonitorService.class);
   }
 
+  public ByonService createByonService() {
+    return INJECTOR.getInstance(ByonService.class);
+  }
 }

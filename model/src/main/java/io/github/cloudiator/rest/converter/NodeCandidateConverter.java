@@ -9,7 +9,7 @@ public class NodeCandidateConverter implements
 
   private final IaasNodeCandidateConverter iaasNodeCandidateConverter = new IaasNodeCandidateConverter();
   private final FaasNodeCandidateConverter faasNodeCandidateConverter = new FaasNodeCandidateConverter();
-
+  private final ByonNodeCandidateConverter byonNodeCandidateConverter = new ByonNodeCandidateConverter();
 
   @Override
   public NodeCandidate applyBack(MatchmakingEntities.NodeCandidate nodeCandidate) {
@@ -18,8 +18,9 @@ public class NodeCandidateConverter implements
         return iaasNodeCandidateConverter.applyBack(nodeCandidate);
       case NC_FAAS:
         return faasNodeCandidateConverter.applyBack(nodeCandidate);
-      case NC_PAAS:
       case NC_BYON:
+        return byonNodeCandidateConverter.applyBack(nodeCandidate);
+      case NC_PAAS:
       case UNRECOGNIZED:
       default:
         throw new IllegalStateException(
@@ -34,6 +35,8 @@ public class NodeCandidateConverter implements
         return iaasNodeCandidateConverter.apply(nodeCandidate);
       case FAAS:
         return faasNodeCandidateConverter.apply(nodeCandidate);
+      case BYON:
+        return byonNodeCandidateConverter.apply(nodeCandidate);
       default:
         throw new IllegalStateException(
             "Unknown node candidate type " + nodeCandidate.getNodeCandidateType());
