@@ -54,11 +54,10 @@ public class SecureStoreApiController implements SecureStoreApi {
       secureStoreService
           .deleteSecret(
               SecureStoreDeleteRequest.newBuilder().setKey(key).setUserId(tenant).build());
+      return new ResponseEntity<>(HttpStatus.OK);
     } catch (ResponseException e) {
       throw new ApiException(e.code(), e.getMessage());
     }
-
-    return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
   }
 
   public ResponseEntity<Text> retrieveSecure(

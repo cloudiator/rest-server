@@ -1,19 +1,20 @@
 package io.github.cloudiator.rest.api;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Strings;
 import io.github.cloudiator.rest.UserInfo;
 import io.github.cloudiator.rest.converter.ByonConverter;
 import io.github.cloudiator.rest.converter.NewNodeConverter;
 import io.github.cloudiator.rest.model.ByonNode;
-import io.github.cloudiator.rest.model.Error;
 import io.github.cloudiator.rest.model.NewNode;
 import io.github.cloudiator.rest.model.Queue;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.cloudiator.rest.queue.QueueService;
 import io.github.cloudiator.rest.queue.QueueService.QueueItem;
-import io.swagger.annotations.*;
-import java.util.UUID;
+import io.swagger.annotations.ApiParam;
+import java.util.List;
 import java.util.stream.Collectors;
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 import org.cloudiator.messages.Byon;
 import org.cloudiator.messages.Byon.AddByonNodeRequest;
 import org.cloudiator.messages.Byon.ByonNodeAddedResponse;
@@ -33,12 +34,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
-
-import javax.validation.constraints.*;
-import javax.validation.Valid;
-import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
-import java.util.List;
 
 @Controller
 public class ByonApiController implements ByonApi {
@@ -61,7 +56,8 @@ public class ByonApiController implements ByonApi {
   @Autowired
   private QueueService queueService;
 
-  public ResponseEntity<Queue> addByon(@ApiParam(value = "Node to be registered" ,required=true )  @Valid @RequestBody NewNode newNode) {
+  public ResponseEntity<Queue> addByon(
+      @ApiParam(value = "Node to be registered", required = true) @Valid @RequestBody NewNode newNode) {
     String accept = request.getHeader("Accept");
     if (accept != null && accept.contains("application/json")) {
 
@@ -86,7 +82,8 @@ public class ByonApiController implements ByonApi {
     return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
   }
 
-  public ResponseEntity<Queue> deleteByon(@ApiParam(value = "Unique identifier of the resource",required=true) @PathVariable("id") String id) {
+  public ResponseEntity<Queue> deleteByon(
+      @ApiParam(value = "Unique identifier of the resource", required = true) @PathVariable("id") String id) {
     String accept = request.getHeader("Accept");
     if (accept != null && accept.contains("application/json")) {
 
