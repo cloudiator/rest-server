@@ -56,27 +56,28 @@ public class ByonApiController implements ByonApi {
   @Autowired
   private QueueService queueService;
 
-  public ResponseEntity<Queue> addByon(
+  public ResponseEntity<ByonNode> addByon(
       @ApiParam(value = "Node to be registered", required = true) @Valid @RequestBody NewNode newNode) {
+
     String accept = request.getHeader("Accept");
+    final String tenant = UserInfo.of(request).tenant();
+
     if (accept != null && accept.contains("application/json")) {
 
-      final String tenant = UserInfo.of(request).tenant();
-      final QueueItem<ByonNodeAddedResponse> queueItem = queueService
-          .queueCallback(tenant,
-              byonNodeAddedResponse -> "byon/" + byonNodeAddedResponse.getByonNode().getId());
+      try {
 
-      Byon.ByonNode byonNode = NEW_NODE_CONVERTER.apply(newNode);
-      Byon.ByonData data = byonNode.getNodeData();
-      AddByonNodeRequest byonRequest = AddByonNodeRequest.newBuilder()
-          .setByonRequest(data).setUserId(tenant).build();
+        Byon.ByonNode byonNode = NEW_NODE_CONVERTER.apply(newNode);
+        Byon.ByonData data = byonNode.getNodeData();
+        AddByonNodeRequest byonRequest =
+            AddByonNodeRequest.newBuilder().setByonRequest(data).setUserId(tenant).build();
 
-      byonService.addByonNodeAsync(byonRequest, queueItem.getCallback());
-
-      final HttpHeaders httpHeaders = new HttpHeaders();
-      httpHeaders.add(HttpHeaders.LOCATION, queueItem.getQueueLocation());
-
-      return new ResponseEntity<Queue>(queueItem.getQueue(), httpHeaders, HttpStatus.OK);
+        ByonNodeAddedResponse response = byonService.addByonNode(byonRequest);
+        ByonNode responseNode = BYON_CONVERTER.applyBack(response.getByonNode());
+        return new ResponseEntity<>(responseNode, HttpStatus.OK);
+      } catch (ResponseException e) {
+        log.error("Response Error", e);
+        throw new ApiException(e.code(), e.getMessage());
+      }
     }
 
     return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
