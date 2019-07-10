@@ -28,16 +28,16 @@ import java.util.List;
 @Api(value = "byon", description = "the byon API")
 public interface ByonApi {
 
-    @ApiOperation(value = "", nickname = "addByon", notes = "Registers an already existing node for usage", response = Queue.class, authorizations = {
+    @ApiOperation(value = "", nickname = "addByon", notes = "Registers an already existing node for usage", response = ByonNode.class, authorizations = {
         @Authorization(value = "ApiKeyAuth")
     }, tags={ "node", })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "OK", response = Queue.class) })
+        @ApiResponse(code = 200, message = "OK", response = ByonNode.class) })
     @RequestMapping(value = "/byon",
         produces = { "application/json" }, 
         consumes = { "application/json" },
         method = RequestMethod.POST)
-    ResponseEntity<Queue> addByon(@ApiParam(value = "Node to be registered" ,required=true )  @Valid @RequestBody NewNode newNode);
+    ResponseEntity<ByonNode> addByon(@ApiParam(value = "Node to be registered" ,required=true )  @Valid @RequestBody NewNode newNode);
 
 
     @ApiOperation(value = "", nickname = "deleteByon", notes = "Deletes the already existing node from cloudiator, if not allocated.", response = Queue.class, authorizations = {
