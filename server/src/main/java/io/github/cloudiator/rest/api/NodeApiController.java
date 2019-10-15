@@ -77,7 +77,7 @@ public class NodeApiController implements NodeApi {
       if (nodeRequest.getNodeCandidate() == null) {
         throw new ApiException(400, "Node candidate is mandatory.");
       }
-      builder.setNodeCandidate(nodeCandidateConverter.apply(nodeRequest.getNodeCandidate()));
+      builder.setNodeCandidate(nodeRequest.getNodeCandidate().getId());
 
       if (nodeRequest.getGroupName() != null) {
         builder.setGroupName(nodeRequest.getGroupName());
