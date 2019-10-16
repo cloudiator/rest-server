@@ -31,7 +31,6 @@ public class NodeConverter implements TwoWayConverter<Node, NodeEntities.Node> {
     rest.setNodeProperties(nodePropertiesConverter.applyBack(node.getNodeProperties()));
     rest.setState(NodeStateConverter.INSTANCE.apply(node.getState()));
 
-
     if (!Strings.isNullOrEmpty(node.getDiagnostic())) {
       rest.setDiagnostic(node.getDiagnostic());
     }
@@ -41,9 +40,8 @@ public class NodeConverter implements TwoWayConverter<Node, NodeEntities.Node> {
     }
 
     if (!Strings.isNullOrEmpty(node.getNodeCandidate())) {
-      rest.setReason(node.getNodeCandidate());
+      rest.setNodeCandidate(node.getNodeCandidate());
     }
-
 
     node.getIpAddressesList().stream().map(ipAddressConverter::applyBack).forEach(
         rest::addIpAddressesItem);
@@ -78,7 +76,7 @@ public class NodeConverter implements TwoWayConverter<Node, NodeEntities.Node> {
       builder.setDiagnostic(node.getDiagnostic());
     }
 
-    if(node.getNodeCandidate() != null) {
+    if (node.getNodeCandidate() != null) {
       builder.setNodeCandidate(node.getNodeCandidate());
     }
 
