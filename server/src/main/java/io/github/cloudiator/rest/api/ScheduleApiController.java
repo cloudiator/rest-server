@@ -118,7 +118,8 @@ public class ScheduleApiController implements ScheduleApi {
   }
 
   @Override
-  public ResponseEntity<Schedule> findSchedule(String id) {
+  public ResponseEntity<Schedule> findSchedule(
+      @ApiParam(value = "Unique identifier of the resource", required = true) @PathVariable("id") String id) {
     String accept = request.getHeader("Accept");
     if (accept != null && accept.contains("application/json")) {
 
