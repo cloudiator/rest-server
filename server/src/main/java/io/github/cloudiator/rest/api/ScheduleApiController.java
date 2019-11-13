@@ -122,6 +122,10 @@ public class ScheduleApiController implements ScheduleApi {
     String accept = request.getHeader("Accept");
     if (accept != null && accept.contains("application/json")) {
 
+      if (Strings.isNullOrEmpty(id)) {
+        throw new ApiException(400, "id is null or empty.");
+      }
+
       final String tenant = UserInfo.of(request).tenant();
 
       try {
