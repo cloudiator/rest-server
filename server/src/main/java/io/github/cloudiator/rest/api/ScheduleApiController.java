@@ -138,7 +138,7 @@ public class ScheduleApiController implements ScheduleApi {
           throw new ApiException(404, "Could not find schedule with id " + id);
         }
 
-        if (scheduleQueryResponse.getSchedulesCount() >= 1) {
+        if (scheduleQueryResponse.getSchedulesCount() > 1) {
           throw new ApiException(500, "Retrieved more than one schedule.");
         }
 
