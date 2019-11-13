@@ -46,13 +46,17 @@ public class QueueService {
     private final Queue queue;
     private final String userId;
     private final String queueLocation;
+    @Nullable
+    private final Function<T, String> resolver;
 
 
-    public QueueItem(String userId, QueueCallback<T> queueCallback, Queue queue) {
+    public QueueItem(String userId, QueueCallback<T> queueCallback, Queue queue,
+        @Nullable Function<T, String> resolver) {
       this.queueCallback = queueCallback;
       this.queue = queue;
       this.userId = userId;
       this.queueLocation = "queue/" + queue.getId();
+      this.resolver = resolver;
     }
 
     public QueueCallback<T> getCallback() {
@@ -70,6 +74,14 @@ public class QueueService {
     public String getQueueLocation() {
       return queueLocation;
     }
+
+    public String resolveLocation() throws ExecutionException, InterruptedException {
+      if (resolver == null) {
+        return null;
+      }
+      return resolver.apply(queueCallback.get());
+    }
+
   }
 
   private synchronized <T> QueueItem<T> putEntry(QueueItem<T> queueItem) {
@@ -82,14 +94,14 @@ public class QueueService {
 
   public <T> QueueItem<T> queueCallback(String userId, Function<T, String> resolver) {
     final Queue queue = QueueFactory.next();
-    final QueueCallback<T> queueCallback = new QueueCallback<>(resolver);
-    return putEntry(new QueueItem<T>(userId, queueCallback, queue));
+    final QueueCallback<T> queueCallback = new QueueCallback<>();
+    return putEntry(new QueueItem<T>(userId, queueCallback, queue, resolver));
   }
 
   public <T> QueueItem<T> queueCallback(String userId) {
     final Queue queue = QueueFactory.next();
     final QueueCallback<T> queueCallback = new QueueCallback<>();
-    return putEntry(new QueueItem<T>(userId, queueCallback, queue));
+    return putEntry(new QueueItem<T>(userId, queueCallback, queue, null));
   }
 
   @Nullable
@@ -127,8 +139,8 @@ public class QueueService {
     final Queue queue = queueItem.getQueue();
     if (queueItem.getCallback().isDone()) {
       try {
-        final String s = queueItem.getCallback().get();
-        queue.setLocation(s);
+        final Object o = queueItem.getCallback().get();
+        queue.setLocation(queueItem.resolveLocation());
         queue.setEnd(queueItem.getCallback().end());
         queue.setStatus(QueueStatus.COMPLETED);
       } catch (InterruptedException e) {

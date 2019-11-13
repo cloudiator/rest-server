@@ -126,7 +126,8 @@ public class ScheduleApiController implements ScheduleApi {
 
       try {
         final ScheduleQueryResponse scheduleQueryResponse = processService
-            .querySchedules(ScheduleQueryRequest.newBuilder().setUserId(tenant).build());
+            .querySchedules(
+                ScheduleQueryRequest.newBuilder().setUserId(tenant).setScheduleId(id).build());
 
         if (scheduleQueryResponse.getSchedulesCount() == 0) {
           throw new ApiException(404, "Could not find schedule with id " + id);

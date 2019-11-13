@@ -36,6 +36,9 @@ public class Queue   {
   @JsonProperty("location")
   private String location = null;
 
+  @JsonProperty("taskId")
+  private String taskId = null;
+
   public Queue id(String id) {
     this.id = id;
     return this;
@@ -159,6 +162,26 @@ public class Queue   {
     this.location = location;
   }
 
+  public Queue taskId(String taskId) {
+    this.taskId = taskId;
+    return this;
+  }
+
+  /**
+   * Id of the original entity
+   * @return taskId
+  **/
+  @ApiModelProperty(value = "Id of the original entity")
+
+
+  public String getTaskId() {
+    return taskId;
+  }
+
+  public void setTaskId(String taskId) {
+    this.taskId = taskId;
+  }
+
 
   @Override
   public boolean equals(java.lang.Object o) {
@@ -174,12 +197,13 @@ public class Queue   {
         Objects.equals(this.start, queue.start) &&
         Objects.equals(this.end, queue.end) &&
         Objects.equals(this.diagnosis, queue.diagnosis) &&
-        Objects.equals(this.location, queue.location);
+        Objects.equals(this.location, queue.location) &&
+        Objects.equals(this.taskId, queue.taskId);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, status, start, end, diagnosis, location);
+    return Objects.hash(id, status, start, end, diagnosis, location, taskId);
   }
 
   @Override
@@ -193,6 +217,7 @@ public class Queue   {
     sb.append("    end: ").append(toIndentedString(end)).append("\n");
     sb.append("    diagnosis: ").append(toIndentedString(diagnosis)).append("\n");
     sb.append("    location: ").append(toIndentedString(location)).append("\n");
+    sb.append("    taskId: ").append(toIndentedString(taskId)).append("\n");
     sb.append("}");
     return sb.toString();
   }

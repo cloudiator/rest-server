@@ -4,6 +4,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import io.github.cloudiator.rest.model.OperatingSystem;
 import io.github.cloudiator.rest.model.TaskInterface;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -53,6 +54,9 @@ public class LanceInterface extends TaskInterface  {
 
   @JsonProperty("containerType")
   private ContainerTypeEnum containerType = null;
+
+  @JsonProperty("operatingSystem")
+  private OperatingSystem operatingSystem = null;
 
   @JsonProperty("init")
   private String init = null;
@@ -114,6 +118,27 @@ public class LanceInterface extends TaskInterface  {
 
   public void setContainerType(ContainerTypeEnum containerType) {
     this.containerType = containerType;
+  }
+
+  public LanceInterface operatingSystem(OperatingSystem operatingSystem) {
+    this.operatingSystem = operatingSystem;
+    return this;
+  }
+
+  /**
+   * Describes the operating system required by this interface. If container type is set to NATIVE, this describes the OS required by the scripts, of container type is set to DOCKER, this describes the OS used to spawn the docker container. 
+   * @return operatingSystem
+  **/
+  @ApiModelProperty(value = "Describes the operating system required by this interface. If container type is set to NATIVE, this describes the OS required by the scripts, of container type is set to DOCKER, this describes the OS used to spawn the docker container. ")
+
+  @Valid
+
+  public OperatingSystem getOperatingSystem() {
+    return operatingSystem;
+  }
+
+  public void setOperatingSystem(OperatingSystem operatingSystem) {
+    this.operatingSystem = operatingSystem;
   }
 
   public LanceInterface init(String init) {
@@ -407,6 +432,7 @@ public class LanceInterface extends TaskInterface  {
     }
     LanceInterface lanceInterface = (LanceInterface) o;
     return Objects.equals(this.containerType, lanceInterface.containerType) &&
+        Objects.equals(this.operatingSystem, lanceInterface.operatingSystem) &&
         Objects.equals(this.init, lanceInterface.init) &&
         Objects.equals(this.preInstall, lanceInterface.preInstall) &&
         Objects.equals(this.install, lanceInterface.install) &&
@@ -426,7 +452,7 @@ public class LanceInterface extends TaskInterface  {
 
   @Override
   public int hashCode() {
-    return Objects.hash(containerType, init, preInstall, install, postInstall, preStart, start, startDetection, stopDetection, postStart, preStop, stop, postStop, shutdown, updateAction, super.hashCode());
+    return Objects.hash(containerType, operatingSystem, init, preInstall, install, postInstall, preStart, start, startDetection, stopDetection, postStart, preStop, stop, postStop, shutdown, updateAction, super.hashCode());
   }
 
   @Override
@@ -435,6 +461,7 @@ public class LanceInterface extends TaskInterface  {
     sb.append("class LanceInterface {\n");
     sb.append("    ").append(toIndentedString(super.toString())).append("\n");
     sb.append("    containerType: ").append(toIndentedString(containerType)).append("\n");
+    sb.append("    operatingSystem: ").append(toIndentedString(operatingSystem)).append("\n");
     sb.append("    init: ").append(toIndentedString(init)).append("\n");
     sb.append("    preInstall: ").append(toIndentedString(preInstall)).append("\n");
     sb.append("    install: ").append(toIndentedString(install)).append("\n");

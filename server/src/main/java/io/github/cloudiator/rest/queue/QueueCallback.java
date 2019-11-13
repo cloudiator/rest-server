@@ -7,31 +7,21 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
-import java.util.function.Function;
 import javax.annotation.Nullable;
 import org.cloudiator.messages.General.Error;
 import org.cloudiator.messaging.ResponseCallback;
 import org.cloudiator.messaging.ResponseException;
 import org.threeten.bp.OffsetDateTime;
 
-class QueueCallback<T> implements Future<String>, ResponseCallback<T> {
+class QueueCallback<T> implements Future<T>, ResponseCallback<T> {
 
-  private final SettableFuture<String> settableFuture;
-  @Nullable
-  private final Function<T, String> toStringFunction;
+  private final SettableFuture<T> settableFuture;
   private OffsetDateTime end = null;
 
-  public QueueCallback(
-      Function<T, String> toStringFunction) {
-    this.settableFuture = SettableFuture.create();
-    this.toStringFunction = toStringFunction;
-  }
 
   public QueueCallback() {
     this.settableFuture = SettableFuture.create();
-    this.toStringFunction = null;
   }
-
 
   @Override
   public boolean cancel(boolean b) {
@@ -49,12 +39,12 @@ class QueueCallback<T> implements Future<String>, ResponseCallback<T> {
   }
 
   @Override
-  public String get() throws InterruptedException, ExecutionException {
+  public T get() throws InterruptedException, ExecutionException {
     return settableFuture.get();
   }
 
   @Override
-  public String get(long l, TimeUnit timeUnit)
+  public T get(long l, TimeUnit timeUnit)
       throws InterruptedException, ExecutionException, TimeoutException {
     return settableFuture.get(l, timeUnit);
   }
@@ -70,12 +60,7 @@ class QueueCallback<T> implements Future<String>, ResponseCallback<T> {
       settableFuture.setException(new ResponseException(error.getCode(), error.getMessage()));
     }
     if (content != null) {
-      if (toStringFunction != null) {
-        settableFuture.set(toStringFunction.apply(content));
-      } else {
-        settableFuture.set(null);
-      }
-
+      settableFuture.set(content);
     }
     setEnd(OffsetDateTime.now());
   }
