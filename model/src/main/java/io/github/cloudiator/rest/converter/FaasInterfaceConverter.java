@@ -4,6 +4,7 @@ import de.uniulm.omi.cloudiator.util.TwoWayConverter;
 import io.github.cloudiator.rest.model.FaasInterface;
 import java.util.stream.Collectors;
 import org.cloudiator.messages.entities.TaskEntities;
+import org.cloudiator.messages.entities.TaskEntities.FaasInterface.Builder;
 
 public class FaasInterfaceConverter implements
     TwoWayConverter<FaasInterface, TaskEntities.FaasInterface> {
@@ -27,7 +28,7 @@ public class FaasInterfaceConverter implements
 
   @Override
   public TaskEntities.FaasInterface apply(FaasInterface faasInterface) {
-    return TaskEntities.FaasInterface.newBuilder()
+    final Builder builder = TaskEntities.FaasInterface.newBuilder()
         .setFunctionName(faasInterface.getFunctionName())
         .setSourceCodeUrl(faasInterface.getSourceCodeUrl())
         .setHandler(faasInterface.getHandler())
@@ -37,7 +38,12 @@ public class FaasInterfaceConverter implements
             .stream()
             .map(triggerConverter)
             .collect(Collectors.toList()))
-        .putAllFunctionEnvironment(faasInterface.getFunctionEnvironment())
-        .build();
+        .putAllFunctionEnvironment(faasInterface.getFunctionEnvironment());
+
+    if (faasInterface.getFunctionEnvironment() != null) {
+      builder.putAllFunctionEnvironment(faasInterface.getFunctionEnvironment());
+    }
+
+    return builder.build();
   }
 }
