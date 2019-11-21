@@ -37,8 +37,7 @@ public class FaasInterfaceConverter implements
             .getTriggers()
             .stream()
             .map(triggerConverter)
-            .collect(Collectors.toList()))
-        .putAllFunctionEnvironment(faasInterface.getFunctionEnvironment());
+            .collect(Collectors.toList()));
 
     if (faasInterface.getFunctionEnvironment() != null) {
       builder.putAllFunctionEnvironment(faasInterface.getFunctionEnvironment());
