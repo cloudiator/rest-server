@@ -61,6 +61,17 @@ public interface ProcessApi {
     ResponseEntity<CloudiatorProcess> findProcess(@ApiParam(value = "Unique identifier of the resource",required=true) @PathVariable("id") String id);
 
 
+    @ApiOperation(value = "", nickname = "finishProcess", notes = "Finishes the process with the corresponding id ", authorizations = {
+        @Authorization(value = "ApiKeyAuth")
+    }, tags={ "process", })
+    @ApiResponses(value = { 
+        @ApiResponse(code = 200, message = "ACCEPTED") })
+    @RequestMapping(value = "/process/{id}/{secret}",
+        produces = { "application/json" }, 
+        method = RequestMethod.POST)
+    ResponseEntity<Void> finishProcess(@ApiParam(value = "Unique identifier of the resource",required=true) @PathVariable("id") String id,@ApiParam(value = "Secret in path",required=true) @PathVariable("secret") String secret);
+
+
     @ApiOperation(value = "", nickname = "getProcesses", notes = "Retrieves all process of the current user matching the parameters. ", response = CloudiatorProcess.class, responseContainer = "List", authorizations = {
         @Authorization(value = "ApiKeyAuth")
     }, tags={ "process", })

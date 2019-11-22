@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import org.cloudiator.messages.Process.CreateProcessRequest;
 import org.cloudiator.messages.Process.DeleteProcessRequest;
+import org.cloudiator.messages.Process.FinishProcessRequest;
 import org.cloudiator.messages.Process.ProcessCreatedResponse;
 import org.cloudiator.messages.Process.ProcessDeletedResponse;
 import org.cloudiator.messages.Process.ProcessQueryRequest;
@@ -159,6 +160,29 @@ public class ProcessApiController implements ProcessApi {
     return new ResponseEntity<>(HttpStatus.NOT_IMPLEMENTED);
   }
 
+  @Override
+  public ResponseEntity<Void> finishProcess(
+      @ApiParam(value = "Unique identifier of the resource", required = true) @PathVariable("id") String id,
+      @ApiParam(value = "Secret in path", required = true) @PathVariable("secret") String secret) {
+
+    if (Strings.isNullOrEmpty(id)) {
+      throw new ApiException(400, "id of process is null or empty");
+    }
+
+    if (Strings.isNullOrEmpty(secret)) {
+      throw new ApiException(400, "secret is null or empty");
+    }
+
+    try {
+      processService.finishProcess(
+          FinishProcessRequest.newBuilder().setProcessId(id).setSecret(secret).build());
+    } catch (ResponseException e) {
+      throw new ApiException(e.code(), e.getMessage());
+    }
+
+    return new ResponseEntity<>(HttpStatus.OK);
+  }
+
   public ResponseEntity<List<CloudiatorProcess>> getProcesses(
       @ApiParam(value = "Id of the schedule. ") @Valid @RequestParam(value = "scheduleId", required = false) String scheduleId) {
 
@@ -175,7 +199,6 @@ public class ProcessApiController implements ProcessApi {
 
         final ProcessQueryResponse processQueryResponse = processService
             .queryProcesses(builder.build());
-
 
         return new ResponseEntity<>(
             processQueryResponse.getProcessesList().stream().map(PROCESS_CONVERTER::applyBack)
