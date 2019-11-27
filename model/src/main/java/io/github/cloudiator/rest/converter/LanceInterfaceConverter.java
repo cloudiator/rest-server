@@ -11,6 +11,7 @@ public class LanceInterfaceConverter implements
     TwoWayConverter<LanceInterface, TaskEntities.LanceInterface> {
 
   private static final ContainerTypeConverter CONTAINER_TYPE_CONVERTER = new ContainerTypeConverter();
+  private static final OperatingSystemConverter OPERATING_SYSTEM_CONVERTER = new OperatingSystemConverter();
 
   private static class ContainerTypeConverter implements
       TwoWayConverter<ContainerTypeEnum, TaskEntities.ContainerType> {
@@ -51,6 +52,8 @@ public class LanceInterfaceConverter implements
     LanceInterface result = new LanceInterface();
 
     result.setContainerType(CONTAINER_TYPE_CONVERTER.applyBack(lanceInterface.getContainerType()));
+    result.setOperatingSystem(
+        OPERATING_SYSTEM_CONVERTER.applyBack(lanceInterface.getOperatingSystem()));
 
     if (Strings.isNullOrEmpty(lanceInterface.getInit())) {
       result.init(null);
@@ -142,6 +145,8 @@ public class LanceInterfaceConverter implements
     TaskEntities.LanceInterface.Builder result = TaskEntities.LanceInterface.newBuilder();
 
     result.setContainerType(CONTAINER_TYPE_CONVERTER.apply(lanceInterface.getContainerType()));
+    result
+        .setOperatingSystem(OPERATING_SYSTEM_CONVERTER.apply(lanceInterface.getOperatingSystem()));
 
     if (lanceInterface.getInit() != null) {
       result.setInit(lanceInterface.getInit());
