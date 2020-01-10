@@ -3,7 +3,7 @@ package io.github.cloudiator.rest.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import io.github.cloudiator.rest.model.Distribution;
+import io.github.cloudiator.rest.model.StartTime;
 import io.github.cloudiator.rest.model.TaskInterface;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -19,9 +19,9 @@ import javax.validation.constraints.*;
 
 public class SimulationInterface extends TaskInterface  {
   @JsonProperty("startTime")
-  private Distribution startTime = null;
+  private StartTime startTime = null;
 
-  public SimulationInterface startTime(Distribution startTime) {
+  public SimulationInterface startTime(StartTime startTime) {
     this.startTime = startTime;
     return this;
   }
@@ -34,11 +34,11 @@ public class SimulationInterface extends TaskInterface  {
 
   @Valid
 
-  public Distribution getStartTime() {
+  public StartTime getStartTime() {
     return startTime;
   }
 
-  public void setStartTime(Distribution startTime) {
+  public void setStartTime(StartTime startTime) {
     this.startTime = startTime;
   }
 

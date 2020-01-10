@@ -3,8 +3,7 @@ package io.github.cloudiator.rest.model;
 import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import io.github.cloudiator.rest.model.Distribution;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.validation.annotation.Validated;
@@ -12,38 +11,32 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 
 /**
- * Distribution
+ * FixedDistribution
  */
 @Validated
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type", visible = true )
-@JsonSubTypes({
-  @JsonSubTypes.Type(value = NormalDistribution.class, name = "NormalDistribution"),
-  @JsonSubTypes.Type(value = FixedDistribution.class, name = "FixedDistribution"),
-})
 
-public class Distribution   {
-  @JsonProperty("type")
-  private String type = null;
+public class FixedDistribution extends Distribution  {
+  @JsonProperty("value")
+  private Double value = null;
 
-  public Distribution type(String type) {
-    this.type = type;
+  public FixedDistribution value(Double value) {
+    this.value = value;
     return this;
   }
 
   /**
-   * Discriminator for polymorphism. 
-   * @return type
+   * Get value
+   * @return value
   **/
-  @ApiModelProperty(required = true, value = "Discriminator for polymorphism. ")
-  @NotNull
+  @ApiModelProperty(value = "")
 
 
-  public String getType() {
-    return type;
+  public Double getValue() {
+    return value;
   }
 
-  public void setType(String type) {
-    this.type = type;
+  public void setValue(Double value) {
+    this.value = value;
   }
 
 
@@ -55,21 +48,22 @@ public class Distribution   {
     if (o == null || getClass() != o.getClass()) {
       return false;
     }
-    Distribution distribution = (Distribution) o;
-    return Objects.equals(this.type, distribution.type);
+    FixedDistribution fixedDistribution = (FixedDistribution) o;
+    return Objects.equals(this.value, fixedDistribution.value) &&
+        super.equals(o);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(type);
+    return Objects.hash(value, super.hashCode());
   }
 
   @Override
   public String toString() {
     StringBuilder sb = new StringBuilder();
-    sb.append("class Distribution {\n");
-    
-    sb.append("    type: ").append(toIndentedString(type)).append("\n");
+    sb.append("class FixedDistribution {\n");
+    sb.append("    ").append(toIndentedString(super.toString())).append("\n");
+    sb.append("    value: ").append(toIndentedString(value)).append("\n");
     sb.append("}");
     return sb.toString();
   }
