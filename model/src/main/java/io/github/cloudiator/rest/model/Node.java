@@ -66,7 +66,9 @@ public class Node   {
     
     CONTAINER("CONTAINER"),
     
-    FAAS("FAAS");
+    FAAS("FAAS"),
+    
+    SIMULATION("SIMULATION");
 
     private String value;
 

@@ -23,6 +23,8 @@ public class NodeTypeConverter implements TwoWayConverter<NodeTypeEnum, NodeType
         return NodeTypeEnum.UNKNOWN_TYPE;
       case FAAS:
         return NodeTypeEnum.FAAS;
+      case SIMULATION:
+        return NodeTypeEnum.SIMULATION;
       case UNRECOGNIZED:
       default:
         throw new AssertionError("Unrecognized nodeType " + nodeType);
@@ -44,6 +46,8 @@ public class NodeTypeConverter implements TwoWayConverter<NodeTypeEnum, NodeType
         return NodeType.VM;
       case FAAS:
         return NodeType.FAAS;
+      case SIMULATION:
+        return NodeType.SIMULATION;
       default:
         throw new AssertionError("Unrecognized nodeType " + nodeTypeEnum);
     }

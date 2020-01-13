@@ -13,6 +13,8 @@ public class CloudTypeConverter implements TwoWayConverter<CloudType, IaasEntiti
         return CloudType.PUBLIC;
       case PRIVATE_CLOUD:
         return CloudType.PRIVATE;
+      case SIMULATION_CLOUD:
+        return CloudType.SIMULATION;
       case UNRECOGNIZED:
       default:
         throw new AssertionError("Unrecognized cloudType " + cloudType);
@@ -26,6 +28,8 @@ public class CloudTypeConverter implements TwoWayConverter<CloudType, IaasEntiti
         return IaasEntities.CloudType.PRIVATE_CLOUD;
       case PUBLIC:
         return IaasEntities.CloudType.PUBLIC_CLOUD;
+      case SIMULATION:
+        return IaasEntities.CloudType.SIMULATION_CLOUD;
       default:
         throw new AssertionError("Unrecognized cloudType " + cloudTypeEnum);
     }
