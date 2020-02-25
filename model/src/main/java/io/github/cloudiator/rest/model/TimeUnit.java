@@ -10,19 +10,27 @@ import javax.validation.constraints.*;
 import com.fasterxml.jackson.annotation.JsonCreator;
 
 /**
- * type of the cloud
+ * The unit of the interval
  */
-public enum CloudType {
+public enum TimeUnit {
   
-  PRIVATE("PRIVATE"),
+  DAYS("DAYS"),
   
-  PUBLIC("PUBLIC"),
+  HOURS("HOURS"),
   
-  SIMULATION("SIMULATION");
+  MICROSECONDS("MICROSECONDS"),
+  
+  MILLISECONDS("MILLISECONDS"),
+  
+  MINUTES("MINUTES"),
+  
+  NANOSECONDS("NANOSECONDS"),
+  
+  SECONDS("SECONDS");
 
   private String value;
 
-  CloudType(String value) {
+  TimeUnit(String value) {
     this.value = value;
   }
 
@@ -33,8 +41,8 @@ public enum CloudType {
   }
 
   @JsonCreator
-  public static CloudType fromValue(String text) {
-    for (CloudType b : CloudType.values()) {
+  public static TimeUnit fromValue(String text) {
+    for (TimeUnit b : TimeUnit.values()) {
       if (String.valueOf(b.value).equals(text)) {
         return b;
       }

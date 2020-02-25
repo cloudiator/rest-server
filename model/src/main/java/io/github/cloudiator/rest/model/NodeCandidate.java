@@ -35,7 +35,9 @@ public class NodeCandidate   {
     
     PAAS("PAAS"),
     
-    BYON("BYON");
+    BYON("BYON"),
+    
+    SIMULATION("SIMULATION");
 
     private String value;
 
